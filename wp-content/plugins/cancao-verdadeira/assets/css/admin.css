@@ -1,0 +1,322 @@
+/* cancao-verdadeira-plugin/assets/css/admin.css
+   Gerado em: 2025-06-01 00:00:00
+   Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
+   Estilos do painel administrativo WordPress com tema dark inspirado
+   no Spotify. Escopo isolado em #cv-admin-page para não vazar para
+   outras páginas do WordPress. Paleta: #1A1A1A fundo, #D4A017 dourado.
+*/
+
+/* ── Reset de escopo ─────────────────────────────────────────── */
+#cv-admin-page,
+.cv-admin-wrap {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #F5F0E0;
+    background: #121212;
+    min-height: 100vh;
+    padding: 24px;
+    margin: -20px -20px 0;
+    box-sizing: border-box;
+}
+
+/* ── Header ──────────────────────────────────────────────────── */
+.cv-admin-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.cv-admin-logo {
+    height: 52px;
+    width: auto;
+}
+
+.cv-admin-header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #F5F0E0;
+    margin: 0;
+    padding: 0;
+}
+
+.cv-admin-subtitle {
+    font-size: 13px;
+    color: #888;
+    margin: 2px 0 0;
+}
+
+/* ── KPI Cards ────────────────────────────────────────────────── */
+.cv-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.cv-kpi-card {
+    background: #1e1e1e;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+    transition: transform .2s, border-color .2s;
+}
+
+.cv-kpi-card:hover {
+    transform: translateY(-2px);
+    border-color: #D4A017;
+}
+
+.cv-kpi-card.cv-kpi-highlight {
+    border-color: #D4A017;
+    background: linear-gradient(135deg, #1e1e1e 0%, #2a200a 100%);
+}
+
+.cv-kpi-icon {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.cv-kpi-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: #D4A017;
+    line-height: 1;
+}
+
+.cv-kpi-label {
+    font-size: 12px;
+    color: #888;
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+/* ── Botões ──────────────────────────────────────────────────── */
+.cv-quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.cv-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: all .2s;
+}
+
+.cv-btn-primary {
+    background: #D4A017;
+    color: #0a0a0a;
+}
+.cv-btn-primary:hover { background: #FFD700; color: #0a0a0a; }
+
+.cv-btn-secondary {
+    background: #2a2a2a;
+    color: #F5F0E0;
+    border: 1px solid #3a3a3a;
+}
+.cv-btn-secondary:hover { background: #3a3a3a; color: #F5F0E0; }
+
+.cv-btn-outline {
+    background: transparent;
+    color: #D4A017;
+    border: 1px solid #D4A017;
+}
+.cv-btn-outline:hover { background: #D4A017; color: #0a0a0a; }
+
+/* ── Seção + Tabelas ─────────────────────────────────────────── */
+.cv-section {
+    background: #1e1e1e;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.cv-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #D4A017;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.cv-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.cv-table th {
+    background: #151515;
+    color: #888;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.cv-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #1a1a1a;
+    color: #C8B98A;
+}
+
+.cv-table tr:last-child td {
+    border-bottom: none;
+}
+
+.cv-table tr:hover td {
+    background: #252525;
+}
+
+.cv-rank-num { font-weight: 800; font-size: 16px; }
+.cv-gold     { color: #D4A017 !important; }
+.cv-empty    { color: #555; font-style: italic; padding: 24px; text-align: center; display: block; }
+
+.cv-table-link, .cv-link-edit {
+    color: #D4A017;
+    text-decoration: none;
+    font-weight: 600;
+}
+.cv-table-link:hover, .cv-link-edit:hover { text-decoration: underline; color: #FFD700; }
+
+/* ── Formulários ─────────────────────────────────────────────── */
+.cv-form .cv-form-group {
+    margin-bottom: 20px;
+}
+
+.cv-form-label {
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+    color: #C8B98A;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.cv-input {
+    width: 100%;
+    max-width: 480px;
+    background: #151515;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #F5F0E0;
+    font-size: 13px;
+    box-sizing: border-box;
+    transition: border-color .2s;
+}
+
+.cv-input:focus {
+    outline: none;
+    border-color: #D4A017;
+    box-shadow: 0 0 0 2px rgba(212,160,23,.15);
+}
+
+.cv-form-hint {
+    font-size: 11px;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* Media upload row */
+.cv-media-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.cv-media-input { flex: 1; max-width: 400px; }
+
+.cv-preview-img {
+    max-width: 200px;
+    max-height: 80px;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #2a2a2a;
+    object-fit: contain;
+}
+.cv-preview-banner { max-width: 400px; max-height: 120px; }
+
+/* ── Notificações ────────────────────────────────────────────── */
+.cv-notice {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.cv-notice-success { background: #1a2e1a; border: 1px solid #2d6a2d; color: #7fce7f; }
+.cv-notice-error   { background: #2e1a1a; border: 1px solid #6a2d2d; color: #ce7f7f; }
+
+.cv-action-message {
+    background: #1a2e1a;
+    border: 1px solid #2d6a2d;
+    color: #7fce7f;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.cv-admin-footer-note {
+    font-size: 11px;
+    color: #444;
+    text-align: right;
+    margin-top: 8px;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   Boa prática: respeita esquema de cores do WordPress (v1.9.1)
+   O painel tem tema dark por padrão, mas ao usar o esquema "Default"
+   (cinza/branco) do WordPress, os textos precisam permanecer legíveis.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Esquema claro do WordPress (admin-color-default) */
+.admin-color-default #cv-admin-page,
+.admin-color-default .cv-admin-wrap {
+    background: #1a1a1a; /* mantém dark mesmo no WP claro — é intencional */
+}
+
+/* Compatibilidade com modo de alto contraste do WP */
+@media (forced-colors: active) {
+    #cv-admin-page .cv-btn,
+    #cv-admin-page .cv-input,
+    #cv-admin-page .cv-table td,
+    #cv-admin-page .cv-table th {
+        border: 1px solid ButtonText;
+    }
+    #cv-admin-page .cv-btn-primary {
+        background: Highlight;
+        color: HighlightText;
+    }
+}
+
+/* Variáveis --wp-admin disponíveis como alias internos */
+#cv-admin-page {
+    --cv-wp-blue:    var(--wp-admin-theme-color, #D4A017);
+    --cv-wp-blue-20: var(--wp-admin-theme-color--rgb, 212, 160, 23);
+}

@@ -1,0 +1,12 @@
+# Canção Verdadeira — Bloqueia acesso direto aos arquivos PHP do plugin
+# Gerado automaticamente em 08/09/2026 20:55
+
+<Files *.php>
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files cancao-verdadeira.php>
+    Order allow,deny
+    Allow from all
+</Files>

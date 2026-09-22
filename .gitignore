@@ -1,0 +1,29 @@
+# Estratégia: ignora TUDO por padrão e libera (!) só o código próprio.
+# Isso evita que WordPress core, plugins/temas de terceiros, credenciais,
+# uploads e backups acabem indo pro repositório por engano.
+
+*
+!.gitignore
+
+# Código próprio: plugins customizados
+!/wp-content/
+/wp-content/*
+!/wp-content/plugins/
+/wp-content/plugins/*
+!/wp-content/plugins/cancao-verdadeira/
+!/wp-content/plugins/cancao-verdadeira/**
+!/wp-content/plugins/cv-limpeza/
+!/wp-content/plugins/cv-limpeza/**
+
+# Código próprio: tema filho customizado
+!/wp-content/themes/
+/wp-content/themes/*
+!/wp-content/themes/cv-child/
+!/wp-content/themes/cv-child/**
+
+# Dentro das pastas liberadas, ainda assim nunca versionar:
+**/node_modules/
+**/*.log
+**/.DS_Store
+**/*.zip
+**/*.sql

@@ -1,0 +1,1179 @@
+/* cancao-verdadeira-plugin/assets/css/cv-public.css
+   Gerado em: 2026-06-13 00:00:00
+   Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
+   Estilos base dos componentes interativos públicos: botão de favorito,
+   avaliação por estrelas, modal de playlist, toast de feedback e
+   formulário de newsletter. Usa variáveis CSS para fácil customização
+   pelo tema filho. Paleta: #1A1A1A fundo | #D4A017 dourado | #F5F0E0 creme.
+   Todos os seletores são prefixados com .cv- para não conflitar com
+   o Elementor Pro nem com outros plugins.
+*/
+
+/* ── Variáveis de paleta (tema filho pode sobrescrever) ─────────── */
+:root {
+    --cv-gold:          #D4A017;
+    --cv-gold-bright:   #FFD700;
+    --cv-bg:            #1A1A1A;
+    --cv-bg-card:       #242424;
+    --cv-text:          #F5F0E0;
+    --cv-text-muted:    #C8B98A;
+    --cv-border:        #333333;
+    --cv-success:       #27ae60;
+    --cv-error:         #e74c3c;
+    --cv-warning:       #f39c12;
+    --cv-info:          #3498db;
+    --cv-radius:        8px;
+    --cv-transition:    0.2s ease;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   1. BOTÃO DE FAVORITO
+   ════════════════════════════════════════════════════════════════════ */
+
+.cv-btn-favorite {
+    display:         inline-flex;
+    align-items:     center;
+    gap:             6px;
+    background:      transparent;
+    border:          1px solid var(--cv-border);
+    border-radius:   var(--cv-radius);
+    color:           var(--cv-text-muted);
+    cursor:          pointer;
+    font-size:       14px;
+    padding:         6px 12px;
+    transition:      color var(--cv-transition),
+                     border-color var(--cv-transition),
+                     background var(--cv-transition);
+}
+
+.cv-btn-favorite:hover {
+    border-color: #e74c3c;
+    color:        #e74c3c;
+}
+
+.cv-btn-favorite.cv-favorited {
+    background:   rgba(231, 76, 60, 0.12);
+    border-color: #e74c3c;
+    color:        #e74c3c;
+}
+
+.cv-btn-favorite:disabled {
+    opacity: 0.5;
+    cursor:  not-allowed;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   2. AVALIAÇÃO POR ESTRELAS
+   ════════════════════════════════════════════════════════════════════ */
+
+.cv-stars {
+    display:     inline-flex;
+    gap:         2px;
+    cursor:      pointer;
+    user-select: none;
+}
+
+.cv-star {
+    color:       var(--cv-border);
+    font-size:   22px;
+    line-height: 1;
+    transition:  color var(--cv-transition), transform var(--cv-transition);
+}
+
+.cv-star:hover,
+.cv-star.cv-star-hover {
+    color:     var(--cv-gold-bright);
+    transform: scale(1.15);
+}
+
+.cv-star.cv-star-selected {
+    color: var(--cv-gold);
+}
+
+.cv-stars.cv-stars-loading {
+    opacity:        0.5;
+    pointer-events: none;
+}
+
+.cv-avg-rating {
+    color:       var(--cv-gold);
+    font-weight: 700;
+    font-size:   15px;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   3. MODAL DE PLAYLIST
+   ════════════════════════════════════════════════════════════════════ */
+
+.cv-modal {
+    display:         none;
+    position:        fixed;
+    inset:           0;
+    z-index:         99999;
+    align-items:     center;
+    justify-content: center;
+}
+
+/* Quando ativo, usa flex */
+.cv-modal[style*="display: block"],
+.cv-modal[style*="display:block"] {
+    display: flex !important;
+}
+
+.cv-modal-overlay {
+    position:   absolute;
+    inset:      0;
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.cv-modal-box {
+    position:         relative;
+    background:       var(--cv-bg-card);
+    border:           1px solid var(--cv-border);
+    border-radius:    12px;
+    width:            90%;
+    max-width:        420px;
+    max-height:       80vh;
+    overflow-y:       auto;
+    z-index:          1;
+    padding:          0;
+}
+
+.cv-modal-header {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    padding:         16px 20px;
+    border-bottom:   1px solid var(--cv-border);
+}
+
+.cv-modal-header h3 {
+    margin:      0;
+    font-size:   17px;
+    font-weight: 700;
+    color:       var(--cv-text);
+}
+
+.cv-modal-close {
+    background:  transparent;
+    border:      none;
+    color:       var(--cv-text-muted);
+    cursor:      pointer;
+    font-size:   18px;
+    padding:     4px 8px;
+    transition:  color var(--cv-transition);
+}
+
+.cv-modal-close:hover {
+    color: var(--cv-text);
+}
+
+.cv-modal-body {
+    padding: 16px 20px 20px;
+}
+
+/* Lista de playlists no modal */
+.cv-playlist-list {
+    list-style: none;
+    margin:     0 0 16px;
+    padding:    0;
+    display:    flex;
+    flex-direction: column;
+    gap:        6px;
+}
+
+.cv-playlist-pick {
+    width:           100%;
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    background:      rgba(255, 255, 255, 0.04);
+    border:          1px solid var(--cv-border);
+    border-radius:   var(--cv-radius);
+    color:           var(--cv-text);
+    cursor:          pointer;
+    padding:         10px 14px;
+    text-align:      left;
+    transition:      background var(--cv-transition), border-color var(--cv-transition);
+}
+
+.cv-playlist-pick:hover {
+    background:   rgba(212, 160, 23, 0.1);
+    border-color: var(--cv-gold);
+}
+
+.cv-pl-name {
+    font-size:   14px;
+    font-weight: 600;
+}
+
+.cv-pl-count {
+    color:     var(--cv-text-muted);
+    font-size: 12px;
+}
+
+.cv-pl-empty {
+    color:     var(--cv-text-muted);
+    font-size: 14px;
+    margin:    0 0 16px;
+}
+
+/* Campo de nova playlist */
+.cv-pl-new {
+    display:   flex;
+    gap:       8px;
+    margin-top: 8px;
+}
+
+.cv-pl-new input[type="text"] {
+    flex:         1;
+    background:   rgba(255, 255, 255, 0.06);
+    border:       1px solid var(--cv-border);
+    border-radius: var(--cv-radius);
+    color:        var(--cv-text);
+    font-size:    14px;
+    padding:      8px 12px;
+    outline:      none;
+    transition:   border-color var(--cv-transition);
+}
+
+.cv-pl-new input[type="text"]:focus {
+    border-color: var(--cv-gold);
+}
+
+.cv-pl-new input[type="text"]::placeholder {
+    color: var(--cv-text-muted);
+}
+
+#cv-pl-create-btn {
+    background:    var(--cv-gold);
+    border:        none;
+    border-radius: var(--cv-radius);
+    color:         #1A1A1A;
+    cursor:        pointer;
+    font-size:     13px;
+    font-weight:   700;
+    padding:       8px 14px;
+    white-space:   nowrap;
+    transition:    background var(--cv-transition);
+}
+
+#cv-pl-create-btn:hover {
+    background: var(--cv-gold-bright);
+}
+
+/* Bloqueia scroll do body quando modal aberto */
+body.cv-modal-open {
+    overflow: hidden;
+}
+
+/* Carregando */
+.cv-loading {
+    color:      var(--cv-text-muted);
+    font-size:  14px;
+    text-align: center;
+    padding:    20px 0;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   4. TOAST DE FEEDBACK
+   ════════════════════════════════════════════════════════════════════ */
+
+#cv-toast-container {
+    position:       fixed;
+    bottom:         90px; /* acima do player fixo do rodapé */
+    right:          20px;
+    z-index:        100000;
+    display:        flex;
+    flex-direction: column;
+    gap:            8px;
+    pointer-events: none;
+}
+
+.cv-toast {
+    background:    var(--cv-bg-card);
+    border:        1px solid var(--cv-border);
+    border-left:   4px solid var(--cv-info);
+    border-radius: var(--cv-radius);
+    color:         var(--cv-text);
+    font-size:     14px;
+    max-width:     300px;
+    opacity:       0;
+    padding:       10px 16px;
+    transform:     translateX(20px);
+    transition:    opacity 0.25s ease, transform 0.25s ease;
+}
+
+.cv-toast.cv-toast-visible {
+    opacity:   1;
+    transform: translateX(0);
+}
+
+.cv-toast.cv-toast-success { border-left-color: var(--cv-success); }
+.cv-toast.cv-toast-error   { border-left-color: var(--cv-error);   }
+.cv-toast.cv-toast-warning { border-left-color: var(--cv-warning); }
+.cv-toast.cv-toast-info    { border-left-color: var(--cv-info);    }
+
+/* ════════════════════════════════════════════════════════════════════
+   5. NEWSLETTER
+   ════════════════════════════════════════════════════════════════════ */
+
+.cv-newsletter-form {
+    display:        flex;
+    flex-direction: column;
+    gap:            10px;
+}
+
+.cv-newsletter-form input[type="email"],
+.cv-newsletter-form input[type="text"],
+.cv-newsletter-form select {
+    background:    rgba(255, 255, 255, 0.06);
+    border:        1px solid var(--cv-border);
+    border-radius: var(--cv-radius);
+    color:         var(--cv-text);
+    font-size:     14px;
+    padding:       10px 14px;
+    width:         100%;
+    box-sizing:    border-box;
+    outline:       none;
+    transition:    border-color var(--cv-transition);
+}
+
+.cv-newsletter-form input:focus,
+.cv-newsletter-form select:focus {
+    border-color: var(--cv-gold);
+}
+
+.cv-newsletter-form input::placeholder {
+    color: var(--cv-text-muted);
+}
+
+.cv-newsletter-form select option {
+    background: var(--cv-bg-card);
+    color:      var(--cv-text);
+}
+
+.cv-newsletter-form [type="submit"] {
+    background:    var(--cv-gold);
+    border:        none;
+    border-radius: var(--cv-radius);
+    color:         #1A1A1A;
+    cursor:        pointer;
+    font-size:     15px;
+    font-weight:   700;
+    padding:       12px 20px;
+    transition:    background var(--cv-transition);
+}
+
+.cv-newsletter-form [type="submit"]:hover {
+    background: var(--cv-gold-bright);
+}
+
+.cv-newsletter-form [type="submit"]:disabled {
+    opacity: 0.6;
+    cursor:  not-allowed;
+}
+
+.cv-newsletter-msg {
+    border-radius: var(--cv-radius);
+    font-size:     14px;
+    padding:       10px 14px;
+}
+
+.cv-newsletter-msg.cv-msg-success {
+    background: rgba(39, 174, 96, 0.15);
+    border:     1px solid var(--cv-success);
+    color:      var(--cv-success);
+}
+
+.cv-newsletter-msg.cv-msg-error {
+    background: rgba(231, 76, 60, 0.15);
+    border:     1px solid var(--cv-error);
+    color:      var(--cv-error);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   6. CONTADORES (plays e favoritos nos cards)
+   ════════════════════════════════════════════════════════════════════ */
+
+.cv-play-count,
+.cv-fav-count {
+    color:       var(--cv-text-muted);
+    font-size:   13px;
+    font-weight: 600;
+    transition:  color var(--cv-transition);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   7. RESPONSIVO
+   ════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+    #cv-toast-container {
+        right:     10px;
+        left:      10px;
+        bottom:    100px;
+    }
+
+    .cv-toast {
+        max-width: 100%;
+    }
+
+    .cv-modal-box {
+        width:      95%;
+        max-height: 90vh;
+    }
+
+    .cv-pl-new {
+        flex-direction: column;
+    }
+
+    #cv-pl-create-btn {
+        width: 100%;
+    }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   SHORTCODES — adicionado em 2026-06-13
+   Estilos para [cv_grid_musicas], [cv_ranking] e [cv_newsletter]
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── Título de seção ─────────────────────────────────────────────── */
+.cv-section-titulo {
+    color:         var(--cv-text);
+    font-size:     22px;
+    font-weight:   700;
+    margin:        0 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--cv-gold);
+}
+
+/* ── Grid de músicas ─────────────────────────────────────────────── */
+.cv-grid-wrap {
+    width: 100%;
+}
+
+.cv-grid {
+    display: grid;
+    gap:     20px;
+}
+
+.cv-grid-col-2 { grid-template-columns: repeat(2, 1fr); }
+.cv-grid-col-3 { grid-template-columns: repeat(3, 1fr); }
+.cv-grid-col-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ── Card de música ──────────────────────────────────────────────── */
+.cv-card {
+    background:    var(--cv-bg-card);
+    border:        1px solid var(--cv-border);
+    border-radius: 10px;
+    overflow:      hidden;
+    transition:    transform var(--cv-transition), box-shadow var(--cv-transition);
+}
+
+.cv-card:hover {
+    transform:  translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+/* Capa */
+.cv-card-capa-link {
+    display: block;
+}
+
+.cv-card-capa {
+    aspect-ratio:       1 / 1;
+    background-size:    cover;
+    background-position: center;
+    background-color:   var(--cv-border);
+    position:           relative;
+    overflow:           hidden;
+}
+
+/* Número de posição no ranking */
+.cv-card-posicao {
+    position:      absolute;
+    top:           8px;
+    left:          8px;
+    background:    var(--cv-gold);
+    color:         #1A1A1A;
+    font-size:     12px;
+    font-weight:   800;
+    padding:       2px 8px;
+    border-radius: 20px;
+    z-index:       2;
+}
+
+/* Overlay de play ao hover */
+.cv-card-play-overlay {
+    position:         absolute;
+    inset:            0;
+    background:       rgba(0,0,0,0.45);
+    display:          flex;
+    align-items:      center;
+    justify-content:  center;
+    opacity:          0;
+    transition:       opacity var(--cv-transition);
+}
+
+.cv-card:hover .cv-card-play-overlay {
+    opacity: 1;
+}
+
+.cv-card-play-icon {
+    color:     #fff;
+    font-size: 40px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+/* Informações do card */
+.cv-card-info {
+    padding: 12px 14px 14px;
+}
+
+.cv-card-titulo {
+    display:       block;
+    color:         var(--cv-text);
+    font-size:     15px;
+    font-weight:   700;
+    line-height:   1.3;
+    margin-bottom: 4px;
+    text-decoration: none;
+    transition:    color var(--cv-transition);
+}
+
+.cv-card-titulo:hover {
+    color: var(--cv-gold);
+}
+
+.cv-card-artista {
+    color:       var(--cv-text-muted);
+    font-size:   13px;
+    margin:      0 0 6px;
+}
+
+.cv-card-genero {
+    display:       inline-block;
+    background:    rgba(212,160,23,0.12);
+    border:        1px solid rgba(212,160,23,0.3);
+    border-radius: 20px;
+    color:         var(--cv-gold);
+    font-size:     11px;
+    font-weight:   600;
+    padding:       2px 10px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Ações do card */
+.cv-card-acoes {
+    display:     flex;
+    align-items: center;
+    gap:         10px;
+    flex-wrap:   wrap;
+    margin-top:  8px;
+}
+
+.cv-card-stat {
+    color:     var(--cv-text-muted);
+    font-size: 13px;
+}
+
+.cv-card-avg {
+    color: var(--cv-gold);
+}
+
+.cv-btn-add-playlist {
+    background:    transparent;
+    border:        1px solid var(--cv-border);
+    border-radius: 50%;
+    color:         var(--cv-text-muted);
+    cursor:        pointer;
+    font-size:     14px;
+    height:        28px;
+    line-height:   1;
+    margin-left:   auto;
+    transition:    color var(--cv-transition), border-color var(--cv-transition);
+    width:         28px;
+}
+
+.cv-btn-add-playlist:hover {
+    border-color: var(--cv-gold);
+    color:        var(--cv-gold);
+}
+
+.cv-sem-musicas {
+    color:      var(--cv-text-muted);
+    font-style: italic;
+    padding:    20px 0;
+    text-align: center;
+}
+
+/* ── Ranking — layout lista ──────────────────────────────────────── */
+.cv-ranking-wrap {
+    width: 100%;
+}
+
+.cv-ranking-lista {
+    list-style: none;
+    margin:     0;
+    padding:    0;
+    display:    flex;
+    flex-direction: column;
+    gap:        10px;
+}
+
+.cv-ranking-item {
+    display:       flex;
+    align-items:   center;
+    gap:           14px;
+    background:    var(--cv-bg-card);
+    border:        1px solid var(--cv-border);
+    border-radius: 10px;
+    padding:       12px 16px;
+    transition:    border-color var(--cv-transition), background var(--cv-transition);
+}
+
+.cv-ranking-item:hover {
+    background:   rgba(212,160,23,0.06);
+    border-color: rgba(212,160,23,0.3);
+}
+
+.cv-ranking-top3 {
+    border-color: rgba(212,160,23,0.4);
+}
+
+.cv-ranking-pos {
+    font-size:   20px;
+    font-weight: 800;
+    color:       var(--cv-gold);
+    min-width:   36px;
+    text-align:  center;
+}
+
+.cv-ranking-capa {
+    width:               52px;
+    height:              52px;
+    border-radius:       6px;
+    background-size:     cover;
+    background-position: center;
+    background-color:    var(--cv-border);
+    flex-shrink:         0;
+}
+
+.cv-ranking-dados {
+    flex:        1;
+    min-width:   0;
+}
+
+.cv-ranking-titulo {
+    display:        block;
+    color:          var(--cv-text);
+    font-size:      15px;
+    font-weight:    700;
+    text-decoration: none;
+    white-space:    nowrap;
+    overflow:       hidden;
+    text-overflow:  ellipsis;
+    transition:     color var(--cv-transition);
+}
+
+.cv-ranking-titulo:hover {
+    color: var(--cv-gold);
+}
+
+.cv-ranking-artista {
+    color:     var(--cv-text-muted);
+    font-size: 13px;
+}
+
+.cv-ranking-stats {
+    display:     flex;
+    gap:         12px;
+    color:       var(--cv-text-muted);
+    font-size:   13px;
+    flex-shrink: 0;
+}
+
+.cv-ranking-score {
+    color:       var(--cv-gold);
+    font-weight: 700;
+}
+
+/* ── Newsletter ──────────────────────────────────────────────────── */
+.cv-newsletter-wrap {
+    background:    var(--cv-bg-card);
+    border:        1px solid var(--cv-border);
+    border-radius: 12px;
+    padding:       28px 32px;
+    max-width:     500px;
+}
+
+.cv-newsletter-titulo {
+    color:         var(--cv-text);
+    font-size:     20px;
+    font-weight:   700;
+    margin:        0 0 8px;
+}
+
+.cv-newsletter-subtitulo {
+    color:       var(--cv-text-muted);
+    font-size:   14px;
+    line-height: 1.5;
+    margin:      0 0 20px;
+}
+
+/* ── Responsivo ──────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+    .cv-grid-col-4 { grid-template-columns: repeat(2, 1fr); }
+    .cv-grid-col-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 580px) {
+    .cv-grid-col-4,
+    .cv-grid-col-3,
+    .cv-grid-col-2 { grid-template-columns: 1fr; }
+
+    .cv-ranking-stats { display: none; }
+
+    .cv-newsletter-wrap { padding: 20px 18px; }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   [cv_generos] — adicionado em 2026-06-13 (v1.7)
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── Grade de gêneros ────────────────────────────────────────────── */
+.cv-genre-grid {
+    display: grid;
+    gap:     16px;
+}
+.cv-genre-grid-col-2 { grid-template-columns: repeat(2, 1fr); }
+.cv-genre-grid-col-3 { grid-template-columns: repeat(3, 1fr); }
+.cv-genre-grid-col-4 { grid-template-columns: repeat(4, 1fr); }
+
+.cv-genre-card {
+    position:      relative;
+    border-radius: 12px;
+    overflow:      hidden;
+    aspect-ratio:  16 / 9;
+    display:       flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding:       16px;
+    text-decoration: none;
+    transition:    transform var(--cv-transition), box-shadow var(--cv-transition);
+}
+.cv-genre-card:hover {
+    transform:  translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,.5);
+}
+.cv-genre-card-bg {
+    position: absolute;
+    inset:    0;
+    z-index:  0;
+    transition: transform .4s ease;
+}
+.cv-genre-card:hover .cv-genre-card-bg {
+    transform: scale(1.05);
+}
+.cv-genre-card-overlay {
+    position:   absolute;
+    inset:      0;
+    background: linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,.1) 60%);
+    z-index:    1;
+}
+.cv-genre-card-icon {
+    position:  absolute;
+    top:       12px;
+    left:      14px;
+    font-size: 24px;
+    z-index:   2;
+    filter:    drop-shadow(0 2px 4px rgba(0,0,0,.4));
+}
+.cv-genre-card-name {
+    position:    relative;
+    z-index:     2;
+    color:       #fff;
+    font-size:   16px;
+    font-weight: 700;
+    text-shadow: 0 1px 4px rgba(0,0,0,.6);
+    line-height: 1.2;
+}
+.cv-genre-card-count {
+    position:  relative;
+    z-index:   2;
+    color:     rgba(255,255,255,.7);
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+/* ── Lista de gêneros ────────────────────────────────────────────── */
+.cv-generos-lista {
+    list-style: none;
+    margin:     0;
+    padding:    0;
+    display:    flex;
+    flex-direction: column;
+    gap:        6px;
+}
+.cv-generos-lista-item a {
+    display:       flex;
+    align-items:   center;
+    gap:           12px;
+    background:    var(--cv-bg-card);
+    border:        1px solid var(--cv-border);
+    border-radius: var(--cv-radius);
+    padding:       12px 16px;
+    text-decoration: none;
+    color:         var(--cv-text);
+    transition:    background var(--cv-transition), border-color var(--cv-transition);
+}
+.cv-generos-lista-item a:hover {
+    background:   rgba(212,160,23,.07);
+    border-color: rgba(212,160,23,.3);
+}
+.cv-generos-lista-icon {
+    width:           40px;
+    height:          40px;
+    border-radius:   8px;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       20px;
+    flex-shrink:     0;
+}
+.cv-generos-lista-nome {
+    flex:        1;
+    font-weight: 600;
+    font-size:   14px;
+}
+.cv-generos-lista-count {
+    color:       var(--cv-text-muted);
+    font-size:   13px;
+    font-weight: 600;
+}
+.cv-generos-lista-seta {
+    color:     var(--cv-text-muted);
+    font-size: 18px;
+}
+
+/* ── Pills de gêneros ────────────────────────────────────────────── */
+.cv-generos-pills {
+    display:   flex;
+    flex-wrap: wrap;
+    gap:       8px;
+}
+.cv-genre-pill-sc {
+    display:       inline-flex;
+    align-items:   center;
+    gap:           6px;
+    background:    rgba(var(--pill-color), .1);
+    border:        1px solid color-mix(in srgb, var(--pill-color) 40%, transparent);
+    border-radius: 50px;
+    color:         var(--pill-color);
+    font-size:     13px;
+    font-weight:   700;
+    padding:       6px 16px;
+    text-decoration: none;
+    transition:    background var(--cv-transition), transform var(--cv-transition);
+}
+.cv-genre-pill-sc:hover {
+    background: color-mix(in srgb, var(--pill-color) 20%, transparent);
+    transform:  translateY(-1px);
+}
+.cv-pill-count {
+    background:    color-mix(in srgb, var(--pill-color) 20%, transparent);
+    border-radius: 10px;
+    font-size:     11px;
+    padding:       1px 7px;
+}
+
+/* ── Responsivo ──────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .cv-genre-grid-col-4,
+    .cv-genre-grid-col-3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+    .cv-genre-grid-col-4,
+    .cv-genre-grid-col-3,
+    .cv-genre-grid-col-2 { grid-template-columns: 1fr; }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   Extras v1.9.1 — [cv_recomendacoes], [cv_ranking_periodo], tendências
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── Indicadores de tendência ────────────────────────────────────── */
+.cv-trend-indicator,
+.cv-trend-badge {
+    font-size:   11px;
+    font-weight: 700;
+    padding:     1px 5px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+.cv-trend-up-strong { color: #27ae60; background: rgba(39,174,96,.15); }
+.cv-trend-up        { color: #2ecc71; background: rgba(46,204,113,.12); }
+.cv-trend-stable    { color: #888;    background: rgba(255,255,255,.06); }
+.cv-trend-down      { color: #e67e22; background: rgba(230,126,34,.12); }
+.cv-trend-down-strong { color: #e74c3c; background: rgba(231,76,60,.15); }
+.cv-trend-new       { color: #D4A017; background: rgba(212,160,23,.12); }
+
+/* Badge de tendência posicionado na capa do card */
+.cv-trend-badge {
+    position:   absolute;
+    top:        8px;
+    right:      8px;
+    z-index:    2;
+}
+
+/* ── Ranking por período — lista com tendência ───────────────────── */
+.cv-ranking-periodo .cv-ranking-item {
+    display:     flex;
+    align-items: center;
+    gap:         10px;
+}
+.cv-ranking-periodo .cv-ranking-capa {
+    background-size:     cover;
+    background-position: center;
+    background-color:    var(--cv-border);
+    border-radius:       6px;
+    width:               52px;
+    height:              52px;
+    flex-shrink:         0;
+}
+
+/* ── Seção de recomendações ──────────────────────────────────────── */
+.cv-recomendacoes-wrap {
+    width: 100%;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   Monetização v2.0.0 — Banners, Loja, Sorteios
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── Banners ─────────────────────────────────────────────────────── */
+.cv-banners-wrap { width:100%; }
+
+.cv-banners-home_topo {
+    margin: 0 0 32px;
+}
+
+.cv-banners-meio_pagina,
+.cv-banners-rodape_pagina {
+    margin: 32px 0;
+    padding: 16px 0;
+    border-top: 1px solid var(--cv-border);
+    border-bottom: 1px solid var(--cv-border);
+}
+
+.cv-banner-item {
+    position: relative;
+    display: block;
+}
+
+.cv-banner-link {
+    display: block;
+    border-radius: var(--cv-radius);
+    overflow: hidden;
+    transition: opacity var(--cv-transition);
+}
+.cv-banner-link:hover { opacity: .92; }
+
+.cv-banner-img {
+    width:         100%;
+    height:        auto;
+    display:       block;
+    border-radius: var(--cv-radius);
+    max-height:    120px;
+    object-fit:    cover;
+}
+
+.cv-banner-titulo {
+    display:     block;
+    color:       var(--cv-text-muted);
+    font-size:   11px;
+    margin-top:  4px;
+    text-align:  center;
+}
+
+.cv-banner-tag {
+    position:      absolute;
+    top:           6px;
+    right:         6px;
+    background:    rgba(0,0,0,.6);
+    color:         rgba(255,255,255,.5);
+    font-size:     9px;
+    padding:       1px 6px;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.cv-banner-leia-mais {
+    text-align: center;
+    margin-top: 6px;
+}
+
+.cv-btn-leia-mais {
+    background:    transparent;
+    border:        none;
+    color:         var(--cv-text-muted);
+    cursor:        pointer;
+    font-size:     11px;
+    padding:       2px 8px;
+    transition:    color var(--cv-transition);
+}
+.cv-btn-leia-mais:hover { color: var(--cv-text); }
+
+/* ── Loja ────────────────────────────────────────────────────────── */
+.cv-loja-wrap { width: 100%; }
+
+.cv-loja-grid {
+    display: grid;
+    gap:     24px;
+}
+
+.cv-produto-card {
+    background:    var(--cv-bg-card);
+    border:        1px solid var(--cv-border);
+    border-radius: 12px;
+    overflow:      hidden;
+    transition:    transform var(--cv-transition), box-shadow var(--cv-transition);
+    display:       flex;
+    flex-direction: column;
+}
+
+.cv-produto-card:hover {
+    transform:  translateY(-4px);
+    box-shadow: 0 10px 28px rgba(0,0,0,.4);
+}
+
+.cv-produto-capa {
+    position:   relative;
+    aspect-ratio: 4/3;
+    overflow:   hidden;
+    background: #1e1e1e;
+}
+
+.cv-produto-capa img {
+    width:      100%;
+    height:     100%;
+    object-fit: cover;
+    display:    block;
+    transition: transform .3s ease;
+}
+.cv-produto-card:hover .cv-produto-capa img {
+    transform: scale(1.04);
+}
+
+.cv-produto-capa-placeholder {
+    width:           100%;
+    height:          100%;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       56px;
+    background:      #1e1e1e;
+}
+
+.cv-produto-badge {
+    position:      absolute;
+    top:           10px;
+    left:          10px;
+    background:    var(--cv-gold);
+    color:         #1A1A1A;
+    font-size:     11px;
+    font-weight:   700;
+    padding:       3px 10px;
+    border-radius: 20px;
+    z-index:       2;
+}
+
+.cv-produto-categoria-tag {
+    position:      absolute;
+    bottom:        8px;
+    right:         8px;
+    background:    rgba(0,0,0,.7);
+    color:         #fff;
+    font-size:     10px;
+    padding:       2px 8px;
+    border-radius: 4px;
+}
+
+.cv-produto-info {
+    padding:        16px;
+    display:        flex;
+    flex-direction: column;
+    flex:           1;
+    gap:            8px;
+}
+
+.cv-produto-nome {
+    color:       var(--cv-text);
+    font-size:   15px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin:      0;
+}
+
+.cv-produto-desc {
+    color:     var(--cv-text-muted);
+    font-size: 13px;
+    margin:    0;
+    line-height: 1.4;
+}
+
+.cv-produto-preco-wrap {
+    display:     flex;
+    align-items: baseline;
+    gap:         8px;
+    margin-top:  auto;
+}
+
+.cv-produto-preco-antigo {
+    color:           var(--cv-text-muted);
+    font-size:       13px;
+    text-decoration: line-through;
+}
+
+.cv-produto-preco {
+    color:       var(--cv-gold);
+    font-size:   20px;
+    font-weight: 800;
+}
+
+.cv-btn-comprar {
+    display:         block;
+    background:      var(--cv-gold);
+    border:          none;
+    border-radius:   var(--cv-radius);
+    color:           #1A1A1A;
+    font-size:       14px;
+    font-weight:     700;
+    padding:         10px 16px;
+    text-align:      center;
+    text-decoration: none;
+    transition:      background var(--cv-transition), transform .1s;
+    margin-top:      4px;
+}
+.cv-btn-comprar:hover {
+    background: var(--cv-gold-bright);
+    color:      #1A1A1A;
+    transform:  translateY(-1px);
+}
+
+/* Responsivo da loja */
+@media (max-width: 900px) {
+    .cv-loja-grid.cv-grid-col-4,
+    .cv-loja-grid.cv-grid-col-3 { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 540px) {
+    .cv-loja-grid.cv-grid-col-4,
+    .cv-loja-grid.cv-grid-col-3,
+    .cv-loja-grid.cv-grid-col-2 { grid-template-columns: 1fr; }
+}

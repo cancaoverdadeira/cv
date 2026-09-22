@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#1A1A1A"/>
+  <rect x="1" y="1" width="398" height="398" fill="none" stroke="#2a2a2a" stroke-width="2"/>
+  <circle cx="200" cy="170" r="70" fill="none" stroke="#333" stroke-width="2"/>
+  <circle cx="200" cy="170" r="28" fill="#242424" stroke="#333" stroke-width="2"/>
+  <circle cx="200" cy="170" r="6" fill="#D4A017"/>
+  <line x1="200" y1="100" x2="260" y2="100" stroke="#333" stroke-width="2"/>
+  <line x1="260" y1="100" x2="260" y2="130" stroke="#333" stroke-width="2"/>
+  <circle cx="260" cy="138" r="8" fill="#242424" stroke="#333" stroke-width="2"/>
+  <text x="200" y="288" text-anchor="middle" font-family="Georgia,serif" font-size="16" fill="#555" letter-spacing="2">SEM CAPA</text>
+  <text x="200" y="316" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#D4A017" letter-spacing="1">CANÇÃO VERDADEIRA</text>
+</svg>

@@ -1,0 +1,614 @@
+/* cancao-verdadeira-child/assets/css/cv-components.css
+   Gerado em: 2026-06-21 23:30:00
+   Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
+   Componentes visuais reutilizáveis: cards de música, botões globais,
+   hero, grids, formulários, badges de conquistas, toast e modais.
+   Inspiração visual: Spotify (dark, dourado, tipografia limpa).
+*/
+
+/* ═══════════════════════════════════════════════════════════════
+   BOTÕES GLOBAIS
+═══════════════════════════════════════════════════════════════ */
+.cv-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: var(--cv-radius-full);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all var(--cv-transition);
+    text-decoration: none;
+    white-space: nowrap;
+    line-height: 1;
+}
+.cv-btn:disabled { opacity: .5; cursor: not-allowed; }
+.cv-btn-primary  { background: var(--cv-gold); color: #1a1a1a; }
+.cv-btn-primary:hover  { background: var(--cv-gold-bright); transform: translateY(-1px); box-shadow: 0 4px 16px var(--cv-gold-glow); color: #1a1a1a; }
+.cv-btn-secondary { background: var(--cv-bg-elevated); color: var(--cv-text); border: 1px solid var(--cv-border); }
+.cv-btn-secondary:hover { background: var(--cv-bg-card); border-color: var(--cv-gold-dim); color: var(--cv-gold); }
+.cv-btn-ghost { background: transparent; color: var(--cv-gold); border: 1px solid var(--cv-gold); }
+.cv-btn-ghost:hover { background: var(--cv-gold); color: #1a1a1a; }
+.cv-btn-sm { padding: 6px 14px; font-size: 12px; }
+.cv-btn-lg { padding: 14px 32px; font-size: 15px; }
+.cv-btn-full { width: 100%; }
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO SECTION
+═══════════════════════════════════════════════════════════════ */
+.cv-hero {
+    position: relative;
+    min-height: 520px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;   /* mantido — o clip é feito pelo wrapper pai cv-hero-clip */
+    padding-top: 60px;
+}
+/* Wrapper de clip para o parallax — o cv-hero-bg precisa "vazar" verticalmente
+   mas ser cortado horizontalmente. Isolamos num pseudo-elemento. */
+.cv-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+.cv-hero-bg {
+    position: absolute;
+    top: -20%;      /* espaço extra para baixo durante scroll para baixo */
+    bottom: -20%;   /* espaço extra para cima durante scroll para cima */
+    left: 0;
+    right: 0;
+    background-size: cover;
+    background-position: center 50%;
+    background-attachment: scroll;
+    will-change: transform;
+    transform: translateY(0px);
+    /* Sem transition aqui — o rAF do JS já controla a suavidade */
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cv-hero-bg {
+        top: 0; bottom: 0;
+        transform: none !important;
+    }
+}
+.cv-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        var(--cv-bg) 0%,
+        rgba(26,26,26,.75) 45%,
+        rgba(26,26,26,.2) 100%
+    );
+}
+.cv-hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 48px 36px 56px;
+    max-width: 660px;
+}
+.cv-hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(212,160,23,.12);
+    border: 1px solid rgba(212,160,23,.3);
+    color: var(--cv-gold);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: var(--cv-radius-full);
+    margin-bottom: 18px;
+}
+.cv-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 4vw, 52px);
+    font-weight: 700;
+    color: var(--cv-text);
+    line-height: 1.1;
+    margin-bottom: 14px;
+    text-shadow: 0 2px 24px rgba(0,0,0,.5);
+}
+.cv-hero-subtitle {
+    font-family: var(--font-body);
+    font-size: 18px;
+    color: var(--cv-text-muted);
+    margin-bottom: 28px;
+    font-style: italic;
+}
+.cv-hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 768px) {
+    .cv-hero { min-height: 380px; padding-top: 40px; }
+    .cv-hero-bg { background-attachment: scroll; }
+    .cv-hero-content { padding: 28px 16px 40px; }
+    .cv-hero-title { font-size: 28px; }
+    .cv-hero-subtitle { font-size: 15px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CARDS DE MÚSICA
+═══════════════════════════════════════════════════════════════ */
+.cv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+    gap: 16px;
+}
+.cv-grid-col-2 { grid-template-columns: repeat(2, 1fr); }
+.cv-grid-col-3 { grid-template-columns: repeat(3, 1fr); }
+.cv-grid-col-4 { grid-template-columns: repeat(4, 1fr); }
+.cv-grid-col-5 { grid-template-columns: repeat(5, 1fr); }
+
+.cv-card {
+    background: var(--cv-bg-card);
+    border: 1px solid var(--cv-border-subtle);
+    border-radius: var(--cv-radius);
+    overflow: hidden;
+    transition: all var(--cv-transition);
+    cursor: pointer;
+}
+.cv-card:hover {
+    border-color: var(--cv-border);
+    transform: translateY(-3px);
+    box-shadow: var(--cv-shadow);
+}
+
+/* Capa do card */
+.cv-card-capa {
+    aspect-ratio: 1;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--cv-bg-elevated);
+    position: relative;
+    overflow: hidden;
+}
+.cv-card-capa-link { display: block; }
+.cv-card-play-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--cv-transition);
+}
+.cv-card:hover .cv-card-play-overlay { opacity: 1; }
+.cv-card-play-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--cv-gold);
+    color: #1a1a1a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transform: scale(.9);
+    transition: transform var(--cv-spring);
+}
+.cv-card:hover .cv-card-play-icon { transform: scale(1); }
+.cv-card-posicao {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: rgba(0,0,0,.75);
+    color: var(--cv-gold);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: var(--cv-radius-sm);
+    backdrop-filter: blur(4px);
+}
+
+/* Info do card */
+.cv-card-info { padding: 12px 14px 14px; }
+.cv-card-titulo {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--cv-text);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    transition: color var(--cv-transition);
+}
+.cv-card-titulo:hover { color: var(--cv-gold); }
+.cv-card-artista {
+    font-size: 12px;
+    color: var(--cv-text-muted);
+    margin: 0 0 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.cv-card-genero {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--cv-gold-dim);
+    background: rgba(212,160,23,.08);
+    padding: 2px 8px;
+    border-radius: var(--cv-radius-full);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: 8px;
+}
+.cv-card-acoes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+.cv-card-stat {
+    font-size: 12px;
+    color: var(--cv-text-dim);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Botão favoritar */
+.cv-btn-favorite {
+    background: none;
+    border: none;
+    color: var(--cv-text-dim);
+    font-size: 12px;
+    cursor: pointer;
+    padding: 2px 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color var(--cv-transition), transform var(--cv-transition);
+}
+.cv-btn-favorite:hover { color: #e74c3c; transform: scale(1.1); }
+.cv-btn-favorite.cv-favorited { color: #e74c3c; }
+
+/* Botão adicionar playlist */
+.cv-btn-add-playlist {
+    background: none;
+    border: none;
+    color: var(--cv-text-dim);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 2px 4px;
+    margin-left: auto;
+    transition: color var(--cv-transition);
+}
+.cv-btn-add-playlist:hover { color: var(--cv-gold); }
+
+/* Responsivo dos grids */
+@media (max-width: 1024px) {
+    .cv-grid-col-5 { grid-template-columns: repeat(4, 1fr); }
+    .cv-grid-col-4 { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+    .cv-grid, .cv-grid-col-3, .cv-grid-col-4, .cv-grid-col-5 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    .cv-grid-col-2 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 380px) {
+    .cv-grid, .cv-grid-col-2, .cv-grid-col-3, .cv-grid-col-4, .cv-grid-col-5 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RANKING — lista
+═══════════════════════════════════════════════════════════════ */
+.cv-ranking-lista { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.cv-ranking-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: var(--cv-bg-card);
+    border: 1px solid var(--cv-border-subtle);
+    border-radius: var(--cv-radius);
+    transition: all var(--cv-transition);
+    cursor: pointer;
+}
+.cv-ranking-item:hover { border-color: var(--cv-border); background: var(--cv-bg-elevated); }
+.cv-ranking-item.cv-ranking-top3 { border-color: rgba(212,160,23,.2); }
+.cv-ranking-pos { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--cv-gold); min-width: 36px; text-align: center; }
+.cv-ranking-capa { width: 48px; height: 48px; border-radius: var(--cv-radius-sm); background-size: cover; background-position: center; flex-shrink: 0; }
+.cv-ranking-dados { flex: 1; min-width: 0; }
+.cv-ranking-titulo { display: block; font-size: 14px; font-weight: 700; color: var(--cv-text); text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cv-ranking-titulo:hover { color: var(--cv-gold); }
+.cv-ranking-artista { font-size: 12px; color: var(--cv-text-muted); margin-top: 2px; }
+.cv-ranking-stats { display: flex; gap: 12px; font-size: 12px; color: var(--cv-text-dim); flex-shrink: 0; }
+.cv-ranking-score { color: var(--cv-gold); font-weight: 700; }
+.cv-trend-up   { color: var(--cv-success); font-size: 11px; }
+.cv-trend-down { color: var(--cv-error);   font-size: 11px; }
+.cv-trend-new  { color: var(--cv-gold);    font-size: 11px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   FORMULÁRIOS
+═══════════════════════════════════════════════════════════════ */
+.cv-input {
+    width: 100%;
+    padding: 11px 14px;
+    background: var(--cv-bg-elevated);
+    border: 1px solid var(--cv-border);
+    border-radius: var(--cv-radius-sm);
+    color: var(--cv-text);
+    font-size: 14px;
+    font-family: var(--font-ui);
+    outline: none;
+    transition: border-color var(--cv-transition), box-shadow var(--cv-transition);
+    box-sizing: border-box;
+}
+.cv-input:focus {
+    border-color: var(--cv-gold);
+    box-shadow: 0 0 0 3px rgba(212,160,23,.12);
+}
+.cv-input::placeholder { color: var(--cv-text-disabled); }
+textarea.cv-input { resize: vertical; min-height: 80px; }
+
+/* Campo de busca */
+.cv-search-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.cv-search-wrap .cv-input { padding-right: 42px; }
+.cv-search-icon {
+    position: absolute;
+    right: 12px;
+    color: var(--cv-text-dim);
+    font-size: 16px;
+    pointer-events: none;
+}
+
+/* Autocomplete */
+.cv-autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--cv-bg-elevated);
+    border: 1px solid var(--cv-border);
+    border-radius: var(--cv-radius-sm);
+    z-index: 100;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: var(--cv-shadow-lg);
+    display: none;
+}
+.cv-autocomplete-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: background var(--cv-transition);
+    text-decoration: none;
+    color: var(--cv-text);
+}
+.cv-autocomplete-item:hover { background: rgba(255,255,255,.05); }
+.cv-autocomplete-cover { width: 36px; height: 36px; border-radius: 4px; object-fit: cover; background: var(--cv-bg-card); }
+.cv-autocomplete-title { font-size: 13px; font-weight: 600; }
+.cv-autocomplete-artist { font-size: 11px; color: var(--cv-text-muted); }
+
+/* ═══════════════════════════════════════════════════════════════
+   BADGES / CONQUISTAS
+═══════════════════════════════════════════════════════════════ */
+.cv-badges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 10px;
+}
+.cv-badge {
+    background: var(--cv-bg-card);
+    border: 1px solid var(--cv-border-subtle);
+    border-radius: var(--cv-radius);
+    padding: 14px 8px;
+    text-align: center;
+    transition: all var(--cv-transition);
+}
+.cv-badge.earned {
+    border-color: var(--badge-color, var(--cv-gold));
+    background: rgba(212,160,23,.04);
+}
+.cv-badge.locked { opacity: .3; filter: grayscale(1); }
+.cv-badge:hover.earned { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+.cv-badge-icon  { font-size: 26px; margin-bottom: 6px; line-height: 1; }
+.cv-badge-name  { font-size: 10px; font-weight: 700; color: var(--cv-text-muted); line-height: 1.3; }
+.cv-badge-desc  { font-size: 9px; color: var(--cv-text-dim); margin-top: 3px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   TOAST DE FEEDBACK
+═══════════════════════════════════════════════════════════════ */
+#cv-toast-container {
+    position: fixed;
+    bottom: calc(var(--cv-player-h) + 16px);
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.cv-toast {
+    padding: 12px 18px;
+    border-radius: var(--cv-radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all .3s var(--cv-ease);
+    max-width: 280px;
+    box-shadow: var(--cv-shadow);
+}
+.cv-toast.cv-toast-visible { opacity: 1; transform: translateX(0); }
+.cv-toast-success { background: #1a3a1a; color: #5cb85c; border: 1px solid #2d6a2d; }
+.cv-toast-error   { background: #3a1a1a; color: #e74c3c; border: 1px solid #6a2d2d; }
+.cv-toast-info    { background: #1a2a3a; color: #5bc0de; border: 1px solid #2d5a7a; }
+.cv-toast-warning { background: #3a2e1a; color: #f39c12; border: 1px solid #7a5a2d; }
+
+/* ═══════════════════════════════════════════════════════════════
+   AVALIAÇÃO POR ESTRELAS
+═══════════════════════════════════════════════════════════════ */
+.cv-stars {
+    display: inline-flex;
+    gap: 4px;
+}
+.cv-star {
+    font-size: 20px;
+    color: var(--cv-text-disabled);
+    cursor: pointer;
+    transition: color var(--cv-transition), transform var(--cv-transition);
+    line-height: 1;
+}
+.cv-star.active, .cv-star:hover { color: var(--cv-gold); transform: scale(1.15); }
+.cv-stars:hover .cv-star { color: var(--cv-gold-dim); }
+.cv-stars .cv-star:hover ~ .cv-star { color: var(--cv-text-disabled); }
+
+/* ═══════════════════════════════════════════════════════════════
+   GÊNEROS — grid de cards
+═══════════════════════════════════════════════════════════════ */
+.cv-genre-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
+}
+.cv-genre-card {
+    position: relative;
+    aspect-ratio: 1.3;
+    border-radius: var(--cv-radius);
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: flex-end;
+    padding: 12px;
+    transition: transform var(--cv-transition), box-shadow var(--cv-transition);
+}
+.cv-genre-card:hover { transform: translateY(-3px); box-shadow: var(--cv-shadow); }
+.cv-genre-card-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform .4s var(--cv-ease);
+}
+.cv-genre-card:hover .cv-genre-card-bg { transform: scale(1.06); }
+.cv-genre-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.8) 0%, rgba(0,0,0,.2) 100%);
+}
+.cv-genre-card-name {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 8px rgba(0,0,0,.5);
+}
+
+@media (max-width: 768px) {
+    .cv-genre-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+}
+@media (max-width: 480px) {
+    .cv-genre-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NEWSLETTER SECTION
+═══════════════════════════════════════════════════════════════ */
+.cv-newsletter-section {
+    background: linear-gradient(135deg, #1a1a0d 0%, #2a1a00 50%, #1a1200 100%);
+    border-top: 1px solid var(--cv-border);
+    padding: 48px 36px;
+    text-align: center;
+}
+.cv-newsletter-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--cv-gold);
+    margin-bottom: 8px;
+}
+.cv-newsletter-subtitle {
+    color: var(--cv-text-muted);
+    font-size: 15px;
+    margin-bottom: 28px;
+    font-style: italic;
+    font-family: var(--font-body);
+}
+.cv-newsletter-form { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; max-width: 480px; margin: 0 auto; }
+.cv-newsletter-form .cv-input { flex: 1; min-width: 200px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   RODAPÉ
+═══════════════════════════════════════════════════════════════ */
+.cv-footer {
+    background: var(--cv-bg-sidebar);
+    border-top: 1px solid var(--cv-border-subtle);
+    padding: 40px 36px 100px; /* 100px para não ficar atrás do player */
+}
+.cv-footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 32px;
+}
+.cv-footer-logo img { height: 48px; margin-bottom: 12px; }
+.cv-footer-desc { color: var(--cv-text-muted); font-size: 13px; line-height: 1.7; }
+.cv-footer-col-title { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--cv-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+.cv-footer-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.cv-footer-links a { color: var(--cv-text-muted); font-size: 13px; text-decoration: none; transition: color var(--cv-transition); }
+.cv-footer-links a:hover { color: var(--cv-gold); }
+.cv-footer-bottom { border-top: 1px solid var(--cv-border-subtle); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--cv-text-dim); }
+
+@media (max-width: 768px) {
+    .cv-footer { padding: 32px 16px 100px; }
+    .cv-footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    .cv-newsletter-section { padding: 32px 16px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITÁRIOS
+═══════════════════════════════════════════════════════════════ */
+.cv-empty { color: var(--cv-text-dim); text-align: center; padding: 48px 16px; font-size: 14px; }
+.cv-divider { height: 1px; background: var(--cv-border-subtle); margin: 24px 0; }
+.cv-animate { animation: cv-fade-up .5s var(--cv-ease) both; }
+@keyframes cv-fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.cv-loading { color: var(--cv-text-dim); font-size: 13px; padding: 24px; text-align: center; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PARALLAX ADICIONAL — estilos de suporte
+   O JS em cv-theme.js controla o translateY em tempo real.
+═══════════════════════════════════════════════════════════════ */
+
+/* O clip do hero é feito por overflow:hidden no próprio .cv-hero
+   O fundo (cv-hero-bg) tem top/bottom negativo para espaço de movimento */
+
+/* Suporte para múltiplas camadas de parallax (futuro) */
+.cv-parallax-layer {
+    position: absolute;
+    inset: -20% 0;
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+    pointer-events: none;
+}
+.cv-parallax-slow   { --parallax-speed: 0.3; }
+.cv-parallax-medium { --parallax-speed: 0.5; }
+.cv-parallax-fast   { --parallax-speed: 0.7; }

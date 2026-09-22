@@ -1,0 +1,170 @@
+/* cancao-verdadeira-child/assets/css/cv-variables.css
+   Gerado em: 2026-06-21 23:30:00
+   Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
+   Tokens de design: paleta de cores, tipografia, espaçamentos e sombras.
+   Importado primeiro por functions.php — base para todos os outros CSS.
+   Sobrescreve variáveis do Astra para garantir identidade visual dark.
+*/
+
+/* ═══════════════════════════════════════════════════════════════
+   RESET SOBRE O ASTRA
+   O Astra usa fundo claro por padrão — sobrescrevemos aqui.
+═══════════════════════════════════════════════════════════════ */
+html, body {
+    background-color: #1A1A1A !important;
+    color: #F5F0E0 !important;
+}
+
+/* Remove margens que o Astra adiciona ao body */
+.ast-container,
+.ast-grid-right-sidebar,
+.ast-grid-left-sidebar,
+#page,
+.site {
+    background: transparent !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   VARIÁVEIS CSS — PALETA E TOKENS
+═══════════════════════════════════════════════════════════════ */
+:root {
+    /* Cores principais */
+    --cv-bg:            #1A1A1A;
+    --cv-bg-card:       #242424;
+    --cv-bg-elevated:   #2e2e2e;
+    --cv-bg-sidebar:    #111111;
+    --cv-bg-player:     #0d0d0d;
+
+    /* Dourado */
+    --cv-gold:          #D4A017;
+    --cv-gold-bright:   #FFD700;
+    --cv-gold-dim:      #8a6810;
+    --cv-gold-glow:     rgba(212,160,23,.25);
+
+    /* Texto */
+    --cv-text:          #F5F0E0;
+    --cv-text-muted:    #C8B98A;
+    --cv-text-dim:      #7a6e58;
+    --cv-text-disabled: #444;
+
+    /* Bordas */
+    --cv-border:        rgba(212,160,23,.15);
+    --cv-border-subtle: rgba(255,255,255,.05);
+    --cv-border-hover:  rgba(212,160,23,.4);
+
+    /* Status */
+    --cv-success:       #27ae60;
+    --cv-error:         #e74c3c;
+    --cv-warning:       #f39c12;
+    --cv-info:          #3498db;
+
+    /* Layout */
+    --cv-sidebar-w:     260px;
+    --cv-topbar-h:      56px;
+    --cv-player-h:      80px;
+
+    /* Tipografia */
+    --font-display:     'Oswald', sans-serif;
+    --font-body:        'EB Garamond', Georgia, serif;
+    --font-ui:          'Lato', system-ui, sans-serif;
+
+    /* Sombras */
+    --cv-shadow:        0 4px 20px rgba(0,0,0,.4);
+    --cv-shadow-lg:     0 8px 40px rgba(0,0,0,.6);
+    --cv-shadow-card:   0 2px 12px rgba(0,0,0,.3);
+
+    /* Animações */
+    --cv-ease:          cubic-bezier(.4,0,.2,1);
+    --cv-spring:        cubic-bezier(.34,1.56,.64,1);
+    --cv-transition:    .2s var(--cv-ease);
+
+    /* Bordas arredondadas */
+    --cv-radius:        10px;
+    --cv-radius-sm:     6px;
+    --cv-radius-lg:     16px;
+    --cv-radius-full:   9999px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SOBRESCREVE VARIÁVEIS DO ASTRA
+═══════════════════════════════════════════════════════════════ */
+:root {
+    --ast-global-color-0: var(--cv-gold);
+    --ast-global-color-1: var(--cv-text);
+    --ast-global-color-2: var(--cv-bg-card);
+    --ast-global-color-3: var(--cv-bg);
+    --ast-global-color-4: var(--cv-text-muted);
+    --ast-global-color-5: var(--cv-bg-elevated);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIPOGRAFIA BASE
+═══════════════════════════════════════════════════════════════ */
+body {
+    font-family: var(--font-ui);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    color: var(--cv-text);
+    line-height: 1.2;
+}
+
+a {
+    color: var(--cv-gold);
+    text-decoration: none;
+    transition: color var(--cv-transition);
+}
+a:hover { color: var(--cv-gold-bright); }
+
+/* ═══════════════════════════════════════════════════════════════
+   DESABILITA HEADER E FOOTER DO ASTRA
+   O tema filho tem header (topbar + sidebar) e footer próprios.
+═══════════════════════════════════════════════════════════════ */
+#masthead,
+.site-header,
+.ast-primary-header-bar,
+.ast-above-header,
+.ast-below-header,
+#ast-desktop-header,
+.main-header-bar-wrap,
+#colophon,
+.site-footer,
+.ast-site-footer-wrap,
+.footer-widget-area {
+    display: none !important;
+}
+
+/* Remove padding que o Astra adiciona para o header fixo */
+.ast-header-break-point .ast-primary-header-bar {
+    display: none !important;
+}
+
+/* Zera margens do Astra no content area */
+#content,
+#primary,
+.site-content,
+.ast-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* Remove sidebar do Astra (usamos a nossa) */
+#secondary,
+.widget-area,
+.ast-right-sidebar,
+.ast-left-sidebar {
+    display: none !important;
+}
+
+/* Garante que o conteúdo principal ocupe 100% */
+#primary.content-area,
+#main.site-main {
+    width: 100% !important;
+    float: none !important;
+}
