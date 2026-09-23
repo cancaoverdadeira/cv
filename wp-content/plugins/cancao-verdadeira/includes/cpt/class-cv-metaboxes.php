@@ -7,6 +7,7 @@
 // Remove  : Campos SEO manuais (título/desc/tags) — sistema cuida do SEO
 // Mantém  : YouTube URL, MP3, compositor, artista, álbum, ano, ativo, destaque
 // Autor   : Canção Verdadeira | Gerado: 2026-06-26
+// v2.25.0 : sync_excerpt usa CV_Fields::sync_excerpt (compartilhado com o blog)
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -531,11 +532,7 @@ class CV_Metaboxes {
     public static function sync_excerpt( $post_id ) {
         if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) { return; }
         if ( ! current_user_can('edit_post',$post_id) ) { return; }
-        $descricao = get_post_meta($post_id, '_cv_descricao', true);
-        if ( empty($descricao) ) { return; }
-        remove_action('save_post_musica', array(__CLASS__,'sync_excerpt'), 20);
-        wp_update_post(array('ID'=>$post_id,'post_excerpt'=>sanitize_textarea_field($descricao)));
-        add_action('save_post_musica', array(__CLASS__,'sync_excerpt'), 20);
+        CV_Fields::sync_excerpt( $post_id ); // mesma regra do blog (CV_Blog)
     }
 }
 

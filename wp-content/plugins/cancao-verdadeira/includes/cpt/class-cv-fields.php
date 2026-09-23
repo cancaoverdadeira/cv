@@ -6,7 +6,10 @@
 //           (_cv_letra x post_content, _cv_favoritos x _cv_favorites), e as
 //           telas do admin liam campos que nunca eram gravados. Use sempre
 //           as constantes e helpers daqui em vez de digitar o nome do meta.
-// Gerado  : 2026-09-23
+// SEO     : sync_excerpt() é o "SEO automático" compartilhado entre música e
+//           post do blog: a Descrição vira o resumo, que o Rank Math usa como
+//           meta description (%excerpt%).
+// Gerado  : 2026-09-23 | Atualizado: 2026-09-23 (v2.25.0, blog)
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -71,6 +74,28 @@ class CV_Fields {
                 },
             ) );
         }
+        // Posts do blog usam a mesma Descrição de SEO das músicas (CV_Blog).
+        register_post_meta( 'post', self::DESCRICAO, array(
+            'type'          => 'string',
+            'single'        => true,
+            'show_in_rest'  => false,
+            'auth_callback' => function( $allowed, $meta_key, $post_id ) {
+                return current_user_can( 'edit_post', $post_id );
+            },
+        ) );
+    }
+
+    // SEO automático: copia a Descrição para o resumo (post_excerpt).
+    // Vale para música e para post do blog. Descrição vazia não mexe no resumo.
+    public static function sync_excerpt( $post_id ) {
+        $descricao = get_post_meta( $post_id, self::DESCRICAO, true );
+        if ( '' === trim( (string) $descricao ) ) { return; }
+        $descricao = sanitize_textarea_field( $descricao );
+        if ( get_post_field( 'post_excerpt', $post_id ) === $descricao ) { return; }
+        global $wpdb;
+        // Grava direto para não disparar save_post de novo (evita laço).
+        $wpdb->update( $wpdb->posts, array( 'post_excerpt' => $descricao ), array( 'ID' => $post_id ) );
+        clean_post_cache( $post_id );
     }
 
     // Texto da letra, sem HTML.

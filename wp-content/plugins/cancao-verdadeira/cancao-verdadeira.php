@@ -8,12 +8,15 @@
 // capa, sem YouTube, etc.), score de completude, checklist visual e links
 // diretos de edição. Dois novos botões na Central de Ações (Desempenho).
 // Sugestões implementadas a partir da avaliação do Diretor de TI — Semana 28.
+// v2.25.0 (23/09/2026) — Blog: categoria "Blog" com URLs /blog/ e o mesmo SEO
+// automático das músicas (CV_Blog); ajustes no Open Graph e schema da música.
+// v2.25.1 — CV_Ranking::get_most_favorited() para a seção "Mais Favoritadas".
 
 /**
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.24.3
+ * Version:     2.25.1
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -22,7 +25,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.24.3' );
+define( 'CV_VERSION',        '2.25.1' );
 define( 'CV_DB_VERSION',     '8' );       // v2.15.0: tabelas cv_sentimentos + cv_musica_sentimentos + cv_calibracao_log
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
@@ -37,6 +40,7 @@ $cv_includes = array(
     'includes/cpt/class-cv-cpt.php',
     'includes/cpt/class-cv-taxonomies.php',
     'includes/cpt/class-cv-metaboxes.php',
+    'includes/cpt/class-cv-blog.php',          // v2.25.0: categoria Blog, URLs /blog/ e SEO automático dos posts
     // Ranking e trending
     'includes/ranking/class-cv-ranking.php',
     'includes/realtime/class-cv-trending.php',

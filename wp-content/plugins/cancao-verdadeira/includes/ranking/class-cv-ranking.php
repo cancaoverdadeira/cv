@@ -8,6 +8,7 @@
 // Indicadores ↑↓ passarão a funcionar corretamente. Adicionado: notificação
 // automática via CV_Notifications quando música entra no Top 10, e método
 // get_by_period() para o shortcode [cv_ranking_periodo].
+// v2.25.1 — get_most_favorited(): seção "Mais Favoritadas" da home.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -217,6 +218,49 @@ class CV_Ranking {
                     'value'   => '1',
                     'compare' => '=',
                 ),
+            ),
+        ) );
+
+        $results = array();
+        foreach ( $posts as $post ) {
+            $results[] = (object) array(
+                'music_id'     => $post->ID,
+                'post_title'   => $post->post_title,
+                'post_name'    => $post->post_name,
+                'plays_total'  => (int) get_post_meta( $post->ID, '_cv_plays_total', true ),
+                'score'        => (float) get_post_meta( $post->ID, '_cv_score', true ),
+                'favorites'    => (int) get_post_meta( $post->ID, '_cv_favorites', true ),
+                'position'     => 0,
+                'position_prev'=> 0,
+            );
+        }
+
+        $results = self::enrich_results( $results );
+        set_transient( $cache_key, $results, HOUR_IN_SECONDS );
+        return $results;
+    }
+
+    /**
+     * Músicas com mais favoritos (seção "Mais Favoritadas" da home).
+     * Só entram músicas publicadas, ativas e com pelo menos 1 favorito.
+     *
+     * @param int $limit
+     * @return array
+     */
+    public static function get_most_favorited( $limit = 8 ) {
+        $cache_key = 'cv_ranking_favs_' . absint( $limit );
+        $cached    = get_transient( $cache_key );
+        if ( false !== $cached ) { return $cached; }
+
+        $posts = get_posts( array(
+            'post_type'      => 'musica',
+            'post_status'    => 'publish',
+            'posts_per_page' => absint( $limit ),
+            'meta_key'       => CV_Fields::FAVORITES,
+            'orderby'        => array( 'meta_value_num' => 'DESC', 'date' => 'DESC' ),
+            'meta_query'     => array(
+                array( 'key' => '_cv_ativo',           'value' => '1', 'compare' => '=' ),
+                array( 'key' => CV_Fields::FAVORITES,  'value' => 0,   'compare' => '>', 'type' => 'NUMERIC' ),
             ),
         ) );
 

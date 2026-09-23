@@ -6,6 +6,9 @@
 // com VideoObject (indexa o YouTube no Google), BreadcrumbList (navegação)
 // e Open Graph com og:video para preview rico em redes sociais.
 // Ativa apenas quando Rank Math não está configurado para o CPT musica.
+// v2.25.0: com o Rank Math ativo, o breadcrumb fica só com ele (antes saía
+// duplicado) e o Open Graph dele passa a usar a capa do YouTube como imagem
+// de reserva e o tipo music.song nas páginas de música.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -14,6 +17,23 @@ class CV_Schema {
     public static function init() {
         add_action( 'wp_head', array( __CLASS__, 'output' ),    5 );
         add_action( 'wp_head', array( __CLASS__, 'output_og' ), 5 );
+        // Complementos para o Open Graph do Rank Math (música).
+        add_action( 'rank_math/opengraph/facebook/add_additional_images', array( __CLASS__, 'rm_youtube_image' ) );
+        add_action( 'rank_math/opengraph/twitter/add_additional_images',  array( __CLASS__, 'rm_youtube_image' ) );
+        add_filter( 'rank_math/opengraph/type', array( __CLASS__, 'rm_og_type' ) );
+    }
+
+    // Sem imagem destacada, usa a capa do vídeo do YouTube.
+    public static function rm_youtube_image( $image ) {
+        if ( ! is_singular( 'musica' ) || $image->has_images() ) { return; }
+        $yt_id = self::yt_id( get_post_meta( get_queried_object_id(), '_cv_youtube_url', true ) );
+        if ( $yt_id ) {
+            $image->add_image_by_url( 'https://img.youtube.com/vi/' . $yt_id . '/maxresdefault.jpg' );
+        }
+    }
+
+    public static function rm_og_type( $type ) {
+        return is_singular( 'musica' ) ? 'music.song' : $type;
     }
 
     // ── Schema.org JSON-LD ────────────────────────────────────────
@@ -158,7 +178,10 @@ class CV_Schema {
             echo '<script type="application/ld+json">' . wp_json_encode( $video_schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
         }
 
-        echo '<script type="application/ld+json">' . wp_json_encode( $breadcrumb, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
+        // Rank Math já publica um BreadcrumbList no grafo dele: não duplicar.
+        if ( ! class_exists( 'RankMath' ) ) {
+            echo '<script type="application/ld+json">' . wp_json_encode( $breadcrumb, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
+        }
     }
 
     // ── Open Graph + og:video ─────────────────────────────────────
