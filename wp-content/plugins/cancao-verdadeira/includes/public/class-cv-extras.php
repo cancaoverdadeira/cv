@@ -25,7 +25,7 @@ class CV_Extras {
     // 1. [cv_recomendacoes]
     // ════════════════════════════════════════════════════════════════
     //
-    // Exibe músicas recomendadas com base no histórico e gênero favorito
+    // Exibe músicas recomendadas (melhores ranqueadas que o usuário não ouviu)
     // do usuário logado. Para visitantes não logados, exibe o Top Geral.
     //
     // Parâmetros:
@@ -83,7 +83,6 @@ class CV_Extras {
                     $url     = is_array( $m ) ? $m['url']             : $m->url;
                     $cover   = is_array( $m ) ? $m['cover']           : $m->cover;
                     $artista = is_array( $m ) ? $m['artista']         : ( $m->artista ?? '' );
-                    $genero  = is_array( $m ) ? ( $m['genero'] ?? '' ): '';
                     $plays   = is_array( $m ) ? (int) ( $m['plays'] ?? 0 ) : (int) ( $m->plays_total ?? 0 );
                     $user_id = get_current_user_id();
                     $is_fav  = $user_id && class_exists( 'CV_Favorites' )
@@ -104,9 +103,6 @@ class CV_Extras {
                         </a>
                         <?php if ( $artista ) : ?>
                             <p class="cv-card-artista"><?php echo esc_html( $artista ); ?></p>
-                        <?php endif; ?>
-                        <?php if ( $genero ) : ?>
-                            <span class="cv-card-genero"><?php echo esc_html( $genero ); ?></span>
                         <?php endif; ?>
                         <div class="cv-card-acoes">
                             <span class="cv-card-stat">
@@ -144,7 +140,6 @@ class CV_Extras {
     // Parâmetros:
     //   periodo = diario | semanal | mensal (padrão: semanal)
     //   limite  = número de músicas (padrão: 10, máx: 50)
-    //   genero  = slug do gênero (padrão: todos)
     //   titulo  = título da seção (padrão: automático por período)
     //   layout  = lista | cards (padrão: lista)
     //
@@ -152,20 +147,17 @@ class CV_Extras {
     //   [cv_ranking_periodo]
     //   [cv_ranking_periodo periodo="diario" titulo="🔥 Mais Tocadas Hoje"]
     //   [cv_ranking_periodo periodo="mensal" limite="5" layout="cards"]
-    //   [cv_ranking_periodo genero="sertanejo-universitario" periodo="semanal"]
 
     public static function shortcode_ranking_periodo( $atts ) {
         $atts = shortcode_atts( array(
             'periodo' => 'semanal',
             'limite'  => 10,
-            'genero'  => '',
             'titulo'  => '',
             'layout'  => 'lista',
         ), $atts, 'cv_ranking_periodo' );
 
         $periodo = sanitize_text_field( $atts['periodo'] );
         $limite  = min( absint( $atts['limite'] ), 50 );
-        $genero  = sanitize_text_field( $atts['genero'] );
         $layout  = in_array( $atts['layout'], array( 'lista', 'cards' ), true ) ? $atts['layout'] : 'lista';
 
         // Mapeia alias em português para os valores internos
@@ -192,7 +184,7 @@ class CV_Extras {
             return '<p class="cv-sem-musicas">Módulo de ranking por período não disponível.</p>';
         }
 
-        $musicas = CV_Advanced::get_ranking_period( $periodo_interno, $limite, $genero );
+        $musicas = CV_Advanced::get_ranking_period( $periodo_interno, $limite );
 
         if ( empty( $musicas ) ) {
             return '<p class="cv-sem-musicas">Nenhuma música no ranking deste período ainda.</p>';

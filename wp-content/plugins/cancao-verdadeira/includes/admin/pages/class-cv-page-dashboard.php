@@ -598,6 +598,7 @@ class CV_Page_Dashboard {
         .cv-ab-red       { background:#e74c3c22;border-color:#e74c3c;color:#D62C1A; }
         .cv-ab-gray      { background:#F8F0E4;border-color:#EADBC6;color:#6B4C3B; }
         .cv-ab-orange    { background:#e67e2222;border-color:#e67e22;color:#AD5C14; }
+        .cv-ab-green     { background:#1DB95422;border-color:#1DB954;color:#137B38; } /* v2.29.0: Distribuição */
         </style>
 
         <div class="cv-action-hub">
@@ -612,7 +613,7 @@ class CV_Page_Dashboard {
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-publicacao-rapida')); ?>" class="cv-ab cv-ab-gold">⚡ Publicação Acelerada</a>
                 <a href="<?php echo esc_url(admin_url('post-new.php?post_type=musica')); ?>" class="cv-ab cv-ab-gray">+ Nova Música</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-youtube-import')); ?>" class="cv-ab cv-ab-red">▶ Importar YouTube</a>
-                <a href="<?php echo esc_url(admin_url('admin.php?page=cv-generos')); ?>" class="cv-ab cv-ab-gray">🎸 Gêneros</a>
+                <a href="<?php echo esc_url(admin_url('admin.php?page=cv-distribuicao')); ?>" class="cv-ab cv-ab-green">🚀 Distribuição</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-sentimentos')); ?>" class="cv-ab cv-ab-purple">🎭 Sentimentos</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-sentimentos-crud')); ?>" class="cv-ab cv-ab-gray">⚙️ Gerenciar Sentimentos</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-playlists')); ?>" class="cv-ab cv-ab-blue">📋 Playlists</a>

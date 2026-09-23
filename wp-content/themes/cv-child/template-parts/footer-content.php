@@ -94,24 +94,6 @@ $redes_sociais = class_exists('CV_Social') ? CV_Social::get_all() : array();
                 <li><a href="<?php echo esc_url(home_url('/musicas/')); ?>">Todas as Músicas</a></li>
                 <li><a href="<?php echo esc_url(home_url('/ranking/')); ?>">Ranking</a></li>
                 <li><a href="<?php echo esc_url(home_url('/buscar-musicas/')); ?>">Buscar</a></li>
-
-                <?php
-                // Lista os gêneros cadastrados
-                $genres_footer = get_terms(array(
-                    'taxonomy'   => 'cv_genre',
-                    'hide_empty' => false,
-                    'number'     => 6,
-                    'orderby'    => 'name',
-                ));
-                if ( ! is_wp_error($genres_footer) ) :
-                    foreach ( $genres_footer as $g ) :
-                ?>
-                <li>
-                    <a href="<?php echo esc_url(get_term_link($g)); ?>">
-                        <?php echo esc_html($g->name); ?>
-                    </a>
-                </li>
-                <?php endforeach; endif; ?>
             </ul>
         </div>
 
@@ -172,11 +154,10 @@ jQuery(function($){
         $btn.prop('disabled', true).text('⏳ Inscrevendo...');
 
         $.post(cvPublic.ajaxUrl, {
-            action: 'cv_newsletter_subscribe',
+            action: 'cv_subscribe',
             nonce:  cvPublic.nonces.newsletter,
             email:  email,
             name:   '',
-            genre:  ''
         }, function(res){
             if (res.success) {
                 $msg.css({'color':'var(--cv-success)'})

@@ -395,7 +395,6 @@
      * HTML: <form class="cv-newsletter-form">
      *         <input type="email" name="cv_email" required />
      *         <input type="text"  name="cv_name" />
-     *         <select name="cv_genre">...</select>
      *         <button type="submit">Assinar</button>
      *       </form>
      */
@@ -408,7 +407,6 @@
 
         var email  = $.trim( $form.find('[name="cv_email"]').val() );
         var name   = $.trim( $form.find('[name="cv_name"]').val() );
-        var genre  = $form.find('[name="cv_genre"]').val() || '';
 
         if ( ! email ) { return; }
 
@@ -422,7 +420,6 @@
                 nonce:  cvPublic.nonces.newsletter,
                 email:  email,
                 name:   name,
-                genre:  genre,
             },
             success: function (res) {
                 if ( res.success ) {

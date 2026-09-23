@@ -17,7 +17,7 @@ O plugin Canção Verdadeira transforma um WordPress comum em uma plataforma pro
 = Funcionalidades principais =
 
 * Custom Post Type "Música" com metaboxes completos (compositor, artista, álbum, ano, URL YouTube, SEO)
-* Taxonomias: Gênero Musical e Subcategoria
+* Sem gêneros: o site é todo sertanejo (taxonomias removidas na v2.26.0)
 * Sistema de ranking dinâmico com fórmula ponderada (plays, favoritos, avaliações)
 * Ranking por período: diário, semanal e mensal com indicadores ↑↓
 * Contagem de plays com antifraude (IP + 30 segundos)
@@ -27,7 +27,7 @@ O plugin Canção Verdadeira transforma um WordPress comum em uma plataforma pro
 * Conquistas/badges automáticos (13 tipos)
 * Trending em tempo real (últimos 15 minutos)
 * Notificações in-app para usuários
-* Recomendação automática baseada no histórico de plays e gênero favorito
+* Recomendação automática: melhores ranqueadas que o usuário ainda não ouviu
 * Importador de músicas via URL do YouTube
 * WhatsApp flutuante configurável com pulso de atenção
 * Botões de compartilhamento social (WhatsApp, Facebook, Twitter/X, Telegram)
@@ -35,8 +35,8 @@ O plugin Canção Verdadeira transforma um WordPress comum em uma plataforma pro
 * Níveis de permissão customizados: Editor, Gerente e Master
 * Logs de ações administrativas com retenção de 90 dias
 * Exportação de usuários e assinantes em CSV
-* REST API completa: /cv/v1/musicas, /ranking, /generos, /busca, /trending
-* Shortcodes para Elementor: [cv_grid_musicas], [cv_ranking], [cv_newsletter], [cv_generos], [cv_share], [cv_recomendacoes], [cv_ranking_periodo]
+* REST API completa: /cv/v1/musicas, /ranking, /busca, /trending
+* Shortcodes para Elementor: [cv_grid_musicas], [cv_ranking], [cv_newsletter], [cv_share], [cv_recomendacoes], [cv_ranking_periodo]
 * Compatibilidade com LiteSpeed Cache e WP Rocket
 
 = Requisitos =
@@ -50,18 +50,14 @@ O plugin Canção Verdadeira transforma um WordPress comum em uma plataforma pro
 = Shortcodes disponíveis =
 
 **Grade de músicas**
-`[cv_grid_musicas limite="12" genero="" ordem="novas" colunas="3" destaque="nao" titulo=""]`
+`[cv_grid_musicas limite="12" ordem="novas" colunas="3" destaque="nao" titulo=""]`
 
 **Ranking geral**
-`[cv_ranking limite="10" tipo="top" genero="" titulo="🏆 Ranking" layout="lista"]`
+`[cv_ranking limite="10" tipo="top" titulo="🏆 Ranking" layout="lista"]`
 
 **Ranking por período**
-`[cv_ranking_periodo periodo="semanal" limite="10" genero="" titulo="" layout="lista"]`
+`[cv_ranking_periodo periodo="semanal" limite="10" titulo="" layout="lista"]`
 Períodos: `diario`, `semanal`, `mensal`
-
-**Grade de gêneros**
-`[cv_generos limite="0" layout="grade" titulo="" colunas="3"]`
-Layouts: `grade`, `lista`, `pills`
 
 **Recomendações personalizadas**
 `[cv_recomendacoes limite="6" titulo="Recomendado para você" colunas="3"]`

@@ -195,6 +195,12 @@ class CV_Security {
     }
 
     public static function remove_version_from_url( $src ) {
+        // v2.27.1: mantém ?ver= nos arquivos do próprio site (plugin e tema
+        // filho) — é o que obriga o navegador a baixar a versão nova depois
+        // de cada atualização. Só esconde a versão do WordPress e de terceiros.
+        if ( false !== strpos( $src, '/cancao-verdadeira/' ) || false !== strpos( $src, '/cv-child/' ) ) {
+            return $src;
+        }
         if ( strpos( $src, 'ver=' ) ) {
             $src = remove_query_arg( 'ver', $src );
         }

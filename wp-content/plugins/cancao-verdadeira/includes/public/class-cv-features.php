@@ -2,8 +2,8 @@
 // cancao-verdadeira-plugin/includes/public/class-cv-features.php
 // Gerado em: 2026-06-13 00:00:00
 // Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
-// Reúne os três próximos passos do plugin em um único arquivo:
-// 1. Shortcode [cv_generos] — grade visual de gêneros clicável
+// Reúne dois recursos do plugin em um único arquivo:
+// (v2.26.0: saiu o shortcode [cv_generos] — o site é todo sertanejo)
 // 2. Busca AJAX com autocomplete em tempo real (migrado do tema para
 //    o plugin, onde a lógica de negócio deve sempre residir)
 // 3. WhatsApp flutuante aprimorado — pulso de atenção, mensagem
@@ -15,9 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class CV_Features {
 
     public static function init() {
-        // Shortcode de gêneros
-        add_shortcode( 'cv_generos', array( __CLASS__, 'shortcode_generos' ) );
-
         // Busca AJAX com autocomplete (migrado do tema para o plugin)
         add_action( 'wp_ajax_cv_autocomplete',        array( __CLASS__, 'ajax_autocomplete' ) );
         add_action( 'wp_ajax_nopriv_cv_autocomplete', array( __CLASS__, 'ajax_autocomplete' ) );
@@ -27,165 +24,6 @@ class CV_Features {
 
         // Injeta dados do autocomplete no JS público
         add_action( 'wp_enqueue_scripts', array( __CLASS__, 'localize_search' ), 30 );
-    }
-
-    // ════════════════════════════════════════════════════════════════
-    // 1. SHORTCODE [cv_generos]
-    // ════════════════════════════════════════════════════════════════
-    //
-    // Parâmetros:
-    //   limite    = número de gêneros (padrão: todos)
-    //   layout    = grade | lista | pills (padrão: grade)
-    //   titulo    = texto do título da seção (padrão: vazio)
-    //   colunas   = 2, 3 ou 4 — só no layout grade (padrão: 3)
-    //
-    // Exemplos:
-    //   [cv_generos]
-    //   [cv_generos layout="pills"]
-    //   [cv_generos layout="lista" titulo="Explore os Gêneros"]
-    //   [cv_generos colunas="2" limite="4"]
-
-    public static function shortcode_generos( $atts ) {
-        $atts = shortcode_atts( array(
-            'limite'  => 0,
-            'layout'  => 'grade',
-            'titulo'  => '',
-            'colunas' => 3,
-        ), $atts, 'cv_generos' );
-
-        $limite  = absint( $atts['limite'] );
-        $layout  = sanitize_text_field( $atts['layout'] );
-        $titulo  = sanitize_text_field( $atts['titulo'] );
-        $colunas = absint( $atts['colunas'] );
-
-        if ( ! in_array( $colunas, array( 2, 3, 4 ), true ) ) { $colunas = 3; }
-        if ( ! in_array( $layout, array( 'grade', 'lista', 'pills' ), true ) ) { $layout = 'grade'; }
-
-        $args = array(
-            'taxonomy'   => 'cv_genre',
-            'hide_empty' => false,
-            'orderby'    => 'name',
-            'order'      => 'ASC',
-        );
-        if ( $limite > 0 ) { $args['number'] = $limite; }
-
-        $generos = get_terms( $args );
-        if ( is_wp_error( $generos ) || empty( $generos ) ) {
-            return '<p class="cv-sem-musicas">Nenhum gênero cadastrado ainda.</p>';
-        }
-
-        // Dados visuais de cada gênero
-        $icones = array(
-            'sertanejo-universitario' => '🎸',
-            'sertanejo-raiz'          => '🪗',
-            'sertanejo-romantico'     => '❤',
-            'modao'                   => '🎩',
-            'sertanejo-gospel'        => '✝',
-            'sertanejo-sofrencia'     => '💔',
-        );
-        $gradientes = array(
-            'sertanejo-universitario' => 'linear-gradient(135deg,#F8EDE7,#e67e22)',
-            'sertanejo-raiz'          => 'linear-gradient(135deg,#EAF6EA,#27ae60)',
-            'sertanejo-romantico'     => 'linear-gradient(135deg,#F8E7F1,#e91e8c)',
-            'modao'                   => 'linear-gradient(135deg,#F8F2E7,#B8700C)',
-            'sertanejo-gospel'        => 'linear-gradient(135deg,#F8F0E4,#9b59b6)',
-            'sertanejo-sofrencia'     => 'linear-gradient(135deg,#E7EFF8,#3498db)',
-        );
-        $cores_pill = array(
-            'sertanejo-universitario' => '#e67e22',
-            'sertanejo-raiz'          => '#27ae60',
-            'sertanejo-romantico'     => '#e91e8c',
-            'modao'                   => '#B8700C',
-            'sertanejo-gospel'        => '#9b59b6',
-            'sertanejo-sofrencia'     => '#3498db',
-        );
-
-        ob_start();
-        ?>
-        <div class="cv-generos-wrap cv-generos-<?php echo esc_attr( $layout ); ?>">
-
-            <?php if ( $titulo ) : ?>
-                <h2 class="cv-section-titulo"><?php echo esc_html( $titulo ); ?></h2>
-            <?php endif; ?>
-
-            <?php if ( 'grade' === $layout ) : ?>
-
-                <div class="cv-genre-grid cv-genre-grid-col-<?php echo esc_attr( $colunas ); ?>">
-                    <?php foreach ( $generos as $gen ) :
-                        $icone     = $icones[ $gen->slug ]     ?? '🎵';
-                        $gradiente = $gradientes[ $gen->slug ] ?? 'linear-gradient(135deg,#FFFFFF,#F3E6D3)';
-                        $total     = $gen->count;
-                    ?>
-                    <a href="<?php echo esc_url( get_term_link( $gen ) ); ?>"
-                       class="cv-genre-card"
-                       title="<?php echo esc_attr( $gen->name ); ?>">
-                        <div class="cv-genre-card-bg"
-                             style="background:<?php echo esc_attr( $gradiente ); ?>">
-                        </div>
-                        <div class="cv-genre-card-overlay"></div>
-                        <span class="cv-genre-card-icon"><?php echo $icone; ?></span>
-                        <div class="cv-genre-card-name"><?php echo esc_html( $gen->name ); ?></div>
-                        <?php if ( $total > 0 ) : ?>
-                            <div class="cv-genre-card-count">
-                                <?php echo number_format( $total ); ?> música<?php echo $total !== 1 ? 's' : ''; ?>
-                            </div>
-                        <?php endif; ?>
-                    </a>
-                    <?php endforeach; ?>
-                </div>
-
-            <?php elseif ( 'lista' === $layout ) : ?>
-
-                <ul class="cv-generos-lista">
-                    <?php foreach ( $generos as $gen ) :
-                        $icone = $icones[ $gen->slug ] ?? '🎵';
-                        $cor   = $cores_pill[ $gen->slug ] ?? '#B8700C';
-                        $total = $gen->count;
-                    ?>
-                    <li class="cv-generos-lista-item">
-                        <a href="<?php echo esc_url( get_term_link( $gen ) ); ?>">
-                            <span class="cv-generos-lista-icon"
-                                  style="background:<?php echo esc_attr( $cor ); ?>20;color:<?php echo esc_attr( $cor ); ?>">
-                                <?php echo $icone; ?>
-                            </span>
-                            <span class="cv-generos-lista-nome">
-                                <?php echo esc_html( $gen->name ); ?>
-                            </span>
-                            <?php if ( $total > 0 ) : ?>
-                                <span class="cv-generos-lista-count">
-                                    <?php echo number_format( $total ); ?>
-                                </span>
-                            <?php endif; ?>
-                            <span class="cv-generos-lista-seta">›</span>
-                        </a>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
-
-            <?php elseif ( 'pills' === $layout ) : ?>
-
-                <div class="cv-generos-pills">
-                    <?php foreach ( $generos as $gen ) :
-                        $icone = $icones[ $gen->slug ] ?? '🎵';
-                        $cor   = $cores_pill[ $gen->slug ] ?? '#B8700C';
-                    ?>
-                    <a href="<?php echo esc_url( get_term_link( $gen ) ); ?>"
-                       class="cv-genre-pill-sc"
-                       style="--pill-color:<?php echo esc_attr( $cor ); ?>">
-                        <span><?php echo $icone; ?></span>
-                        <?php echo esc_html( $gen->name ); ?>
-                        <?php if ( $gen->count > 0 ) : ?>
-                            <span class="cv-pill-count"><?php echo $gen->count; ?></span>
-                        <?php endif; ?>
-                    </a>
-                    <?php endforeach; ?>
-                </div>
-
-            <?php endif; ?>
-
-        </div><!-- .cv-generos-wrap -->
-        <?php
-        return ob_get_clean();
     }
 
     // ════════════════════════════════════════════════════════════════
@@ -207,33 +45,9 @@ class CV_Features {
             wp_send_json_success( array( 'results' => array() ) );
         }
 
-        // Usa Relevanssi se disponível, senão WP_Query padrão
-        $posts = array();
-        if ( function_exists( 'relevanssi_do_query' ) ) {
-            $args  = array(
-                'post_type'      => 'musica',
-                'post_status'    => 'publish',
-                'posts_per_page' => 7,
-                's'              => $term,
-            );
-            $query = new WP_Query( $args );
-            relevanssi_do_query( $query );
-            $posts = $query->posts;
-        } else {
-            $posts = get_posts( array(
-                'post_type'      => 'musica',
-                'post_status'    => 'publish',
-                'posts_per_page' => 7,
-                's'              => $term,
-                'meta_query'     => array(
-                    array(
-                        'key'     => '_cv_ativo',
-                        'value'   => '1',
-                        'compare' => '=',
-                    ),
-                ),
-            ) );
-        }
+        // v2.27.0: mesma busca do site (Relevanssi com pesos), via CV_Search.
+        $query = CV_Search::query( array( 'termo' => $term, 'por_pagina' => 7 ) );
+        $posts = $query->posts;
 
         $results = array();
         foreach ( $posts as $post ) {
@@ -257,7 +71,11 @@ class CV_Features {
             );
         }
 
-        wp_send_json_success( array( 'results' => $results ) );
+        wp_send_json_success( array(
+            'results' => $results,
+            'total'   => (int) $query->found_posts,
+            'all_url' => CV_Search::url( $term ), // "ver todos os resultados"
+        ) );
     }
 
     /**
@@ -273,6 +91,7 @@ class CV_Features {
                 cvPublic.searchNonce="' . wp_create_nonce( 'cv_autocomplete_nonce' ) . '";
                 cvPublic.searchUrl="' . esc_js( admin_url( 'admin-ajax.php' ) ) . '";
                 cvPublic.searchMin=2;
+                cvPublic.searchPage="' . esc_js( CV_Search::url() ) . '";
             }',
             'after'
         );

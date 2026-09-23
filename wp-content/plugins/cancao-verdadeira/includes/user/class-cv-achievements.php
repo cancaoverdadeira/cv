@@ -6,6 +6,8 @@
 // automaticamente ao atingir marcos de plays, favoritos, playlists
 // e avaliacoes. Armazena em user_meta _cv_achievements.
 // Exibe badge visual no perfil publico e no dashboard do usuario.
+// v2.26.0: "Puro Sertanejo" agora vale para quem ouviu 20 musicas diferentes
+// (antes exigia ouvir todos os generos, que foram removidos do site).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -25,7 +27,7 @@ class CV_Achievements {
         'playlists_5'   => array( 'icon' => '🎛', 'name' => 'DJ do Sertao',     'desc' => '5 playlists criadas',              'color' => '#1abc9c' ),
         'first_rating'  => array( 'icon' => '⭐', 'name' => 'Critico Musical',  'desc' => 'Deu a primeira avaliacao',         'color' => '#B8700C' ),
         'first_comment' => array( 'icon' => '💬', 'name' => 'Comentarista',     'desc' => 'Comentou em um trecho de letra',   'color' => '#16a085' ),
-        'raiz'          => array( 'icon' => '🪗', 'name' => 'Puro Sertanejo',   'desc' => 'Ouviu musicas de todos os generos','color' => '#8B4513' ),
+        'raiz'          => array( 'icon' => '🪗', 'name' => 'Puro Sertanejo',   'desc' => 'Ouviu 20 musicas diferentes',      'color' => '#8B4513' ),
     );
 
     public static function init() {
@@ -59,8 +61,8 @@ class CV_Achievements {
         self::maybe_grant( $user_id, 'plays_100',  $play_count >= 100 );
         self::maybe_grant( $user_id, 'plays_500',  $play_count >= 500 );
 
-        // Badge "Puro Sertanejo": ouviu musicas de todos os generos
-        self::check_all_genres( $user_id );
+        // Badge "Puro Sertanejo": ouviu 20 musicas diferentes
+        self::check_variety( $user_id );
     }
 
     public static function check_after_favorite() {
@@ -90,23 +92,14 @@ class CV_Achievements {
         self::maybe_grant( $user_id, 'first_comment', true );
     }
 
-    private static function check_all_genres( $user_id ) {
+    private static function check_variety( $user_id ) {
         $history = get_user_meta( $user_id, '_cv_play_history', true );
-        if ( ! is_array( $history ) || count( $history ) < 6 ) { return; }
-
-        $all_genres = get_terms( array( 'taxonomy' => 'cv_genre', 'hide_empty' => true, 'fields' => 'slugs' ) );
-        if ( is_wp_error( $all_genres ) || count( $all_genres ) < 2 ) { return; }
-
-        $heard_genres = array();
-        foreach ( array_slice( $history, 0, 50 ) as $item ) {
-            $genres = wp_get_post_terms( $item['id'], 'cv_genre', array( 'fields' => 'slugs' ) );
-            if ( ! is_wp_error( $genres ) ) {
-                $heard_genres = array_unique( array_merge( $heard_genres, $genres ) );
-            }
+        if ( ! is_array( $history ) ) { return; }
+        $ids = array();
+        foreach ( $history as $item ) {
+            if ( ! empty( $item['id'] ) ) { $ids[ (int) $item['id'] ] = true; }
         }
-
-        $all_heard = count( array_intersect( $all_genres, $heard_genres ) ) >= count( $all_genres );
-        self::maybe_grant( $user_id, 'raiz', $all_heard );
+        self::maybe_grant( $user_id, 'raiz', count( $ids ) >= 20 );
     }
 
     /**

@@ -4,7 +4,7 @@
 // Lista de posts do Blog (categoria slug "blog"). URL: /blog/ e /blog/page/2/.
 // As URLs e o SEO (Descrição → meta description) vêm do plugin (CV_Blog);
 // título, Open Graph e schema ficam com o Rank Math.
-// Layout: sidebar + topbar + banner no padrão das páginas de gênero + grade
+// Layout: sidebar + topbar + banner no padrão das páginas internas + grade
 // de cards (imagem destacada, data, título, resumo) + paginação.
 // Gerado em: 2026-09-23 (tema v15.1.0)
 

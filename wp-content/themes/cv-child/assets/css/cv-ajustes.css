@@ -1,0 +1,249 @@
+/* ═══════════════════════════════════════════════════════════════
+   cancao-verdadeira-child/assets/css/cv-ajustes.css
+   Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
+   Ajustes visuais pedidos pelo usuário em 23/09/2026 (tema v15.3.0).
+   Carregado DEPOIS de cv-components.css, para não mexer nos três
+   arquivos CSS protegidos (cv-variables, cv-layout, cv-components).
+   1) Player do rodapé em tom escuro (marrom café), com texto creme.
+   2) Logo da marca maior e centralizado no topo do menu lateral.
+   3) Hero da marca e cards "Em breve" (home e 404) — v15.5.0.
+   4) Busca avançada, resultados e página 404 — v15.5.0.
+═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. Player escuro ──────────────────────────────────────────
+   Redefine os tokens só dentro do player: os estilos inline do
+   template (var(--cv-text-dim) etc.) acompanham automaticamente. */
+.cv-player {
+    --cv-text:        #FBF6EE;
+    --cv-text-muted:  rgba(251, 246, 238, 0.78);
+    --cv-text-dim:    rgba(251, 246, 238, 0.55);
+    --cv-bg-elevated: rgba(255, 255, 255, 0.08);
+    --cv-border:      rgba(255, 255, 255, 0.12);
+    background: linear-gradient(90deg, #3B2418 0%, #2B1A11 100%);
+    border-top: 1px solid rgba(242, 165, 26, 0.35);
+    box-shadow: 0 -6px 24px rgba(43, 26, 17, 0.25);
+    color: var(--cv-text);
+}
+.cv-player .cv-player-btn { color: var(--cv-text-muted); }
+.cv-player .cv-player-btn:hover { color: #FFFFFF; }
+.cv-player .cv-player-btn.primary { color: #3B2418; }
+.cv-player .cv-player-bar { background: rgba(255, 255, 255, 0.16); }
+.cv-player .cv-player-volume input[type="range"] { accent-color: var(--cv-accent); }
+
+/* ── 2. Logo do menu lateral ─────────────────────────────────── */
+.cv-sidebar-logo {
+    padding: 18px 16px 16px;
+    text-align: center;
+}
+.cv-sidebar-logo a {
+    display: flex;
+    justify-content: center;
+}
+.cv-sidebar-logo img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+/* Barra do topo no celular: logo um pouco maior */
+.cv-topbar-logo img { height: 42px; border-radius: 6px; }
+
+/* ── 3. Hero da marca (home e 404) ───────────────────────────── */
+/* Hero com a marca (v15.3.0): duas colunas centralizadas — texto à esquerda,
+   logo à direita — sem o vão grande entre eles. Um brilho laranja suave atrás
+   do logo dá profundidade sem esconder o creme do tema. */
+.cv-hero--marca {
+    display: grid;
+    grid-template-columns: max-content minmax(240px, 340px);
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    min-height: 0;
+    padding: 56px 36px 48px;
+    background:
+        radial-gradient(ellipse 420px 300px at 78% 50%, rgba(242,165,26,0.16), transparent 70%),
+        linear-gradient(180deg, var(--cv-bg-elevated) 0%, var(--cv-bg) 100%);
+    border-bottom: 1px solid var(--cv-border-subtle);
+}
+.cv-hero--marca .cv-hero-content { padding: 0; max-width: none; }
+.cv-hero--marca .cv-hero-title {
+    font-size: clamp(36px, 3.4vw, 60px);
+    white-space: nowrap;
+    margin-bottom: 12px;
+}
+.cv-hero-title-destaque { color: var(--cv-gold); }
+.cv-hero--marca .cv-hero-subtitle { font-size: 20px; margin-bottom: 26px; }
+.cv-hero-marca {
+    width: 100%;
+    height: auto;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+}
+/* Telas médias: o título pode quebrar em duas linhas, logo menor */
+@media (max-width: 1200px) {
+    .cv-hero--marca { grid-template-columns: minmax(0, 1fr) minmax(200px, 280px); gap: 28px; }
+    .cv-hero--marca .cv-hero-title { white-space: normal; font-size: clamp(34px, 4.2vw, 48px); }
+}
+/* Celular: logo em cima, centralizado; texto embaixo */
+@media (max-width: 768px) {
+    .cv-hero--marca {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 24px 16px 32px;
+        background: linear-gradient(180deg, var(--cv-bg-elevated) 0%, var(--cv-bg) 100%);
+    }
+    .cv-hero--marca .cv-hero-marca { order: -1; width: 220px; margin: 0 auto; }
+    .cv-hero--marca .cv-hero-title { font-size: 32px; }
+    .cv-hero--marca .cv-hero-subtitle { font-size: 16px; }
+}
+
+/* Cards "Em breve" (seções ainda sem conteúdo) */
+.cv-card-breve { background: var(--cv-bg-card); border: 1px dashed var(--cv-border); border-radius: var(--cv-radius); overflow: hidden; }
+.cv-card-breve-capa { aspect-ratio: 1; background: linear-gradient(135deg, var(--cv-bg-elevated), var(--cv-bg)); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+.cv-card-breve-post .cv-card-breve-capa { aspect-ratio: 16/9; }
+.cv-card-breve-icone { font-size: 34px; opacity: .55; }
+.cv-card-breve-selo { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--cv-gold); background: var(--cv-bg-card); border: 1px solid var(--cv-border); border-radius: var(--cv-radius-full); padding: 3px 12px; }
+.cv-card-breve-info { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; }
+.cv-card-breve-linha { display: block; height: 10px; border-radius: 5px; background: var(--cv-bg-elevated); }
+.cv-card-breve-linha.is-curta { width: 60%; }
+@media (min-width: 769px) {
+    .cv-blog-grid-home, .cv-em-breve-grid.cv-blog-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ── 4. Busca avançada (página de busca e 404) ───────────────── */
+.cv-busca-hero {
+    padding: 44px 36px 32px;
+    text-align: center;
+    background: linear-gradient(180deg, var(--cv-bg-elevated) 0%, var(--cv-bg) 100%);
+    border-bottom: 1px solid var(--cv-border-subtle);
+}
+.cv-busca-hero h1 { font-family: var(--font-display); font-size: 34px; margin: 0 0 6px; color: var(--cv-text); }
+.cv-busca-hero h1 span { color: var(--cv-gold); }
+.cv-busca-hero > p { color: var(--cv-text-muted); font-family: var(--font-body); font-style: italic; font-size: 16px; margin: 0 0 22px; }
+
+.cv-busca-avancada { max-width: 680px; margin: 0 auto; text-align: left; }
+.cv-busca-campo { position: relative; }
+.cv-busca-campo .cv-input { width: 100%; font-size: 16px; padding: 15px 56px 15px 18px; border-radius: var(--cv-radius); box-shadow: var(--cv-shadow-card); }
+.cv-busca-lupa {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    background: var(--cv-accent); color: #3B2418; border: none; border-radius: var(--cv-radius-sm);
+    padding: 8px 14px; font-size: 16px; cursor: pointer;
+}
+.cv-busca-campo .cv-autocomplete-list { position: absolute; top: 100%; left: 0; right: 0; z-index: 50; margin-top: 4px; }
+.cv-busca-filtros { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; justify-content: center; margin-top: 14px; }
+.cv-busca-filtro { display: flex; flex-direction: column; gap: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--cv-text-dim); }
+.cv-busca-filtro select {
+    width: auto; min-width: 150px; padding: 9px 12px; font-size: 13px; text-transform: none; letter-spacing: 0; font-weight: 400;
+    background: var(--cv-bg-card); color: var(--cv-text); border: 1px solid var(--cv-border); border-radius: var(--cv-radius-sm);
+}
+.cv-autocomplete-all { justify-content: center; font-weight: 700; color: var(--cv-gold); border-top: 1px solid var(--cv-border-subtle); }
+
+.cv-busca-cabecalho { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 8px 0 16px; }
+.cv-busca-cabecalho h2 { font-family: var(--font-display); font-size: 22px; margin: 0; color: var(--cv-text); }
+.cv-busca-cabecalho h2 span { color: var(--cv-gold); }
+.cv-busca-cabecalho h2 small { font-family: var(--font-body); font-size: 14px; color: var(--cv-text-muted); font-weight: 400; margin-left: 6px; }
+.cv-busca-total { font-size: 13px; color: var(--cv-text-dim); }
+.cv-busca-blog { margin-top: 36px; }
+
+.cv-resultados { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+.cv-resultado {
+    display: flex; gap: 14px; padding: 12px; text-decoration: none; color: inherit;
+    background: var(--cv-bg-card); border: 1px solid var(--cv-border); border-radius: var(--cv-radius);
+    box-shadow: var(--cv-shadow-card); transition: transform .2s, border-color .2s;
+}
+.cv-resultado:hover { transform: translateY(-2px); border-color: var(--cv-border-hover); }
+.cv-resultado-capa {
+    flex: 0 0 76px; height: 76px; border-radius: var(--cv-radius-sm); background: var(--cv-bg-elevated) center/cover no-repeat;
+    display: flex; align-items: center; justify-content: center; font-size: 26px;
+}
+.cv-resultado-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.cv-resultado-titulo { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--cv-text); }
+.cv-resultado-linha { font-size: 12px; color: var(--cv-text-dim); }
+.cv-resultado-trecho { font-family: var(--font-body); font-size: 14px; line-height: 1.5; color: var(--cv-text-muted); font-style: italic; }
+.cv-resultado-trecho mark, .cv-resultado-trecho strong { background: rgba(242,165,26,0.35); color: var(--cv-text); padding: 0 2px; border-radius: 3px; font-style: normal; font-weight: 700; }
+
+.cv-busca-vazio { text-align: center; padding: 48px 16px; color: var(--cv-text-muted); }
+.cv-busca-vazio-icone { font-size: 44px; margin-bottom: 10px; }
+.cv-busca-vazio h3 { font-family: var(--font-display); color: var(--cv-gold); font-size: 22px; margin: 0 0 6px; }
+.cv-busca-vazio p { margin: 0 0 18px; }
+
+.cv-busca-sentimentos { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+.cv-busca-sentimento {
+    display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: var(--cv-radius-full);
+    background: var(--cv-bg-card); border: 1px solid var(--cv-border); color: var(--cv-text);
+    font-size: 14px; font-weight: 700; text-decoration: none; transition: all .2s;
+}
+.cv-busca-sentimento:hover { border-color: var(--sent-cor, var(--cv-gold)); background: var(--cv-bg-elevated); transform: translateY(-1px); }
+
+/* ── 5. Página 404 ("4♪4") ──────────────────────────────────── */
+.cv-404-codigo {
+    display: flex; align-items: center; gap: 4px; line-height: 1; margin: 6px 0 10px;
+    font-family: var(--font-display); font-weight: 700; font-size: clamp(72px, 9vw, 120px); color: var(--cv-gold);
+}
+.cv-404-nota { display: inline-block; color: var(--cv-accent); animation: cv-404-nota 1.6s ease-in-out infinite; transform-origin: 50% 80%; }
+@keyframes cv-404-nota {
+    0%, 100% { transform: translateY(0) rotate(-6deg); }
+    50%      { transform: translateY(-14px) rotate(8deg); }
+}
+@media (prefers-reduced-motion: reduce) { .cv-404-nota { animation: none; } }
+.cv-hero--404 .cv-hero-title { white-space: normal; font-size: clamp(28px, 2.8vw, 42px); }
+.cv-hero--404 .cv-busca-avancada { margin: 0; max-width: 560px; }
+.cv-hero--404 .cv-busca-filtros { justify-content: flex-start; }
+.cv-404-atalhos { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+
+@media (max-width: 768px) {
+    .cv-busca-hero { padding: 28px 16px 22px; }
+    .cv-busca-hero h1 { font-size: 28px; }
+    .cv-resultados { grid-template-columns: 1fr; }
+    .cv-busca-filtros { justify-content: stretch; }
+    .cv-busca-filtro { flex: 1 1 140px; }
+    .cv-busca-filtro select { width: 100%; min-width: 0; }
+    .cv-hero--404 .cv-hero-content { text-align: center; }
+    .cv-404-codigo { justify-content: center; }
+    .cv-hero--404 .cv-busca-filtros, .cv-404-atalhos { justify-content: center; }
+}
+
+/* ── 6. Publicidade depois da letra (v15.6.0) ───────────────────
+   Ordem: letra → parágrafo curto → aviso → banner (um só, fixo). */
+.cv-pub-apos-letra {
+    margin: 28px 0 8px;
+    padding-top: 22px;
+    border-top: 1px dashed var(--cv-border);
+}
+.cv-pub-paragrafo {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--cv-text-muted);
+    margin: 0 0 18px;
+}
+.cv-pub-aviso {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--cv-text-dim);
+    margin-bottom: 10px;
+}
+.cv-pub-aviso::before,
+.cv-pub-aviso::after { content: ""; flex: 1; height: 1px; background: var(--cv-border-subtle); }
+.cv-pub-apos-letra .cv-banner-item { max-width: 728px; margin: 0 auto; }
+.cv-pub-apos-letra .cv-banner-img { width: 100%; height: auto; border-radius: var(--cv-radius-sm); display: block; }
+
+/* ── 7. "Ouça também em" (v15.7.0) ──────────────────────────── */
+.cv-dist-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--cv-border-subtle); }
+.cv-dist-links-titulo { width: 100%; font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--cv-text-dim); }
+.cv-dist-link {
+    display: inline-flex; align-items: center; padding: 6px 12px; border-radius: var(--cv-radius-full);
+    font-size: 12px; font-weight: 700; text-decoration: none; color: #FFFFFF; background: #3B2418;
+}
+.cv-dist-link:hover { opacity: .88; color: #FFFFFF; }
+.cv-dist-spotify { background: #1DB954; }
+.cv-dist-deezer  { background: #A238FF; }
+.cv-dist-apple   { background: #FA2D48; }
+.cv-dist-youtube { background: #FF0000; }
+.cv-dist-amazon  { background: #1E90C8; }

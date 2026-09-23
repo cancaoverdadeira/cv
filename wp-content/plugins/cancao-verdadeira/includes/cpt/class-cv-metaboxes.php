@@ -3,10 +3,11 @@
 // Projeto : Canção Verdadeira — Plataforma de letras musicais sertanejas
 // Módulo  : Metaboxes do CPT musica (v2.15.0)
 // Funções : Editor rico para letra, campos simplificados, SEO automático,
-//           calendário de estreia, select de gênero, padrão dark completo
+//           calendário de estreia, padrão dark completo
 // Remove  : Campos SEO manuais (título/desc/tags) — sistema cuida do SEO
 // Mantém  : YouTube URL, MP3, compositor, artista, álbum, ano, ativo, destaque
 // Autor   : Canção Verdadeira | Gerado: 2026-06-26
+// v2.26.0 : campo "Gênero Musical" removido (o site é todo sertanejo)
 // v2.25.0 : sync_excerpt usa CV_Fields::sync_excerpt (compartilhado com o blog)
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -227,10 +228,6 @@ class CV_Metaboxes {
         $ano        = get_post_meta( $post->ID, '_cv_ano',        true );
         $descricao  = get_post_meta( $post->ID, '_cv_descricao',  true );
         if ( empty($descricao) && ! empty($post->post_excerpt) ) { $descricao = $post->post_excerpt; }
-
-        // Gêneros disponíveis
-        $generos     = get_terms( array('taxonomy'=>'cv_genre','hide_empty'=>false) );
-        $gen_atuais  = wp_get_post_terms( $post->ID, 'cv_genre', array('fields'=>'ids') );
         ?>
         <div class="cv-dark-grid-2" style="margin-bottom:14px">
             <div class="cv-dark-field">
@@ -257,22 +254,6 @@ class CV_Metaboxes {
                        value="<?php echo esc_attr($ano); ?>"
                        placeholder="<?php echo date('Y'); ?>" min="1900" max="2099" />
             </div>
-        </div>
-
-        <div class="cv-dark-field" style="margin-bottom:14px">
-            <label for="cv_genero">Gênero Musical</label>
-            <select id="cv_genero" name="cv_genero[]" multiple
-                    style="height:auto;min-height:80px">
-                <?php if ( ! is_wp_error($generos) && ! empty($generos) ) :
-                    foreach ( $generos as $g ) :
-                        $sel = in_array($g->term_id, (array)$gen_atuais, true) ? 'selected' : '';
-                        echo '<option value="' . (int)$g->term_id . '" ' . $sel . '>' . esc_html($g->name) . '</option>';
-                    endforeach;
-                else : ?>
-                    <option value="">Nenhum gênero cadastrado</option>
-                <?php endif; ?>
-            </select>
-            <p class="cv-hint">Segure Ctrl (ou Cmd no Mac) para selecionar mais de um.</p>
         </div>
 
         <div class="cv-dark-field">
@@ -479,14 +460,6 @@ class CV_Metaboxes {
         $ordem = isset($_POST['cv_selecao_ordem']) ? absint($_POST['cv_selecao_ordem']) : 0;
         if ( $ordem ) { update_post_meta($post_id, '_cv_selecao_ordem', $ordem); }
         else          { delete_post_meta($post_id, '_cv_selecao_ordem'); }
-
-        // Gênero via select (taxonomia)
-        if ( isset($_POST['cv_genero']) && is_array($_POST['cv_genero']) ) {
-            $term_ids = array_map('absint', $_POST['cv_genero']);
-            wp_set_post_terms($post_id, $term_ids, 'cv_genre', false);
-        } else {
-            wp_set_post_terms($post_id, array(), 'cv_genre', false);
-        }
 
         // Calendário de estreia
         $estreia_date = isset($_POST['cv_estreia_date']) ? sanitize_text_field($_POST['cv_estreia_date']) : '';

@@ -3,7 +3,8 @@
 // Gerado em: 2025-06-02 00:00:00
 // Projeto: Cancao Verdadeira - Plataforma de letras musicais sertanejas
 // Integracao com Ultimate Member: adiciona abas customizadas no perfil
-// do usuario (Historico, Favoritas, Playlists, Configuracoes de Genero).
+// do usuario (Historico, Favoritas, Playlists, Configuracoes).
+// v2.26.0: saiu o "Genero Favorito" das configuracoes (site todo sertanejo).
 // So carrega se o plugin Ultimate Member estiver ativo.
 // Compativel com UM 2.x. Nao quebra o site se UM estiver desativo.
 
@@ -19,9 +20,6 @@ class CV_UM_Integration {
         add_action( 'um_profile_content_cv_favorites_default',  array( __CLASS__, 'tab_favorites' ) );
         add_action( 'um_profile_content_cv_playlists_default',  array( __CLASS__, 'tab_playlists' ) );
         add_action( 'um_profile_content_cv_settings_default',   array( __CLASS__, 'tab_settings' ) );
-
-        // Salva genero favorito ao atualizar perfil UM
-        add_action( 'um_after_user_updated', array( __CLASS__, 'save_favorite_genre' ), 10, 1 );
     }
 
     // default_privacy: 0 = qualquer pessoa, 3 = só o dono do perfil.
@@ -120,29 +118,12 @@ class CV_UM_Integration {
         }
 
         $user_id       = get_current_user_id();
-        $fav_genre     = get_user_meta( $user_id, '_cv_favorite_genre', true );
-        $genres        = get_terms( array( 'taxonomy' => 'cv_genre', 'hide_empty' => false ) );
         $notif_enabled = get_user_meta( $user_id, '_cv_notif_enabled', true );
         $notif_enabled = $notif_enabled === '' ? '1' : $notif_enabled;
         ?>
         <div style="max-width:400px;padding:8px 0">
-            <h3 style="font-size:15px;margin-bottom:16px;color:var(--cv-text)">Preferências Musicais</h3>
+            <h3 style="font-size:15px;margin-bottom:16px;color:var(--cv-text)">Notificações</h3>
             <form id="cv-um-settings-form">
-                <div style="margin-bottom:18px">
-                    <label style="display:block;font-size:12px;color:#8A6A55;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">
-                        Gênero Favorito
-                    </label>
-                    <select id="cv-um-genre" style="width:100%;background:#FFFFFF;border:1px solid rgba(201,162,126,0.4);border-radius:8px;padding:10px 14px;color:var(--cv-text);font-size:13px;outline:none">
-                        <option value="">Selecione um gênero</option>
-                        <?php if ( ! is_wp_error( $genres ) ) :
-                            foreach ( $genres as $g ) : ?>
-                        <option value="<?php echo esc_attr( $g->slug ); ?>" <?php selected( $fav_genre, $g->slug ); ?>>
-                            <?php echo esc_html( $g->name ); ?>
-                        </option>
-                        <?php endforeach; endif; ?>
-                    </select>
-                    <p style="font-size:11px;color:#8A6A55;margin-top:4px">Receba notificações de novas músicas neste gênero.</p>
-                </div>
                 <div style="margin-bottom:18px">
                     <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
                         <input type="checkbox" id="cv-um-notif" value="1" <?php checked( $notif_enabled, '1' ); ?> />
@@ -158,12 +139,10 @@ class CV_UM_Integration {
         <script>
         jQuery(function($){
             $('#cv-um-save-settings').on('click', function(){
-                var genre = $('#cv-um-genre').val();
                 var notif = $('#cv-um-notif').is(':checked') ? '1' : '0';
                 $.post(cvTheme.ajaxUrl, {
                     action: 'cv_save_um_settings',
                     nonce:  cvTheme.playNonce,
-                    genre:  genre,
                     notif:  notif,
                 }, function(res){
                     if (res.success) {
@@ -177,9 +156,6 @@ class CV_UM_Integration {
         <?php
     }
 
-    public static function save_favorite_genre( $user_id ) {
-        // Salva genero via AJAX separado
-    }
 }
 
 // AJAX: salvar preferencias UM
@@ -189,10 +165,8 @@ function cv_save_um_settings_handler() {
     if ( ! is_user_logged_in() ) { wp_send_json_error(); }
 
     $user_id = get_current_user_id();
-    $genre   = sanitize_text_field( $_POST['genre'] ?? '' );
     $notif   = sanitize_text_field( $_POST['notif']  ?? '1' );
 
-    update_user_meta( $user_id, '_cv_favorite_genre',  $genre );
     update_user_meta( $user_id, '_cv_notif_enabled',   $notif );
 
     wp_send_json_success();

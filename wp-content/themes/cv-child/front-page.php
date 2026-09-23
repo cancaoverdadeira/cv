@@ -2,10 +2,16 @@
 // cancao-verdadeira-child/front-page.php
 // Gerado em: 2026-06-22 00:00:00
 // Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
-// Página inicial do site: hero com banner configurável, grade de gêneros,
+// Página inicial do site: hero com banner configurável,
 // ranking Top 10, músicas recentes e seção de destaque. Chama todos os
 // template-parts do Módulo 2: sidebar, topbar, player e footer.
 // Dados vêm diretamente das classes do plugin — sem AJAX no carregamento.
+// v15.2.0 (23/09/2026): banner da marca menor, no canto superior direito;
+// seções Top 10, Chegando Agora e Mais Favoritadas sempre visíveis (cards
+// "Em breve" enquanto não há conteúdo); 3 posts do Blog no fim da página.
+// v15.4.0: removida a grade "Explorar Gêneros" (o site é todo sertanejo).
+// v15.3.0: hero em duas colunas centralizadas (texto + marca maior, sem o
+// vão entre eles), título numa linha só e maior, selo "Sertanejo autoral".
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -17,7 +23,18 @@ $modo_selecao   = class_exists('CV_Launch') && ! CV_Launch::ranking_ready();
 if ( $modo_selecao ) { $top_musicas = CV_Launch::selection(10); }
 $recentes       = class_exists('CV_Ranking') ? CV_Ranking::get_recent(8)  : array();
 $destaques      = class_exists('CV_Ranking') ? CV_Ranking::get_best(5)    : array();
-$generos        = get_terms(array('taxonomy' => 'cv_genre', 'hide_empty' => false, 'orderby' => 'name'));
+// Mais Favoritadas: no modo lançamento os números ainda são baixos, então a
+// seção mostra "Em breve" até o ranking dos ouvintes se formar.
+$favoritas      = ( class_exists('CV_Ranking') && method_exists('CV_Ranking', 'get_most_favorited') && ! $modo_selecao )
+                  ? CV_Ranking::get_most_favorited(8) : array();
+// Últimos 3 posts do Blog (capa = imagem destacada).
+$blog_term      = get_term_by('slug', 'blog', 'category');
+$blog_posts     = $blog_term ? get_posts(array(
+    'post_type'      => 'post',
+    'post_status'    => 'publish',
+    'posts_per_page' => 3,
+    'cat'            => $blog_term->term_id,
+)) : array();
 
 // Configurações do hero
 $banner_url     = get_option('cv_banner_url', '');
@@ -26,18 +43,9 @@ $site_desc      = get_bloginfo('description') ?: 'Letras que tocam o coração';
 
 // Música em destaque no hero (primeira do top)
 $hero_music     = ! empty($top_musicas) ? $top_musicas[0] : null;
-$hero_cover     = $banner_url ?: ( $hero_music ? cv_cover_url($hero_music->music_id, 'cv-hero') : '' );
-
-// Ícones por gênero
-$genero_icones = array(
-    'sertanejo-universitario' => array('icone' => '🎸', 'cor' => '#8B4513'),
-    'sertanejo-raiz'          => array('icone' => '🪗', 'cor' => '#556B2F'),
-    'sertanejo-romantico'     => array('icone' => '❤',  'cor' => '#F8E7E7'),
-    'modao'                   => array('icone' => '🎩', 'cor' => '#F3EEED'),
-    'sertanejo-gospel'        => array('icone' => '✝',  'cor' => '#4169E1'),
-    'sertanejo-sofrencia'     => array('icone' => '💔', 'cor' => '#C9A27E'),
-    'sertanejo-pop'           => array('icone' => '🎤', 'cor' => '#9B59B6'),
-);
+// O banner da marca (Aparência → Banner) aparece pequeno, no canto superior
+// direito. Sem banner, a capa da música em destaque continua como fundo.
+$hero_cover     = $banner_url ? '' : ( $hero_music ? cv_cover_url($hero_music->music_id, 'cv-hero') : '' );
 
 // SEO
 add_filter('document_title_parts', function($p){ $p['title'] = get_bloginfo('name'); unset($p['site']); return $p; });
@@ -56,7 +64,7 @@ get_header();
         <!-- ══════════════════════════════════════════════════════
              HERO SECTION
         ══════════════════════════════════════════════════════ -->
-        <section class="cv-hero" aria-label="Destaque">
+        <section class="cv-hero<?php echo $banner_url ? ' cv-hero--marca' : ''; ?>" aria-label="Destaque">
 
             <?php if ( $hero_cover ) : ?>
             <div class="cv-hero-bg"
@@ -65,16 +73,16 @@ get_header();
                  aria-label="Banner Canção Verdadeira"></div>
             <?php endif; ?>
 
+            <?php if ( $hero_cover ) : // a faixa de contraste só é útil sobre foto ?>
             <div class="cv-hero-overlay"></div>
+            <?php endif; ?>
+
 
             <div class="cv-hero-content">
-                <div class="cv-hero-tag">
-                    ★ <?php echo esc_html(strtoupper($site_name)); ?>
-                </div>
+                <div class="cv-hero-tag">★ Sertanejo autoral</div>
 
                 <h1 class="cv-hero-title">
-                    Sertanejo<br>
-                    <span style="color:var(--cv-gold)">a Raiz do<br>Coração</span>
+                    Sertanejo <span class="cv-hero-title-destaque">a Raiz do Coração</span>
                 </h1>
 
                 <p class="cv-hero-subtitle">
@@ -128,48 +136,18 @@ get_header();
                 <?php endif; ?>
             </div>
 
-        </section>
+            <?php if ( $banner_url ) : ?>
+            <img class="cv-hero-marca"
+                 src="<?php echo esc_url($banner_url); ?>"
+                 alt="<?php echo esc_attr__('Canção Verdadeira', 'cancao-verdadeira'); ?>"
+                 width="1600" height="1131" fetchpriority="high">
+            <?php endif; ?>
 
-        <!-- ══════════════════════════════════════════════════════
-             GÊNEROS
-        ══════════════════════════════════════════════════════ -->
-        <?php if ( ! is_wp_error($generos) && ! empty($generos) ) : ?>
-        <section class="cv-section cv-section-sm" aria-label="Gêneros musicais">
-            <div class="cv-section-header">
-                <h2 class="cv-section-title">Explorar <span>Gêneros</span></h2>
-                <a href="<?php echo esc_url(home_url('/musicas/')); ?>"
-                   class="cv-section-link">Ver tudo →</a>
-            </div>
-
-            <div class="cv-genre-grid">
-                <?php foreach ( $generos as $genero ) :
-                    $cfg   = $genero_icones[$genero->slug] ?? array('icone' => '🎵', 'cor' => '#B8700C');
-                    $url   = get_term_link($genero);
-                    $count = $genero->count;
-                ?>
-                <a href="<?php echo esc_url($url); ?>"
-                   class="cv-genre-card"
-                   aria-label="<?php echo esc_attr($genero->name . ' — ' . $count . ' músicas'); ?>">
-                    <div class="cv-genre-card-bg"
-                         style="background:linear-gradient(135deg, <?php echo esc_attr($cfg['cor']); ?> 0%, #FFFFFF 100%)"></div>
-                    <div class="cv-genre-card-overlay"></div>
-                    <div class="cv-genre-card-name">
-                        <?php echo $cfg['icone']; ?>
-                        <?php echo esc_html($genero->name); ?>
-                        <div style="font-size:10px;font-weight:400;opacity:.7;margin-top:2px">
-                            <?php echo $count; ?> música<?php echo $count !== 1 ? 's' : ''; ?>
-                        </div>
-                    </div>
-                </a>
-                <?php endforeach; ?>
-            </div>
         </section>
-        <?php endif; ?>
 
         <!-- ══════════════════════════════════════════════════════
              TOP 10 RANKING
         ══════════════════════════════════════════════════════ -->
-        <?php if ( ! empty($top_musicas) ) : ?>
         <section class="cv-section" aria-label="Ranking">
             <div class="cv-section-header">
                 <?php if ( $modo_selecao ) : ?>
@@ -180,6 +158,9 @@ get_header();
                    class="cv-section-link">Ranking completo →</a>
                 <?php endif; ?>
             </div>
+            <?php if ( empty($top_musicas) ) :
+                get_template_part('template-parts/card-em-breve', null, array('quantidade' => 5, 'icone' => '🏆', 'texto' => 'Em breve'));
+            else : ?>
             <?php if ( $modo_selecao ) : ?>
             <p class="cv-selecao-nota">Músicas escolhidas pela nossa equipe enquanto o ranking dos ouvintes se forma.</p>
             <?php endif; ?>
@@ -256,13 +237,12 @@ get_header();
                 </li>
                 <?php endforeach; ?>
             </ul>
+            <?php endif; ?>
         </section>
-        <?php endif; ?>
 
         <!-- ══════════════════════════════════════════════════════
              MÚSICAS RECENTES
         ══════════════════════════════════════════════════════ -->
-        <?php if ( ! empty($recentes) ) : ?>
         <section class="cv-section" aria-label="Músicas recentes">
             <div class="cv-section-header">
                 <h2 class="cv-section-title">🎵 Chegando <span>Agora</span></h2>
@@ -270,37 +250,70 @@ get_header();
                    class="cv-section-link">Ver todas →</a>
             </div>
 
+            <?php if ( empty($recentes) ) :
+                get_template_part('template-parts/card-em-breve', null, array('quantidade' => 5, 'icone' => '🎵', 'texto' => 'Em breve'));
+            else : ?>
             <div class="cv-grid">
                 <?php foreach ( $recentes as $m ) :
-                    $music_id   = $m->music_id;
-                    $show_rank  = false;
-                    $show_genre = true;
-                    get_template_part('template-parts/card-musica');
+                    get_template_part( 'template-parts/card-musica', null, array( 'music_id' => $m->music_id, 'show_rank' => false ) );
                 endforeach; ?>
             </div>
-        </section>
-        <?php endif; ?>
-
-        <!-- ══════════════════════════════════════════════════════
-             SEÇÃO VAZIA (sem músicas cadastradas ainda)
-        ══════════════════════════════════════════════════════ -->
-        <?php if ( empty($top_musicas) && empty($recentes) ) : ?>
-        <section class="cv-section" style="text-align:center;padding:80px 36px">
-            <div style="font-size:56px;margin-bottom:20px">🎵</div>
-            <h2 style="font-family:var(--font-display);font-size:28px;color:var(--cv-gold);margin-bottom:12px">
-                Bem-vindo ao <?php echo esc_html($site_name); ?>!
-            </h2>
-            <p style="color:var(--cv-text-muted);font-size:16px;max-width:480px;margin:0 auto 28px;font-family:var(--font-body);font-style:italic">
-                A plataforma está pronta. Cadastre a primeira música no painel administrativo para ela aparecer aqui.
-            </p>
-            <?php if ( current_user_can('manage_options') ) : ?>
-            <a href="<?php echo esc_url(admin_url('post-new.php?post_type=musica')); ?>"
-               class="cv-btn cv-btn-primary cv-btn-lg">
-                + Cadastrar Primeira Música
-            </a>
             <?php endif; ?>
         </section>
-        <?php endif; ?>
+
+        <!-- ══════════════════════════════════════════════════════
+             MAIS FAVORITADAS
+        ══════════════════════════════════════════════════════ -->
+        <section class="cv-section" aria-label="Mais favoritadas">
+            <div class="cv-section-header">
+                <h2 class="cv-section-title">❤️ Mais <span>Favoritadas</span></h2>
+            </div>
+            <?php if ( empty($favoritas) ) :
+                get_template_part('template-parts/card-em-breve', null, array('quantidade' => 5, 'icone' => '❤️', 'texto' => 'Em breve'));
+            else : ?>
+            <div class="cv-grid">
+                <?php foreach ( $favoritas as $m ) :
+                    get_template_part( 'template-parts/card-musica', null, array( 'music_id' => $m->music_id, 'show_rank' => false ) );
+                endforeach; ?>
+            </div>
+            <?php endif; ?>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             DO BLOG (3 posts mais recentes)
+        ══════════════════════════════════════════════════════ -->
+        <section class="cv-section" aria-label="Do blog">
+            <div class="cv-section-header">
+                <h2 class="cv-section-title">📝 Do <span>Blog</span></h2>
+                <?php if ( $blog_posts && $blog_term ) : ?>
+                <a href="<?php echo esc_url(get_term_link($blog_term)); ?>"
+                   class="cv-section-link">Ver todos →</a>
+                <?php endif; ?>
+            </div>
+            <?php if ( empty($blog_posts) ) :
+                get_template_part('template-parts/card-em-breve', null, array('quantidade' => 3, 'icone' => '📝', 'texto' => 'Em breve', 'formato' => 'post'));
+            else : ?>
+            <div class="cv-blog-grid cv-blog-grid-home">
+                <?php foreach ( $blog_posts as $bp ) : ?>
+                <article class="cv-blog-card">
+                    <a href="<?php echo esc_url(get_permalink($bp)); ?>" class="cv-blog-card-img" tabindex="-1" aria-hidden="true">
+                        <?php if ( has_post_thumbnail($bp) ) : ?>
+                            <?php echo get_the_post_thumbnail($bp, 'medium_large', array('loading' => 'lazy')); ?>
+                        <?php else : ?>
+                            <span class="cv-blog-card-ph">📝</span>
+                        <?php endif; ?>
+                    </a>
+                    <div class="cv-blog-card-body">
+                        <time datetime="<?php echo esc_attr(get_the_date('c', $bp)); ?>"><?php echo esc_html(get_the_date('', $bp)); ?></time>
+                        <h3><a href="<?php echo esc_url(get_permalink($bp)); ?>"><?php echo esc_html(get_the_title($bp)); ?></a></h3>
+                        <p><?php echo esc_html(wp_trim_words(get_the_excerpt($bp), 22, '…')); ?></p>
+                        <a href="<?php echo esc_url(get_permalink($bp)); ?>" class="cv-blog-more">Ler post →</a>
+                    </div>
+                </article>
+                <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
+        </section>
 
         <?php get_template_part('template-parts/footer-content'); ?>
         <?php get_template_part('template-parts/player'); ?>
@@ -375,29 +388,12 @@ jQuery(function($){
 });
 </script>
 
-<!-- DEBUG PARALLAX: remover após confirmar que funciona -->
-<script>
-jQuery(function($){
-    var $bg = $('.cv-hero-bg');
-    console.log('[CV Parallax] cv-hero-bg encontrado:', $bg.length);
-    console.log('[CV Parallax] cv-theme.js carregado:', typeof CV_Theme !== 'undefined');
-    if ($bg.length) {
-        console.log('[CV Parallax] Estilo inicial:', $bg[0].style.transform);
-        console.log('[CV Parallax] Computed position:', window.getComputedStyle($bg[0]).position);
-        // Testa o parallax manualmente
-        setTimeout(function(){
-            $bg[0].style.transform = 'translateY(30px)';
-            console.log('[CV Parallax] Teste aplicado — o banner deve ter descido 30px');
-            setTimeout(function(){
-                $bg[0].style.transform = 'translateY(0px)';
-                console.log('[CV Parallax] Teste revertido');
-            }, 1500);
-        }, 500);
-    }
-});
-</script>
+<?php get_template_part('template-parts/blog-styles'); ?>
 
 <style>
+/* Hero da marca e cards "Em breve": em assets/css/cv-ajustes.css (v15.5.0),
+   compartilhados com a página 404. */
+
 /* Botão hero pulsante — chama atenção para o play */
 .cv-hero-pulse {
     animation: cv-hero-pulse 2s ease-in-out infinite;

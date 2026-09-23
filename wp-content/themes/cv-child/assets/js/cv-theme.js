@@ -194,9 +194,15 @@
                     e.preventDefault();
                     $active.removeClass('cv-ac-active').prev().addClass('cv-ac-active');
                 } else if ( e.key === 'Enter' ) {
+                    e.preventDefault();
                     if ( $active.length ) {
-                        e.preventDefault();
                         window.location.href = $active.attr('href');
+                    } else {
+                        // Sem sugestão escolhida: abre a página de resultados.
+                        var term = $.trim( $(this).val() );
+                        if ( term.length >= 2 && window.cvPublic && cvPublic.searchPage ) {
+                            window.location.href = cvPublic.searchPage + '?q=' + encodeURIComponent(term);
+                        }
                     }
                 } else if ( e.key === 'Escape' ) {
                     $list.hide();
@@ -217,16 +223,23 @@
                     return;
                 }
 
+                var esc = function(s) { return $('<div>').text(s || '').html(); };
                 var html = '';
                 res.data.results.forEach(function(r) {
-                    html += '<a href="' + r.url + '" class="cv-autocomplete-item">'
-                          + '<img class="cv-autocomplete-cover" src="' + r.cover + '" alt="" loading="lazy">'
+                    html += '<a href="' + esc(r.url) + '" class="cv-autocomplete-item">'
+                          + '<img class="cv-autocomplete-cover" src="' + esc(r.cover) + '" alt="" loading="lazy">'
                           + '<div>'
-                          + '<div class="cv-autocomplete-title">' + r.title + '</div>'
-                          + '<div class="cv-autocomplete-artist">' + (r.artist || '') + '</div>'
+                          + '<div class="cv-autocomplete-title">' + esc(r.title) + '</div>'
+                          + '<div class="cv-autocomplete-artist">' + esc(r.artist) + '</div>'
                           + '</div>'
                           + '</a>';
                 });
+                // Link para a página com todos os resultados
+                if ( res.data.all_url ) {
+                    html += '<a href="' + esc(res.data.all_url) + '" class="cv-autocomplete-item cv-autocomplete-all">'
+                          + '🔍 Ver todos os resultados' + ( res.data.total > res.data.results.length ? ' (' + res.data.total + ')' : '' )
+                          + '</a>';
+                }
 
                 $list.html(html).show();
             });

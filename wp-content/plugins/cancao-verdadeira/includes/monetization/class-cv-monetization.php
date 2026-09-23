@@ -12,6 +12,14 @@
 //    são assinantes cadastrados, vencedor recebe e-mail automático.
 // 4. Brindes para membros da comunidade — admin cadastra e escolhe
 //    destinatário, sistema envia e-mail de notificação.
+// v2.28.0 (regras do usuário para publicidade):
+//   - nunca no topo: a posição "home_topo" foi removida;
+//   - sem banner rotativo: cada posição mostra UM banner fixo (o ativo mais
+//     recente), nada de sorteio a cada visita;
+//   - nova posição "apos_letra" na página da música: letra → parágrafo curto
+//     → aviso "Leia após a publicidade" → banner → resto da página;
+//   - clique: o destino vem do banner cadastrado (antes vinha da URL, o que
+//     permitia usar o site para redirecionar para qualquer endereço).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -44,17 +52,19 @@ class CV_Monetization {
     // ════════════════════════════════════════════════════════════════
 
     /**
-     * Retorna banners ativos para uma posição.
-     * Posições: home_topo | meio_pagina | rodape_pagina
+     * Retorna o banner ativo de uma posição (um só, sem rotação).
+     * Posições: apos_letra | meio_pagina | rodape_pagina
      *
      * @param string $posicao
-     * @param bool   $apenas_um  true = retorna só 1 banner (aleatório)
+     * @param bool   $apenas_um  mantido por compatibilidade; sempre 1 banner
      */
-    public static function get_banners( $posicao = 'meio_pagina', $apenas_um = false ) {
+    public static function get_banners( $posicao = 'meio_pagina', $apenas_um = true ) {
         global $wpdb;
 
+        if ( ! array_key_exists( $posicao, self::posicoes() ) ) { return array(); }
+
         $hoje  = current_time( 'Y-m-d' );
-        $limit = $apenas_um ? 'LIMIT 1' : 'LIMIT 10';
+        $limit = 'LIMIT 1';
 
         $banners = $wpdb->get_results( $wpdb->prepare(
             "SELECT * FROM {$wpdb->prefix}cv_banners
@@ -62,7 +72,7 @@ class CV_Monetization {
                AND posicao = %s
                AND ( data_inicio IS NULL OR data_inicio <= %s )
                AND ( data_fim   IS NULL OR data_fim   >= %s )
-             ORDER BY RAND()
+             ORDER BY id DESC
              $limit",
             $posicao, $hoje, $hoje
         ) );
@@ -85,17 +95,17 @@ class CV_Monetization {
         <div class="cv-banners-wrap cv-banners-<?php echo esc_attr( $posicao ); ?>">
             <?php foreach ( $banners as $b ) : ?>
             <div class="cv-banner-item">
-                <a href="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>?action=cv_banner_click&id=<?php echo esc_attr( $b->id ); ?>&dest=<?php echo urlencode( $b->url_destino ); ?>"
+                <a href="<?php echo esc_url( add_query_arg( array( 'action' => 'cv_banner_click', 'id' => (int) $b->id ), admin_url( 'admin-ajax.php' ) ) ); ?>"
                    class="cv-banner-link"
                    target="_blank"
-                   rel="noopener noreferrer nofollow"
+                   rel="sponsored nofollow noopener noreferrer"
                    data-banner-id="<?php echo esc_attr( $b->id ); ?>"
                    aria-label="<?php echo esc_attr( $b->texto_alt ?: $b->titulo ); ?>">
                     <img src="<?php echo esc_url( $b->imagem_url ); ?>"
                          alt="<?php echo esc_attr( $b->texto_alt ?: $b->titulo ); ?>"
                          class="cv-banner-img"
                          loading="lazy" />
-                    <?php if ( $b->titulo && 'home_topo' !== $posicao ) : ?>
+                    <?php if ( $b->titulo ) : ?>
                         <span class="cv-banner-titulo"><?php echo esc_html( $b->titulo ); ?></span>
                     <?php endif; ?>
                 </a>
@@ -111,7 +121,7 @@ class CV_Monetization {
      * Shortcode [cv_banner]
      *
      * Parâmetros:
-     *   posicao  = home_topo | meio_pagina | rodape_pagina (padrão: meio_pagina)
+     *   posicao  = apos_letra | meio_pagina | rodape_pagina (padrão: meio_pagina)
      *   apenas_um = sim | nao (padrão: nao)
      *   leia_mais = sim | nao — exibe botão "Leia mais" abaixo (padrão: nao)
      *
@@ -129,11 +139,6 @@ class CV_Monetization {
         $posicao   = sanitize_text_field( $atts['posicao'] );
         $apenas_um = ( 'sim' === $atts['apenas_um'] );
         $leia_mais = ( 'sim' === $atts['leia_mais'] );
-
-        // Banner home_topo SÓ aparece na home
-        if ( 'home_topo' === $posicao && ! is_front_page() ) {
-            return '';
-        }
 
         $html = self::render_banners( $posicao, $apenas_um );
 
@@ -155,21 +160,63 @@ class CV_Monetization {
         global $wpdb;
 
         $id   = absint( $_GET['id'] ?? 0 );
-        $dest = esc_url_raw( $_GET['dest'] ?? '' );
+        // O destino vem do banner cadastrado — nunca da URL (evita redirecionamento aberto).
+        $dest = $id ? $wpdb->get_var( $wpdb->prepare(
+            "SELECT url_destino FROM {$wpdb->prefix}cv_banners WHERE id = %d AND ativo = 1",
+            $id
+        ) ) : '';
 
-        if ( $id ) {
+        if ( $dest ) {
             $wpdb->query( $wpdb->prepare(
                 "UPDATE {$wpdb->prefix}cv_banners SET cliques = cliques + 1 WHERE id = %d",
                 $id
             ) );
-        }
-
-        if ( $dest ) {
-            wp_redirect( $dest );
+            wp_redirect( esc_url_raw( $dest ), 302 );
             exit;
         }
 
-        wp_die( 'URL inválida.' );
+        wp_safe_redirect( home_url( '/' ) );
+        exit;
+    }
+
+    // Posições permitidas (nenhuma no topo da página).
+    public static function posicoes() {
+        return array(
+            'apos_letra'    => '🎵 Página da música — depois da letra (principal)',
+            'meio_pagina'   => '📄 Páginas internas — meio do conteúdo ([cv_banner])',
+            'rodape_pagina' => '📄 Páginas internas — fim do conteúdo ([cv_banner posicao="rodape_pagina"])',
+        );
+    }
+
+    // Configuração do bloco "depois da letra" (opção cv_publicidade).
+    public static function config() {
+        return wp_parse_args( (array) get_option( 'cv_publicidade', array() ), array(
+            'apos_letra_ativo' => 1,
+            'aviso'            => 'Leia após a publicidade',
+            'paragrafo'        => 'Gostou desta letra? Compartilhe com quem vai se emocionar com ela e deixe sua avaliação.',
+        ) );
+    }
+
+    /**
+     * Bloco da página da música, logo depois da letra:
+     * parágrafo curto → aviso "Leia após a publicidade" → banner.
+     * Sem banner ativo (ou desligado), não mostra nada.
+     */
+    public static function bloco_apos_letra( $music_id ) {
+        $cfg = self::config();
+        if ( empty( $cfg['apos_letra_ativo'] ) ) { return ''; }
+        $banner = self::render_banners( 'apos_letra' );
+        if ( '' === $banner ) { return ''; }
+
+        // Parágrafo: a descrição da música, se houver; senão o texto padrão.
+        $paragrafo = trim( (string) get_post_meta( $music_id, '_cv_descricao', true ) );
+        if ( '' === $paragrafo ) { $paragrafo = $cfg['paragrafo']; }
+
+        return '<aside class="cv-pub-apos-letra" aria-label="Publicidade">'
+             . ( $paragrafo ? '<p class="cv-pub-paragrafo">' . esc_html( $paragrafo ) . '</p>' : '' )
+             . '<div class="cv-pub-aviso">' . esc_html( $cfg['aviso'] ) . '</div>'
+             . $banner
+             . '</aside>';
     }
 
     // AJAX admin — salvar banner
@@ -185,7 +232,7 @@ class CV_Monetization {
             'imagem_url'  => esc_url_raw( $_POST['imagem_url']          ?? '' ),
             'url_destino' => esc_url_raw( $_POST['url_destino']         ?? '' ),
             'texto_alt'   => sanitize_text_field( $_POST['texto_alt']   ?? '' ),
-            'posicao'     => sanitize_text_field( $_POST['posicao']     ?? 'meio_pagina' ),
+            'posicao'     => array_key_exists( $_POST['posicao'] ?? '', self::posicoes() ) ? sanitize_key( $_POST['posicao'] ) : 'apos_letra',
             'data_inicio' => sanitize_text_field( $_POST['data_inicio'] ?? '' ) ?: null,
             'data_fim'    => sanitize_text_field( $_POST['data_fim']    ?? '' ) ?: null,
             'ativo'       => absint( $_POST['ativo'] ?? 1 ),
@@ -324,7 +371,7 @@ class CV_Monetization {
                         <a href="<?php echo esc_url( $p->url_compra ); ?>"
                            class="cv-btn-comprar"
                            target="_blank"
-                           rel="noopener noreferrer">
+                           rel="sponsored nofollow noopener noreferrer">
                             🛒 <?php echo esc_html( $p->texto_botao ?: 'Comprar agora' ); ?>
                         </a>
                     </div>

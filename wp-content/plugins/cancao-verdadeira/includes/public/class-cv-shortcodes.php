@@ -5,11 +5,11 @@
 // Registra os shortcodes públicos do plugin para uso no Elementor Pro
 // e em qualquer página ou post do WordPress.
 // Shortcodes disponíveis:
-//   [cv_grid_musicas] — grade de músicas com filtros por gênero
+//   [cv_grid_musicas] — grade de músicas (ordem, destaque, colunas)
 //   [cv_ranking]      — tabela/lista do ranking dinâmico
 //   [cv_newsletter]   — formulário de inscrição na newsletter
 //   [cv_musica_card]  — card avulso de uma música pelo ID
-//   [cv_generos]      — grade de gêneros com links
+// v2.26.0: removidos [cv_generos] e os parâmetros de gênero (site todo sertanejo).
 // v2.1: corrigido is_favorited -> is_favorite (bug que causava erro fatal).
 // Todos os parâmetros têm valores padrão e são opcionais.
 
@@ -22,7 +22,6 @@ class CV_Shortcodes {
         add_shortcode( 'cv_ranking',      array( __CLASS__, 'ranking' ) );
         add_shortcode( 'cv_newsletter',   array( __CLASS__, 'newsletter' ) );
         add_shortcode( 'cv_musica_card',  array( __CLASS__, 'musica_card' ) );
-        add_shortcode( 'cv_generos',      array( __CLASS__, 'generos' ) );
     }
 
     // ════════════════════════════════════════════════════════════════
@@ -31,7 +30,6 @@ class CV_Shortcodes {
     //
     // Parâmetros:
     //   limite    = número de músicas (padrão: 12)
-    //   genero    = slug do gênero, ex: sertanejo-universitario (padrão: todos)
     //   ordem     = novas | tocadas | ranking (padrão: novas)
     //   colunas   = 2, 3 ou 4 (padrão: 3)
     //   destaque  = sim | nao — mostrar só músicas em destaque (padrão: nao)
@@ -39,14 +37,13 @@ class CV_Shortcodes {
     //
     // Exemplos:
     //   [cv_grid_musicas]
-    //   [cv_grid_musicas limite="6" genero="sertanejo-raiz" ordem="tocadas"]
+    //   [cv_grid_musicas limite="6" ordem="tocadas"]
     //   [cv_grid_musicas titulo="Mais Tocadas" ordem="tocadas" limite="10"]
     //   [cv_grid_musicas destaque="sim" colunas="2"]
 
     public static function grid_musicas( $atts ) {
         $atts = shortcode_atts( array(
             'limite'   => 12,
-            'genero'   => '',
             'ordem'    => 'novas',
             'colunas'  => 3,
             'destaque' => 'nao',
@@ -55,7 +52,6 @@ class CV_Shortcodes {
 
         $limite  = absint( $atts['limite'] );
         $colunas = absint( $atts['colunas'] );
-        $genero  = sanitize_text_field( $atts['genero'] );
         $ordem   = sanitize_text_field( $atts['ordem'] );
         $destaque = ( 'sim' === $atts['destaque'] );
         $titulo  = sanitize_text_field( $atts['titulo'] );
@@ -77,17 +73,6 @@ class CV_Shortcodes {
                 ),
             ),
         );
-
-        // Filtro por gênero
-        if ( $genero ) {
-            $args['tax_query'] = array(
-                array(
-                    'taxonomy' => 'cv_genre',
-                    'field'    => 'slug',
-                    'terms'    => $genero,
-                ),
-            );
-        }
 
         // Filtro de destaque
         if ( $destaque ) {
@@ -158,10 +143,6 @@ class CV_Shortcodes {
                     if ( ! $cover ) {
                         $cover = CV_PLUGIN_URL . 'assets/img/default-cover.svg';
                     }
-
-                    // Gênero principal
-                    $generos_post = wp_get_post_terms( $music_id, 'cv_genre', array( 'fields' => 'names' ) );
-                    $genero_nome  = ( ! is_wp_error( $generos_post ) && $generos_post ) ? $generos_post[0] : '';
                     ?>
 
                     <div class="cv-card" data-music-id="<?php echo esc_attr( $music_id ); ?>">
@@ -191,9 +172,6 @@ class CV_Shortcodes {
                                 </p>
                             <?php endif; ?>
 
-                            <?php if ( $genero_nome ) : ?>
-                                <span class="cv-card-genero"><?php echo esc_html( $genero_nome ); ?></span>
-                            <?php endif; ?>
 
                             <!-- Estatísticas e ações -->
                             <div class="cv-card-acoes">
@@ -248,27 +226,24 @@ class CV_Shortcodes {
     // Parâmetros:
     //   limite  = número de músicas (padrão: 10)
     //   tipo    = top | recentes | melhores (padrão: top)
-    //   genero  = slug do gênero (padrão: todos)
     //   titulo  = texto do título da seção (padrão: "🏆 Ranking")
     //   layout  = lista | cards (padrão: lista)
     //
     // Exemplos:
     //   [cv_ranking]
     //   [cv_ranking limite="5" tipo="top" titulo="Top 5 da Semana"]
-    //   [cv_ranking genero="sertanejo-universitario" layout="cards"]
+    //   [cv_ranking layout="cards"]
 
     public static function ranking( $atts ) {
         $atts = shortcode_atts( array(
             'limite' => 10,
             'tipo'   => 'top',
-            'genero' => '',
             'titulo' => '🏆 Ranking',
             'layout' => 'lista',
         ), $atts, 'cv_ranking' );
 
         $limite = absint( $atts['limite'] );
         $tipo   = sanitize_text_field( $atts['tipo'] );
-        $genero = sanitize_text_field( $atts['genero'] );
         $titulo = sanitize_text_field( $atts['titulo'] );
         $layout = sanitize_text_field( $atts['layout'] );
 
@@ -283,13 +258,13 @@ class CV_Shortcodes {
                 $musicas = CV_Ranking::get_best( $limite );
                 break;
             default: // top
-                $musicas = CV_Ranking::get_top( $limite, $genero );
+                $musicas = CV_Ranking::get_top( $limite );
                 break;
         }
 
         // Modo lançamento: sem audiência real suficiente, "top"/"melhores"
         // viram a seleção editorial, com o título deixando isso explícito.
-        $modo_selecao = 'recentes' !== $tipo && ! $genero && ! CV_Launch::ranking_ready();
+        $modo_selecao = 'recentes' !== $tipo && ! CV_Launch::ranking_ready();
         if ( $modo_selecao ) {
             $musicas = CV_Launch::selection( $limite );
             $titulo  = '⭐ Seleção da Canção Verdadeira';
@@ -418,36 +393,25 @@ class CV_Shortcodes {
     //   titulo       = título do formulário (padrão: "Receba novidades")
     //   subtitulo    = texto de apoio (padrão: mensagem padrão)
     //   mostrar_nome = sim | nao (padrão: sim)
-    //   mostrar_genero = sim | nao (padrão: sim)
     //   botao        = texto do botão (padrão: "Assinar Grátis 🎵")
     //
     // Exemplos:
     //   [cv_newsletter]
     //   [cv_newsletter titulo="Fique por dentro!" botao="Quero receber"]
-    //   [cv_newsletter mostrar_nome="nao" mostrar_genero="nao"]
+    //   [cv_newsletter mostrar_nome="nao"]
 
     public static function newsletter( $atts ) {
         $atts = shortcode_atts( array(
             'titulo'         => 'Receba as novidades',
             'subtitulo'      => 'Cadastre seu e-mail e saiba primeiro quando novas músicas forem publicadas.',
             'mostrar_nome'   => 'sim',
-            'mostrar_genero' => 'sim',
             'botao'          => 'Assinar Grátis 🎵',
         ), $atts, 'cv_newsletter' );
 
         $titulo         = sanitize_text_field( $atts['titulo'] );
         $subtitulo      = sanitize_text_field( $atts['subtitulo'] );
         $mostrar_nome   = ( 'sim' === $atts['mostrar_nome'] );
-        $mostrar_genero = ( 'sim' === $atts['mostrar_genero'] );
         $botao          = sanitize_text_field( $atts['botao'] );
-
-        // Busca gêneros cadastrados para o select
-        $generos = get_terms( array(
-            'taxonomy'   => 'cv_genre',
-            'hide_empty' => false,
-            'orderby'    => 'name',
-            'order'      => 'ASC',
-        ) );
 
         ob_start();
         ?>
@@ -479,17 +443,6 @@ class CV_Shortcodes {
                     required
                     autocomplete="email"
                 />
-
-                <?php if ( $mostrar_genero && ! is_wp_error( $generos ) && ! empty( $generos ) ) : ?>
-                    <select name="cv_genre">
-                        <option value="">Gênero favorito (opcional)</option>
-                        <?php foreach ( $generos as $gen ) : ?>
-                            <option value="<?php echo esc_attr( $gen->slug ); ?>">
-                                <?php echo esc_html( $gen->name ); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                <?php endif; ?>
 
                 <button type="submit"><?php echo esc_html( $botao ); ?></button>
 
@@ -540,9 +493,6 @@ class CV_Shortcodes {
         }
         $cover = $cover ?: CV_PLUGIN_URL . 'assets/img/default-cover.svg';
 
-        $generos_post = wp_get_post_terms( $music_id, 'cv_genre', array( 'fields' => 'names' ) );
-        $genero_nome  = ( ! is_wp_error( $generos_post ) && $generos_post ) ? $generos_post[0] : '';
-
         ob_start();
         ?>
         <div class="cv-card" data-music-id="<?php echo esc_attr( $music_id ); ?>" style="max-width:280px">
@@ -558,9 +508,6 @@ class CV_Shortcodes {
                 <?php if ( $artista || $compositor ) : ?>
                     <p class="cv-card-artista"><?php echo esc_html( $artista ?: $compositor ); ?></p>
                 <?php endif; ?>
-                <?php if ( $genero_nome ) : ?>
-                    <span class="cv-card-genero"><?php echo esc_html( $genero_nome ); ?></span>
-                <?php endif; ?>
                 <div class="cv-card-acoes">
                     <?php echo CV_Launch::plays_visible( $plays ) ? '<span class="cv-card-stat">▶ ' . number_format( $plays ) . '</span>' : CV_Launch::badge(); ?>
                     <button class="cv-btn-favorite <?php echo $is_fav ? 'cv-favorited' : ''; ?>"
@@ -572,70 +519,6 @@ class CV_Shortcodes {
                         <span class="cv-card-stat">★ <?php echo number_format( $avg, 1 ); ?></span>
                     <?php endif; ?>
                 </div>
-            </div>
-        </div>
-        <?php
-        return ob_get_clean();
-    }
-
-    // ════════════════════════════════════════════════════════════════
-    // 5. SHORTCODE: [cv_generos]
-    // ════════════════════════════════════════════════════════════════
-    // Exibe grade de todos os gêneros com link e contagem de músicas.
-    // Ideal para usar em páginas de catálogo ou na home via Elementor.
-    //
-    // Parâmetros:
-    //   colunas = 2, 3 ou 4 (padrão: 3)
-    //   titulo  = título da seção (padrão: "Explorar Gêneros")
-    //
-    // Exemplo: [cv_generos colunas="4" titulo="Nossos Gêneros"]
-
-    public static function generos( $atts ) {
-        $atts = shortcode_atts( array(
-            'colunas' => 3,
-            'titulo'  => 'Explorar Gêneros',
-        ), $atts, 'cv_generos' );
-
-        $colunas = absint( $atts['colunas'] );
-        if ( ! in_array( $colunas, array( 2, 3, 4 ), true ) ) { $colunas = 3; }
-
-        $generos = get_terms( array(
-            'taxonomy'   => 'cv_genre',
-            'hide_empty' => false,
-            'orderby'    => 'name',
-        ) );
-
-        if ( is_wp_error( $generos ) || empty( $generos ) ) {
-            return '<p class="cv-sem-musicas">Nenhum gênero cadastrado ainda.</p>';
-        }
-
-        $icones = array(
-            'sertanejo-universitario' => '🎸',
-            'sertanejo-raiz'          => '🪗',
-            'sertanejo-romantico'     => '❤',
-            'modao'                   => '🎩',
-            'sertanejo-gospel'        => '✝',
-            'sertanejo-sofrencia'     => '💔',
-        );
-
-        ob_start();
-        ?>
-        <div class="cv-generos-wrap">
-            <?php if ( $atts['titulo'] ) : ?>
-                <h2 class="cv-section-titulo"><?php echo esc_html( $atts['titulo'] ); ?></h2>
-            <?php endif; ?>
-            <div class="cv-grid cv-grid-col-<?php echo esc_attr( $colunas ); ?>">
-                <?php foreach ( $generos as $genero ) :
-                    $icone = $icones[ $genero->slug ] ?? '🎵';
-                    $count = $genero->count;
-                    $url   = get_term_link( $genero );
-                ?>
-                <a href="<?php echo esc_url( $url ); ?>" class="cv-genero-card" style="display:block;background:#F8F0E4;border:1px solid rgba(201,162,126,0.3);border-radius:12px;padding:24px 16px;text-align:center;text-decoration:none;color:inherit;transition:all .2s">
-                    <div style="font-size:32px;margin-bottom:10px"><?php echo $icone; ?></div>
-                    <div style="font-weight:700;font-size:14px;color:#3B2418;margin-bottom:4px"><?php echo esc_html( $genero->name ); ?></div>
-                    <div style="font-size:12px;color:#8A6A55"><?php echo $count; ?> música<?php echo $count !== 1 ? 's' : ''; ?></div>
-                </a>
-                <?php endforeach; ?>
             </div>
         </div>
         <?php

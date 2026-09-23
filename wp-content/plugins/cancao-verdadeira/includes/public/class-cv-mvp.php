@@ -5,7 +5,8 @@
 // Completa o MVP do plugin com os itens restantes:
 // 1. Botões de compartilhamento social (WhatsApp, Facebook, Twitter/X, Telegram)
 //    como shortcode [cv_share] e helper PHP cv_share_buttons()
-// 2. REST API completa: /musicas/{id}, /generos, /busca
+// 2. REST API completa: /musicas/{id}, /busca
+//    (v2.26.0: saíram /generos, o filtro genre e a fila por gênero)
 // 3. Endpoint AJAX para carregar fila de playlist no player global
 //    (permite que o tema reproduza uma playlist completa em sequência)
 
@@ -23,10 +24,6 @@ class CV_MVP {
         // AJAX: fila de playlist para o player
         add_action( 'wp_ajax_cv_get_playlist_queue',        array( __CLASS__, 'ajax_playlist_queue' ) );
         add_action( 'wp_ajax_nopriv_cv_get_playlist_queue', array( __CLASS__, 'ajax_playlist_queue' ) );
-
-        // AJAX: músicas de um gênero para o player (fila por gênero)
-        add_action( 'wp_ajax_cv_get_genre_queue',           array( __CLASS__, 'ajax_genre_queue' ) );
-        add_action( 'wp_ajax_nopriv_cv_get_genre_queue',    array( __CLASS__, 'ajax_genre_queue' ) );
     }
 
     // ════════════════════════════════════════════════════════════════
@@ -237,13 +234,6 @@ class CV_MVP {
             ),
         ) );
 
-        // /cv/v1/generos — lista de gêneros com contagem
-        register_rest_route( 'cv/v1', '/generos', array(
-            'methods'             => 'GET',
-            'callback'            => array( __CLASS__, 'rest_generos' ),
-            'permission_callback' => '__return_true',
-        ) );
-
         // /cv/v1/busca — busca por texto
         register_rest_route( 'cv/v1', '/busca', array(
             'methods'             => 'GET',
@@ -277,8 +267,6 @@ class CV_MVP {
         }
 
         $youtube_url = get_post_meta( $id, '_cv_youtube_url', true );
-        $generos     = wp_get_post_terms( $id, 'cv_genre',       array( 'fields' => 'all' ) );
-        $subcats     = wp_get_post_terms( $id, 'cv_subcategory', array( 'fields' => 'names' ) );
         $tags        = wp_get_post_terms( $id, 'post_tag',       array( 'fields' => 'names' ) );
         $ranking     = class_exists( 'CV_Ranking' ) ? CV_Ranking::get_position( $id ) : 0;
 
@@ -308,8 +296,6 @@ class CV_MVP {
             'youtube_url' => $youtube_url,
             'youtube_id'  => $yt_id,
             'cover'       => $cover ?: CV_PLUGIN_URL . 'assets/img/default-cover.svg',
-            'generos'     => ! is_wp_error( $generos ) ? array_map( function($t){ return array('id'=>$t->term_id,'name'=>$t->name,'slug'=>$t->slug); }, $generos ) : array(),
-            'subcategorias' => ! is_wp_error( $subcats ) ? $subcats : array(),
             'tags'        => ! is_wp_error( $tags ) ? $tags : array(),
             'destaque'    => get_post_meta( $id, '_cv_destaque',     true ) === '1',
             'plays_total' => (int) get_post_meta( $id, '_cv_plays_total', true ),
@@ -323,89 +309,20 @@ class CV_MVP {
     }
 
     /**
-     * GET /cv/v1/generos
-     * Lista todos os gêneros com total de músicas e link.
-     */
-    public static function rest_generos( $request ) {
-        $generos = get_terms( array(
-            'taxonomy'   => 'cv_genre',
-            'hide_empty' => false,
-            'orderby'    => 'name',
-            'order'      => 'ASC',
-        ) );
-
-        if ( is_wp_error( $generos ) ) {
-            return array();
-        }
-
-        $icons = array(
-            'sertanejo-universitario' => '🎸',
-            'sertanejo-raiz'          => '🪗',
-            'sertanejo-romantico'     => '❤',
-            'modao'                   => '🎩',
-            'sertanejo-gospel'        => '✝',
-            'sertanejo-sofrencia'     => '💔',
-        );
-
-        $result = array();
-        foreach ( $generos as $gen ) {
-            $result[] = array(
-                'id'          => $gen->term_id,
-                'name'        => $gen->name,
-                'slug'        => $gen->slug,
-                'url'         => get_term_link( $gen ),
-                'count'       => (int) $gen->count,
-                'description' => $gen->description,
-                'icon'        => $icons[ $gen->slug ] ?? '🎵',
-            );
-        }
-
-        return $result;
-    }
-
-    /**
-     * GET /cv/v1/busca?q=termo&genre=slug&limit=20&page=1
-     * Busca músicas por texto com filtro por gênero e paginação.
+     * GET /cv/v1/busca?q=termo&limit=20&page=1
+     * Busca músicas por texto, com paginação.
      */
     public static function rest_busca( $request ) {
         $termo = sanitize_text_field( $request->get_param( 'q' )     ?? '' );
-        $genre = sanitize_text_field( $request->get_param( 'genre' ) ?? '' );
         $limit = min( absint( $request->get_param( 'limit' ) ?? 20 ), 50 );
         $page  = max( 1, absint( $request->get_param( 'page' ) ?? 1 ) );
 
-        if ( strlen( $termo ) < 2 && ! $genre ) {
-            return new WP_Error( 'invalid_query', 'Informe ao menos 2 caracteres ou um gênero.', array( 'status' => 400 ) );
+        if ( strlen( $termo ) < 2 ) {
+            return new WP_Error( 'invalid_query', 'Informe ao menos 2 caracteres.', array( 'status' => 400 ) );
         }
 
-        $args = array(
-            'post_type'      => 'musica',
-            'post_status'    => 'publish',
-            'posts_per_page' => $limit,
-            'paged'          => $page,
-            'meta_query'     => array(
-                array( 'key' => '_cv_ativo', 'value' => '1', 'compare' => '=' ),
-            ),
-        );
-
-        if ( $termo ) {
-            $args['s'] = $termo;
-        }
-
-        if ( $genre ) {
-            $args['tax_query'] = array(
-                array(
-                    'taxonomy' => 'cv_genre',
-                    'field'    => 'slug',
-                    'terms'    => $genre,
-                ),
-            );
-        }
-
-        // Usa Relevanssi se disponível
-        $query = new WP_Query( $args );
-        if ( $termo && function_exists( 'relevanssi_do_query' ) ) {
-            relevanssi_do_query( $query );
-        }
+        // v2.27.0: mesma busca do site (Relevanssi com pesos), via CV_Search.
+        $query = CV_Search::query( array( 'termo' => $termo, 'por_pagina' => $limit, 'pagina' => $page ) );
 
         $result = array();
         foreach ( $query->posts as $post ) {
@@ -546,62 +463,6 @@ class CV_MVP {
             'playlist_name' => $pl_name,
             'total'         => count( $queue ),
             'queue'         => $queue,
-        ) );
-    }
-
-    /**
-     * AJAX: retorna músicas de um gênero formatadas para o player.
-     * Permite que o player auto-avance dentro do mesmo gênero.
-     *
-     * Uso no tema (JS):
-     *   $.post(cvPublic.ajaxUrl, {
-     *       action: 'cv_get_genre_queue',
-     *       nonce:  cvPublic.nonces.play,
-     *       genre:  'sertanejo-universitario',
-     *       limit:  20
-     *   }, function(res) {
-     *       if (res.success) cvPlayer.loadQueue(res.data.queue);
-     *   });
-     */
-    public static function ajax_genre_queue() {
-        check_ajax_referer( 'cv_play_nonce', 'nonce' );
-
-        $genre = sanitize_text_field( $_POST['genre'] ?? '' );
-        $limit = min( absint( $_POST['limit'] ?? 20 ), 50 );
-
-        $args = array(
-            'post_type'      => 'musica',
-            'post_status'    => 'publish',
-            'posts_per_page' => $limit,
-            'orderby'        => 'meta_value_num',
-            'meta_key'       => '_cv_score',
-            'order'          => 'DESC',
-            'meta_query'     => array(
-                array( 'key' => '_cv_ativo', 'value' => '1', 'compare' => '=' ),
-            ),
-        );
-
-        if ( $genre ) {
-            $args['tax_query'] = array(
-                array(
-                    'taxonomy' => 'cv_genre',
-                    'field'    => 'slug',
-                    'terms'    => $genre,
-                ),
-            );
-        }
-
-        $posts = get_posts( $args );
-        $queue = array();
-        foreach ( $posts as $post ) {
-            $track = self::format_track( $post->ID );
-            if ( $track ) { $queue[] = $track; }
-        }
-
-        wp_send_json_success( array(
-            'genre' => $genre,
-            'total' => count( $queue ),
-            'queue' => $queue,
         ) );
     }
 

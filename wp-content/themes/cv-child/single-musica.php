@@ -5,7 +5,10 @@
 // Página individual da música: player YouTube, letra completa com
 // destaque de trecho para comentário, avaliação por estrelas,
 // compartilhamento em redes sociais, comentários de trecho e
-// músicas relacionadas do mesmo gênero. Mobile-first e acessível.
+// "Mais músicas" (as mais recentes, sem a atual). Mobile-first e acessível.
+// v15.4.0: removidas as referências a gênero (o site é todo sertanejo).
+// v15.6.0: bloco de publicidade depois da letra (CV_Monetization).
+// v15.7.0: "Ouça também em" (Spotify, Deezer…) na ficha, via CV_Distribuicao.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -47,31 +50,18 @@ $is_fav  = ( $user_id && class_exists('CV_Favorites') ) ? CV_Favorites::is_favor
 $posicao = class_exists('CV_Ranking') ? CV_Ranking::get_position( $music_id ) : 0;
 $trend   = class_exists('CV_Ranking') ? CV_Ranking::get_trend( $music_id )    : 'same';
 
-// Gêneros
-$generos      = wp_get_post_terms( $music_id, 'cv_genre' );
-$genero_nome  = ( ! is_wp_error($generos) && $generos ) ? $generos[0]->name : '';
-$genero_slug  = ( ! is_wp_error($generos) && $generos ) ? $generos[0]->slug : '';
-
-// Músicas relacionadas (mesmo gênero, excluindo atual)
-$relacionadas = array();
-if ( $genero_slug ) {
-    $rel_query = new WP_Query(array(
-        'post_type'      => 'musica',
-        'post_status'    => 'publish',
-        'posts_per_page' => 6,
-        'post__not_in'   => array($music_id),
-        'orderby'        => 'meta_value_num',
-        'meta_key'       => '_cv_plays_total',
-        'order'          => 'DESC',
-        'tax_query'      => array(array(
-            'taxonomy' => 'cv_genre',
-            'field'    => 'slug',
-            'terms'    => $genero_slug,
-        )),
-    ));
-    $relacionadas = $rel_query->posts;
-    wp_reset_postdata();
-}
+// Mais músicas (as mais recentes, excluindo a atual)
+$rel_query = new WP_Query(array(
+    'post_type'      => 'musica',
+    'post_status'    => 'publish',
+    'posts_per_page' => 6,
+    'post__not_in'   => array($music_id),
+    'orderby'        => 'date',
+    'order'          => 'DESC',
+    'no_found_rows'  => true,
+));
+$relacionadas = $rel_query->posts;
+wp_reset_postdata();
 
 // Redes sociais para compartilhar
 $url_share    = urlencode( get_permalink() );
@@ -113,10 +103,6 @@ get_header();
                             <li><a href="<?php echo esc_url(home_url('/')); ?>" style="color:rgba(59,36,24,0.55);text-decoration:none">Início</a></li>
                             <li>/</li>
                             <li><a href="<?php echo esc_url(home_url('/musicas/')); ?>" style="color:rgba(59,36,24,0.55);text-decoration:none">Músicas</a></li>
-                            <?php if ($genero_nome) : ?>
-                            <li>/</li>
-                            <li><a href="<?php echo esc_url(get_term_link($generos[0])); ?>" style="color:var(--cv-gold);text-decoration:none"><?php echo esc_html($genero_nome); ?></a></li>
-                            <?php endif; ?>
                         </ol>
                     </nav>
 
@@ -135,12 +121,6 @@ get_header();
 
                         <!-- Informações -->
                         <div style="flex:1;min-width:220px">
-                            <?php if ($genero_nome) : ?>
-                            <span style="font-size:11px;font-weight:700;text-transform:uppercase;
-                                         letter-spacing:1.5px;color:var(--cv-gold)">
-                                <?php echo esc_html($genero_nome); ?>
-                            </span>
-                            <?php endif; ?>
 
                             <h1 style="font-family:var(--font-display);font-size:clamp(24px,4vw,40px);
                                        font-weight:700;color:#3B2418;margin:8px 0 6px;line-height:1.1"
@@ -297,6 +277,11 @@ get_header();
                         </div>
                     </div>
 
+                    <!-- Publicidade depois da letra (regra do site: nunca no topo, sem
+                         rotação): parágrafo curto → "Leia após a publicidade" → banner.
+                         Só aparece se houver banner ativo nessa posição. -->
+                    <?php if ( class_exists( 'CV_Monetization' ) ) { echo CV_Monetization::bloco_apos_letra( $music_id ); } ?>
+
                     <!-- Modal de comentário de trecho -->
                     <div id="cv-trecho-modal"
                          style="display:none;position:fixed;inset:0;background:rgba(59,36,24,0.45);
@@ -349,7 +334,6 @@ get_header();
                                 'Artista'    => $artista,
                                 'Álbum'      => $album,
                                 'Ano'        => $ano,
-                                'Gênero'     => $genero_nome,
                             );
                             foreach ($infos as $label => $valor) :
                                 if (!$valor) continue;
@@ -360,18 +344,13 @@ get_header();
                                     <?php echo esc_html($label); ?>
                                 </dt>
                                 <dd style="margin:0;font-size:14px;color:var(--cv-text)">
-                                    <?php if ($label === 'Gênero' && !is_wp_error($generos) && $generos) : ?>
-                                    <a href="<?php echo esc_url(get_term_link($generos[0])); ?>"
-                                       style="color:var(--cv-gold)">
-                                        <?php echo esc_html($valor); ?>
-                                    </a>
-                                    <?php else : ?>
                                     <?php echo esc_html($valor); ?>
-                                    <?php endif; ?>
                                 </dd>
                             </div>
                             <?php endforeach; ?>
                         </dl>
+                        <?php // v15.7.0: links das plataformas (CV_Distribuicao, só quando publicada)
+                        if ( class_exists( 'CV_Distribuicao' ) ) { echo CV_Distribuicao::links_html( $music_id ); } ?>
                     </div>
 
                     <!-- Avaliação por estrelas -->
@@ -496,17 +475,14 @@ get_header();
             <section class="cv-section" aria-label="Músicas relacionadas">
                 <div class="cv-section-header">
                     <h2 class="cv-section-title">
-                        Mais de <span><?php echo esc_html($genero_nome); ?></span>
+                        Mais <span>músicas</span>
                     </h2>
-                    <a href="<?php echo esc_url(get_term_link($generos[0])); ?>"
-                       class="cv-section-link">Ver tudo →</a>
+                    <a href="<?php echo esc_url(home_url('/musicas/')); ?>"
+                       class="cv-section-link">Ver todas →</a>
                 </div>
                 <div class="cv-grid">
                     <?php foreach ($relacionadas as $post_rel) :
-                        $music_id   = $post_rel->ID;
-                        $show_rank  = false;
-                        $show_genre = false;
-                        get_template_part('template-parts/card-musica');
+                        get_template_part( 'template-parts/card-musica', null, array( 'music_id' => $post_rel->ID, 'show_rank' => false ) );
                     endforeach; ?>
                 </div>
             </section>

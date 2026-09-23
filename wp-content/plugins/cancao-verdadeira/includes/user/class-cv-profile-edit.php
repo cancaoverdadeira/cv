@@ -2,8 +2,9 @@
 // cancao-verdadeira/includes/user/class-cv-profile-edit.php
 // Gerado em: 2026-06-21 20:00:00
 // Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
-// Edição de perfil do usuário logado: nome, e-mail, senha, foto e gênero
-// favorito. Todos os endpoints usam nonce para segurança. A exclusão de
+// Edição de perfil do usuário logado: nome, e-mail, senha e foto.
+// v2.26.0: saiu o "gênero favorito" (o site é todo sertanejo).
+// Todos os endpoints usam nonce para segurança. A exclusão de
 // conta exige confirmação por senha (requisito LGPD). Shortcode
 // [cv_profile_form] renderiza o formulário no dashboard do usuário.
 // Funciona com ou sem o Ultimate Member instalado.
@@ -20,7 +21,6 @@ class CV_Profile_Edit {
         // ── Endpoints AJAX ────────────────────────────────────────
         add_action( 'wp_ajax_cv_update_profile',       array( __CLASS__, 'update_profile' ) );
         add_action( 'wp_ajax_cv_change_password',      array( __CLASS__, 'change_password' ) );
-        add_action( 'wp_ajax_cv_save_genre_preference',array( __CLASS__, 'save_genre' ) );
         add_action( 'wp_ajax_cv_delete_account',       array( __CLASS__, 'delete_account' ) );
     }
 
@@ -33,8 +33,6 @@ class CV_Profile_Edit {
         }
 
         $user   = wp_get_current_user();
-        $genre  = get_user_meta( $user->ID, '_cv_favorite_genre', true );
-        $genres = get_terms( array( 'taxonomy' => 'cv_genre', 'hide_empty' => false, 'orderby' => 'name' ) );
 
         ob_start();
         ?>
@@ -67,28 +65,6 @@ class CV_Profile_Edit {
                     <span class="cv-btn-loading" style="display:none">⏳ Salvando...</span>
                 </button>
             </div>
-
-            <!-- Gênero favorito -->
-            <?php if ( ! empty( $genres ) && ! is_wp_error( $genres ) ) : ?>
-            <div class="cv-profile-section">
-                <h3 class="cv-profile-section-title">🎵 Gênero favorito</h3>
-                <p class="cv-profile-hint">Usado para personalizar recomendações e notificações</p>
-                <div class="cv-profile-field">
-                    <select id="cv-profile-genre">
-                        <option value="">Selecione um gênero...</option>
-                        <?php foreach ( $genres as $g ) : ?>
-                            <option value="<?php echo esc_attr( $g->slug ); ?>" <?php selected( $genre, $g->slug ); ?>>
-                                <?php echo esc_html( $g->name ); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <button type="button" id="cv-genre-save-btn" class="cv-btn cv-btn-secondary">
-                    <span class="cv-btn-text">Salvar gênero</span>
-                    <span class="cv-btn-loading" style="display:none">⏳ Salvando...</span>
-                </button>
-            </div>
-            <?php endif; ?>
 
             <!-- Trocar senha -->
             <div class="cv-profile-section">
@@ -191,22 +167,6 @@ class CV_Profile_Edit {
                     nonce:  $('#cv-profile-nonce').val(),
                     name:   name,
                     email:  email
-                }, function(res){
-                    showMsg($msg, res.success ? 'success' : 'error', res.data.message);
-                    btnLoading($btn, false);
-                }).fail(function(){ showMsg($msg, 'error', 'Erro de conexão.'); btnLoading($btn, false); });
-            });
-
-            // Salvar gênero favorito
-            $('#cv-genre-save-btn').on('click', function(){
-                var $btn  = $(this);
-                var genre = $('#cv-profile-genre').val();
-                var $msg  = $('#cv-profile-msg');
-                btnLoading($btn, true);
-                $.post(ajaxUrl, {
-                    action: 'cv_save_genre_preference',
-                    nonce:  $('#cv-profile-nonce').val(),
-                    genre:  genre
                 }, function(res){
                     showMsg($msg, res.success ? 'success' : 'error', res.data.message);
                     btnLoading($btn, false);
@@ -349,32 +309,6 @@ class CV_Profile_Edit {
         wp_set_auth_cookie( $user_id, true, is_ssl() );
 
         wp_send_json_success( array( 'message' => '✓ Senha alterada com sucesso!' ) );
-    }
-
-    // ── AJAX: salvar gênero favorito ──────────────────────────────
-
-    public static function save_genre() {
-        check_ajax_referer( 'cv_profile_nonce', 'nonce' );
-
-        if ( ! is_user_logged_in() ) {
-            wp_send_json_error( array( 'message' => 'Login necessário.' ) );
-        }
-
-        $genre   = sanitize_key( $_POST['genre'] ?? '' );
-        $user_id = get_current_user_id();
-
-        if ( $genre ) {
-            // Valida se o gênero existe
-            $term = get_term_by( 'slug', $genre, 'cv_genre' );
-            if ( ! $term ) {
-                wp_send_json_error( array( 'message' => 'Gênero inválido.' ) );
-            }
-            update_user_meta( $user_id, '_cv_favorite_genre', $genre );
-        } else {
-            delete_user_meta( $user_id, '_cv_favorite_genre' );
-        }
-
-        wp_send_json_success( array( 'message' => '✓ Preferência salva!' ) );
     }
 
     // ── AJAX: excluir conta ───────────────────────────────────────

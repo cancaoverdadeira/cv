@@ -4,7 +4,8 @@
 // Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
 // Gerencia a inscrição na newsletter via MailerLite API v3.
 // Fallback local: salva na tabela cv_subscribers se a API falhar.
-// Suporte a grupos por gênero musical configurado no painel admin.
+// Grupo do MailerLite: opção cv_mailerlite_group_id.
+// v2.26.0: removidos os grupos por gênero musical (o site é todo sertanejo).
 // Rate limiting básico por IP para evitar spam.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -21,7 +22,6 @@ class CV_Newsletter {
 
         $email = sanitize_email( $_POST['email'] ?? '' );
         $name  = sanitize_text_field( $_POST['name']  ?? '' );
-        $genre = sanitize_text_field( $_POST['genre'] ?? '' );
 
         if ( ! is_email( $email ) ) {
             wp_send_json_error( array( 'message' => 'E-mail inválido.' ) );
@@ -34,18 +34,18 @@ class CV_Newsletter {
 
         // Tenta MailerLite
         $api_key  = get_option( 'cv_mailerlite_api_key', '' );
-        $group_id = self::get_group_id( $genre );
+        $group_id = get_option( 'cv_mailerlite_group_id', '' );
 
         if ( $api_key ) {
             $result = self::mailerlite_subscribe( $email, $name, $api_key, $group_id );
 
             if ( is_wp_error( $result ) ) {
                 // Fallback local
-                self::save_local( $email, $name, $genre );
+                self::save_local( $email, $name );
             }
         } else {
             // Sem API key: apenas fallback local
-            self::save_local( $email, $name, $genre );
+            self::save_local( $email, $name );
         }
 
         wp_send_json_success( array(
@@ -92,7 +92,7 @@ class CV_Newsletter {
         return true;
     }
 
-    private static function save_local( $email, $name, $genre ) {
+    private static function save_local( $email, $name ) {
         global $wpdb;
 
         $exists = $wpdb->get_var( $wpdb->prepare(
@@ -106,17 +106,11 @@ class CV_Newsletter {
                 array(
                     'email'         => $email,
                     'name'          => $name,
-                    'genre'         => $genre,
                     'subscribed_at' => current_time( 'mysql' ),
                 ),
-                array( '%s', '%s', '%s', '%s' )
+                array( '%s', '%s', '%s' )
             );
         }
-    }
-
-    private static function get_group_id( $genre ) {
-        $groups = get_option( 'cv_mailerlite_groups', array() );
-        return isset( $groups[ $genre ] ) ? $groups[ $genre ] : get_option( 'cv_mailerlite_group_id', '' );
     }
 
     private static function is_rate_limited() {

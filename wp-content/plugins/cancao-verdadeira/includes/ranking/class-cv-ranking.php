@@ -9,6 +9,7 @@
 // automática via CV_Notifications quando música entra no Top 10, e método
 // get_by_period() para o shortcode [cv_ranking_periodo].
 // v2.25.1 — get_most_favorited(): seção "Mais Favoritadas" da home.
+// v2.26.0 — removidos o filtro e o campo de gênero (o site é todo sertanejo).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -163,32 +164,27 @@ class CV_Ranking {
     }
 
     /**
-     * Top N músicas pelo score geral, com suporte a filtro por gênero.
+     * Top N músicas pelo score geral.
      *
-     * @param int    $limit  Número de resultados.
-     * @param string $genre  Slug do gênero (opcional).
+     * @param int $limit Número de resultados.
      * @return array
      */
-    public static function get_top( $limit = 10, $genre = '' ) {
-        $cache_key = 'cv_ranking_top_' . absint( $limit ) . '_' . sanitize_key( $genre );
+    public static function get_top( $limit = 10 ) {
+        $cache_key = 'cv_ranking_top_' . absint( $limit );
         $cached    = get_transient( $cache_key );
         if ( false !== $cached ) { return $cached; }
 
         global $wpdb;
 
-        if ( $genre ) {
-            $results = self::get_top_by_genre( $limit, $genre );
-        } else {
-            $results = $wpdb->get_results( $wpdb->prepare(
-                "SELECT rc.*, p.post_title, p.post_name
-                 FROM {$wpdb->prefix}cv_ranking_cache rc
-                 INNER JOIN {$wpdb->posts} p ON p.ID = rc.music_id
-                 WHERE p.post_status = 'publish'
-                 ORDER BY rc.score DESC
-                 LIMIT %d",
-                absint( $limit )
-            ) );
-        }
+        $results = $wpdb->get_results( $wpdb->prepare(
+            "SELECT rc.*, p.post_title, p.post_name
+             FROM {$wpdb->prefix}cv_ranking_cache rc
+             INNER JOIN {$wpdb->posts} p ON p.ID = rc.music_id
+             WHERE p.post_status = 'publish'
+             ORDER BY rc.score DESC
+             LIMIT %d",
+            absint( $limit )
+        ) );
 
         $results = self::enrich_results( $results );
         set_transient( $cache_key, $results, HOUR_IN_SECONDS );
@@ -299,14 +295,13 @@ class CV_Ranking {
      *
      * @param string $period  '24h' | '7d' | '30d'
      * @param int    $limit
-     * @param string $genre   Slug do gênero (opcional)
      * @return array
      */
-    public static function get_by_period( $period = '7d', $limit = 10, $genre = '' ) {
+    public static function get_by_period( $period = '7d', $limit = 10 ) {
         $allowed = array( '24h', '7d', '30d' );
         if ( ! in_array( $period, $allowed, true ) ) { $period = '7d'; }
 
-        $cache_key = 'cv_ranking_period_' . $period . '_' . absint( $limit ) . '_' . sanitize_key( $genre );
+        $cache_key = 'cv_ranking_period_' . $period . '_' . absint( $limit );
         $cached    = get_transient( $cache_key );
         if ( false !== $cached ) { return $cached; }
 
@@ -319,33 +314,15 @@ class CV_Ranking {
 
         global $wpdb;
 
-        if ( $genre ) {
-            $results = $wpdb->get_results( $wpdb->prepare(
-                "SELECT rc.*, p.post_title, p.post_name
-                 FROM {$wpdb->prefix}cv_ranking_cache rc
-                 INNER JOIN {$wpdb->posts} p ON p.ID = rc.music_id
-                 INNER JOIN {$wpdb->term_relationships} tr ON tr.object_id = rc.music_id
-                 INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id
-                 INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id
-                 WHERE p.post_status = 'publish'
-                   AND tt.taxonomy = 'cv_genre'
-                   AND t.slug = %s
-                 ORDER BY rc.{$col} DESC
-                 LIMIT %d",
-                sanitize_key( $genre ),
-                absint( $limit )
-            ) );
-        } else {
-            $results = $wpdb->get_results( $wpdb->prepare(
-                "SELECT rc.*, p.post_title, p.post_name
-                 FROM {$wpdb->prefix}cv_ranking_cache rc
-                 INNER JOIN {$wpdb->posts} p ON p.ID = rc.music_id
-                 WHERE p.post_status = 'publish'
-                 ORDER BY rc.{$col} DESC
-                 LIMIT %d",
-                absint( $limit )
-            ) );
-        }
+        $results = $wpdb->get_results( $wpdb->prepare(
+            "SELECT rc.*, p.post_title, p.post_name
+             FROM {$wpdb->prefix}cv_ranking_cache rc
+             INNER JOIN {$wpdb->posts} p ON p.ID = rc.music_id
+             WHERE p.post_status = 'publish'
+             ORDER BY rc.{$col} DESC
+             LIMIT %d",
+            absint( $limit )
+        ) );
 
         $results = self::enrich_results( $results );
         set_transient( $cache_key, $results, 15 * MINUTE_IN_SECONDS );
@@ -395,31 +372,9 @@ class CV_Ranking {
     // ── Métodos privados ──────────────────────────────────────────
 
     /**
-     * Top por gênero — join com taxonomias.
+     * Enriquece resultados com URL, capa, compositor e artista.
      */
-    private static function get_top_by_genre( $limit, $genre ) {
-        global $wpdb;
-        return $wpdb->get_results( $wpdb->prepare(
-            "SELECT rc.*, p.post_title, p.post_name
-             FROM {$wpdb->prefix}cv_ranking_cache rc
-             INNER JOIN {$wpdb->posts} p ON p.ID = rc.music_id
-             INNER JOIN {$wpdb->term_relationships} tr ON tr.object_id = rc.music_id
-             INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id
-             INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id
-             WHERE p.post_status = 'publish'
-               AND tt.taxonomy = 'cv_genre'
-               AND t.slug = %s
-             ORDER BY rc.score DESC
-             LIMIT %d",
-            sanitize_key( $genre ),
-            absint( $limit )
-        ) );
-    }
-
-    /**
-     * Enriquece resultados com URL, capa, gênero, compositor e artista.
-     */
-    // Acesso público ao enriquecimento (capa, gênero, artista, tendência),
+    // Acesso público ao enriquecimento (capa, artista, tendência),
     // usado pela "Seleção da Canção Verdadeira" do modo lançamento.
     public static function enrich( $results ) {
         return self::enrich_results( $results );
@@ -433,7 +388,6 @@ class CV_Ranking {
             $id = isset( $row->music_id ) ? (int) $row->music_id : 0;
             if ( ! $id ) { continue; }
 
-            $genres     = wp_get_post_terms( $id, 'cv_genre', array( 'fields' => 'names' ) );
             $cover      = get_the_post_thumbnail_url( $id, 'medium' );
             $youtube    = get_post_meta( $id, '_cv_youtube_url', true );
             $compositor = get_post_meta( $id, '_cv_compositor',  true );
@@ -459,7 +413,6 @@ class CV_Ranking {
 
             $row->url        = get_permalink( $id );
             $row->cover      = $cover ?: CV_PLUGIN_URL . 'assets/img/default-cover.svg';
-            $row->genre      = ( ! is_wp_error( $genres ) && $genres ) ? $genres[0] : '';
             $row->compositor = $compositor;
             $row->artista    = $artista;
             $row->youtube_id = '';

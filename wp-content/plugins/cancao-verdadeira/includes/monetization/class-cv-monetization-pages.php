@@ -42,11 +42,18 @@ class CV_Monetization_Pages {
         $banners = $wpdb->get_results(
             "SELECT * FROM {$wpdb->prefix}cv_banners ORDER BY id DESC LIMIT 100"
         );
-        $posicoes = array(
-            'home_topo'      => '🏠 Home — Topo (abaixo do parallax) — só aparece na home',
-            'meio_pagina'    => '📄 Páginas internas — Meio da página (com "Leia mais")',
-            'rodape_pagina'  => '📄 Páginas internas — Rodapé da página',
-        );
+        $posicoes = CV_Monetization::posicoes(); // v2.28.0: sem posição no topo
+
+        // Configuração do bloco "depois da letra" (parágrafo + aviso + banner)
+        if ( isset( $_POST['cv_pub_salvar'] ) && check_admin_referer( 'cv_pub_config', 'cv_pub_nonce' ) && current_user_can( 'manage_options' ) ) {
+            update_option( 'cv_publicidade', array(
+                'apos_letra_ativo' => isset( $_POST['cv_pub_ativo'] ) ? 1 : 0,
+                'aviso'            => sanitize_text_field( wp_unslash( $_POST['cv_pub_aviso'] ?? '' ) ) ?: 'Leia após a publicidade',
+                'paragrafo'        => sanitize_textarea_field( wp_unslash( $_POST['cv_pub_paragrafo'] ?? '' ) ),
+            ) );
+            echo '<div class="notice notice-success is-dismissible"><p>Configuração da publicidade salva.</p></div>';
+        }
+        $pub = CV_Monetization::config();
         ?>
         <div id="cv-admin-page" class="cv-admin-wrap">
             <div class="cv-admin-header">
@@ -58,6 +65,33 @@ class CV_Monetization_Pages {
             </div>
 
             <div id="cv-banner-msg" class="cv-action-message" style="display:none"></div>
+
+            <!-- Regras e bloco "depois da letra" -->
+            <form method="post" class="cv-section" style="max-width:900px">
+                <?php wp_nonce_field( 'cv_pub_config', 'cv_pub_nonce' ); ?>
+                <h2 class="cv-section-title">🎵 Publicidade na página da música</h2>
+                <p style="font-size:13px;color:#8A6A55;margin:0 0 12px">
+                    Regras do site: <strong>nunca no topo</strong> e <strong>sem banner rotativo</strong> — cada posição mostra
+                    um único banner (o ativo mais recente). Na página da música a ordem é:
+                    <em>letra → parágrafo curto → aviso → banner → resto da página</em>.
+                    Sem banner ativo na posição "depois da letra", nada aparece.
+                </p>
+                <label style="display:flex;gap:8px;align-items:center;margin-bottom:12px">
+                    <input type="checkbox" name="cv_pub_ativo" value="1" <?php checked( ! empty( $pub['apos_letra_ativo'] ) ); ?> />
+                    Mostrar publicidade depois da letra
+                </label>
+                <div style="display:grid;grid-template-columns:1fr 2fr;gap:16px">
+                    <div class="cv-form-group">
+                        <label class="cv-form-label">Aviso antes do banner</label>
+                        <input type="text" name="cv_pub_aviso" class="cv-input" value="<?php echo esc_attr( $pub['aviso'] ); ?>" />
+                    </div>
+                    <div class="cv-form-group">
+                        <label class="cv-form-label">Parágrafo curto (usado quando a música não tem Descrição)</label>
+                        <textarea name="cv_pub_paragrafo" class="cv-input" rows="2"><?php echo esc_textarea( $pub['paragrafo'] ); ?></textarea>
+                    </div>
+                </div>
+                <button type="submit" name="cv_pub_salvar" value="1" class="cv-btn cv-btn-primary">💾 Salvar configuração</button>
+            </form>
 
             <!-- Formulário -->
             <div id="cv-banner-form" class="cv-section" style="display:none">
@@ -124,7 +158,7 @@ class CV_Monetization_Pages {
 
                 <div class="cv-section" style="margin-top:20px;padding:14px;background:#FFFFFF;border-radius:8px;font-size:13px;color:#8A6A55">
                     <strong style="color:#7B3A22">Como usar os banners no site:</strong><br>
-                    <code style="color:#6B4C3B">[cv_banner posicao="home_topo"]</code> — Banner da home (automático)<br>
+                    <strong>Depois da letra</strong> — automático na página de cada música (não precisa de código)<br>
                     <code style="color:#6B4C3B">[cv_banner posicao="meio_pagina" leia_mais="sim"]</code> — Meio de página interna com botão fechar<br>
                     <code style="color:#6B4C3B">[cv_banner posicao="rodape_pagina"]</code> — Rodapé de página interna
                 </div>
@@ -204,7 +238,7 @@ class CV_Monetization_Pages {
 
             function msg(t, ok){ var $m=$('#cv-banner-msg'); $m.text(t).css({background:ok?'#EBF4EB':'#F4EBEB',border:'1px solid '+(ok?'#2d6a2d':'#6a2d2d'),color:ok?'#7fce7f':'#ce7f7f'}).show(); setTimeout(function(){$m.fadeOut();},3000); }
 
-            $('#cv-banner-novo-btn').on('click',function(){ $('#cv-banner-id').val(0); $('#cv-banner-form input,#cv-banner-form select').val(''); $('#cv-b-ativo').val('1'); $('#cv-b-posicao').val('meio_pagina'); $('#cv-b-imagem-preview').hide(); $('#cv-banner-form').slideToggle(180); });
+            $('#cv-banner-novo-btn').on('click',function(){ $('#cv-banner-id').val(0); $('#cv-banner-form input,#cv-banner-form select').val(''); $('#cv-b-ativo').val('1'); $('#cv-b-posicao').val('apos_letra'); $('#cv-b-imagem-preview').hide(); $('#cv-banner-form').slideToggle(180); });
             $('#cv-banner-cancelar').on('click',function(){ $('#cv-banner-form').slideUp(180); });
 
             // Media Library

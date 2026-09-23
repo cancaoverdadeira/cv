@@ -2,15 +2,14 @@
 // cancao-verdadeira-child/archive-musica.php
 // Gerado em: 2026-06-22 00:00:00
 // Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
-// Catálogo completo de músicas com filtro por gênero, ordenação e
-// paginação. URL: /musicas/ e /musicas/page/2/ etc.
-// Filtros por gênero funcionam via query string ?genero=sertanejo-raiz
+// Catálogo completo de músicas com ordenação e paginação.
+// URL: /musicas/ e /musicas/page/2/ etc.
 // Ordenação via ?orderby=plays|recente|titulo|avaliacao
+// v15.4.0: removido o filtro por gênero (o site é todo sertanejo).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 // Parâmetros de filtro
-$genero_slug = sanitize_key( get_query_var('cv_genre', $_GET['genero'] ?? '') );
 $orderby     = sanitize_key( $_GET['orderby'] ?? 'recente' );
 $paged       = max(1, get_query_var('paged', 1));
 $per_page    = 24;
@@ -55,24 +54,9 @@ switch ( $orderby ) {
         $args['order']   = 'DESC';
 }
 
-// Filtro por gênero
-if ( $genero_slug ) {
-    $args['tax_query'] = array(
-        array(
-            'taxonomy' => 'cv_genre',
-            'field'    => 'slug',
-            'terms'    => $genero_slug,
-        ),
-    );
-}
-
 $query   = new WP_Query($args);
 $total   = $query->found_posts;
-$generos = get_terms(array('taxonomy' => 'cv_genre', 'hide_empty' => false, 'orderby' => 'name'));
-
-// Gênero atual (para título)
-$genero_atual = $genero_slug ? get_term_by('slug', $genero_slug, 'cv_genre') : null;
-$titulo_pag   = $genero_atual ? $genero_atual->name : 'Todas as Músicas';
+$titulo_pag = 'Todas as Músicas';
 
 // SEO
 add_filter('document_title_parts', function($p) use ($titulo_pag) {
@@ -105,49 +89,14 @@ get_header();
                 <?php endif; ?>
             </h1>
 
-            <?php if ( $genero_atual && $genero_atual->description ) : ?>
-            <p style="color:var(--cv-text-muted);font-family:var(--font-body);font-style:italic;margin:8px 0 0">
-                <?php echo esc_html($genero_atual->description); ?>
-            </p>
-            <?php endif; ?>
-
-            <!-- Filtros por gênero -->
-            <?php if ( ! is_wp_error($generos) && ! empty($generos) ) : ?>
-            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px">
-                <a href="<?php echo esc_url(home_url('/musicas/')); ?>"
-                   class="cv-genre-pill <?php echo ! $genero_slug ? 'cv-genre-pill-active' : ''; ?>">
-                    🎵 Todas
-                </a>
-                <?php foreach ($generos as $g) :
-                    $icones = array(
-                        'sertanejo-universitario' => '🎸',
-                        'sertanejo-raiz'          => '🪗',
-                        'sertanejo-romantico'     => '❤',
-                        'modao'                   => '🎩',
-                        'sertanejo-gospel'        => '✝',
-                        'sertanejo-sofrencia'     => '💔',
-                    );
-                    $ic = $icones[$g->slug] ?? '🎵';
-                    $ativo = $genero_slug === $g->slug;
-                    $url_g = add_query_arg(array('genero' => $g->slug, 'orderby' => $orderby), home_url('/musicas/'));
-                ?>
-                <a href="<?php echo esc_url($url_g); ?>"
-                   class="cv-genre-pill <?php echo $ativo ? 'cv-genre-pill-active' : ''; ?>">
-                    <?php echo $ic; ?> <?php echo esc_html($g->name); ?>
-                    <span style="opacity:.6;font-size:10px">(<?php echo $g->count; ?>)</span>
-                </a>
-                <?php endforeach; ?>
-            </div>
-            <?php endif; ?>
-
             <!-- Ordenação -->
-            <div style="display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:10px;margin-top:20px;flex-wrap:wrap">
                 <span style="font-size:12px;color:var(--cv-text-dim);text-transform:uppercase;letter-spacing:.5px">
                     Ordenar por:
                 </span>
                 <?php foreach ($orderby_opts as $key => $label) :
                     $ativo = $orderby === $key;
-                    $url_o = add_query_arg(array('genero' => $genero_slug, 'orderby' => $key), home_url('/musicas/'));
+                    $url_o = add_query_arg(array('orderby' => $key), home_url('/musicas/'));
                 ?>
                 <a href="<?php echo esc_url($url_o); ?>"
                    style="font-size:12px;font-weight:700;padding:5px 12px;border-radius:50px;text-decoration:none;
@@ -168,10 +117,7 @@ get_header();
             <div class="cv-grid">
                 <?php while ( $query->have_posts() ) :
                     $query->the_post();
-                    $music_id   = get_the_ID();
-                    $show_rank  = false;
-                    $show_genre = ! $genero_slug; // só mostra gênero se não está filtrando
-                    get_template_part('template-parts/card-musica');
+                    get_template_part( 'template-parts/card-musica', null, array( 'music_id' => get_the_ID(), 'show_rank' => false ) );
                 endwhile;
                 wp_reset_postdata(); ?>
             </div>
@@ -180,7 +126,7 @@ get_header();
             <?php if ( $query->max_num_pages > 1 ) : ?>
             <div style="display:flex;justify-content:center;gap:8px;margin-top:40px;flex-wrap:wrap">
                 <?php
-                $base_url = add_query_arg(array('genero' => $genero_slug, 'orderby' => $orderby), home_url('/musicas/'));
+                $base_url = add_query_arg(array('orderby' => $orderby), home_url('/musicas/'));
                 for ($i = 1; $i <= $query->max_num_pages; $i++) :
                     $url_pg = $i === 1 ? $base_url : add_query_arg('paged', $i, $base_url);
                     $ativo  = $i === $paged;
@@ -207,16 +153,8 @@ get_header();
                     Nenhuma música encontrada
                 </h2>
                 <p style="color:var(--cv-text-muted);margin-bottom:24px">
-                    <?php echo $genero_slug
-                        ? 'Ainda não há músicas neste gênero. Volte em breve!'
-                        : 'Ainda não há músicas cadastradas.'; ?>
+                    Ainda não há músicas publicadas. Volte em breve!
                 </p>
-                <?php if ($genero_slug) : ?>
-                <a href="<?php echo esc_url(home_url('/musicas/')); ?>"
-                   class="cv-btn cv-btn-ghost">
-                    ← Ver todas as músicas
-                </a>
-                <?php endif; ?>
             </div>
 
             <?php endif; ?>

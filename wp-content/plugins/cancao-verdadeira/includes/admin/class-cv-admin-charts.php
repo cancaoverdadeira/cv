@@ -3,10 +3,11 @@
 // Gerado em: 2026-06-25 18:00:00
 // Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
 // Módulo de Analytics e Gráficos do painel administrativo.
-// Fornece 8 gráficos Chart.js: plays diários (30d), plays por hora,
-// gêneros mais ouvidos (pizza), crescimento de usuários (linha),
-// tendência do ranking (barras), avaliação média por gênero (radar),
+// Fornece 6 gráficos Chart.js: plays diários (30d), plays por hora,
+// crescimento de usuários (linha), tendência do ranking (barras),
 // favoritos acumulados (área) e top músicas comparativo (barras horizontais).
+// v2.26.0: removidos "Plays por Gênero", "Avaliação por Gênero" e o KPI
+// "Gênero líder" (o site é todo sertanejo); o KPI virou "Plays no total".
 // Todos os dados são servidos via AJAX (wp_ajax) com cache de 1 hora.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -16,10 +17,8 @@ class CV_Admin_Charts {
     public static function init() {
         add_action( 'wp_ajax_cv_chart_plays_daily',    array( __CLASS__, 'ajax_plays_daily' ) );
         add_action( 'wp_ajax_cv_chart_plays_hourly',   array( __CLASS__, 'ajax_plays_hourly' ) );
-        add_action( 'wp_ajax_cv_chart_genres',         array( __CLASS__, 'ajax_genres' ) );
         add_action( 'wp_ajax_cv_chart_users_growth',   array( __CLASS__, 'ajax_users_growth' ) );
         add_action( 'wp_ajax_cv_chart_ranking_trend',  array( __CLASS__, 'ajax_ranking_trend' ) );
-        add_action( 'wp_ajax_cv_chart_rating_genre',   array( __CLASS__, 'ajax_rating_genre' ) );
         add_action( 'wp_ajax_cv_chart_favorites',      array( __CLASS__, 'ajax_favorites' ) );
         add_action( 'wp_ajax_cv_chart_top_compare',    array( __CLASS__, 'ajax_top_compare' ) );
     }
@@ -86,61 +85,6 @@ class CV_Admin_Charts {
 
         $data = compact( 'labels', 'values' );
         set_transient( 'cv_chart_plays_hourly', $data, HOUR_IN_SECONDS );
-        wp_send_json_success( $data );
-    }
-
-    // ── Plays por gênero (pizza) ────────────────────────────────────────
-    public static function ajax_genres() {
-        check_ajax_referer( 'cv_admin_nonce', 'nonce' );
-        if ( ! current_user_can( 'manage_options' ) ) { wp_send_json_error(); }
-
-        $cached = get_transient( 'cv_chart_genres' );
-        if ( $cached !== false ) { wp_send_json_success( $cached ); }
-
-        global $wpdb;
-        // Plays por gênero via taxonomia
-        $rows = $wpdb->get_results(
-            "SELECT t.name AS genero, COUNT(pl.id) AS total
-             FROM {$wpdb->prefix}cv_plays_log pl
-             INNER JOIN {$wpdb->posts} p ON p.ID = pl.music_id
-             INNER JOIN {$wpdb->term_relationships} tr ON tr.object_id = p.ID
-             INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'cv_genre'
-             INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id
-             WHERE pl.played_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
-             GROUP BY t.name
-             ORDER BY total DESC"
-        );
-
-        // Fallback: conta músicas por gênero se não houver plays
-        if ( empty( $rows ) ) {
-            $rows = $wpdb->get_results(
-                "SELECT t.name AS genero, COUNT(DISTINCT p.ID) AS total
-                 FROM {$wpdb->posts} p
-                 INNER JOIN {$wpdb->term_relationships} tr ON tr.object_id = p.ID
-                 INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'cv_genre'
-                 INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id
-                 WHERE p.post_type = 'musica' AND p.post_status = 'publish'
-                 GROUP BY t.name
-                 ORDER BY total DESC"
-            );
-        }
-
-        $colors = array(
-            '#B8700C', '#B8700C', '#8B4513', '#556B2F',
-            '#F8E7E7', '#4169E1', '#C9A27E', '#9B59B6',
-        );
-
-        $labels = array();
-        $values = array();
-        $bg     = array();
-        foreach ( $rows as $i => $r ) {
-            $labels[] = $r->genero;
-            $values[] = (int) $r->total;
-            $bg[]     = $colors[ $i % count( $colors ) ];
-        }
-
-        $data = compact( 'labels', 'values', 'bg' );
-        set_transient( 'cv_chart_genres', $data, HOUR_IN_SECONDS );
         wp_send_json_success( $data );
     }
 
@@ -222,44 +166,6 @@ class CV_Admin_Charts {
 
         $data = compact( 'labels', 'scores', 'plays', 'favs' );
         set_transient( 'cv_chart_ranking_trend', $data, HOUR_IN_SECONDS );
-        wp_send_json_success( $data );
-    }
-
-    // ── Avaliação média por gênero (radar) ──────────────────────────────
-    public static function ajax_rating_genre() {
-        check_ajax_referer( 'cv_admin_nonce', 'nonce' );
-        if ( ! current_user_can( 'manage_options' ) ) { wp_send_json_error(); }
-
-        $cached = get_transient( 'cv_chart_rating_genre' );
-        if ( $cached !== false ) { wp_send_json_success( $cached ); }
-
-        global $wpdb;
-        $rows = $wpdb->get_results(
-            "SELECT t.name AS genero,
-                    AVG(CAST(pm.meta_value AS DECIMAL(5,2))) AS avg_rating,
-                    COUNT(p.ID) AS total_musicas
-             FROM {$wpdb->posts} p
-             INNER JOIN {$wpdb->postmeta} pm ON pm.post_id = p.ID AND pm.meta_key = '_cv_avg_rating'
-             INNER JOIN {$wpdb->term_relationships} tr ON tr.object_id = p.ID
-             INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'cv_genre'
-             INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id
-             WHERE p.post_type = 'musica' AND p.post_status = 'publish'
-               AND pm.meta_value > 0
-             GROUP BY t.name
-             ORDER BY avg_rating DESC"
-        );
-
-        $labels  = array();
-        $ratings = array();
-        $counts  = array();
-        foreach ( $rows as $r ) {
-            $labels[]  = $r->genero;
-            $ratings[] = round( (float) $r->avg_rating, 2 );
-            $counts[]  = (int) $r->total_musicas;
-        }
-
-        $data = compact( 'labels', 'ratings', 'counts' );
-        set_transient( 'cv_chart_rating_genre', $data, HOUR_IN_SECONDS );
         wp_send_json_success( $data );
     }
 
@@ -357,8 +263,8 @@ class CV_Admin_Charts {
     // ── Limpa todos os caches de gráficos ───────────────────────────────
     public static function clear_cache() {
         $keys = array(
-            'cv_chart_plays_daily', 'cv_chart_plays_hourly', 'cv_chart_genres',
-            'cv_chart_users_growth', 'cv_chart_ranking_trend', 'cv_chart_rating_genre',
+            'cv_chart_plays_daily', 'cv_chart_plays_hourly',
+            'cv_chart_users_growth', 'cv_chart_ranking_trend',
             'cv_chart_favorites', 'cv_chart_top_compare',
         );
         foreach ( $keys as $k ) { delete_transient( $k ); }
@@ -377,14 +283,6 @@ class CV_Admin_Charts {
         $musicas_pub = (int) $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_type='musica' AND post_status='publish'");
         $hora_pico   = $wpdb->get_var("SELECT HOUR(played_at) AS h FROM {$wpdb->prefix}cv_plays_log GROUP BY h ORDER BY COUNT(*) DESC LIMIT 1");
         $hora_pico   = $hora_pico !== null ? $hora_pico.'h' : '—';
-        $genero_top  = $wpdb->get_var(
-            "SELECT t.name FROM {$wpdb->prefix}cv_plays_log pl
-             JOIN {$wpdb->posts} p ON p.ID=pl.music_id
-             JOIN {$wpdb->term_relationships} tr ON tr.object_id=p.ID
-             JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id=tr.term_taxonomy_id AND tt.taxonomy='cv_genre'
-             JOIN {$wpdb->terms} t ON t.term_id=tt.term_id
-             GROUP BY t.term_id ORDER BY COUNT(*) DESC LIMIT 1"
-        );
         ?>
         <div class="cv-admin-wrap cv-analytics-v2" style="max-width:1200px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
         <?php echo CV_Admin::btn_voltar(); ?>
@@ -478,7 +376,7 @@ class CV_Admin_Charts {
             <div style="font-size:36px;filter:drop-shadow(0 0 16px rgba(123,104,238,.4))">📊</div>
             <div class="cv-an-hero-left">
                 <h1>Analytics — Canção Verdadeira</h1>
-                <p>Visão executiva completa · plays, usuários, gêneros, ranking e engajamento</p>
+                <p>Visão executiva completa · plays, usuários, ranking e engajamento</p>
             </div>
             <div class="cv-an-hero-controls">
                 <select id="cv-chart-period" class="cv-an-select">
@@ -514,9 +412,9 @@ class CV_Admin_Charts {
                 <div class="cv-an-kpi-label">Hora de pico</div>
             </div>
             <div class="cv-an-kpi k5">
-                <span class="cv-an-kpi-icon">🎸</span>
-                <div class="cv-an-kpi-val" style="font-size:14px;padding-top:4px"><?php echo esc_html($genero_top ?: '—'); ?></div>
-                <div class="cv-an-kpi-label">Gênero líder</div>
+                <span class="cv-an-kpi-icon">🎧</span>
+                <div class="cv-an-kpi-val"><?php echo number_format($plays_total); ?></div>
+                <div class="cv-an-kpi-label">Plays no total</div>
             </div>
         </div>
 
@@ -552,27 +450,9 @@ class CV_Admin_Charts {
                 </div>
             </div>
 
-            <!-- LINHA 2: Gêneros + Avaliação + Favoritos (3 colunas) -->
-            <div class="cv-an-section-title">Conteúdo &amp; Engajamento</div>
-            <div class="cv-an-row-mid">
-                <div class="cv-an-card">
-                    <div class="cv-an-card-header">
-                        <span class="cv-an-card-title">🎸 Plays por Gênero</span>
-                        <span class="cv-an-card-badge badge-gold">Pizza</span>
-                    </div>
-                    <div class="cv-an-card-body cv-an-h-md">
-                        <canvas id="chart-genres"></canvas>
-                    </div>
-                </div>
-                <div class="cv-an-card">
-                    <div class="cv-an-card-header">
-                        <span class="cv-an-card-title">⭐ Avaliação por Gênero</span>
-                        <span class="cv-an-card-badge badge-purple">Radar</span>
-                    </div>
-                    <div class="cv-an-card-body cv-an-h-md">
-                        <canvas id="chart-rating-genre"></canvas>
-                    </div>
-                </div>
+            <!-- LINHA 2: Favoritos -->
+            <div class="cv-an-section-title">Engajamento</div>
+            <div class="cv-an-row-mid" style="grid-template-columns:1fr">
                 <div class="cv-an-card">
                     <div class="cv-an-card-header">
                         <span class="cv-an-card-title">❤ Favoritos Acumulados</span>
@@ -673,18 +553,6 @@ class CV_Admin_Charts {
                     });
                 });
             }
-            function loadGenres(){
-                $.post(AJAX,{action:'cv_chart_genres',nonce:NONCE},function(res){
-                    if(!res.success)return; var d=res.data;
-                    destroy('genres');
-                    var ctx=document.getElementById('chart-genres').getContext('2d');
-                    charts['genres']=new Chart(ctx,{type:'doughnut',
-                        data:{labels:d.labels,datasets:[{data:d.values,backgroundColor:d.bg,borderColor:'#FFFFFF',borderWidth:3}]},
-                        options:{responsive:true,maintainAspectRatio:false,cutout:'58%',
-                            plugins:{legend:{position:'right',labels:{color:'#C9A27E',boxWidth:10,padding:8,font:{size:10}}},tooltip:tip(GOLD)}}
-                    });
-                });
-            }
             function loadUsersGrowth(){
                 $.post(AJAX,{action:'cv_chart_users_growth',nonce:NONCE},function(res){
                     if(!res.success)return; var d=res.data;
@@ -718,20 +586,6 @@ class CV_Admin_Charts {
                         options:{responsive:true,maintainAspectRatio:false,
                             plugins:{legend:{labels:{color:'#C9A27E',boxWidth:10,padding:8,font:{size:10}}},tooltip:tip(GOLD)},
                             scales:{x:{grid:{display:false},ticks:{...ticks(),maxRotation:30,font:{size:9}}},y:{grid:grid(),ticks:ticks(),beginAtZero:true}}}
-                    });
-                });
-            }
-            function loadRatingGenre(){
-                $.post(AJAX,{action:'cv_chart_rating_genre',nonce:NONCE},function(res){
-                    if(!res.success)return; var d=res.data;
-                    if(!d.labels.length){$('#chart-rating-genre').closest('.cv-an-card').find('.cv-an-card-body').html('<div style="padding:30px;text-align:center;color:#8A6A55;font-size:12px">Avalie músicas para ver este gráfico</div>');return;}
-                    destroy('radar');
-                    var ctx=document.getElementById('chart-rating-genre').getContext('2d');
-                    charts['radar']=new Chart(ctx,{type:'radar',
-                        data:{labels:d.labels,datasets:[{label:'Avaliação',data:d.ratings,borderColor:PURPLE,backgroundColor:'rgba(123,104,238,.12)',pointBackgroundColor:PURPLE,pointRadius:3,borderWidth:2}]},
-                        options:{responsive:true,maintainAspectRatio:false,
-                            plugins:{legend:{display:false},tooltip:tip(PURPLE)},
-                            scales:{r:{min:0,max:5,ticks:{stepSize:1,color:'#F3E6D3',backdropColor:'transparent'},grid:{color:'rgba(123,58,34,0.04)'},pointLabels:{color:'#C9A27E',font:{size:10}},angleLines:{color:'rgba(123,58,34,0.04)'}}}}
                     });
                 });
             }
@@ -773,8 +627,8 @@ class CV_Admin_Charts {
                 var pending=8;
                 function done(){ if(--pending<=0){$('#cv-charts-loading').hide();$('#cv-charts-wrap').fadeIn(400);} }
                 function w(fn){ return function(){fn();setTimeout(done,900);}; }
-                w(loadPlaysDaily)(); w(loadPlaysHourly)(); w(loadGenres)();
-                w(loadUsersGrowth)(); w(loadRankingTrend)(); w(loadRatingGenre)();
+                w(loadPlaysDaily)(); w(loadPlaysHourly)();
+                w(loadUsersGrowth)(); w(loadRankingTrend)();
                 w(loadFavorites)(); w(loadTopCompare)();
             }
 

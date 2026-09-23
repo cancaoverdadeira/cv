@@ -7,18 +7,21 @@
 // Variáveis disponíveis (todas opcionais com fallback automático):
 //   $music_id   — ID do post (padrão: get_the_ID())
 //   $show_rank  — bool: exibir posição no ranking (padrão: false)
-//   $show_genre — bool: exibir gênero (padrão: true)
+// v15.4.0: removida a etiqueta de gênero (o site é todo sertanejo).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-// Resolve ID e dados
-$music_id   = isset($music_id)   ? (int) $music_id   : get_the_ID();
-$show_rank  = isset($show_rank)  ? (bool) $show_rank  : false;
-$show_genre = isset($show_genre) ? (bool) $show_genre : true;
+// Resolve ID e dados.
+// v15.5.0: get_template_part() NÃO enxerga variáveis do arquivo que chama;
+// o ID precisa vir em $args (get_template_part(..., null, array('music_id' => X))).
+// Antes, fora de um loop the_post(), todos os cards mostravam a mesma música.
+$music_id   = isset($args['music_id'])  ? (int) $args['music_id']   : get_the_ID();
+$show_rank  = isset($args['show_rank']) ? (bool) $args['show_rank'] : false;
 
 if ( ! $music_id ) { return; }
 
 $youtube_url = get_post_meta( $music_id, '_cv_youtube_url', true );
+$audio_url   = get_post_meta( $music_id, '_cv_audio_url',   true ); // v15.5.0: era usada sem ser definida
 $compositor  = get_post_meta( $music_id, '_cv_compositor',  true );
 $artista     = get_post_meta( $music_id, '_cv_artista',     true );
 $plays       = (int) get_post_meta( $music_id, '_cv_plays_total', true );
@@ -48,13 +51,6 @@ if ( $show_rank && class_exists('CV_Ranking') ) {
 
 // Capa da música
 $cover = cv_cover_url( $music_id );
-
-// Gênero
-$genero_nome = '';
-if ( $show_genre ) {
-    $generos_post = wp_get_post_terms( $music_id, 'cv_genre', array('fields' => 'names') );
-    $genero_nome  = ( ! is_wp_error($generos_post) && $generos_post ) ? $generos_post[0] : '';
-}
 
 // YouTube ID para o player
 $yt_id = cv_youtube_id( $youtube_url );
@@ -118,10 +114,6 @@ $yt_id = cv_youtube_id( $youtube_url );
         <p class="cv-card-artista">
             <?php echo esc_html( $artista ?: $compositor ); ?>
         </p>
-        <?php endif; ?>
-
-        <?php if ( $show_genre && $genero_nome ) : ?>
-        <span class="cv-card-genero"><?php echo esc_html($genero_nome); ?></span>
         <?php endif; ?>
 
         <!-- Ações e estatísticas -->

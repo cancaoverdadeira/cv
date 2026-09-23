@@ -3,28 +3,13 @@
 // Gerado em: 2026-06-21 23:45:00
 // Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
 // Sidebar fixa à esquerda: logo, ações rápidas, navegação principal,
-// lista de gêneros musicais e área do usuário (logado/deslogado).
+// e área do usuário (logado/deslogado).
 // Incluída em todos os templates via get_template_part('template-parts/sidebar').
-// Dados do usuário e gêneros são buscados diretamente aqui (sem AJAX).
+// Dados do usuário são buscados diretamente aqui (sem AJAX).
+// v15.4.0: removida a lista de gêneros (o site é todo sertanejo).
+// v15.5.1: removido o script duplicado do botão "Buscar" (campo não abria).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-
-$generos = get_terms( array(
-    'taxonomy'   => 'cv_genre',
-    'hide_empty' => false,
-    'orderby'    => 'name',
-    'number'     => 10,
-) );
-
-$genero_icones = array(
-    'sertanejo-universitario' => '🎸',
-    'sertanejo-raiz'          => '🪗',
-    'sertanejo-romantico'     => '❤',
-    'modao'                   => '🎩',
-    'sertanejo-gospel'        => '✝',
-    'sertanejo-sofrencia'     => '💔',
-    'sertanejo-pop'           => '🎤',
-);
 
 $is_logged = is_user_logged_in();
 $user      = $is_logged ? wp_get_current_user() : null;
@@ -120,27 +105,6 @@ if ( $is_logged ) {
         <?php endif; ?>
     </nav>
 
-    <!-- Gêneros -->
-    <?php if ( ! is_wp_error($generos) && ! empty($generos) ) : ?>
-    <div class="cv-nav-section cv-sidebar-genres">
-        <div class="cv-nav-label">Gêneros</div>
-        <div style="padding:0 4px;display:flex;flex-wrap:wrap;gap:4px">
-            <?php foreach ( $generos as $genero ) :
-                $icone = $genero_icones[ $genero->slug ] ?? '🎵';
-                $url   = get_term_link( $genero );
-                $ativo = ( is_tax('cv_genre') && get_queried_object_id() === $genero->term_id );
-            ?>
-            <a href="<?php echo esc_url( $url ); ?>"
-               class="cv-genre-pill <?php echo $ativo ? 'cv-genre-pill-active' : ''; ?>"
-               title="<?php echo esc_attr( $genero->name ); ?> — <?php echo $genero->count; ?> músicas">
-                <?php echo $icone; ?>
-                <?php echo esc_html( $genero->name ); ?>
-            </a>
-            <?php endforeach; ?>
-        </div>
-    </div>
-    <?php endif; ?>
-
     <!-- Área do usuário -->
     <div class="cv-sidebar-user">
         <?php if ( $is_logged ) : ?>
@@ -235,23 +199,9 @@ if ( $is_logged ) {
 
 <style>
 /* Estilos específicos da sidebar — complementam cv-layout.css */
-.cv-genre-pill-active {
-    background: rgba(242,165,26,0.23) !important;
-    border-color: var(--cv-gold) !important;
-    color: var(--cv-gold) !important;
-}
 .cv-search-trigger { cursor: pointer; }
 </style>
 
-<script>
-jQuery(function($){
-    // Toggle campo de busca na sidebar
-    $('.cv-search-trigger').on('click', function(e){
-        e.preventDefault();
-        var $wrap = $('#cv-sidebar-search-wrap');
-        $wrap.slideToggle(180, function(){
-            if ($wrap.is(':visible')) { $wrap.find('input').focus(); }
-        });
-    });
-});
-</script>
+<?php // O botão "Buscar" abre/fecha o campo via assets/js/cv-theme.js. Havia uma
+// segunda cópia deste script aqui: os dois alternavam juntos e o campo abria e
+// fechava no mesmo clique (corrigido na v15.5.1). ?>

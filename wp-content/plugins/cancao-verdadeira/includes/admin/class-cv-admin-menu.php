@@ -3,8 +3,8 @@
 // Projeto : Canção Verdadeira — Plataforma de letras musicais sertanejas
 // Módulo  : Menu Administrativo (v2.15.0)
 // Funções : Registra menu principal e submenus. Inclui Calibração de Métricas
-//           (exclusivo admin ID 3) e Sentimentos. Gênero agora tem página
-//           própria dark em vez de apontar para o nativo do WordPress.
+//           (exclusivo admin ID 3) e Sentimentos.
+// v2.26.0 : removida a página "Gêneros" (cv-generos) — o site é todo sertanejo.
 // Segurança: Operadores nunca veem o menu do WP — apenas este painel.
 // Autor   : Canção Verdadeira | Gerado: 2026-06-26
 
@@ -53,8 +53,6 @@ class CV_Admin_Menu {
             'manage_options', 'cv-youtube-import',     array( 'CV_Page_Youtube_Import', 'render' ) );
         add_submenu_page( null, 'Publicação Rápida',  'Publicação Rápida',
             'manage_options', 'cv-publicacao-rapida',  array( 'CV_Publicacao_Rapida', 'render_page' ) );
-        add_submenu_page( null, 'Gêneros',            'Gêneros',
-            'manage_options', 'cv-generos',            array( __CLASS__, 'page_generos' ) );
         add_submenu_page( null, 'Sentimentos',        'Sentimentos',
             'manage_options', 'cv-sentimentos',        array( 'CV_Admin_Sentimentos', 'render_page' ) );
         add_submenu_page( null, 'Status do Sistema',     'Status do Sistema',
@@ -91,116 +89,6 @@ class CV_Admin_Menu {
         // Calibração (gerava plays/avaliações fictícias) foi desativada em
         // 23/09/2026 e substituída pelo modo lançamento (CV_Launch), que só
         // esconde contadores baixos e mostra uma seleção editorial rotulada.
-    }
-
-    // ── Página de Gêneros dark (substitui edit-tags.php nativo) ──
-    public static function page_generos() {
-        global $wpdb;
-
-        // Handle ações
-        if ( isset($_POST['cv_genero_action']) && check_admin_referer('cv_genero_nonce','cv_gnonce') ) {
-            $action = sanitize_text_field($_POST['cv_genero_action']);
-            $nome   = sanitize_text_field(wp_unslash($_POST['cv_genero_nome'] ?? ''));
-            $desc   = sanitize_textarea_field(wp_unslash($_POST['cv_genero_desc'] ?? ''));
-            $id     = absint($_POST['cv_genero_id'] ?? 0);
-
-            if ( $nome ) {
-                if ( $action === 'add' ) {
-                    wp_insert_term( $nome, 'cv_genre', array('description'=>$desc) );
-                } elseif ( $action === 'edit' && $id ) {
-                    wp_update_term( $id, 'cv_genre', array('name'=>$nome,'description'=>$desc) );
-                }
-            }
-            if ( $action === 'delete' && $id ) {
-                wp_delete_term( $id, 'cv_genre' );
-            }
-        }
-
-        $generos = get_terms( array('taxonomy'=>'cv_genre','hide_empty'=>false,'orderby'=>'name','order'=>'ASC') );
-        $editing = null;
-        if ( isset($_GET['action'],$_GET['tag_id']) && $_GET['action']==='edit' ) {
-            $editing = get_term( absint($_GET['tag_id']), 'cv_genre' );
-        }
-
-        echo '<div class="wrap" style="background:#FFFFFF;min-height:100vh;padding:20px">';
-        echo '<h1 style="color:#3B2418;margin-bottom:4px">🎸 Gêneros Musicais</h1>';
-        echo '<p style="color:#6B4C3B;margin-bottom:24px">' . count((array)$generos) . ' gênero(s) cadastrado(s)</p>';
-
-        if ( isset($_GET['msg']) ) {
-            echo '<div class="notice notice-success is-dismissible"><p>Operação realizada com sucesso.</p></div>';
-        }
-
-        echo '<div style="display:grid;grid-template-columns:1fr 360px;gap:24px">';
-
-        // Tabela
-        echo '<div>';
-        echo '<table class="widefat" style="background:#F8F0E4;color:#3B2418;border:1px solid #EADBC6;border-radius:8px;overflow:hidden">';
-        echo '<thead style="background:#F8F0E4"><tr>';
-        echo '<th style="color:#6B4C3B;padding:12px">Gênero</th>';
-        echo '<th style="color:#6B4C3B;padding:12px">Descrição</th>';
-        echo '<th style="color:#6B4C3B;padding:12px;text-align:center">Músicas</th>';
-        echo '<th style="color:#6B4C3B;padding:12px">Ações</th>';
-        echo '</tr></thead><tbody>';
-
-        if ( ! empty($generos) && ! is_wp_error($generos) ) {
-            foreach ( $generos as $g ) {
-                $count    = (int) $wpdb->get_var($wpdb->prepare(
-                    "SELECT COUNT(*) FROM {$wpdb->term_relationships} tr
-                     INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id
-                     WHERE tt.term_id = %d AND tt.taxonomy = 'cv_genre'", $g->term_id
-                ));
-                $edit_url = esc_url(add_query_arg(array('page'=>'cv-generos','action'=>'edit','tag_id'=>$g->term_id), admin_url('admin.php')));
-                echo '<tr style="border-bottom:1px solid #EADBC6">';
-                echo '<td style="padding:12px;font-weight:600">' . esc_html($g->name) . '</td>';
-                echo '<td style="padding:12px;color:#6B4C3B;font-size:12px">' . esc_html(mb_substr($g->description,0,60)) . '</td>';
-                echo '<td style="padding:12px;text-align:center"><span style="background:#1DB95422;border:1px solid #1DB954;color:#137B38;border-radius:12px;padding:2px 10px;font-size:12px">' . $count . '</span></td>';
-                echo '<td style="padding:12px">';
-                echo '<a href="' . $edit_url . '" style="color:#137B38;text-decoration:none;margin-right:12px">✏️ Editar</a>';
-                echo '<form method="post" style="display:inline" onsubmit="return confirm(\'Remover este gênero?\')">';
-                wp_nonce_field('cv_genero_nonce','cv_gnonce');
-                echo '<input type="hidden" name="cv_genero_action" value="delete">';
-                echo '<input type="hidden" name="cv_genero_id" value="' . (int)$g->term_id . '">';
-                echo '<button type="submit" style="background:none;border:none;color:#D62C1A;cursor:pointer;font-size:13px">🗑️ Remover</button>';
-                echo '</form>';
-                echo '</td></tr>';
-            }
-        } else {
-            echo '<tr><td colspan="4" style="padding:40px;text-align:center;color:#6B4C3B">Nenhum gênero cadastrado ainda.</td></tr>';
-        }
-        echo '</tbody></table></div>';
-
-        // Formulário
-        $is_edit  = $editing && ! is_wp_error($editing);
-        $f_nome   = $is_edit ? esc_attr($editing->name)        : '';
-        $f_desc   = $is_edit ? esc_textarea($editing->description) : '';
-        $f_id     = $is_edit ? (int)$editing->term_id          : 0;
-        $f_action = $is_edit ? 'edit'                          : 'add';
-        $f_title  = $is_edit ? '✏️ Editar Gênero'              : '➕ Novo Gênero';
-        $f_btn    = $is_edit ? '💾 Salvar'                     : '➕ Adicionar';
-        $cancel   = esc_url(admin_url('admin.php?page=cv-generos'));
-
-        echo '<div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:8px;padding:20px">';
-        echo '<h3 style="color:#3B2418;margin-top:0">' . $f_title . '</h3>';
-        echo '<form method="post">';
-        wp_nonce_field('cv_genero_nonce','cv_gnonce');
-        echo '<input type="hidden" name="cv_genero_action" value="' . $f_action . '">';
-        if ($f_id) { echo '<input type="hidden" name="cv_genero_id" value="' . $f_id . '">'; }
-
-        echo '<div style="margin-bottom:14px">';
-        echo '<label style="display:block;color:#6B4C3B;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Nome *</label>';
-        echo '<input type="text" name="cv_genero_nome" value="' . $f_nome . '" required style="width:100%;background:#FFFFFF;border:1px solid #EADBC6;border-radius:6px;color:#3B2418;padding:9px 12px;box-sizing:border-box;font-size:14px">';
-        echo '</div>';
-
-        echo '<div style="margin-bottom:14px">';
-        echo '<label style="display:block;color:#6B4C3B;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Descrição</label>';
-        echo '<textarea name="cv_genero_desc" rows="3" style="width:100%;background:#FFFFFF;border:1px solid #EADBC6;border-radius:6px;color:#3B2418;padding:9px 12px;box-sizing:border-box;font-size:14px;resize:vertical">' . $f_desc . '</textarea>';
-        echo '</div>';
-
-        echo '<button type="submit" style="background:#1DB954;border:none;color:#3B2418;padding:9px 20px;border-radius:6px;font-size:14px;cursor:pointer;font-weight:600">' . $f_btn . '</button>';
-        if ($is_edit) { echo ' <a href="' . $cancel . '" style="margin-left:10px;color:#6B4C3B;text-decoration:none">Cancelar</a>'; }
-        echo '</form></div>';
-        echo '</div>'; // grid
-        echo '</div>'; // wrap
     }
 
     // ── Remove metaboxes de plugins terceiros na tela de música ──

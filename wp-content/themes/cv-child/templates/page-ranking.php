@@ -5,13 +5,13 @@
 // cancao-verdadeira-child/templates/page-ranking.php
 // Gerado em: 2026-06-22 02:00:00
 // Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
-// Ranking dinâmico público: Top Geral, 7 dias, 24h, 30 dias e por gênero.
+// Ranking dinâmico público: Top Geral, 7 dias, 24h e 30 dias.
+// v15.4.0: removida a aba "Por Gênero" (o site é todo sertanejo).
 // Dados vindos de CV_Ranking::get_top(), get_by_period() e get_recent().
 // Abas JS sem reload de página. Mobile-first.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-$generos       = get_terms(array('taxonomy' => 'cv_genre', 'hide_empty' => false, 'orderby' => 'name'));
 $top_geral     = class_exists('CV_Ranking') ? CV_Ranking::get_top(20)              : array();
 $top_24h       = class_exists('CV_Ranking') ? CV_Ranking::get_by_period('24h', 10) : array();
 $top_7d        = class_exists('CV_Ranking') ? CV_Ranking::get_by_period('7d', 10)  : array();
@@ -81,9 +81,6 @@ get_header();
                     array('id' => '24h',   'label' => '⚡ 24 horas'),
                     array('id' => '30d',   'label' => '📆 30 dias'),
                 );
-                if (!is_wp_error($generos) && !empty($generos)) {
-                    $abas[] = array('id' => 'genero', 'label' => '🎵 Por Gênero');
-                }
                 foreach ($abas as $i => $aba) : ?>
                 <button class="cv-dash-tab <?php echo $i === 0 ? 'active' : ''; ?>"
                         data-tab="<?php echo esc_attr($aba['id']); ?>"
@@ -133,23 +130,6 @@ get_header();
                 <?php endif; ?>
             </div>
 
-            <!-- Aba: Por Gênero -->
-            <?php if (!is_wp_error($generos) && !empty($generos)) : ?>
-            <div id="cv-rank-genero" class="cv-rank-panel" style="display:none">
-                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">
-                    <?php foreach ($generos as $g) : ?>
-                    <button class="cv-genre-pill cv-genre-filter"
-                            data-slug="<?php echo esc_attr($g->slug); ?>">
-                        <?php echo esc_html($g->name); ?>
-                    </button>
-                    <?php endforeach; ?>
-                </div>
-                <div id="cv-rank-genero-list">
-                    <div class="cv-empty">Selecione um gênero acima para ver o ranking.</div>
-                </div>
-            </div>
-            <?php endif; ?>
-
         </div>
         <?php endif; // modo_selecao ?>
 
@@ -174,42 +154,6 @@ jQuery(function($){
         $(this).addClass('active').attr('aria-selected','true');
         $('.cv-rank-panel').hide();
         $('#cv-rank-' + tab).show();
-    });
-
-    // Filtro por gênero
-    $(document).on('click', '.cv-genre-filter', function(){
-        var slug  = $(this).data('slug');
-        var $list = $('#cv-rank-genero-list');
-        $('.cv-genre-filter').removeClass('cv-genre-pill-active');
-        $(this).addClass('cv-genre-pill-active');
-        $list.html('<div class="cv-loading">⏳ Carregando...</div>');
-
-        $.get(cvPublic.restUrl + 'ranking/top?genre=' + slug + '&limit=10', function(data){
-            if (!data.length) {
-                $list.html('<div class="cv-empty">Nenhuma música neste gênero ainda.</div>');
-                return;
-            }
-            var html = '<ul class="cv-ranking-lista" role="list">';
-            data.forEach(function(m, i){
-                var pos = i + 1;
-                var medal = pos === 1 ? '🥇' : pos === 2 ? '🥈' : pos === 3 ? '🥉' : '#' + pos;
-                html += '<li class="cv-ranking-item" role="listitem" '
-                      + 'style="cursor:pointer" '
-                      + 'onclick="window.location.href=\'' + m.url + '\'">'
-                      + '<div class="cv-ranking-pos">' + medal + '</div>'
-                      + '<div class="cv-ranking-capa" style="background-image:url(\'' + m.cover + '\')"></div>'
-                      + '<div class="cv-ranking-dados">'
-                      + '<a href="' + m.url + '" class="cv-ranking-titulo" onclick="event.stopPropagation()">' + m.post_title + '</a>'
-                      + '<div class="cv-ranking-artista">' + (m.artista || '') + '</div>'
-                      + '</div>'
-                      + '<div class="cv-ranking-stats">'
-                      + '<span>▶ ' + Number(m.plays_total || 0).toLocaleString('pt-BR') + '</span>'
-                      + '<span>❤ ' + Number(m.favorites || 0).toLocaleString('pt-BR') + '</span>'
-                      + '</div></li>';
-            });
-            html += '</ul>';
-            $list.html(html);
-        });
     });
 
     // Click em item do ranking

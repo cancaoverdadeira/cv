@@ -16,6 +16,10 @@ class CV_Public {
     public static function init() {
         add_action( 'after_setup_theme',  array( __CLASS__, 'register_image_sizes' ) );
         add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
+        // v2.27.1: reserva de cv-theme-js só DEPOIS do tema (prioridade 20).
+        // Antes rodava junto do enqueue_assets (10) e registrava cv-theme-js
+        // vazio, fazendo o WordPress ignorar o cv-theme.js real do tema.
+        add_action( 'wp_enqueue_scripts', array( __CLASS__, 'fallback_theme_js' ), 25 );
     }
 
     public static function register_image_sizes() {
@@ -96,7 +100,10 @@ class CV_Public {
         $data = apply_filters( 'cv_public_js_data', $data );
 
         wp_localize_script( 'cv-public-js', 'cvPublic', $data );
+    }
 
+    // Sem o tema filho, cria um cv-theme-js vazio para quem depende dele.
+    public static function fallback_theme_js() {
         if ( ! wp_script_is( 'cv-theme-js', 'registered' ) ) {
             wp_register_script( 'cv-theme-js', false, array( 'cv-public-js' ), CV_VERSION, true );
             wp_enqueue_script( 'cv-theme-js' );

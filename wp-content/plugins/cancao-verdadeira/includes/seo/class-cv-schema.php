@@ -9,6 +9,8 @@
 // v2.25.0: com o Rank Math ativo, o breadcrumb fica só com ele (antes saía
 // duplicado) e o Open Graph dele passa a usar a capa do YouTube como imagem
 // de reserva e o tipo music.song nas páginas de música.
+// v2.26.0: sem taxonomia de gênero; o schema usa sempre genre "Sertanejo"
+// (invisível na página, ajuda o Google) e o breadcrumb é Início › Músicas › música.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -56,8 +58,6 @@ class CV_Schema {
         $youtube    = get_post_meta( $post->ID, '_cv_youtube_url', true );
         $cover      = get_the_post_thumbnail_url( $post->ID, 'large' );
         $excerpt    = get_the_excerpt( $post );
-        $genres     = wp_get_post_terms( $post->ID, 'cv_genre', array( 'fields' => 'names' ) );
-        $genre_name = ( ! is_wp_error( $genres ) && $genres ) ? $genres[0] : 'Sertanejo';
         $yt_id      = self::yt_id( $youtube );
 
         // Fallback da capa: thumbnail do YouTube
@@ -71,7 +71,7 @@ class CV_Schema {
             '@type'       => 'MusicComposition',
             'name'        => $title,
             'url'         => $url,
-            'genre'       => $genre_name,
+            'genre'       => 'Sertanejo', // o site é todo sertanejo
             'description' => $excerpt ?: 'Letra de ' . $title . ' no Canção Verdadeira.',
         );
 
@@ -138,38 +138,12 @@ class CV_Schema {
             ),
         );
 
-        // Adiciona gênero no breadcrumb se existir
-        if ( ! is_wp_error( $genres ) && ! empty( $genres ) ) {
-            $genre_terms = wp_get_post_terms( $post->ID, 'cv_genre' );
-            if ( $genre_terms && ! is_wp_error( $genre_terms ) ) {
-                $breadcrumb['itemListElement'][] = array(
-                    '@type'    => 'ListItem',
-                    'position' => 3,
-                    'name'     => $genres[0],
-                    'item'     => get_term_link( $genre_terms[0] ),
-                );
-                $breadcrumb['itemListElement'][] = array(
-                    '@type'    => 'ListItem',
-                    'position' => 4,
-                    'name'     => $title,
-                    'item'     => $url,
-                );
-            } else {
-                $breadcrumb['itemListElement'][] = array(
-                    '@type'    => 'ListItem',
-                    'position' => 3,
-                    'name'     => $title,
-                    'item'     => $url,
-                );
-            }
-        } else {
-            $breadcrumb['itemListElement'][] = array(
-                '@type'    => 'ListItem',
-                'position' => 3,
-                'name'     => $title,
-                'item'     => $url,
-            );
-        }
+        $breadcrumb['itemListElement'][] = array(
+            '@type'    => 'ListItem',
+            'position' => 3,
+            'name'     => $title,
+            'item'     => $url,
+        );
 
         // ── Output dos JSONs ──────────────────────────────────────
         echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";

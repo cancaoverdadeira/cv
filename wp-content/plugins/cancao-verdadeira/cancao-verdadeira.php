@@ -11,12 +11,22 @@
 // v2.25.0 (23/09/2026) — Blog: categoria "Blog" com URLs /blog/ e o mesmo SEO
 // automático das músicas (CV_Blog); ajustes no Open Graph e schema da música.
 // v2.25.1 — CV_Ranking::get_most_favorited() para a seção "Mais Favoritadas".
+// v2.26.0 — Gêneros removidos do site inteiro (o site é todo sertanejo): sem
+// taxonomias cv_genre/cv_subcategory, sem campo, filtros, abas ou gráficos.
+// v2.27.0 — Busca unificada no Relevanssi com os pesos da especificação
+// (CV_Search): página de busca, 404, autocomplete e REST usam a mesma consulta.
+// v2.27.1 — cv-public.js e cv-theme.js voltaram a carregar (reservas vazias
+// registradas na ordem errada bloqueavam os dois); ?ver= mantido nos nossos arquivos.
+// v2.28.0 — Publicidade: sem topo e sem rotação; bloco depois da letra; clique
+// de banner sem redirecionamento aberto.
+// v2.29.0 — Distribuição (CV_Distribuicao): checklist, status, ficha para a
+// distribuidora e links "Ouça também em" na página da música.
 
 /**
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.25.1
+ * Version:     2.29.0
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -25,7 +35,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.25.1' );
+define( 'CV_VERSION',        '2.29.0' );
 define( 'CV_DB_VERSION',     '8' );       // v2.15.0: tabelas cv_sentimentos + cv_musica_sentimentos + cv_calibracao_log
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
@@ -38,7 +48,7 @@ $cv_includes = array(
     'includes/cpt/class-cv-fields.php',
     'includes/public/class-cv-launch.php',     // modo lançamento (contadores mínimos e seleção da casa)        // nomes centrais dos campos da música
     'includes/cpt/class-cv-cpt.php',
-    'includes/cpt/class-cv-taxonomies.php',
+    'includes/cpt/class-cv-sem-generos.php',   // v2.26.0: gêneros removidos; redireciona /genero/ e /estilo/
     'includes/cpt/class-cv-metaboxes.php',
     'includes/cpt/class-cv-blog.php',          // v2.25.0: categoria Blog, URLs /blog/ e SEO automático dos posts
     // Ranking e trending
@@ -108,6 +118,7 @@ $cv_includes = array(
     'includes/admin/class-cv-banco-dados.php',
     // Inteligência Editorial — oportunidades (v2.23.0)
     'includes/admin/class-cv-editorial.php',
+    'includes/admin/class-cv-distribuicao.php',  // v2.29.0: preparo e acompanhamento do envio às plataformas
     // Segurança Avançada — painel executivo (v2.24.0)
     'includes/admin/class-cv-seguranca.php',
     // Publicação Acelerada de Músicas (v2.16.0)
@@ -166,7 +177,6 @@ register_deactivation_hook( __FILE__, 'cv_deactivate' );
 
 function cv_activate() {
     cv_create_tables();
-    cv_seed_genres();
     // v2.15.0: semeia sentimentos padrão
     if ( class_exists('CV_Sentimentos') ) {
         CV_Sentimentos::seed();
@@ -313,7 +323,6 @@ function cv_create_tables() {
         id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         email VARCHAR(191) NOT NULL,
         name VARCHAR(255),
-        genre VARCHAR(100),
         subscribed_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         UNIQUE KEY email (email)
     ) $charset;";
@@ -469,30 +478,6 @@ function cv_create_tables() {
     update_option( 'cv_db_version', CV_DB_VERSION );
 }
 
-// ── Seed de gêneros musicais ─────────────────────────────────────
-// Idempotente: verifica existência antes de inserir.
-// Corrige nomes com acentuação se o slug já existir com nome errado.
-function cv_seed_genres() {
-    $genres = array(
-        'sertanejo-universitario' => 'Sertanejo Universitário',
-        'sertanejo-raiz'          => 'Sertanejo Raiz',
-        'sertanejo-romantico'     => 'Sertanejo Romântico',
-        'modao'                   => 'Modão',
-        'sertanejo-gospel'        => 'Sertanejo Gospel',
-        'sertanejo-sofrencia'     => 'Sertanejo Sofrência',
-    );
-
-    foreach ( $genres as $slug => $name ) {
-        $existing = get_term_by( 'slug', $slug, 'cv_genre' );
-        if ( ! $existing ) {
-            wp_insert_term( $name, 'cv_genre', array( 'slug' => $slug ) );
-        } elseif ( $existing->name !== $name ) {
-            // Corrige nome se estava errado (ex: sem acento de versão anterior)
-            wp_update_term( $existing->term_id, 'cv_genre', array( 'name' => $name ) );
-        }
-    }
-}
-
 // ── Criação de páginas na ativação ───────────────────────────────
 function cv_create_pages() {
     $pages = array(
@@ -634,7 +619,6 @@ function cv_rest_ranking_recent() { return CV_Ranking::get_recent( 10 ); }
 function cv_rest_ranking_best()   { return CV_Ranking::get_best( 10 ); }
 
 function cv_rest_musicas( $request ) {
-    $genre = sanitize_text_field( $request->get_param( 'genre' ) );
     $limit = absint( $request->get_param( 'limit' ) ) ?: 12;
 
     $args = array(
@@ -642,16 +626,6 @@ function cv_rest_musicas( $request ) {
         'post_status'    => 'publish',
         'posts_per_page' => min( $limit, 50 ), // máximo 50 por request
     );
-
-    if ( $genre ) {
-        $args['tax_query'] = array(
-            array(
-                'taxonomy' => 'cv_genre',
-                'field'    => 'slug',
-                'terms'    => sanitize_key( $genre ),
-            ),
-        );
-    }
 
     $query  = new WP_Query( $args );
     $result = array();

@@ -7,6 +7,9 @@
 // gráfico de cobertura do catálogo e top músicas com maior potencial
 // orgânico. Todos os dados vêm do banco local — sem API externa.
 // Compatível com PHP 7.2+. Integrado ao menu como "📡 SEO".
+// v2.26.0: sem gêneros (site todo sertanejo) — o critério "gênero" do score
+// virou "descrição" (meta description), e saíram a coluna, a barra de
+// cobertura e a tabela "Potencial Orgânico por Gênero".
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -18,7 +21,7 @@ class CV_Admin_SEO {
     }
 
     // ── Score SEO por música (0–100) ────────────────────────────────────
-    // Critérios: título(20) + letra(25) + capa(15) + YouTube(20) + gênero(10) + artista(10)
+    // Critérios: título(20) + letra(25) + capa(15) + YouTube(20) + descrição(10) + artista(10)
     private static function calc_score( $post_id ) {
         $score  = 0;
         $detail = array();
@@ -54,12 +57,12 @@ class CV_Admin_SEO {
             $detail['youtube'] = false;
         }
 
-        $generos = get_the_terms( $post_id, 'cv_genre' );
-        if ( $generos && ! is_wp_error( $generos ) ) {
+        $descricao = get_post_meta( $post_id, CV_Fields::DESCRICAO, true );
+        if ( '' !== trim( (string) $descricao ) ) {
             $score += 10;
-            $detail['genero'] = true;
+            $detail['descricao'] = true;
         } else {
-            $detail['genero'] = false;
+            $detail['descricao'] = false;
         }
 
         $artista = get_post_meta( $post_id, '_cv_artista', true );
@@ -95,8 +98,6 @@ class CV_Admin_SEO {
         foreach ( $posts as $p ) {
             $r       = self::calc_score( $p->ID );
             $score   = $r['score'];
-            $generos = get_the_terms( $p->ID, 'cv_genre' );
-            $genero  = ( $generos && ! is_wp_error( $generos ) ) ? $generos[0]->name : '';
             $artista = get_post_meta( $p->ID, '_cv_artista', true );
 
             if ( $score >= 90 )      { $dist['otimo']++; }
@@ -108,7 +109,6 @@ class CV_Admin_SEO {
                 'id'      => $p->ID,
                 'titulo'  => $p->post_title,
                 'score'   => $score,
-                'genero'  => $genero,
                 'artista' => $artista,
                 'url'     => get_permalink( $p->ID ),
                 'edit'    => admin_url( 'post.php?post=' . $p->ID . '&action=edit' ),
@@ -169,22 +169,12 @@ class CV_Admin_SEO {
                AND pm.meta_key = '_cv_artista' AND pm.meta_value != ''"
         );
 
-        $com_genero = (int) $wpdb->get_var(
-            "SELECT COUNT(DISTINCT tr.object_id)
-             FROM {$wpdb->term_relationships} tr
-             INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id
-             INNER JOIN {$wpdb->posts} p ON p.ID = tr.object_id
-             WHERE tt.taxonomy = 'cv_genre'
-               AND p.post_type = 'musica' AND p.post_status = 'publish'"
-        );
-
         $data = array(
             'total'       => $total,
             'com_letra'   => $com_letra,
             'com_youtube' => $com_youtube,
             'com_capa'    => $com_capa,
             'com_artista' => $com_artista,
-            'com_genero'  => $com_genero,
         );
 
         set_transient( 'cv_seo_coverage', $data, HOUR_IN_SECONDS );
@@ -403,12 +393,6 @@ class CV_Admin_SEO {
                             <div style="text-align:center;padding:20px;color:#8A6A55">Carregando...</div>
                         </div>
                     </div>
-                    <div class="cv-section" style="margin:0">
-                        <h2 class="cv-section-title">🔍 Potencial Orgânico por Gênero</h2>
-                        <div id="cv-keyword-potential">
-                            <div style="text-align:center;padding:20px;color:#8A6A55">Carregando...</div>
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -486,7 +470,6 @@ class CV_Admin_SEO {
                         { label:'URL YouTube',     val:d.com_youtube, color:'#B8700C' },
                         { label:'Capa (imagem)',   val:d.com_capa,    color:'#3498db' },
                         { label:'Artista definido',val:d.com_artista, color:'#9b59b6' },
-                        { label:'Gênero definido', val:d.com_genero,  color:'#e67e22' },
                     ];
 
                     var html = '';
@@ -500,36 +483,7 @@ class CV_Admin_SEO {
                               + '</div></div>';
                     });
                     $('#cv-coverage-bars').html(html);
-
-                    // Potencial de palavras-chave por gênero (estimativa local)
-                    loadKeywordPotential();
                 });
-            }
-
-            // ── Potencial de palavras-chave ──────────────────────
-            function loadKeywordPotential() {
-                // Dados estimados de volume de busca mensal (baseado em dados públicos do Google Trends BR)
-                var kwData = [
-                    { genero:'Sertanejo Universitário', volume:'480.000',  dificuldade:'Alta',  oportunidade:'Músicas específicas + artista' },
-                    { genero:'Sertanejo Raiz',          volume:'90.000',   dificuldade:'Média', oportunidade:'Nicho com alta intenção' },
-                    { genero:'Sertanejo Romântico',     volume:'210.000',  dificuldade:'Alta',  oportunidade:'Letras + nome da música' },
-                    { genero:'Sertanejo de Sofrência',  volume:'55.000',   dificuldade:'Baixa', oportunidade:'Alta oportunidade de ranquear' },
-                    { genero:'Sertanejo Pop',           volume:'120.000',  dificuldade:'Média', oportunidade:'Crescimento rápido em 2025/26' },
-                    { genero:'"letra de [música]"',     volume:'2.400.000',dificuldade:'Variada','oportunidade':'Maior potencial — busca exata' },
-                ];
-                var html = '<table class="cv-table" style="font-size:12px">'
-                         + '<thead><tr><th>Gênero / Termo</th><th style="text-align:right">Vol./mês</th><th>Dificuldade</th><th>Oportunidade</th></tr></thead><tbody>';
-                $.each(kwData, function(i, r){
-                    var cor = r.dificuldade === 'Baixa' ? '#27ae60' : r.dificuldade === 'Média' ? '#B8700C' : '#e74c3c';
-                    html += '<tr>'
-                          + '<td style="font-weight:600">' + r.genero + '</td>'
-                          + '<td style="text-align:right;color:#7B3A22;font-weight:700">' + r.volume + '</td>'
-                          + '<td><span style="color:' + cor + ';font-weight:700">' + r.dificuldade + '</span></td>'
-                          + '<td style="color:#8A6A55;font-size:11px">' + r.oportunidade + '</td>'
-                          + '</tr>';
-                });
-                html += '</tbody></table>';
-                $('#cv-keyword-potential').html(html);
             }
 
             // ── Score SEO das músicas ────────────────────────────
@@ -575,7 +529,7 @@ class CV_Admin_SEO {
                 }
                 var html = '<div style="overflow-x:auto"><table class="cv-table" style="min-width:640px">'
                          + '<thead><tr>'
-                         + '<th>Música</th><th>Gênero</th><th>Artista</th>'
+                         + '<th>Música</th><th>Artista</th>'
                          + '<th style="text-align:center">Letra</th>'
                          + '<th style="text-align:center">YouTube</th>'
                          + '<th style="text-align:center">Capa</th>'
@@ -588,7 +542,6 @@ class CV_Admin_SEO {
                     html += '<tr>'
                           + '<td style="font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'
                           + '<a href="' + m.url + '" target="_blank" style="color:#6B4C3B;text-decoration:none" title="' + m.titulo + '">' + m.titulo + '</a></td>'
-                          + '<td style="font-size:12px;color:#8A6A55">' + (m.genero || '—') + '</td>'
                           + '<td style="font-size:12px;color:#8A6A55">' + (m.artista || '—') + '</td>'
                           + '<td style="text-align:center">' + dotIcon(m.detail.letra) + '</td>'
                           + '<td style="text-align:center">' + dotIcon(m.detail.youtube) + '</td>'

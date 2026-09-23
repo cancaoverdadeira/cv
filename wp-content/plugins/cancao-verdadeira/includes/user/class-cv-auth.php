@@ -263,12 +263,6 @@ class CV_Auth {
 
         $login_url = home_url( '/login/' );
 
-        $genres = get_terms( array(
-            'taxonomy'   => 'cv_genre',
-            'hide_empty' => false,
-            'orderby'    => 'name',
-        ) );
-
         ob_start();
         ?>
         <div class="cv-auth-box" id="cv-register-box">
@@ -309,20 +303,6 @@ class CV_Auth {
                         <button type="button" class="cv-auth-eye" data-target="cv-register-password2" title="Mostrar senha">👁</button>
                     </div>
                 </div>
-
-                <?php if ( ! empty( $genres ) && ! is_wp_error( $genres ) ) : ?>
-                <div class="cv-auth-field">
-                    <label for="cv-register-genre">Gênero favorito <span style="font-weight:400;color:#8A6A55">(opcional)</span></label>
-                    <select id="cv-register-genre" style="width:100%;padding:11px 14px;background:#FFFFFF;border:1px solid #EADBC6;border-radius:7px;color:#3B2418;font-size:15px;box-sizing:border-box;">
-                        <option value="">Selecione...</option>
-                        <?php foreach ( $genres as $genre ) : ?>
-                            <option value="<?php echo esc_attr( $genre->slug ); ?>">
-                                <?php echo esc_html( $genre->name ); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <?php endif; ?>
 
                 <button type="button" id="cv-register-btn" class="cv-btn cv-btn-primary cv-btn-full">
                     <span class="cv-btn-text">Criar conta</span>
@@ -365,7 +345,6 @@ class CV_Auth {
                 var email  = $('#cv-register-email').val().trim();
                 var pw     = $('#cv-register-password').val();
                 var pw2    = $('#cv-register-password2').val();
-                var genre  = $('#cv-register-genre').val() || '';
                 var nonce  = $('#cv-register-nonce').val();
                 var $btn   = $(this);
                 var $msg   = $('#cv-register-msg');
@@ -385,8 +364,7 @@ class CV_Auth {
                     nonce:  nonce,
                     name:   name,
                     email:  email,
-                    password: pw,
-                    genre:  genre
+                    password: pw
                 }, function(res){
                     if (res.success) {
                         showMsg('success', '✓ Conta criada! Entrando...');
@@ -473,7 +451,6 @@ class CV_Auth {
         $name     = sanitize_text_field( $_POST['name']     ?? '' );
         $email    = sanitize_email(      $_POST['email']    ?? '' );
         $password = $_POST['password'] ?? '';
-        $genre    = sanitize_key(        $_POST['genre']    ?? '' );
 
         // Validações no servidor (nunca confiar só no front-end)
         if ( empty( $name ) ) {
@@ -499,16 +476,12 @@ class CV_Auth {
             wp_send_json_error( array( 'message' => 'Erro ao criar conta. Tente novamente.' ) );
         }
 
-        // Salva nome e gênero favorito
+        // Salva o nome
         wp_update_user( array(
             'ID'           => $user_id,
             'display_name' => $name,
             'first_name'   => $name,
         ) );
-
-        if ( $genre ) {
-            update_user_meta( $user_id, '_cv_favorite_genre', $genre );
-        }
 
         // Faz login automático após o cadastro
         wp_set_current_user( $user_id );

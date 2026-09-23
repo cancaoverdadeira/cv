@@ -49,7 +49,7 @@ class CV_CPT {
             // dois campos name="content" na tela e só o último era salvo.
             'supports'           => array( 'title', 'thumbnail', 'custom-fields', 'comments' ),
             'show_in_rest'       => false, // usamos REST própria
-            'taxonomies'         => array( 'cv_genre', 'cv_subcategory', 'post_tag' ),
+            'taxonomies'         => array( 'post_tag' ), // v2.26.0: sem gêneros
         );
 
         register_post_type( 'musica', $args );

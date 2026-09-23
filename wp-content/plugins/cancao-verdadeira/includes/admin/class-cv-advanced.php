@@ -7,9 +7,10 @@
 // 2. Indicadores ↑ ↓ = de posição no ranking
 // 3. Sistema de logs de ações administrativas
 // 4. Níveis de permissão customizados (Editor / Gerente / Master)
-// 5. Recomendação automática baseada em gêneros favoritos
+// 5. Recomendação automática (melhores ranqueadas que o usuário não ouviu)
 // 6. Exportação de usuários em CSV
 // Compatível com PHP 7.2+. Toda lógica de negócio no plugin.
+// v2.26.0: removidos o filtro por gênero do ranking e das recomendações.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -137,10 +138,9 @@ class CV_Advanced {
      *
      * @param string $period  'daily' | 'weekly' | 'monthly'
      * @param int    $limit   Número de resultados (padrão 10)
-     * @param string $genre   Slug do gênero (opcional)
      */
-    public static function get_ranking_period( $period = 'weekly', $limit = 10, $genre = '' ) {
-        $cache_key = 'cv_ranking_' . $period . '_' . $limit . '_' . sanitize_key( $genre );
+    public static function get_ranking_period( $period = 'weekly', $limit = 10 ) {
+        $cache_key = 'cv_ranking_' . $period . '_' . $limit;
         $cached    = get_transient( $cache_key );
         if ( false !== $cached ) { return $cached; }
 
@@ -162,34 +162,16 @@ class CV_Advanced {
                 break;
         }
 
-        if ( $genre ) {
-            $results = $wpdb->get_results( $wpdb->prepare(
-                "SELECT rc.*, p.post_title, p.post_name
-                 FROM {$wpdb->prefix}cv_ranking_cache rc
-                 INNER JOIN {$wpdb->posts} p ON p.ID = rc.music_id
-                 INNER JOIN {$wpdb->term_relationships} tr ON tr.object_id = rc.music_id
-                 INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id
-                 INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id
-                 WHERE p.post_status = 'publish'
-                   AND tt.taxonomy = 'cv_genre'
-                   AND t.slug = %s
-                   AND rc.{$col} > 0
-                 ORDER BY rc.{$col} DESC
-                 LIMIT %d",
-                $genre, $limit
-            ) );
-        } else {
-            $results = $wpdb->get_results( $wpdb->prepare(
-                "SELECT rc.*, p.post_title, p.post_name
-                 FROM {$wpdb->prefix}cv_ranking_cache rc
-                 INNER JOIN {$wpdb->posts} p ON p.ID = rc.music_id
-                 WHERE p.post_status = 'publish'
-                   AND rc.{$col} > 0
-                 ORDER BY rc.{$col} DESC
-                 LIMIT %d",
-                $limit
-            ) );
-        }
+        $results = $wpdb->get_results( $wpdb->prepare(
+            "SELECT rc.*, p.post_title, p.post_name
+             FROM {$wpdb->prefix}cv_ranking_cache rc
+             INNER JOIN {$wpdb->posts} p ON p.ID = rc.music_id
+             WHERE p.post_status = 'publish'
+               AND rc.{$col} > 0
+             ORDER BY rc.{$col} DESC
+             LIMIT %d",
+            $limit
+        ) );
 
         // Enriquece com URL, capa e indicador de tendência
         $enriched = array();
@@ -228,7 +210,7 @@ class CV_Advanced {
 
         // Se não tem dados de período ainda, cai no ranking geral
         if ( empty( $enriched ) && class_exists( 'CV_Ranking' ) ) {
-            $enriched = CV_Ranking::get_top( $limit, $genre );
+            $enriched = CV_Ranking::get_top( $limit );
             foreach ( $enriched as &$row ) {
                 $row->trend       = '●';
                 $row->trend_label = 'Novo';
@@ -262,20 +244,19 @@ class CV_Advanced {
 
     /**
      * AJAX: retorna ranking de período para o tema.
-     * Parâmetros POST: period (daily|weekly|monthly), limit, genre
+     * Parâmetros POST: period (daily|weekly|monthly), limit
      */
     public static function ajax_ranking_period() {
         check_ajax_referer( 'cv_play_nonce', 'nonce' );
 
         $period = sanitize_text_field( $_POST['period'] ?? 'weekly' );
         $limit  = min( absint( $_POST['limit'] ?? 10 ), 50 );
-        $genre  = sanitize_text_field( $_POST['genre'] ?? '' );
 
         if ( ! in_array( $period, array( 'daily', 'weekly', 'monthly' ), true ) ) {
             $period = 'weekly';
         }
 
-        $ranking = self::get_ranking_period( $period, $limit, $genre );
+        $ranking = self::get_ranking_period( $period, $limit );
         wp_send_json_success( array( 'period' => $period, 'ranking' => $ranking ) );
     }
 
@@ -300,8 +281,7 @@ class CV_Advanced {
     public static function rest_ranking_period( $request ) {
         $period = $request['period'];
         $limit  = min( absint( $request->get_param( 'limit' ) ?? 10 ), 50 );
-        $genre  = sanitize_text_field( $request->get_param( 'genre' ) ?? '' );
-        return self::get_ranking_period( $period, $limit, $genre );
+        return self::get_ranking_period( $period, $limit );
     }
 
     // ════════════════════════════════════════════════════════════════
@@ -547,10 +527,10 @@ class CV_Advanced {
     /**
      * Retorna músicas recomendadas para o usuário logado.
      * Algoritmo:
-     *  1. Pega os gêneros das últimas 20 músicas ouvidas (histórico)
-     *  2. Exclui músicas que o usuário já ouviu recentemente
-     *  3. Retorna as melhores ranqueadas dos gêneros preferidos
-     *  4. Se não logado: retorna o Top por gênero da query string
+     *  1. Pega as últimas 20 músicas ouvidas (histórico)
+     *  2. Exclui essas músicas das recomendações
+     *  3. Retorna as melhores ranqueadas (score) entre as restantes
+     *  4. Se não logado ou sem resultado: retorna o Top geral
      *
      * @param int $limit  Número de recomendações (padrão 6)
      */
@@ -574,27 +554,7 @@ class CV_Advanced {
         $heard_ids = array_column( $history, 'id' );
         $heard_ids = array_map( 'intval', $heard_ids );
 
-        // 2. Gêneros mais ouvidos pelo usuário
-        $genre_counts = array();
-        foreach ( $heard_ids as $mid ) {
-            $genres = wp_get_post_terms( $mid, 'cv_genre', array( 'fields' => 'slugs' ) );
-            if ( ! is_wp_error( $genres ) ) {
-                foreach ( $genres as $slug ) {
-                    $genre_counts[ $slug ] = ( $genre_counts[ $slug ] ?? 0 ) + 1;
-                }
-            }
-        }
-
-        // Também considera o gênero favorito salvo no perfil (Ultimate Member)
-        $fav_genre = get_user_meta( $user_id, '_cv_favorite_genre', true );
-        if ( $fav_genre ) {
-            $genre_counts[ $fav_genre ] = ( $genre_counts[ $fav_genre ] ?? 0 ) + 5;
-        }
-
-        arsort( $genre_counts );
-        $top_genres = array_keys( array_slice( $genre_counts, 0, 3, true ) );
-
-        // 3. Busca músicas dos gêneros favoritos que o usuário não ouviu ainda
+        // 2. Busca as melhores ranqueadas que o usuário não ouviu ainda
         $args = array(
             'post_type'      => 'musica',
             'post_status'    => 'publish',
@@ -611,17 +571,6 @@ class CV_Advanced {
             $args['post__not_in'] = $heard_ids;
         }
 
-        if ( ! empty( $top_genres ) ) {
-            $args['tax_query'] = array(
-                array(
-                    'taxonomy' => 'cv_genre',
-                    'field'    => 'slug',
-                    'terms'    => $top_genres,
-                    'operator' => 'IN',
-                ),
-            );
-        }
-
         $posts  = get_posts( $args );
         $result = array();
 
@@ -633,15 +582,12 @@ class CV_Advanced {
                 $cover = isset( $m[1] ) ? "https://img.youtube.com/vi/{$m[1]}/mqdefault.jpg" : '';
             }
 
-            $genres = wp_get_post_terms( $post->ID, 'cv_genre', array( 'fields' => 'names' ) );
-
             $result[] = array(
                 'id'        => $post->ID,
                 'title'     => $post->post_title,
                 'url'       => get_permalink( $post->ID ),
                 'cover'     => $cover ?: CV_PLUGIN_URL . 'assets/img/default-cover.svg',
                 'artista'   => get_post_meta( $post->ID, '_cv_artista', true ),
-                'genero'    => ( ! is_wp_error( $genres ) && $genres ) ? $genres[0] : '',
                 'score'     => (float) get_post_meta( $post->ID, '_cv_score', true ),
                 'plays'     => (int) get_post_meta( $post->ID, '_cv_plays_total', true ),
                 'youtube_url' => $yt_url,

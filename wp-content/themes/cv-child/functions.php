@@ -12,7 +12,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_CHILD_VERSION', '15.0.0' );
+define( 'CV_CHILD_VERSION', '15.7.0' );
 define( 'CV_CHILD_DIR',     get_stylesheet_directory() );
 define( 'CV_CHILD_URL',     get_stylesheet_directory_uri() );
 
@@ -74,6 +74,9 @@ function cv_child_enqueue() {
 
     // style.css do filho (identificação — quase vazio, mas deve ser enfileirado)
     wp_enqueue_style( 'cv-child-style', get_stylesheet_uri(), array('cv-components'), CV_CHILD_VERSION );
+
+    // Ajustes visuais (player escuro, logo do menu) — fora dos CSS protegidos
+    wp_enqueue_style( 'cv-ajustes', CV_CHILD_URL . '/assets/css/cv-ajustes.css', array('cv-child-style'), CV_CHILD_VERSION );
 
     // JS do tema filho
     wp_enqueue_script(
@@ -187,9 +190,13 @@ function cv_youtube_id( $url ) {
 }
 
 // ── Compatibilidade com plugin cv-public-js ───────────────────────
-// O plugin enfileira cv-public-js. O tema filho depende dele.
+// O plugin enfileira cv-public-js (prioridade 10). O tema filho depende dele.
 // Garante que se o plugin não estiver ativo, não quebre.
-add_action( 'wp_enqueue_scripts', 'cv_child_fallback_public_js', 5 );
+// v15.5.1: rodava na prioridade 5, ANTES do plugin — registrava cv-public-js
+// vazio e o WordPress ignorava o arquivo real do plugin (cv-public.js nunca
+// carregava: favoritos, plays, playlists, busca…). Agora roda na 15: depois
+// do plugin (10) e antes do tema enfileirar cv-theme-js (20).
+add_action( 'wp_enqueue_scripts', 'cv_child_fallback_public_js', 15 );
 function cv_child_fallback_public_js() {
     if ( ! wp_script_is( 'cv-public-js', 'registered' ) ) {
         wp_register_script( 'cv-public-js', false );
@@ -246,34 +253,9 @@ function cv_child_logo_css_var() {
     echo '<style>:root{--cv-logo-url:url("' . esc_url( $logo ) . '");}</style>' . "\n";
 }
 
-// ── AJAX autocomplete de busca ────────────────────────────────────
-add_action( 'wp_ajax_cv_autocomplete',        'cv_child_autocomplete' );
-add_action( 'wp_ajax_nopriv_cv_autocomplete', 'cv_child_autocomplete' );
-function cv_child_autocomplete() {
-    check_ajax_referer( 'cv_autocomplete_nonce', 'nonce' );
-    $term = sanitize_text_field( $_GET['term'] ?? '' );
-    if ( strlen($term) < 2 ) { wp_send_json_success( array('results' => array()) ); }
-
-    $posts = get_posts( array(
-        'post_type'      => 'musica',
-        'post_status'    => 'publish',
-        'posts_per_page' => 7,
-        's'              => $term,
-    ) );
-
-    $results = array();
-    foreach ( $posts as $post ) {
-        $artista = get_post_meta( $post->ID, '_cv_artista', true );
-        $results[] = array(
-            'id'     => $post->ID,
-            'title'  => $post->post_title,
-            'artist' => $artista,
-            'url'    => get_permalink( $post->ID ),
-            'cover'  => cv_cover_url( $post->ID ),
-        );
-    }
-    wp_send_json_success( array('results' => $results) );
-}
+// Autocomplete de busca: fica no plugin (CV_Features::ajax_autocomplete),
+// que usa a busca unificada CV_Search (Relevanssi). A cópia que existia aqui
+// nunca rodava (o plugin responde primeiro) e foi removida na v15.5.0.
 
 // ── PWA: manifest e meta tags ─────────────────────────────────────
 add_action( 'wp_head', 'cv_child_pwa_tags', 1 );

@@ -4,8 +4,9 @@
 // Projeto : Canção Verdadeira — Plataforma de letras musicais sertanejas
 // Módulo  : Publicação Acelerada de Músicas (v2.16.0)
 // Funções : Fila de rascunhos importados do YouTube com formulário inline.
-//           Preenche letra, MP3, descrição, gênero, subcategoria e
-//           sentimentos sem sair do painel — publica com 1 clique.
+//           Preenche letra, MP3, descrição e sentimentos sem sair do
+//           painel — publica com 1 clique.
+// v2.26.0 : removidos os campos Gênero e Subcategoria (site todo sertanejo).
 //           Reduz tempo de cadastro de ~5min por música para ~90 segundos.
 // Visual  : Dark mode Spotify-style, painel dividido (lista | formulário)
 // Autor   : Canção Verdadeira | Gerado: 2026-06-27
@@ -35,22 +36,6 @@ class CV_Publicacao_Rapida {
         ) );
     }
 
-    private static function get_generos() {
-        return get_terms( array(
-            'taxonomy'   => 'cv_genre',
-            'hide_empty' => false,
-            'orderby'    => 'name',
-        ) );
-    }
-
-    private static function get_subcategorias() {
-        return get_terms( array(
-            'taxonomy'   => 'cv_subcategory',
-            'hide_empty' => false,
-            'orderby'    => 'name',
-        ) );
-    }
-
     // ── AJAX: carregar dados de uma música ────────────────────────
 
     public static function ajax_load() {
@@ -63,8 +48,6 @@ class CV_Publicacao_Rapida {
             wp_send_json_error('Música não encontrada.');
         }
 
-        $generos     = wp_get_post_terms( $id, 'cv_genre',       array('fields'=>'ids') );
-        $subcats     = wp_get_post_terms( $id, 'cv_subcategory', array('fields'=>'ids') );
         $sentimentos = array();
         if ( class_exists('CV_Sentimentos') ) {
             $sents = CV_Sentimentos::get_for_musica( $id );
@@ -86,8 +69,6 @@ class CV_Publicacao_Rapida {
             'ativo'        => get_post_meta( $id, '_cv_ativo', true ) ?: '1',
             'destaque'     => get_post_meta( $id, '_cv_destaque', true ),
             'capa_url'     => get_the_post_thumbnail_url( $id, 'medium' ) ?: '',
-            'generos'      => $generos,
-            'subcategorias'=> $subcats,
             'sentimentos'  => $sentimentos,
             'status'       => $post->post_status,
         ) );
@@ -178,12 +159,6 @@ class CV_Publicacao_Rapida {
             }
         }
 
-        // Taxonomias
-        $generos = isset($_POST['generos']) ? array_map('absint', (array)$_POST['generos']) : array();
-        $subcats = isset($_POST['subcategorias']) ? array_map('absint', (array)$_POST['subcategorias']) : array();
-        wp_set_post_terms( $id, $generos, 'cv_genre' );
-        wp_set_post_terms( $id, $subcats, 'cv_subcategory' );
-
         // Sentimentos
         if ( class_exists('CV_Sentimentos') ) {
             $sents = isset($_POST['sentimentos']) ? array_map('absint', (array)$_POST['sentimentos']) : array();
@@ -217,8 +192,6 @@ class CV_Publicacao_Rapida {
     public static function render_page() {
         $rascunhos    = self::get_rascunhos(100);
         $total        = count( $rascunhos );
-        $generos_list = self::get_generos();
-        $subcats_list = self::get_subcategorias();
         $sents_list   = class_exists('CV_Sentimentos') ? CV_Sentimentos::get_all() : array();
         $nonce        = wp_create_nonce('cv_admin_nonce');
 
@@ -426,7 +399,7 @@ class CV_Publicacao_Rapida {
         /* Grid 2 colunas */
         .cv-pr-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-        /* Checkboxes de gênero/sentimento */
+        /* Checkboxes de sentimento */
         .cv-pr-checks {
             display: flex; flex-wrap: wrap; gap: 8px;
         }
@@ -646,36 +619,6 @@ class CV_Publicacao_Rapida {
                             </div>
                         </div>
 
-                        <!-- Gêneros -->
-                        <div class="cv-pr-section">
-                            <div class="cv-pr-section-title">🎸 Gênero</div>
-                            <div class="cv-pr-checks" id="cv-pr-generos-checks">
-                                <?php foreach ( $generos_list as $g ) : ?>
-                                <label class="cv-pr-check-label" data-id="<?php echo (int)$g->term_id; ?>">
-                                    <input type="checkbox" value="<?php echo (int)$g->term_id; ?>"
-                                           name="generos[]" onchange="cvPrToggleCheck(this.closest('label'))">
-                                    <?php echo esc_html($g->name); ?>
-                                </label>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-
-                        <!-- Subcategorias -->
-                        <?php if ( ! empty($subcats_list) ) : ?>
-                        <div class="cv-pr-section">
-                            <div class="cv-pr-section-title">📂 Subcategoria</div>
-                            <div class="cv-pr-checks" id="cv-pr-subcats-checks">
-                                <?php foreach ( $subcats_list as $s ) : ?>
-                                <label class="cv-pr-check-label" data-id="<?php echo (int)$s->term_id; ?>">
-                                    <input type="checkbox" value="<?php echo (int)$s->term_id; ?>"
-                                           name="subcategorias[]" onchange="cvPrToggleCheck(this.closest('label'))">
-                                    <?php echo esc_html($s->name); ?>
-                                </label>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                        <?php endif; ?>
-
                         <!-- Sentimentos -->
                         <?php if ( ! empty($sents_list) ) : ?>
                         <div class="cv-pr-section">
@@ -787,14 +730,6 @@ class CV_Publicacao_Rapida {
                 fd.append('_cv_descricao',   document.getElementById('cv-pr-descricao').value);
                 fd.append('_cv_ativo',    document.getElementById('cv-pr-ativo').checked ? '1' : '0');
                 fd.append('_cv_destaque', document.getElementById('cv-pr-destaque').checked ? '1' : '0');
-                // Gêneros
-                document.querySelectorAll('#cv-pr-generos-checks input:checked').forEach(function(el){
-                    fd.append('generos[]', el.value);
-                });
-                // Subcategorias
-                document.querySelectorAll('#cv-pr-subcats-checks input:checked').forEach(function(el){
-                    fd.append('subcategorias[]', el.value);
-                });
                 // Sentimentos
                 document.querySelectorAll('#cv-pr-sents-checks input:checked').forEach(function(el){
                     fd.append('sentimentos[]', el.value);
@@ -853,21 +788,6 @@ class CV_Publicacao_Rapida {
                     document.getElementById('cv-pr-destaque').checked = d.destaque === '1';
                     cvPrSyncCheck(document.getElementById('cv-pr-lbl-ativo'));
                     cvPrSyncCheck(document.getElementById('cv-pr-lbl-destaque'));
-
-                    // Gêneros
-                    document.querySelectorAll('#cv-pr-generos-checks input').forEach(function(el){
-                        el.checked = d.generos.indexOf(parseInt(el.value)) !== -1;
-                        cvPrSyncCheck(el.closest('label'));
-                    });
-
-                    // Subcategorias
-                    var subcEl = document.getElementById('cv-pr-subcats-checks');
-                    if (subcEl) {
-                        subcEl.querySelectorAll('input').forEach(function(el){
-                            el.checked = d.subcategorias.indexOf(parseInt(el.value)) !== -1;
-                            cvPrSyncCheck(el.closest('label'));
-                        });
-                    }
 
                     // Sentimentos
                     var sentEl = document.getElementById('cv-pr-sents-checks');

@@ -3,7 +3,11 @@
 // Gerado em: 2025-06-02 00:00:00
 // Projeto: Cancao Verdadeira - Plataforma de letras musicais sertanejas
 // Sistema de notificacoes in-app para usuarios logados: nova musica
-// de genero favorito, musica entrou no Top 10, marco de plays.
+// publicada, musica favorita entrou no Top 10, marco de plays.
+// v2.26.0: o aviso de nova musica ia so para quem tinha o genero favorito;
+// agora vai para todos que nao desligaram "Receber notificações de novas
+// músicas" (_cv_notif_enabled) e so na 1a publicacao (antes repetia a cada
+// atualizacao da musica ja publicada).
 // Armazena em user_meta (_cv_notifications), limite de 30 por usuario.
 // Endpoints AJAX: listar, marcar como lida e limpar todas.
 
@@ -16,8 +20,8 @@ class CV_Notifications {
         add_action( 'wp_ajax_cv_mark_notif_read',     array( __CLASS__, 'mark_read' ) );
         add_action( 'wp_ajax_cv_clear_notifications', array( __CLASS__, 'clear_all' ) );
 
-        // Dispara notificacao ao publicar musica nova
-        add_action( 'publish_musica', array( __CLASS__, 'on_music_published' ), 10, 2 );
+        // Dispara notificacao quando uma musica e publicada pela 1a vez
+        add_action( 'transition_post_status', array( __CLASS__, 'on_music_published' ), 10, 3 );
     }
 
     /**
@@ -43,32 +47,27 @@ class CV_Notifications {
     }
 
     /**
-     * Notifica usuarios cujo genero favorito tem nova musica.
+     * Avisa os usuarios sobre uma musica nova (so na 1a publicacao).
      */
-    public static function on_music_published( $post_id, $post ) {
-        if ( 'publish' !== $post->post_status ) { return; }
+    public static function on_music_published( $new_status, $old_status, $post ) {
+        if ( 'musica' !== $post->post_type || 'publish' !== $new_status || 'publish' === $old_status ) { return; }
 
-        $genres = wp_get_post_terms( $post_id, 'cv_genre', array( 'fields' => 'slugs' ) );
-        if ( is_wp_error( $genres ) || empty( $genres ) ) { return; }
-
-        $url   = get_permalink( $post_id );
-        $title = get_the_title( $post_id );
-
-        // Busca usuarios com preferencia de genero salva
         $users = get_users( array(
-            'meta_key'   => '_cv_favorite_genre',
-            'meta_value' => $genres,
-            'compare'    => 'IN',
             'fields'     => 'ID',
-            'number'     => 200,
+            'number'     => 500,
+            'meta_query' => array(
+                'relation' => 'OR',
+                array( 'key' => '_cv_notif_enabled', 'compare' => 'NOT EXISTS' ),
+                array( 'key' => '_cv_notif_enabled', 'value' => '0', 'compare' => '!=' ),
+            ),
         ) );
 
         foreach ( $users as $user_id ) {
             self::add(
-                $user_id,
+                (int) $user_id,
                 'new_music',
-                'Nova música: "' . $title . '"',
-                $url,
+                'Nova música: "' . get_the_title( $post ) . '"',
+                get_permalink( $post ),
                 '🎵'
             );
         }

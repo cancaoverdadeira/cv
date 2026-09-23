@@ -41,8 +41,8 @@ class CV_Litespeed {
         if ( function_exists( 'litespeed_purge_post' ) ) { litespeed_purge_post( $post_id ); }
         if ( function_exists( 'rocket_clean_post' ) )    { rocket_clean_post( $post_id ); }
 
-        // Limpa todos os transients de ranking (qualquer limite e gênero)
-        // O formato é: cv_ranking_top_{limit}_{genre} e cv_ranking_recent_{limit}
+        // Limpa todos os transients de ranking (qualquer limite)
+        // O formato é: cv_ranking_top_{limit} e cv_ranking_recent_{limit}
         global $wpdb;
         $wpdb->query(
             "DELETE FROM {$wpdb->options}

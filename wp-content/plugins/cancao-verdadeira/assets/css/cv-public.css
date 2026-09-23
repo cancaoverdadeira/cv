@@ -556,20 +556,6 @@ body.cv-modal-open {
     margin:      0 0 6px;
 }
 
-.cv-card-genero {
-    display:       inline-block;
-    background:    rgba(242,165,26,0.16);
-    border:        1px solid rgba(201,162,126,0.6);
-    border-radius: 20px;
-    color:         var(--cv-gold);
-    font-size:     11px;
-    font-weight:   600;
-    padding:       2px 10px;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
 /* Ações do card */
 .cv-card-acoes {
     display:     flex;
@@ -745,167 +731,6 @@ body.cv-modal-open {
 }
 
 /* ════════════════════════════════════════════════════════════════════
-   [cv_generos] — adicionado em 2026-06-13 (v1.7)
-   ════════════════════════════════════════════════════════════════════ */
-
-/* ── Grade de gêneros ────────────────────────────────────────────── */
-.cv-genre-grid {
-    display: grid;
-    gap:     16px;
-}
-.cv-genre-grid-col-2 { grid-template-columns: repeat(2, 1fr); }
-.cv-genre-grid-col-3 { grid-template-columns: repeat(3, 1fr); }
-.cv-genre-grid-col-4 { grid-template-columns: repeat(4, 1fr); }
-
-.cv-genre-card {
-    position:      relative;
-    border-radius: 12px;
-    overflow:      hidden;
-    aspect-ratio:  16 / 9;
-    display:       flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding:       16px;
-    text-decoration: none;
-    transition:    transform var(--cv-transition), box-shadow var(--cv-transition);
-}
-.cv-genre-card:hover {
-    transform:  translateY(-4px);
-    box-shadow: 0 12px 32px rgba(123,58,34,0.15);
-}
-.cv-genre-card-bg {
-    position: absolute;
-    inset:    0;
-    z-index:  0;
-    transition: transform .4s ease;
-}
-.cv-genre-card:hover .cv-genre-card-bg {
-    transform: scale(1.05);
-}
-.cv-genre-card-overlay {
-    position:   absolute;
-    inset:      0;
-    background: linear-gradient(to top, rgba(59,36,24,0.45) 0%, rgba(123,58,34,0.03) 60%);
-    z-index:    1;
-}
-.cv-genre-card-icon {
-    position:  absolute;
-    top:       12px;
-    left:      14px;
-    font-size: 24px;
-    z-index:   2;
-    filter:    drop-shadow(0 2px 4px rgba(123,58,34,0.14));
-}
-.cv-genre-card-name {
-    position:    relative;
-    z-index:     2;
-    color:       #3B2418;
-    font-size:   16px;
-    font-weight: 700;
-    text-shadow: 0 1px 4px rgba(123,58,34,0.18);
-    line-height: 1.2;
-}
-.cv-genre-card-count {
-    position:  relative;
-    z-index:   2;
-    color:     rgba(59,36,24,0.7);
-    font-size: 12px;
-    margin-top: 3px;
-}
-
-/* ── Lista de gêneros ────────────────────────────────────────────── */
-.cv-generos-lista {
-    list-style: none;
-    margin:     0;
-    padding:    0;
-    display:    flex;
-    flex-direction: column;
-    gap:        6px;
-}
-.cv-generos-lista-item a {
-    display:       flex;
-    align-items:   center;
-    gap:           12px;
-    background:    var(--cv-bg-card);
-    border:        1px solid var(--cv-border);
-    border-radius: var(--cv-radius);
-    padding:       12px 16px;
-    text-decoration: none;
-    color:         var(--cv-text);
-    transition:    background var(--cv-transition), border-color var(--cv-transition);
-}
-.cv-generos-lista-item a:hover {
-    background:   rgba(242,165,26,0.09);
-    border-color: rgba(201,162,126,0.6);
-}
-.cv-generos-lista-icon {
-    width:           40px;
-    height:          40px;
-    border-radius:   8px;
-    display:         flex;
-    align-items:     center;
-    justify-content: center;
-    font-size:       20px;
-    flex-shrink:     0;
-}
-.cv-generos-lista-nome {
-    flex:        1;
-    font-weight: 600;
-    font-size:   14px;
-}
-.cv-generos-lista-count {
-    color:       var(--cv-text-muted);
-    font-size:   13px;
-    font-weight: 600;
-}
-.cv-generos-lista-seta {
-    color:     var(--cv-text-muted);
-    font-size: 18px;
-}
-
-/* ── Pills de gêneros ────────────────────────────────────────────── */
-.cv-generos-pills {
-    display:   flex;
-    flex-wrap: wrap;
-    gap:       8px;
-}
-.cv-genre-pill-sc {
-    display:       inline-flex;
-    align-items:   center;
-    gap:           6px;
-    background:    rgba(var(--pill-color), .1);
-    border:        1px solid color-mix(in srgb, var(--pill-color) 40%, transparent);
-    border-radius: 50px;
-    color:         var(--pill-color);
-    font-size:     13px;
-    font-weight:   700;
-    padding:       6px 16px;
-    text-decoration: none;
-    transition:    background var(--cv-transition), transform var(--cv-transition);
-}
-.cv-genre-pill-sc:hover {
-    background: color-mix(in srgb, var(--pill-color) 20%, transparent);
-    transform:  translateY(-1px);
-}
-.cv-pill-count {
-    background:    color-mix(in srgb, var(--pill-color) 20%, transparent);
-    border-radius: 10px;
-    font-size:     11px;
-    padding:       1px 7px;
-}
-
-/* ── Responsivo ──────────────────────────────────────────────────── */
-@media (max-width: 768px) {
-    .cv-genre-grid-col-4,
-    .cv-genre-grid-col-3 { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 480px) {
-    .cv-genre-grid-col-4,
-    .cv-genre-grid-col-3,
-    .cv-genre-grid-col-2 { grid-template-columns: 1fr; }
-}
-
-/* ════════════════════════════════════════════════════════════════════
    Extras v1.9.1 — [cv_recomendacoes], [cv_ranking_periodo], tendências
    ════════════════════════════════════════════════════════════════════ */
 
@@ -962,9 +787,7 @@ body.cv-modal-open {
 /* ── Banners ─────────────────────────────────────────────────────── */
 .cv-banners-wrap { width:100%; }
 
-.cv-banners-home_topo {
-    margin: 0 0 32px;
-}
+.cv-banners-apos_letra { margin: 0; } /* v2.28.0: substitui home_topo (nunca no topo) */
 
 .cv-banners-meio_pagina,
 .cv-banners-rodape_pagina {

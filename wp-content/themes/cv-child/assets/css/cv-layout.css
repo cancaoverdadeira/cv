@@ -131,33 +131,6 @@
 }
 .cv-nav-link .nav-icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
 
-/* Gêneros na sidebar */
-.cv-sidebar-genres {
-    padding: 12px;
-    border-bottom: 1px solid var(--cv-border-subtle);
-}
-.cv-genre-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 10px;
-    border-radius: var(--cv-radius-full);
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--cv-text);
-    text-decoration: none;
-    margin: 3px 3px 3px 0;
-    background: rgba(123,58,34,0.07);
-    border: 1px solid var(--cv-border);
-    transition: all var(--cv-transition);
-}
-.cv-genre-pill:hover {
-    background: rgba(242,165,26,0.16);
-    border-color: var(--cv-gold);
-    color: var(--cv-gold);
-    transform: translateY(-1px);
-}
-
 /* Área do usuário na sidebar */
 .cv-sidebar-user {
     margin-top: auto;

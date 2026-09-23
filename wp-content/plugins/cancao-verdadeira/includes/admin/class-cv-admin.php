@@ -196,7 +196,6 @@ class CV_Admin {
     public static function register_settings() {
         register_setting( 'cv_settings_group', 'cv_mailerlite_api_key',   array( 'sanitize_callback' => 'sanitize_text_field' ) );
         register_setting( 'cv_settings_group', 'cv_mailerlite_group_id',  array( 'sanitize_callback' => 'sanitize_text_field' ) );
-        register_setting( 'cv_settings_group', 'cv_mailerlite_groups',    array( 'sanitize_callback' => array( __CLASS__, 'sanitize_array' ) ) );
         register_setting( 'cv_settings_group', 'cv_whatsapp_number',      array( 'sanitize_callback' => 'sanitize_text_field' ) );
         register_setting( 'cv_settings_group', 'cv_whatsapp_message',     array( 'sanitize_callback' => 'sanitize_textarea_field', 'default' => 'Olá! Vim do Canção Verdadeira e gostaria de saber mais.' ) );
         register_setting( 'cv_settings_group', 'cv_whatsapp_tooltip',     array( 'sanitize_callback' => 'sanitize_text_field', 'default' => 'Fale conosco no WhatsApp!' ) );

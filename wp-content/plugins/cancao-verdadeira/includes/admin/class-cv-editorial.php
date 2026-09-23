@@ -4,7 +4,8 @@
 // Módulo: Painel de Inteligência Editorial — Canção Verdadeira v2.23.0
 // Exibe painel "Oportunidades": músicas com dados incompletos agrupadas por gap.
 // Inspirado pela sugestão do Diretor de TI José Amado: "o administrador resolve tudo rapidamente".
-// Campos auditados: letra, capa, artista, compositor, YouTube URL, categoria, SEO.
+// Campos auditados: letra, capa, artista, compositor, YouTube URL, SEO, sentimento.
+// v2.26.0: removido o item "Sem Gênero" (o site é todo sertanejo).
 // Acesso: apenas administradores. Visual executivo dark mode.
 // Compatível com PHP 7.2+.
 
@@ -129,25 +130,7 @@ class CV_Editorial {
             'priority'=> 2,
         );
 
-        // 6. Sem gênero
-        $args = $base_args;
-        $args['tax_query'] = array(
-            array(
-                'taxonomy' => 'cv_genre',
-                'operator' => 'NOT EXISTS',
-            ),
-        );
-        $ids = get_posts( $args );
-        $gaps['sem_genero'] = array(
-            'label'   => 'Sem Gênero',
-            'icon'    => '🎸',
-            'color'   => '#2980b9',
-            'ids'     => $ids,
-            'tip'     => 'Sem gênero a música não aparece nas páginas de categoria.',
-            'priority'=> 2,
-        );
-
-        // 7. Sem sentimento
+        // 6. Sem sentimento
         $args = $base_args;
         $args['meta_query'] = array(
             'relation' => 'OR',
@@ -233,7 +216,7 @@ class CV_Editorial {
         $total_pub = $totals['published'];
         $score = 100;
         if ( $total_pub > 0 ) {
-            $weights = array( 'sem_letra' => 30, 'sem_youtube' => 25, 'sem_capa' => 15, 'sem_artista' => 10, 'sem_compositor' => 8, 'sem_genero' => 7, 'sem_seo' => 3, 'sem_sentimento' => 2 );
+            $weights = array( 'sem_letra' => 30, 'sem_youtube' => 25, 'sem_capa' => 15, 'sem_artista' => 10, 'sem_compositor' => 10, 'sem_seo' => 5, 'sem_sentimento' => 2 );
             $deduct = 0;
             foreach ( $weights as $key => $w ) {
                 if ( isset( $gaps[$key] ) ) {
@@ -373,7 +356,7 @@ class CV_Editorial {
         <div style="background:#1DB95411;border:1px solid #1DB95444;border-radius:12px;padding:40px;text-align:center;grid-column:1/-1;">
             <div style="font-size:48px;margin-bottom:12px;">🎉</div>
             <div style="color:#137B38;font-size:18px;font-weight:700;margin-bottom:8px;">Catálogo 100% Completo!</div>
-            <div style="color:#8A6A55;font-size:13px;">Todas as músicas publicadas têm letra, capa, YouTube, artista, compositor e gênero preenchidos.</div>
+            <div style="color:#8A6A55;font-size:13px;">Todas as músicas publicadas têm letra, capa, YouTube, artista e compositor preenchidos.</div>
         </div>
         <?php endif; ?>
         </div>
@@ -389,7 +372,6 @@ class CV_Editorial {
                     '▶️ URL do YouTube'              => 'sem_youtube',
                     '🎤 Nome do artista'             => 'sem_artista',
                     '✍️ Nome do compositor'          => 'sem_compositor',
-                    '🎸 Gênero musical'              => 'sem_genero',
                     '📡 Descrição SEO'               => 'sem_seo',
                     '🎭 Sentimento / emoção'         => 'sem_sentimento',
                 );

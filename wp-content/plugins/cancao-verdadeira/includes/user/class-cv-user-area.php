@@ -170,7 +170,6 @@ class CV_User_Area {
             'favorites'            => $fav_count,
             'playlists'            => $playlist_count,
             'achievements'         => count( $achievements ),
-            'favorite_genre'       => get_user_meta( $user_id, '_cv_favorite_genre', true ),
             'notifications_unread' => $unread,
         );
     }

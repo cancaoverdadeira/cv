@@ -7,6 +7,9 @@
 // CORRIGIDO v1.1: removido register_submenu() deste arquivo — o menu é
 // registrado exclusivamente em class-cv-admin-menu.php para evitar duplicatas.
 // Compatível com PHP 7.2+ — sem arrow functions nem typed returns.
+// v2.26.0: removidos o filtro e as colunas Gênero/Subcategoria (site todo
+// sertanejo); coluna "Plays Total" passou a ler _cv_plays_total (lia _cv_plays,
+// que não existe, e saía sempre 0).
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -298,7 +301,6 @@ class CV_Admin_Exports {
     // ─────────────────────────────────────────────
 
     private function render_card_musicas( $total ) {
-        $genres = get_terms( array( 'taxonomy' => 'cv_genre', 'hide_empty' => false ) );
         ?>
         <div class="cv-export-card card-musicas">
             <h2>
@@ -306,19 +308,10 @@ class CV_Admin_Exports {
                 Catálogo de Músicas
                 <span class="cv-export-badge"><?php echo number_format( $total ); ?> músicas</span>
             </h2>
-            <p class="cv-desc">Título, artista, compositor, gênero, álbum, ano, plays, favoritos, avaliação e status de cada música.</p>
+            <p class="cv-desc">Título, artista, compositor, álbum, ano, plays, favoritos, avaliação e status de cada música.</p>
             <form method="post" class="cv-export-form">
                 <?php wp_nonce_field( 'cv_export_nonce', 'cv_nonce' ); ?>
                 <input type="hidden" name="cv_export_type" value="musicas">
-                <div class="cv-export-field">
-                    <label>Gênero</label>
-                    <select name="cv_genre">
-                        <option value="">Todos os gêneros</option>
-                        <?php if ( ! is_wp_error( $genres ) ) : foreach ( $genres as $g ) : ?>
-                            <option value="<?php echo esc_attr( $g->slug ); ?>"><?php echo esc_html( $g->name ); ?></option>
-                        <?php endforeach; endif; ?>
-                    </select>
-                </div>
                 <div class="cv-export-field">
                     <label>Status</label>
                     <select name="cv_status">
@@ -330,7 +323,7 @@ class CV_Admin_Exports {
                 <button type="submit" class="cv-btn-export">⬇ Baixar CSV</button>
             </form>
             <div class="cv-exp-columns">
-                <strong>Colunas:</strong> ID · Título · Artista · Compositor · Gênero · Subcategoria · Álbum · Ano · Plays · Favoritos · Avaliação · Status · YouTube · MP3 · Data
+                <strong>Colunas:</strong> ID · Título · Artista · Compositor · Álbum · Ano · Plays · Favoritos · Avaliação · Status · YouTube · MP3 · Data
             </div>
         </div>
         <?php
@@ -457,7 +450,6 @@ class CV_Admin_Exports {
     // ─────────────────────────────────────────────
 
     private function export_musicas() {
-        $genre_filter  = isset( $_POST['cv_genre'] )  ? sanitize_text_field( $_POST['cv_genre'] ) : '';
         $status_filter = isset( $_POST['cv_status'] ) ? sanitize_text_field( $_POST['cv_status'] ) : '';
         $args = array(
             'post_type'      => 'musica',
@@ -466,13 +458,6 @@ class CV_Admin_Exports {
             'orderby'        => 'title',
             'order'          => 'ASC',
         );
-        if ( ! empty( $genre_filter ) ) {
-            $args['tax_query'] = array( array(
-                'taxonomy' => 'cv_genre',
-                'field'    => 'slug',
-                'terms'    => $genre_filter,
-            ) );
-        }
         if ( $status_filter !== '' ) {
             $args['meta_query'] = array( array(
                 'key'     => '_cv_ativo',
@@ -486,15 +471,11 @@ class CV_Admin_Exports {
         $out = fopen( 'php://output', 'w' );
         fprintf( $out, chr(0xEF).chr(0xBB).chr(0xBF) );
         fputcsv( $out, array(
-            'ID','Título','Artista','Compositor','Gênero','Subcategoria',
+            'ID','Título','Artista','Compositor',
             'Álbum','Ano','Plays Total','Favoritos','Avaliação Média',
             'Status','Tem YouTube','Tem MP3','Data Publicação'
         ), ';' );
         foreach ( $musicas as $m ) {
-            $genre_terms = get_the_terms( $m->ID, 'cv_genre' );
-            $sub_terms   = get_the_terms( $m->ID, 'cv_subcategory' );
-            $genre_name  = ( $genre_terms && ! is_wp_error( $genre_terms ) ) ? $genre_terms[0]->name : '';
-            $sub_name    = ( $sub_terms   && ! is_wp_error( $sub_terms ) )   ? $sub_terms[0]->name   : '';
             $ativo       = get_post_meta( $m->ID, '_cv_ativo',       true );
             $youtube     = get_post_meta( $m->ID, '_cv_youtube_url', true );
             $mp3         = get_post_meta( $m->ID, '_cv_audio_url',   true );
@@ -503,11 +484,9 @@ class CV_Admin_Exports {
                 $m->post_title,
                 get_post_meta( $m->ID, '_cv_artista',    true ),
                 get_post_meta( $m->ID, '_cv_compositor', true ),
-                $genre_name,
-                $sub_name,
                 get_post_meta( $m->ID, '_cv_album', true ),
                 get_post_meta( $m->ID, '_cv_ano',   true ),
-                intval( get_post_meta( $m->ID, '_cv_plays',      true ) ),
+                intval( get_post_meta( $m->ID, '_cv_plays_total', true ) ),
                 intval( get_post_meta( $m->ID, '_cv_favorites',  true ) ),
                 round( floatval( get_post_meta( $m->ID, '_cv_avg_rating', true ) ), 2 ),
                 ( $ativo == '1' || $ativo === '' ) ? 'Ativa' : 'Inativa',

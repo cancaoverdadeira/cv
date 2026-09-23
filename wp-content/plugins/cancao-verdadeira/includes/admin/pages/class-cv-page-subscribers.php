@@ -3,6 +3,8 @@
 // Página "Assinantes": lista e gestão de assinantes da newsletter.
 // Extraído de class-cv-admin-pages.php em 2026-09-12 (refatoração:
 // cada página do admin passou a viver em seu próprio arquivo/classe).
+// v2.26.0: sem gênero favorito (site todo sertanejo) — saíram a coluna, o
+// painel "por gênero" e o KPI; o KPI virou "Crescimento semanal".
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -14,9 +16,9 @@ class CV_Page_Subscribers {
         // Export CSV direto
         if ( isset( $_GET['cv_export_sub'] ) && check_admin_referer( 'cv_export_sub' ) ) {
             $all   = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}cv_subscribers ORDER BY subscribed_at DESC" );
-            $lines = array( implode(';', array('ID','Nome','E-mail','Gênero','Data')) );
+            $lines = array( implode(';', array('ID','Nome','E-mail','Data')) );
             foreach ( $all as $s ) {
-                $lines[] = implode(';', array($s->id, '"'.str_replace('"','""',$s->name).'"', $s->email, $s->genre?:'Geral', date('d/m/Y H:i',strtotime($s->subscribed_at))));
+                $lines[] = implode(';', array($s->id, '"'.str_replace('"','""',$s->name).'"', $s->email, date('d/m/Y H:i',strtotime($s->subscribed_at))));
             }
             $csv = "ï»¿" . implode("
 ", $lines);
@@ -59,11 +61,6 @@ class CV_Page_Subscribers {
             $chart_values[] = $acumulado;
         }
 
-        // Por gênero
-        $por_genero = $wpdb->get_results(
-            "SELECT COALESCE(NULLIF(genre,''),'Geral') AS genre, COUNT(*) AS total
-             FROM {$use_table} GROUP BY genre ORDER BY total DESC LIMIT 6"
-        );
         $taxa_crescimento = $total_30d > 0 ? round(($total_7d / max(1,$total_30d/4.3))*100 - 100) : 0;
         ?>
         <div class="cv-admin-wrap cv-subs-v2" style="max-width:1100px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
@@ -88,19 +85,11 @@ class CV_Page_Subscribers {
         .cv-subs-kpi-badge { position:absolute;top:12px;right:12px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px; }
         .badge-up{background:rgba(29,185,84,.15);color:#137B38;}
         .badge-neu{background:rgba(123,58,34,0.06);color:#8A6A55;}
-        .cv-subs-mid { display:grid;grid-template-columns:1.6fr 1fr;gap:18px;margin-bottom:22px;align-items:start; }
-        @media(max-width:900px){.cv-subs-mid{grid-template-columns:1fr;}}
+        .cv-subs-mid { display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:22px;align-items:start; }
         .cv-subs-panel { background:#FFFFFF;border:1px solid #EADBC6;border-radius:12px;padding:20px 22px;max-height:260px;overflow-y:auto; }
         .cv-subs-panel h3 { font-size:12px;color:#8A6A55;text-transform:uppercase;letter-spacing:.6px;margin:0 0 14px;font-weight:600; }
         .cv-subs-panel h3 strong { color:#2871BE; }
         #cv-subs-chart { width:100%;height:110px;max-height:110px; }
-        .cv-genre-bar { margin-bottom:12px; }
-        .cv-genre-bar:last-child { margin-bottom:0; }
-        .cv-genre-header { display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px; }
-        .cv-genre-name { color:#8A6A55; }
-        .cv-genre-val { color:#2871BE;font-weight:700; }
-        .cv-genre-bg { height:5px;background:#FBF6EE;border-radius:5px; }
-        .cv-genre-fill { height:100%;border-radius:5px;background:linear-gradient(90deg,#4a90d9,#5aa8f0); }
         /* Tabela */
         .cv-subs-toolbar { display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px; }
         .cv-subs-search { display:flex;gap:8px;align-items:center; }
@@ -118,7 +107,6 @@ class CV_Page_Subscribers {
         .cv-subs-table tr:last-child td { border-bottom:none; }
         .cv-subs-avatar { width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#3B2418;flex-shrink:0; }
         .cv-subs-name { display:flex;align-items:center;gap:8px; }
-        .cv-genre-pill { font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(74,144,217,.12);color:#2871BE; }
         .cv-subs-empty { text-align:center;padding:48px;color:#8A6A55; }
         </style>
 
@@ -154,35 +142,17 @@ class CV_Page_Subscribers {
                 <div class="cv-subs-kpi-label">Novos (30 dias)</div>
             </div>
             <div class="cv-subs-kpi k4">
-                <span class="cv-subs-kpi-badge <?php echo $taxa_crescimento>=0?'badge-up':'badge-neu'; ?>"><?php echo ($taxa_crescimento>=0?'+':'').$taxa_crescimento; ?>%</span>
                 <span class="cv-subs-kpi-icon">📈</span>
-                <div class="cv-subs-kpi-val"><?php echo count($por_genero); ?></div>
-                <div class="cv-subs-kpi-label">Gêneros favoritos</div>
+                <div class="cv-subs-kpi-val"><?php echo ($taxa_crescimento>=0?'+':'').$taxa_crescimento; ?>%</div>
+                <div class="cv-subs-kpi-label">Crescimento semanal</div>
             </div>
         </div>
 
-        <!-- Gráfico + Por gênero -->
+        <!-- Gráfico de crescimento -->
         <div class="cv-subs-mid">
             <div class="cv-subs-panel">
                 <h3>Crescimento acumulado — <strong>últimos 30 dias</strong></h3>
                 <canvas id="cv-subs-chart"></canvas>
-            </div>
-            <div class="cv-subs-panel">
-                <h3>Assinantes por <strong>gênero favorito</strong></h3>
-                <?php if(empty($por_genero)):?>
-                    <p style="color:#8A6A55;font-size:12px">Nenhum dado de gênero disponível.</p>
-                <?php else:
-                $max_g = max(array_column((array)$por_genero,'total'));
-                $max_g = max(1,$max_g);
-                foreach($por_genero as $g): $pct=round(($g->total/$max_g)*100); ?>
-                <div class="cv-genre-bar">
-                    <div class="cv-genre-header">
-                        <span class="cv-genre-name"><?php echo esc_html($g->genre);?></span>
-                        <span class="cv-genre-val"><?php echo number_format($g->total);?></span>
-                    </div>
-                    <div class="cv-genre-bg"><div class="cv-genre-fill" style="width:<?php echo $pct;?>%"></div></div>
-                </div>
-                <?php endforeach; endif; ?>
             </div>
         </div>
 
@@ -216,7 +186,6 @@ class CV_Page_Subscribers {
                     <th style="width:42px">#</th>
                     <th>Nome</th>
                     <th>E-mail</th>
-                    <th>Gênero</th>
                     <th>Cadastro</th>
                     <th style="width:40px"></th>
                 </tr></thead>
@@ -236,7 +205,6 @@ class CV_Page_Subscribers {
                         </div>
                     </td>
                     <td><span class="cv-sub-email" style="color:#8A6A55;font-size:12px"><?php echo esc_html($sub->email);?></span></td>
-                    <td><?php if($sub->genre??''):?><span class="cv-genre-pill"><?php echo esc_html($sub->genre);?></span><?php else:?><span style="color:#8A6A55;font-size:11px">—</span><?php endif;?></td>
                     <td style="font-size:11px;color:#8A6A55"><?php echo esc_html($tempo);?></td>
                     <td>
                         <button class="cv-sub-delete" data-id="<?php echo esc_attr($sub->id);?>" data-email="<?php echo esc_attr($sub->email);?>"
