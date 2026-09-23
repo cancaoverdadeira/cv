@@ -43,13 +43,10 @@ class CV_Editorial {
         );
 
         // 1. Sem letra
-        $args = $base_args;
-        $args['meta_query'] = array(
-            'relation' => 'OR',
-            array( 'key' => '_cv_letra', 'compare' => 'NOT EXISTS' ),
-            array( 'key' => '_cv_letra', 'value' => '', 'compare' => '=' ),
-        );
-        $ids = get_posts( $args );
+        // A letra fica em post_content (não há meta de letra), então filtra em PHP.
+        $ids = array_values( array_filter( get_posts( $base_args ), function( $id ) {
+            return ! CV_Fields::has_letra( $id );
+        } ) );
         $gaps['sem_letra'] = array(
             'label'   => 'Sem Letra',
             'icon'    => '📝',

@@ -34,6 +34,11 @@ $avg_rating  = class_exists('CV_Ratings') ? CV_Ratings::get_average( $music_id )
 $user_rating = class_exists('CV_Ratings') ? CV_Ratings::get_user_rating_value( $music_id ) : 0;
 $rating_count= class_exists('CV_Ratings') ? CV_Ratings::get_count( $music_id )             : 0;
 
+// Modo lançamento: contadores abaixo do mínimo não aparecem (ver CV_Launch)
+$show_plays  = class_exists('CV_Launch') ? CV_Launch::plays_visible( $plays )          : $plays > 0;
+$show_rating = class_exists('CV_Launch') ? CV_Launch::ratings_visible( $rating_count ) : true;
+$fav_label   = class_exists('CV_Launch') ? CV_Launch::fav_label( $favoritos )         : (string) $favoritos;
+
 // Favorito
 $user_id = get_current_user_id();
 $is_fav  = ( $user_id && class_exists('CV_Favorites') ) ? CV_Favorites::is_favorite( $user_id, $music_id ) : false;
@@ -159,12 +164,12 @@ get_header();
 
                             <!-- Stats rápidas -->
                             <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px">
-                                <?php if ($plays) : ?>
+                                <?php if ($show_plays) : ?>
                                 <span style="font-size:13px;color:rgba(59,36,24,0.6)">
                                     ▶ <?php echo number_format($plays); ?> plays
                                 </span>
-                                <?php endif; ?>
-                                <?php if ($avg_rating > 0) : ?>
+                                <?php elseif ( class_exists('CV_Launch') ) : echo CV_Launch::badge(); endif; ?>
+                                <?php if ($avg_rating > 0 && $show_rating) : ?>
                                 <span style="font-size:13px;color:var(--cv-gold)">
                                     ★ <?php echo number_format($avg_rating, 1); ?>/5
                                     <span style="color:rgba(59,36,24,0.55);font-size:11px">
@@ -201,7 +206,7 @@ get_header();
                                         aria-pressed="<?php echo $is_fav ? 'true' : 'false'; ?>"
                                         style="<?php echo $is_fav ? 'background:rgba(231,76,60,.2);border-color:#e74c3c;color:#D62C1A' : ''; ?>">
                                     <?php echo $is_fav ? '❤ Favoritado' : '♡ Favoritar'; ?>
-                                    <span id="cv-fav-count">(<?php echo $favoritos; ?>)</span>
+                                    <?php if ( '' !== $fav_label ) : ?><span id="cv-fav-count">(<?php echo esc_html( $fav_label ); ?>)</span><?php endif; ?>
                                 </button>
 
                             </div>
@@ -373,7 +378,7 @@ get_header();
                     <div class="cv-aside-card">
                         <h3 class="cv-aside-title">⭐ Avaliação</h3>
 
-                        <?php if ($avg_rating > 0) : ?>
+                        <?php if ($avg_rating > 0 && $show_rating) : ?>
                         <div style="text-align:center;margin-bottom:14px">
                             <div style="font-family:var(--font-display);font-size:40px;
                                         font-weight:700;color:var(--cv-gold);line-height:1">
@@ -714,7 +719,7 @@ jQuery(function($){
                     });
                 $btn.find('span, .cv-btn-text').remove();
                 $btn.text(fav ? '❤ Favoritado' : '♡ Favoritar');
-                $btn.append(' <span id="cv-fav-count">(' + res.data.favorites + ')</span>');
+                if (res.data.favorites_label) { $btn.append(' <span id="cv-fav-count">(' + res.data.favorites_label + ')</span>'); }
                 if(window.CV_Theme) CV_Theme.toast(fav ? '❤ Adicionado aos favoritos' : 'Removido dos favoritos', fav ? 'success' : 'info');
             }
             $btn.prop('disabled', false);

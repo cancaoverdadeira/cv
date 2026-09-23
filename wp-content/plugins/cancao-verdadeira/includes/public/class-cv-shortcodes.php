@@ -198,9 +198,11 @@ class CV_Shortcodes {
                             <!-- Estatísticas e ações -->
                             <div class="cv-card-acoes">
 
+                                <?php if ( CV_Launch::plays_visible( $plays ) ) : ?>
                                 <span class="cv-card-stat">
                                     ▶ <span class="cv-play-count" data-music-id="<?php echo esc_attr( $music_id ); ?>"><?php echo number_format( $plays ); ?></span>
                                 </span>
+                                <?php else : echo CV_Launch::badge(); endif; ?>
 
                                 <button
                                     class="cv-btn-favorite <?php echo $is_fav ? 'cv-favorited' : ''; ?>"
@@ -208,10 +210,10 @@ class CV_Shortcodes {
                                     aria-pressed="<?php echo $is_fav ? 'true' : 'false'; ?>"
                                     aria-label="<?php echo $is_fav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'; ?>"
                                     title="Favoritar">
-                                    ❤ <span class="cv-fav-count" data-music-id="<?php echo esc_attr( $music_id ); ?>"><?php echo $favoritos; ?></span>
+                                    ❤ <span class="cv-fav-count" data-music-id="<?php echo esc_attr( $music_id ); ?>"><?php echo CV_Launch::fav_label( $favoritos ); ?></span>
                                 </button>
 
-                                <?php if ( $avg > 0 ) : ?>
+                                <?php if ( $avg > 0 && CV_Launch::ratings_visible( CV_Ratings::get_count( $music_id ) ) ) : ?>
                                     <span class="cv-card-stat cv-card-avg" title="Avaliação média">
                                         ★ <?php echo number_format( $avg, 1 ); ?>
                                     </span>
@@ -285,6 +287,14 @@ class CV_Shortcodes {
                 break;
         }
 
+        // Modo lançamento: sem audiência real suficiente, "top"/"melhores"
+        // viram a seleção editorial, com o título deixando isso explícito.
+        $modo_selecao = 'recentes' !== $tipo && ! $genero && ! CV_Launch::ranking_ready();
+        if ( $modo_selecao ) {
+            $musicas = CV_Launch::selection( $limite );
+            $titulo  = '⭐ Seleção da Canção Verdadeira';
+        }
+
         if ( empty( $musicas ) ) {
             return '<p class="cv-sem-musicas">Nenhuma música no ranking ainda. Cadastre músicas no painel.</p>';
         }
@@ -323,8 +333,8 @@ class CV_Shortcodes {
                                 <p class="cv-card-artista"><?php echo esc_html( $row->artista ); ?></p>
                             <?php endif; ?>
                             <div class="cv-card-acoes">
-                                <span class="cv-card-stat">▶ <?php echo number_format( $plays ); ?></span>
-                                <?php if ( $avg > 0 ) : ?>
+                                <?php echo CV_Launch::plays_visible( $plays ) ? '<span class="cv-card-stat">▶ ' . number_format( $plays ) . '</span>' : CV_Launch::badge(); ?>
+                                <?php if ( $avg > 0 && CV_Launch::ratings_visible( CV_Ratings::get_count( $music_id ) ) ) : ?>
                                     <span class="cv-card-stat">★ <?php echo number_format( $avg, 1 ); ?></span>
                                 <?php endif; ?>
                             </div>
@@ -375,11 +385,11 @@ class CV_Shortcodes {
                         </div>
 
                         <div class="cv-ranking-stats">
-                            <span title="Plays">▶ <?php echo number_format( $plays ); ?></span>
-                            <?php if ( $favs ) : ?>
+                            <?php echo CV_Launch::plays_visible( $plays ) ? '<span title="Plays">▶ ' . number_format( $plays ) . '</span>' : CV_Launch::badge(); ?>
+                            <?php if ( CV_Launch::favs_visible( $favs ) ) : ?>
                                 <span title="Favoritos">❤ <?php echo number_format( $favs ); ?></span>
                             <?php endif; ?>
-                            <?php if ( $avg > 0 ) : ?>
+                            <?php if ( $avg > 0 && CV_Launch::ratings_visible( CV_Ratings::get_count( $music_id ) ) ) : ?>
                                 <span title="Avaliação">★ <?php echo number_format( $avg, 1 ); ?></span>
                             <?php endif; ?>
                             <?php if ( $score > 0 ) : ?>
@@ -552,13 +562,13 @@ class CV_Shortcodes {
                     <span class="cv-card-genero"><?php echo esc_html( $genero_nome ); ?></span>
                 <?php endif; ?>
                 <div class="cv-card-acoes">
-                    <span class="cv-card-stat">▶ <?php echo number_format( $plays ); ?></span>
+                    <?php echo CV_Launch::plays_visible( $plays ) ? '<span class="cv-card-stat">▶ ' . number_format( $plays ) . '</span>' : CV_Launch::badge(); ?>
                     <button class="cv-btn-favorite <?php echo $is_fav ? 'cv-favorited' : ''; ?>"
                             data-music-id="<?php echo esc_attr( $music_id ); ?>"
                             title="Favoritar">
-                        ❤ <span class="cv-fav-count" data-music-id="<?php echo esc_attr( $music_id ); ?>"><?php echo $favoritos; ?></span>
+                        ❤ <span class="cv-fav-count" data-music-id="<?php echo esc_attr( $music_id ); ?>"><?php echo CV_Launch::fav_label( $favoritos ); ?></span>
                     </button>
-                    <?php if ( $avg > 0 ) : ?>
+                    <?php if ( $avg > 0 && CV_Launch::ratings_visible( CV_Ratings::get_count( $music_id ) ) ) : ?>
                         <span class="cv-card-stat">★ <?php echo number_format( $avg, 1 ); ?></span>
                     <?php endif; ?>
                 </div>

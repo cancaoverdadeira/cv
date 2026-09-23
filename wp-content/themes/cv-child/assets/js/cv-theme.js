@@ -316,7 +316,7 @@
                         $('[data-music-id="' + musicId + '"].cv-btn-favorite')
                             .toggleClass('cv-favorited', isFav)
                             .attr('aria-pressed', isFav ? 'true' : 'false');
-                        $count.text(res.data.favorites);
+                        $count.text(res.data.favorites_label !== undefined ? res.data.favorites_label : res.data.favorites);
                         Toast.show(
                             isFav ? '❤ Adicionado aos favoritos' : 'Removido dos favoritos',
                             isFav ? 'success' : 'info'

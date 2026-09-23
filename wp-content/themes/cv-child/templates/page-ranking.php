@@ -17,6 +17,8 @@ $top_24h       = class_exists('CV_Ranking') ? CV_Ranking::get_by_period('24h', 1
 $top_7d        = class_exists('CV_Ranking') ? CV_Ranking::get_by_period('7d', 10)  : array();
 $top_30d       = class_exists('CV_Ranking') ? CV_Ranking::get_by_period('30d', 10) : array();
 $ultima_atuali = get_option('cv_ranking_last_update', '');
+// Modo lançamento: sem audiência real suficiente, mostra a seleção editorial.
+$modo_selecao  = class_exists('CV_Launch') && ! CV_Launch::ranking_ready();
 
 get_header();
 ?>
@@ -40,6 +42,33 @@ get_header();
                 <?php endif; ?>
             </p>
         </div>
+
+        <?php if ( $modo_selecao ) : ?>
+        <div class="cv-section">
+            <div class="cv-selecao-aviso">
+                <strong>O ranking dos ouvintes está se formando.</strong>
+                Ele aparece aqui assim que as músicas tiverem audiência suficiente.
+                Enquanto isso, conheça a <strong>Seleção da Canção Verdadeira</strong>, escolhida pela nossa equipe.
+            </div>
+            <div class="cv-grid">
+                <?php
+                $selecao = CV_Launch::selection(20);
+                $sel_q   = new WP_Query( array(
+                    'post_type'      => 'musica',
+                    'post__in'       => $selecao ? wp_list_pluck( $selecao, 'music_id' ) : array( 0 ),
+                    'orderby'        => 'post__in',
+                    'posts_per_page' => 20,
+                ) );
+                while ( $sel_q->have_posts() ) : $sel_q->the_post();
+                    get_template_part('template-parts/card-musica');
+                endwhile;
+                wp_reset_postdata();
+                if ( ! $selecao ) : ?>
+                <div class="cv-empty">Nenhuma música em destaque ainda.</div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php else : ?>
 
         <!-- Abas de período -->
         <div style="padding:0 36px;background:var(--cv-bg-card);
@@ -122,6 +151,7 @@ get_header();
             <?php endif; ?>
 
         </div>
+        <?php endif; // modo_selecao ?>
 
         <?php get_template_part('template-parts/footer-content'); ?>
         <?php get_template_part('template-parts/player'); ?>

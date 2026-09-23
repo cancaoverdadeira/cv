@@ -31,8 +31,7 @@ class CV_Admin_SEO {
             $detail['titulo'] = false;
         }
 
-        $letra = get_post_meta( $post_id, '_cv_letra', true );
-        if ( $letra && mb_strlen( strip_tags( $letra ) ) >= 100 ) {
+        if ( CV_Fields::has_letra( $post_id ) ) {
             $score += 25;
             $detail['letra'] = true;
         } else {
@@ -145,9 +144,8 @@ class CV_Admin_SEO {
 
         $com_letra = (int) $wpdb->get_var(
             "SELECT COUNT(DISTINCT p.ID) FROM {$wpdb->posts} p
-             INNER JOIN {$wpdb->postmeta} pm ON pm.post_id = p.ID
              WHERE p.post_type = 'musica' AND p.post_status = 'publish'
-               AND pm.meta_key = '_cv_letra' AND LENGTH(pm.meta_value) > 100"
+               AND CHAR_LENGTH(p.post_content) > 100"
         );
 
         $com_youtube = (int) $wpdb->get_var(

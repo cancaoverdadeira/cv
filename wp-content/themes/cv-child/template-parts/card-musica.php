@@ -127,12 +127,14 @@ $yt_id = cv_youtube_id( $youtube_url );
         <!-- Ações e estatísticas -->
         <div class="cv-card-acoes">
 
+            <?php if ( ! class_exists('CV_Launch') || CV_Launch::plays_visible($plays) ) : ?>
             <span class="cv-card-stat" title="Plays">
                 ▶ <span class="cv-play-count"
                          data-music-id="<?php echo esc_attr($music_id); ?>">
                     <?php echo number_format($plays); ?>
                 </span>
             </span>
+            <?php else : echo CV_Launch::badge(); endif; ?>
 
             <button class="cv-btn-favorite <?php echo $is_fav ? 'cv-favorited' : ''; ?>"
                     data-music-id="<?php echo esc_attr($music_id); ?>"
@@ -142,11 +144,14 @@ $yt_id = cv_youtube_id( $youtube_url );
                 ❤
                 <span class="cv-fav-count"
                       data-music-id="<?php echo esc_attr($music_id); ?>">
-                    <?php echo $favoritos; ?>
+                    <?php echo class_exists('CV_Launch') ? CV_Launch::fav_label($favoritos) : $favoritos; ?>
                 </span>
             </button>
 
-            <?php if ( $avg > 0 ) : ?>
+            <?php
+            // A média só aparece com avaliações suficientes (modo lançamento).
+            $rating_count = class_exists('CV_Ratings') ? (int) CV_Ratings::get_count($music_id) : PHP_INT_MAX;
+            if ( $avg > 0 && ( ! class_exists('CV_Launch') || CV_Launch::ratings_visible($rating_count) ) ) : ?>
             <span class="cv-card-stat" title="Avaliação média">
                 ★ <?php echo number_format($avg, 1); ?>
             </span>

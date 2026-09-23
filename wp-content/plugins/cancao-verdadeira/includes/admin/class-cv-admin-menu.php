@@ -88,11 +88,9 @@ class CV_Admin_Menu {
         add_submenu_page( null, 'Banners',            'Banners',
             'manage_options', 'cv-banners',            array( 'CV_Page_Appearance', 'render' ) );
 
-        // Calibração — exclusivo admin ID 3, invisível no menu
-        if ( (int) get_current_user_id() === 3 ) {
-            add_submenu_page( null, 'Calibração', 'Calibração',
-                'manage_options', 'cv-calibracao', array( 'CV_Calibracao', 'render_page' ) );
-        }
+        // Calibração (gerava plays/avaliações fictícias) foi desativada em
+        // 23/09/2026 e substituída pelo modo lançamento (CV_Launch), que só
+        // esconde contadores baixos e mostra uma seleção editorial rotulada.
     }
 
     // ── Página de Gêneros dark (substitui edit-tags.php nativo) ──

@@ -122,7 +122,7 @@
 
                     // Atualiza contador de favoritos na página
                     $('.cv-fav-count[data-music-id="' + musicId + '"]')
-                        .text( res.data.total );
+                        .text( res.data.favorites_label !== undefined ? res.data.favorites_label : res.data.favorites );
 
                     showToast(
                         isFav

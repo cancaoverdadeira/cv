@@ -66,7 +66,7 @@ class CV_Admin_Sentimentos {
                 "SELECT COALESCE(SUM(CAST(pm.meta_value AS UNSIGNED)),0)
                  FROM $rel ms
                  INNER JOIN $posts p ON p.ID = ms.musica_id
-                 INNER JOIN {$wpdb->postmeta} pm ON pm.post_id = ms.musica_id AND pm.meta_key = '_cv_favoritos'
+                 INNER JOIN {$wpdb->postmeta} pm ON pm.post_id = ms.musica_id AND pm.meta_key = '_cv_favorites'
                  WHERE ms.sentimento_id = %d AND p.post_status = 'publish'",
                 $sid
             ) );
@@ -131,7 +131,7 @@ class CV_Admin_Sentimentos {
              FROM $rel ms
              INNER JOIN {$wpdb->posts} p ON p.ID = ms.musica_id
              LEFT JOIN {$wpdb->postmeta} pm_plays  ON pm_plays.post_id  = ms.musica_id AND pm_plays.meta_key  = '_cv_plays'
-             LEFT JOIN {$wpdb->postmeta} pm_favs   ON pm_favs.post_id   = ms.musica_id AND pm_favs.meta_key   = '_cv_favoritos'
+             LEFT JOIN {$wpdb->postmeta} pm_favs   ON pm_favs.post_id   = ms.musica_id AND pm_favs.meta_key   = '_cv_favorites'
              LEFT JOIN {$wpdb->postmeta} pm_rating ON pm_rating.post_id = ms.musica_id AND pm_rating.meta_key = '_cv_avg_rating'
              WHERE ms.sentimento_id = %d AND p.post_status = 'publish' AND p.post_type = 'musica'
              GROUP BY p.ID ORDER BY plays DESC LIMIT 30",

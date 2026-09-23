@@ -32,7 +32,7 @@ class CV_Page_Dashboard {
         $total_pub = count( $pub_ids );
         $sem_letra = 0; $sem_yt = 0; $sem_capa = 0;
         foreach ( $pub_ids as $pid ) {
-            if ( empty( get_post_meta( $pid, '_cv_letra', true ) ) )       $sem_letra++;
+            if ( ! CV_Fields::has_letra( $pid ) )                          $sem_letra++;
             if ( empty( get_post_meta( $pid, '_cv_youtube_url', true ) ) ) $sem_yt++;
             if ( ! has_post_thumbnail( $pid ) )                            $sem_capa++;
         }
@@ -667,9 +667,7 @@ class CV_Page_Dashboard {
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-settings')); ?>" class="cv-ab cv-ab-gray">⚙️ Configurações</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-roles')); ?>" class="cv-ab cv-ab-red">🔐 Permissões</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-seguranca')); ?>" class="cv-ab cv-ab-red">🛡️ Segurança</a>
-                <?php if ( (int)get_current_user_id() === 3 ) : ?>
-                <a href="<?php echo esc_url(admin_url('admin.php?page=cv-calibracao')); ?>" class="cv-ab cv-ab-gray">⚖️ Calibração</a>
-                <?php endif; ?>
+                <a href="<?php echo esc_url(admin_url('admin.php?page=cv-settings#cv-modo-lancamento')); ?>" class="cv-ab cv-ab-gray">🚀 Modo lançamento</a>
             </div>
         </div>
 

@@ -14,7 +14,7 @@ class CV_Search {
         $sql = $wpdb->prepare(
             " AND ({$wpdb->posts}.post_title LIKE %s OR {$wpdb->posts}.post_content LIKE %s OR {$wpdb->posts}.post_excerpt LIKE %s
             OR EXISTS (SELECT 1 FROM {$wpdb->postmeta} cv_search_meta WHERE cv_search_meta.post_id = {$wpdb->posts}.ID
-                AND cv_search_meta.meta_key IN ('_cv_letra','_cv_artista','_cv_compositor') AND cv_search_meta.meta_value LIKE %s))",
+                AND cv_search_meta.meta_key IN ('_cv_artista','_cv_compositor') AND cv_search_meta.meta_value LIKE %s))",
             $term, $term, $term, $term
         );
         if ( ! is_user_logged_in() ) { $sql .= " AND {$wpdb->posts}.post_password = ''"; }

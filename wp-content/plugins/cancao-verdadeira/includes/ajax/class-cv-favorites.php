@@ -75,6 +75,8 @@ class CV_Favorites {
         wp_send_json_success( array(
             'action'    => $action,
             'favorites' => $count,
+            // Texto a exibir: vazio enquanto abaixo do mínimo do modo lançamento.
+            'favorites_label' => class_exists( 'CV_Launch' ) ? CV_Launch::fav_label( $count ) : (string) $count,
         ) );
     }
 

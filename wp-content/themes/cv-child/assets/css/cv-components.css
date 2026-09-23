@@ -612,3 +612,35 @@ textarea.cv-input { resize: vertical; min-height: 80px; }
 .cv-parallax-slow   { --parallax-speed: 0.3; }
 .cv-parallax-medium { --parallax-speed: 0.5; }
 .cv-parallax-fast   { --parallax-speed: 0.7; }
+
+
+/* ── Modo lançamento (CV_Launch) ──────────────────────────────── */
+.cv-badge-lancamento {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: var(--cv-radius-full);
+    background: var(--cv-bg-elevated);
+    border: 1px solid var(--cv-border-hover);
+    color: var(--cv-gold);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    white-space: nowrap;
+}
+.cv-selecao-nota {
+    margin: -6px 0 14px;
+    color: var(--cv-text-dim);
+    font-size: 13px;
+}
+.cv-selecao-aviso {
+    margin: 0 0 20px;
+    padding: 14px 18px;
+    background: var(--cv-bg-elevated);
+    border: 1px solid var(--cv-border);
+    border-radius: var(--cv-radius);
+    color: var(--cv-text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+.cv-selecao-aviso strong { color: var(--cv-text); }

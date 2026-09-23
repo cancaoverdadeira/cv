@@ -54,7 +54,7 @@ class CV_Page_Ranking {
                          pm_capa.meta_value AS capa
                      FROM {$wpdb->posts} p
                      LEFT JOIN {$wpdb->postmeta} pm_plays ON pm_plays.post_id = p.ID AND pm_plays.meta_key = '_cv_plays'
-                     LEFT JOIN {$wpdb->postmeta} pm_favs  ON pm_favs.post_id  = p.ID AND pm_favs.meta_key  = '_cv_favoritos'
+                     LEFT JOIN {$wpdb->postmeta} pm_favs  ON pm_favs.post_id  = p.ID AND pm_favs.meta_key  = '_cv_favorites'
                      LEFT JOIN {$wpdb->postmeta} pm_avg   ON pm_avg.post_id   = p.ID AND pm_avg.meta_key   = '_cv_avg_rating'
                      LEFT JOIN {$wpdb->postmeta} pm_capa  ON pm_capa.post_id  = p.ID AND pm_capa.meta_key  = '_cv_capa_url'
                      WHERE p.post_type = 'musica' AND p.post_status = 'publish'

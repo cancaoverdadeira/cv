@@ -508,7 +508,7 @@ class CV_Admin_Exports {
                 get_post_meta( $m->ID, '_cv_album', true ),
                 get_post_meta( $m->ID, '_cv_ano',   true ),
                 intval( get_post_meta( $m->ID, '_cv_plays',      true ) ),
-                intval( get_post_meta( $m->ID, '_cv_favoritos',  true ) ),
+                intval( get_post_meta( $m->ID, '_cv_favorites',  true ) ),
                 round( floatval( get_post_meta( $m->ID, '_cv_avg_rating', true ) ), 2 ),
                 ( $ativo == '1' || $ativo === '' ) ? 'Ativa' : 'Inativa',
                 ! empty( $youtube ) ? 'Sim' : 'Não',

@@ -11,6 +11,10 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 // Dados do plugin
 $top_musicas    = class_exists('CV_Ranking') ? CV_Ranking::get_top(10)    : array();
+// Modo lançamento: sem audiência real suficiente, o Top 10 vira a seleção
+// editorial (músicas ⭐ Destaque), com título que deixa isso explícito.
+$modo_selecao   = class_exists('CV_Launch') && ! CV_Launch::ranking_ready();
+if ( $modo_selecao ) { $top_musicas = CV_Launch::selection(10); }
 $recentes       = class_exists('CV_Ranking') ? CV_Ranking::get_recent(8)  : array();
 $destaques      = class_exists('CV_Ranking') ? CV_Ranking::get_best(5)    : array();
 $generos        = get_terms(array('taxonomy' => 'cv_genre', 'hide_empty' => false, 'orderby' => 'name'));
@@ -168,10 +172,17 @@ get_header();
         <?php if ( ! empty($top_musicas) ) : ?>
         <section class="cv-section" aria-label="Ranking">
             <div class="cv-section-header">
+                <?php if ( $modo_selecao ) : ?>
+                <h2 class="cv-section-title">⭐ Seleção da <span>Canção Verdadeira</span></h2>
+                <?php else : ?>
                 <h2 class="cv-section-title">🏆 Top <span>10</span></h2>
                 <a href="<?php echo esc_url(home_url('/ranking/')); ?>"
                    class="cv-section-link">Ranking completo →</a>
+                <?php endif; ?>
             </div>
+            <?php if ( $modo_selecao ) : ?>
+            <p class="cv-selecao-nota">Músicas escolhidas pela nossa equipe enquanto o ranking dos ouvintes se forma.</p>
+            <?php endif; ?>
 
             <ul class="cv-ranking-lista" role="list">
                 <?php foreach ( $top_musicas as $i => $m ) :
@@ -198,7 +209,8 @@ get_header();
                     <!-- Posição -->
                     <div class="cv-ranking-pos"
                          style="<?php echo $is_top3 ? 'color:var(--cv-gold);font-size:22px' : ''; ?>">
-                        <?php if ($posicao === 1) : ?>🥇
+                        <?php if ($modo_selecao) : ?>★
+                        <?php elseif ($posicao === 1) : ?>🥇
                         <?php elseif ($posicao === 2) : ?>🥈
                         <?php elseif ($posicao === 3) : ?>🥉
                         <?php else : ?>#<?php echo $posicao; ?>
@@ -227,12 +239,18 @@ get_header();
 
                     <!-- Stats -->
                     <div class="cv-ranking-stats">
+                        <?php if ( $modo_selecao ) : ?>
+                        <?php echo CV_Launch::plays_visible($m->plays_total ?? 0)
+                            ? '<span title="Plays">▶ ' . number_format($m->plays_total) . '</span>'
+                            : CV_Launch::badge(); ?>
+                        <?php else : ?>
                         <?php echo $trend_icon[$trend] ?? ''; ?>
                         <span title="Plays">▶ <?php echo number_format($m->plays_total ?? 0); ?></span>
                         <span title="Favoritos">❤ <?php echo number_format($m->favorites ?? 0); ?></span>
                         <span class="cv-ranking-score" title="Score">
                             <?php echo number_format(floatval($m->score ?? 0), 1); ?>
                         </span>
+                        <?php endif; ?>
                     </div>
 
                 </li>

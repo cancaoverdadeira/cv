@@ -327,6 +327,12 @@ class CV_Metaboxes {
             <input type="checkbox" id="cv_destaque" name="cv_destaque" value="1" <?php checked($destaque,'1'); ?> />
             <label for="cv_destaque">⭐ Destaque na Home</label>
         </div>
+        <div class="cv-field" style="margin-top:8px">
+            <label for="cv_selecao_ordem" style="font-size:12px">Ordem na "Seleção da Canção Verdadeira"</label>
+            <input type="number" min="1" id="cv_selecao_ordem" name="cv_selecao_ordem" style="width:80px"
+                   value="<?php echo esc_attr( get_post_meta( $post->ID, '_cv_selecao_ordem', true ) ); ?>" />
+            <p class="cv-hint" style="margin:4px 0 0">Vale para músicas em destaque enquanto o ranking real não tem audiência suficiente. 1 aparece primeiro.</p>
+        </div>
         <?php
     }
 
@@ -469,6 +475,9 @@ class CV_Metaboxes {
         // Checkboxes
         update_post_meta($post_id, '_cv_ativo',    isset($_POST['cv_ativo'])    ? '1' : '0');
         update_post_meta($post_id, '_cv_destaque', isset($_POST['cv_destaque']) ? '1' : '0');
+        $ordem = isset($_POST['cv_selecao_ordem']) ? absint($_POST['cv_selecao_ordem']) : 0;
+        if ( $ordem ) { update_post_meta($post_id, '_cv_selecao_ordem', $ordem); }
+        else          { delete_post_meta($post_id, '_cv_selecao_ordem'); }
 
         // Gênero via select (taxonomia)
         if ( isset($_POST['cv_genero']) && is_array($_POST['cv_genero']) ) {

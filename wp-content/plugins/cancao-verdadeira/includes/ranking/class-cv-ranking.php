@@ -375,6 +375,12 @@ class CV_Ranking {
     /**
      * Enriquece resultados com URL, capa, gênero, compositor e artista.
      */
+    // Acesso público ao enriquecimento (capa, gênero, artista, tendência),
+    // usado pela "Seleção da Canção Verdadeira" do modo lançamento.
+    public static function enrich( $results ) {
+        return self::enrich_results( $results );
+    }
+
     private static function enrich_results( $results ) {
         if ( empty( $results ) ) { return array(); }
 

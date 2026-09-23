@@ -18,6 +18,14 @@ class CV_Page_Settings {
             update_option( 'cv_whatsapp_tooltip',     sanitize_text_field( isset($_POST['cv_whatsapp_tooltip'])     ? $_POST['cv_whatsapp_tooltip']     : '' ) );
             update_option( 'cv_whatsapp_pulse_delay', absint( isset($_POST['cv_whatsapp_pulse_delay']) ? $_POST['cv_whatsapp_pulse_delay'] : 3 ) );
             update_option( 'cv_play_seconds',         absint( isset($_POST['cv_play_seconds'])         ? $_POST['cv_play_seconds']         : 30 ) );
+            if ( class_exists( 'CV_Launch' ) ) {
+                $launch = array();
+                foreach ( array_keys( CV_Launch::defaults() ) as $k ) {
+                    $launch[ $k ] = max( 1, absint( isset( $_POST[ 'cv_launch_' . $k ] ) ? $_POST[ 'cv_launch_' . $k ] : 1 ) );
+                }
+                update_option( CV_Launch::OPTION, $launch );
+                delete_transient( 'cv_launch_ranking_ready' );
+            }
             $saved = true;
         } else {
             $saved = false;
@@ -225,6 +233,41 @@ class CV_Page_Settings {
                         </div>
                     </div>
                 </div>
+
+                <!-- Modo lançamento -->
+                <?php if ( class_exists( 'CV_Launch' ) ) : ?>
+                <div class="cv-set-card" id="cv-modo-lancamento">
+                    <div class="cv-set-card-header">
+                        <span class="cv-set-card-icon">🚀</span>
+                        <div>
+                            <div class="cv-set-card-title">Modo lançamento</div>
+                            <div class="cv-set-card-subtitle">Para o site não parecer zerado, sem inventar números</div>
+                        </div>
+                    </div>
+                    <div class="cv-set-card-body">
+                        <?php
+                        $launch_fields = array(
+                            'min_plays'   => array( 'Plays mínimos para mostrar o contador de plays', 'Abaixo disso, a música mostra o selo "Lançamento".' ),
+                            'min_favs'    => array( 'Favoritos mínimos para mostrar o contador de favoritos', 'Abaixo disso, o botão de favoritar aparece sem número.' ),
+                            'min_ratings' => array( 'Avaliações mínimas para mostrar a nota média', 'Evita uma nota baseada em uma ou duas pessoas.' ),
+                            'min_songs'   => array( 'Músicas com audiência para liberar o ranking real', 'Até lá, o Top 10 mostra a "Seleção da Canção Verdadeira": as músicas marcadas como ⭐ Destaque, na ordem definida no campo "Ordem na seleção" de cada música.' ),
+                        );
+                        foreach ( $launch_fields as $k => $f ) : ?>
+                        <div class="cv-set-field">
+                            <label for="cv_launch_<?php echo esc_attr( $k ); ?>"><?php echo esc_html( $f[0] ); ?></label>
+                            <input type="number" min="1" max="10000" id="cv_launch_<?php echo esc_attr( $k ); ?>"
+                                   name="cv_launch_<?php echo esc_attr( $k ); ?>"
+                                   value="<?php echo (int) CV_Launch::get( $k ); ?>" style="max-width:120px" />
+                            <div class="cv-set-hint"><?php echo esc_html( $f[1] ); ?></div>
+                        </div>
+                        <?php endforeach; ?>
+                        <div class="cv-set-hint">
+                            Situação atual: <strong><?php echo CV_Launch::ranking_ready() ? 'ranking real no ar' : 'mostrando a Seleção da Canção Verdadeira'; ?></strong>.
+                            Tudo o que o visitante vê é número real ou escolha editorial identificada.
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
 
                 <!-- Informações do sistema -->
                 <div class="cv-set-card">

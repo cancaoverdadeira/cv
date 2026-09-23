@@ -32,6 +32,8 @@ define( 'CV_PLAY_SECONDS',   30 );
 // ── Carrega todos os módulos do plugin ───────────────────────────
 $cv_includes = array(
     // CPT, taxonomias e metaboxes
+    'includes/cpt/class-cv-fields.php',
+    'includes/public/class-cv-launch.php',     // modo lançamento (contadores mínimos e seleção da casa)        // nomes centrais dos campos da música
     'includes/cpt/class-cv-cpt.php',
     'includes/cpt/class-cv-taxonomies.php',
     'includes/cpt/class-cv-metaboxes.php',
@@ -106,8 +108,8 @@ $cv_includes = array(
     'includes/admin/class-cv-seguranca.php',
     // Publicação Acelerada de Músicas (v2.16.0)
     'includes/admin/class-cv-publicacao-rapida.php',
-    // Calibração de Métricas — exclusivo admin (v2.15.0)
-    'includes/admin/class-cv-calibracao.php',
+    // Calibração de Métricas desativada em 23/09/2026 (gerava métricas
+    // fictícias); substituída por includes/public/class-cv-launch.php.
 );
 
 foreach ( $cv_includes as $file ) {
