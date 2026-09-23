@@ -27,3 +27,10 @@
 **/.DS_Store
 **/*.zip
 **/*.sql
+
+# Pastas pessoais de trabalho (prompts e músicas) — nunca enviar ao GitHub,
+# mesmo que alguém altere as regras de liberação acima.
+/Prompt/
+/Musica/
+/prompt/
+/musica/

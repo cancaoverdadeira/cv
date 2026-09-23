@@ -22,20 +22,20 @@ class CV_Admin_Menu {
     public static function register() {
         add_menu_page(
             'Cancao Verdadeira', 'Cancao Verdadeira', 'manage_options',
-            'cancao-verdadeira', array( 'CV_Admin_Pages', 'page_dashboard' ),
+            'cancao-verdadeira', array( 'CV_Page_Dashboard', 'render' ),
             'dashicons-format-audio', 3
         );
 
         // Menu enxuto — apenas os essenciais de navegação diária
         // Todas as funções secundárias estão no Dashboard → Central de Ações
         add_submenu_page( 'cancao-verdadeira', 'Dashboard',       'Dashboard',
-            'manage_options', 'cancao-verdadeira',      array( 'CV_Admin_Pages', 'page_dashboard' ) );
+            'manage_options', 'cancao-verdadeira',      array( 'CV_Page_Dashboard', 'render' ) );
         add_submenu_page( 'cancao-verdadeira', 'Ranking',         '🏆 Ranking',
-            'manage_options', 'cv-ranking',             array( 'CV_Admin_Pages', 'page_ranking' ) );
+            'manage_options', 'cv-ranking',             array( 'CV_Page_Ranking', 'render' ) );
         add_submenu_page( 'cancao-verdadeira', 'Email Marketing', '📨 Email Marketing',
-            'manage_options', 'cv-subscribers',         array( 'CV_Admin_Pages', 'page_subscribers' ) );
+            'manage_options', 'cv-subscribers',         array( 'CV_Page_Subscribers', 'render' ) );
         add_submenu_page( 'cancao-verdadeira', 'Logs',            '📋 Logs',
-            'manage_options', 'cv-logs',                array( 'CV_Admin_Pages', 'page_logs' ) );
+            'manage_options', 'cv-logs',                array( 'CV_Page_Logs', 'render' ) );
         // Nova Música e Músicas removidos do menu — acessíveis via Central de Ações no Dashboard
         add_submenu_page( null, 'Nova Música', 'Nova Música',
             'manage_options', 'post-new.php?post_type=musica' );
@@ -50,7 +50,7 @@ class CV_Admin_Menu {
         add_submenu_page( null, 'SEO',                'SEO',
             'manage_options', 'cv-seo',                array( 'CV_Admin_SEO', 'page_seo' ) );
         add_submenu_page( null, 'Importar YouTube',   'Importar YouTube',
-            'manage_options', 'cv-youtube-import',     array( 'CV_Admin_Pages', 'page_youtube_import' ) );
+            'manage_options', 'cv-youtube-import',     array( 'CV_Page_Youtube_Import', 'render' ) );
         add_submenu_page( null, 'Publicação Rápida',  'Publicação Rápida',
             'manage_options', 'cv-publicacao-rapida',  array( 'CV_Publicacao_Rapida', 'render_page' ) );
         add_submenu_page( null, 'Gêneros',            'Gêneros',
@@ -68,25 +68,25 @@ class CV_Admin_Menu {
         add_submenu_page( null, 'Gerenciar Sentimentos', 'Gerenciar Sentimentos',
             'manage_options', 'cv-sentimentos-crud',   array( 'CV_Sentimentos', 'render_admin_page' ) );
         add_submenu_page( null, 'Playlists',          'Playlists',
-            'manage_options', 'cv-playlists',          array( 'CV_Admin_Pages', 'page_playlists' ) );
+            'manage_options', 'cv-playlists',          array( 'CV_Page_Playlists', 'render' ) );
         add_submenu_page( null, 'Usuários',           'Usuários',
-            'manage_options', 'cv-users',              array( 'CV_Admin_Pages', 'page_users' ) );
+            'manage_options', 'cv-users',              array( 'CV_Page_Users', 'render' ) );
         add_submenu_page( null, 'Aparência',          'Aparência',
-            'manage_options', 'cv-appearance',         array( 'CV_Admin_Pages', 'page_appearance' ) );
+            'manage_options', 'cv-appearance',         array( 'CV_Page_Appearance', 'render' ) );
         add_submenu_page( null, 'Configurações',      'Configurações',
-            'manage_options', 'cv-settings',           array( 'CV_Admin_Pages', 'page_settings' ) );
+            'manage_options', 'cv-settings',           array( 'CV_Page_Settings', 'render' ) );
         add_submenu_page( null, 'Redes Sociais',      'Redes Sociais',
             'manage_options', 'cv-social',             array( 'CV_Social', 'page_social' ) );
         add_submenu_page( null, 'E-mails',            'E-mails',
             'manage_options', 'cv-email',              array( 'CV_Email', 'page_email' ) );
         add_submenu_page( null, 'Permissões',         'Permissões',
-            'manage_options', 'cv-roles',              array( 'CV_Admin_Pages', 'page_roles' ) );
+            'manage_options', 'cv-roles',              array( 'CV_Page_Roles', 'render' ) );
         add_submenu_page( null, 'Loja',               'Loja',
             'manage_options', 'cv-loja',               array( 'CV_Monetization_Pages', 'page_loja' ) );
         add_submenu_page( null, 'Sorteios',           'Sorteios',
             'manage_options', 'cv-sorteios',           array( 'CV_Monetization_Pages', 'page_sorteios' ) );
         add_submenu_page( null, 'Banners',            'Banners',
-            'manage_options', 'cv-banners',            array( 'CV_Admin_Pages', 'page_appearance' ) );
+            'manage_options', 'cv-banners',            array( 'CV_Page_Appearance', 'render' ) );
 
         // Calibração — exclusivo admin ID 3, invisível no menu
         if ( (int) get_current_user_id() === 3 ) {

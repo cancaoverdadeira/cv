@@ -54,8 +54,16 @@ class CV_Auth {
         }
 
         // Se Ultimate Member está ativo, usa o shortcode dele
+        // IDs reais dos formulários ficam em um_core_forms (não em um_login_id,
+        // que nunca existiu — bug encontrado em 22/09/2026: com o UM ativo essa
+        // delegação renderizava [ultimatemember form_id=""], vazio).
         if ( class_exists( 'UM' ) ) {
-            return do_shortcode( '[ultimatemember form_id="' . get_option( 'um_login_id', '' ) . '"]' );
+            $um_forms = get_option( 'um_core_forms', array() );
+            $login_id = isset( $um_forms['login'] ) ? (int) $um_forms['login'] : 0;
+            if ( $login_id ) {
+                return do_shortcode( '[ultimatemember form_id="' . $login_id . '"]' );
+            }
+            // Sem formulário de login do UM configurado — cai no formulário nativo abaixo.
         }
 
         $redirect = isset( $atts['redirect'] ) ? esc_url( $atts['redirect'] ) : home_url( '/minha-area/' );
@@ -224,7 +232,12 @@ class CV_Auth {
         }
 
         if ( class_exists( 'UM' ) ) {
-            return do_shortcode( '[ultimatemember form_id="' . get_option( 'um_register_id', '' ) . '"]' );
+            $um_forms    = get_option( 'um_core_forms', array() );
+            $register_id = isset( $um_forms['register'] ) ? (int) $um_forms['register'] : 0;
+            if ( $register_id ) {
+                return do_shortcode( '[ultimatemember form_id="' . $register_id . '"]' );
+            }
+            // Sem formulário de cadastro do UM configurado — cai no formulário nativo abaixo.
         }
 
         // Verifica se cadastro de usuários está habilitado no WordPress
