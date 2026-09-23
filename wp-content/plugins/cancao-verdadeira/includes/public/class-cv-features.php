@@ -84,18 +84,18 @@ class CV_Features {
             'sertanejo-sofrencia'     => '💔',
         );
         $gradientes = array(
-            'sertanejo-universitario' => 'linear-gradient(135deg,#7f2c00,#e67e22)',
-            'sertanejo-raiz'          => 'linear-gradient(135deg,#1a3a1a,#27ae60)',
-            'sertanejo-romantico'     => 'linear-gradient(135deg,#3a0020,#e91e8c)',
-            'modao'                   => 'linear-gradient(135deg,#2a1a00,#D4A017)',
-            'sertanejo-gospel'        => 'linear-gradient(135deg,#1a1a3a,#9b59b6)',
-            'sertanejo-sofrencia'     => 'linear-gradient(135deg,#001a3a,#3498db)',
+            'sertanejo-universitario' => 'linear-gradient(135deg,#F8EDE7,#e67e22)',
+            'sertanejo-raiz'          => 'linear-gradient(135deg,#EAF6EA,#27ae60)',
+            'sertanejo-romantico'     => 'linear-gradient(135deg,#F8E7F1,#e91e8c)',
+            'modao'                   => 'linear-gradient(135deg,#F8F2E7,#B8700C)',
+            'sertanejo-gospel'        => 'linear-gradient(135deg,#F8F0E4,#9b59b6)',
+            'sertanejo-sofrencia'     => 'linear-gradient(135deg,#E7EFF8,#3498db)',
         );
         $cores_pill = array(
             'sertanejo-universitario' => '#e67e22',
             'sertanejo-raiz'          => '#27ae60',
             'sertanejo-romantico'     => '#e91e8c',
-            'modao'                   => '#D4A017',
+            'modao'                   => '#B8700C',
             'sertanejo-gospel'        => '#9b59b6',
             'sertanejo-sofrencia'     => '#3498db',
         );
@@ -113,7 +113,7 @@ class CV_Features {
                 <div class="cv-genre-grid cv-genre-grid-col-<?php echo esc_attr( $colunas ); ?>">
                     <?php foreach ( $generos as $gen ) :
                         $icone     = $icones[ $gen->slug ]     ?? '🎵';
-                        $gradiente = $gradientes[ $gen->slug ] ?? 'linear-gradient(135deg,#1a1a1a,#333)';
+                        $gradiente = $gradientes[ $gen->slug ] ?? 'linear-gradient(135deg,#FFFFFF,#F3E6D3)';
                         $total     = $gen->count;
                     ?>
                     <a href="<?php echo esc_url( get_term_link( $gen ) ); ?>"
@@ -139,7 +139,7 @@ class CV_Features {
                 <ul class="cv-generos-lista">
                     <?php foreach ( $generos as $gen ) :
                         $icone = $icones[ $gen->slug ] ?? '🎵';
-                        $cor   = $cores_pill[ $gen->slug ] ?? '#D4A017';
+                        $cor   = $cores_pill[ $gen->slug ] ?? '#B8700C';
                         $total = $gen->count;
                     ?>
                     <li class="cv-generos-lista-item">
@@ -167,7 +167,7 @@ class CV_Features {
                 <div class="cv-generos-pills">
                     <?php foreach ( $generos as $gen ) :
                         $icone = $icones[ $gen->slug ] ?? '🎵';
-                        $cor   = $cores_pill[ $gen->slug ] ?? '#D4A017';
+                        $cor   = $cores_pill[ $gen->slug ] ?? '#B8700C';
                     ?>
                     <a href="<?php echo esc_url( get_term_link( $gen ) ); ?>"
                        class="cv-genre-pill-sc"
@@ -350,10 +350,10 @@ class CV_Features {
             gap: 8px;
         }
         .cv-whatsapp-tooltip {
-            background: rgba(18,18,18,.95);
-            border: 1px solid rgba(255,255,255,.08);
+            background: rgba(59,36,24,0.45);
+            border: 1px solid rgba(123,58,34,0.13);
             border-radius: 8px;
-            color: #F5F0E0;
+            color: #3B2418;
             font-size: 12px;
             font-weight: 600;
             padding: 6px 12px;
@@ -372,7 +372,7 @@ class CV_Features {
             height: 54px;
             border-radius: 50%;
             background: #25D366;
-            color: #fff;
+            color: #3B2418;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -384,7 +384,7 @@ class CV_Features {
         .cv-whatsapp-btn:hover {
             transform: scale(1.1);
             box-shadow: 0 6px 24px rgba(37,211,102,.5);
-            color: #fff;
+            color: #3B2418;
         }
         /* Anel de pulso */
         .cv-whatsapp-btn::before {

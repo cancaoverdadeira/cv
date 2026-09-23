@@ -37,7 +37,7 @@ class CV_Page_Roles {
                 'perms' => array('Tudo do Ouvinte', 'Criar músicas', 'Editar músicas', 'Painel admin (restrito)'),
             ),
             'cv_gerente'  => array(
-                'label' => 'Gerente CV', 'icon' => '🎛️', 'cor' => '#D4A017',
+                'label' => 'Gerente CV', 'icon' => '🎛️', 'cor' => '#B8700C',
                 'desc'  => 'Editor com poderes extras: excluir músicas, gerenciar playlists e usuários.',
                 'perms' => array('Tudo do Editor', 'Excluir músicas', 'Gerenciar playlists', 'Ver usuários'),
             ),
@@ -61,16 +61,16 @@ class CV_Page_Roles {
         ?>
         <div class="wrap" id="cv-roles-exec">
         <style>
-        body.wp-admin { background:#0f0f1a !important; }
-        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#0f0f1a !important; }
+        body.wp-admin { background:#FBF6EE !important; }
+        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#FBF6EE !important; }
         #cv-roles-exec {
-            --gold:#D4A017; --bg:#0f0f1a; --card:#1a1a2e; --bord:#2a2a4a;
-            --text:#e0e0e0; --muted:#888;
+            --gold:#B8700C; --bg:#FFFFFF; --card:#F8F0E4; --bord:#F3E6D3;
+            --text:#3B2418; --muted:#C9A27E;
             color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; padding-bottom:48px;
         }
         #cv-roles-exec * { box-sizing:border-box; }
         .cv-rol-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
-        .cv-rol-title { font-size:24px; font-weight:700; color:#fff; margin:0; }
+        .cv-rol-title { font-size:24px; font-weight:700; color:#3B2418; margin:0; }
         .cv-rol-title span { color:var(--gold); }
         /* Cards de role */
         .cv-rol-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; margin-bottom:28px; }
@@ -78,7 +78,7 @@ class CV_Page_Roles {
         .cv-rol-card:hover { transform:translateY(-2px); }
         .cv-rol-card-top { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
         .cv-rol-icon { font-size:28px; }
-        .cv-rol-name { font-size:15px; font-weight:700; color:#fff; }
+        .cv-rol-name { font-size:15px; font-weight:700; color:#3B2418; }
         .cv-rol-count { font-size:11px; margin-top:2px; }
         .cv-rol-desc { font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:12px; }
         .cv-rol-perms { display:flex; flex-direction:column; gap:4px; }
@@ -86,16 +86,16 @@ class CV_Page_Roles {
         .cv-rol-perm::before { content:'✓'; font-size:10px; font-weight:700; }
         /* Formulário de atribuição */
         .cv-rol-assign-box { background:var(--card); border:1px solid var(--bord); border-radius:14px; padding:22px; }
-        .cv-rol-assign-title { font-size:15px; font-weight:700; color:#fff; margin:0 0 18px; }
+        .cv-rol-assign-title { font-size:15px; font-weight:700; color:#3B2418; margin:0 0 18px; }
         .cv-rol-assign-grid { display:grid; grid-template-columns:1fr 1fr auto; gap:12px; align-items:end; }
         @media (max-width:800px) { .cv-rol-assign-grid { grid-template-columns:1fr; } }
         .cv-rol-field label { display:block; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; margin-bottom:5px; }
-        .cv-rol-select { width:100%; background:rgba(255,255,255,.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
+        .cv-rol-select { width:100%; background:rgba(123,58,34,0.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
         .cv-rol-select:focus { border-color:var(--gold); }
-        .cv-rol-select option { background:#1a1a2e; }
-        .cv-rol-btn-save { background:var(--gold); color:#000; border:none; padding:10px 20px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; white-space:nowrap; font-family:inherit; transition:opacity .2s; }
+        .cv-rol-select option { background:#F8F0E4; }
+        .cv-rol-btn-save { background:var(--gold); color:#3B2418; border:none; padding:10px 20px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; white-space:nowrap; font-family:inherit; transition:opacity .2s; }
         .cv-rol-btn-save:hover { opacity:.85; }
-        .cv-rol-notice { background:rgba(29,185,84,.08); border:1px solid rgba(29,185,84,.3); color:#1DB954; border-radius:8px; padding:10px 14px; font-size:13px; margin-bottom:18px; }
+        .cv-rol-notice { background:rgba(29,185,84,.08); border:1px solid rgba(29,185,84,.3); color:#137B38; border-radius:8px; padding:10px 14px; font-size:13px; margin-bottom:18px; }
         .cv-rol-warn { font-size:11px; color:var(--muted); margin-top:14px; padding:10px 14px; background:rgba(231,76,60,.06); border:1px solid rgba(231,76,60,.15); border-radius:8px; }
         </style>
 

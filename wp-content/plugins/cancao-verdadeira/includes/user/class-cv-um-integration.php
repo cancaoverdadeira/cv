@@ -24,26 +24,33 @@ class CV_UM_Integration {
         add_action( 'um_after_user_updated', array( __CLASS__, 'save_favorite_genre' ), 10, 1 );
     }
 
+    // default_privacy: 0 = qualquer pessoa, 3 = só o dono do perfil.
+    // Cada aba também precisa estar ligada em UM → Configurações → Aparência →
+    // Menu do perfil (opção profile_tab_{id}), senão o UM não a exibe.
     public static function add_tabs( $tabs ) {
         $tabs['cv_history'] = array(
             'name'   => 'Histórico',
             'icon'   => 'um-faicon-music',
             'custom' => true,
+            'default_privacy' => 3,
         );
         $tabs['cv_favorites'] = array(
             'name'   => 'Favoritas',
             'icon'   => 'um-faicon-heart',
             'custom' => true,
+            'default_privacy' => 3,
         );
         $tabs['cv_playlists'] = array(
             'name'   => 'Playlists',
             'icon'   => 'um-faicon-list',
             'custom' => true,
+            'default_privacy' => 0,
         );
         $tabs['cv_settings'] = array(
             'name'   => 'Preferências',
             'icon'   => 'um-faicon-cog',
             'custom' => true,
+            'default_privacy' => 3,
         );
         return $tabs;
     }
@@ -52,7 +59,7 @@ class CV_UM_Integration {
         $user_id = um_profile_id();
         $history = get_user_meta( $user_id, '_cv_play_history', true );
         if ( ! is_array( $history ) || empty( $history ) ) {
-            echo '<p style="color:#888;padding:20px 0">Nenhuma música ouvida ainda.</p>';
+            echo '<p style="color:#8A6A55;padding:20px 0">Nenhuma música ouvida ainda.</p>';
             return;
         }
         echo '<div class="cv-um-grid">';
@@ -72,7 +79,7 @@ class CV_UM_Integration {
             : array();
 
         if ( empty( $favorites ) ) {
-            echo '<p style="color:#888;padding:20px 0">Nenhuma música favorita ainda.</p>';
+            echo '<p style="color:#8A6A55;padding:20px 0">Nenhuma música favorita ainda.</p>';
             return;
         }
         echo '<div class="cv-um-grid">';
@@ -90,7 +97,7 @@ class CV_UM_Integration {
             : array();
 
         if ( empty( $playlists ) ) {
-            echo '<p style="color:#888;padding:20px 0">Nenhuma playlist criada ainda.</p>';
+            echo '<p style="color:#8A6A55;padding:20px 0">Nenhuma playlist criada ainda.</p>';
             return;
         }
 
@@ -100,7 +107,7 @@ class CV_UM_Integration {
             echo '<div style="background:var(--cv-bg-card);border:1px solid var(--cv-border-subtle);border-radius:10px;padding:14px;text-align:center">';
             echo '<div style="font-size:32px;margin-bottom:8px">📋</div>';
             echo '<div style="font-size:13px;font-weight:700;margin-bottom:4px">' . esc_html( $pl->name ) . '</div>';
-            echo '<div style="font-size:11px;color:#666">' . (int) $pl->count . ' músicas</div>';
+            echo '<div style="font-size:11px;color:#8A6A55">' . (int) $pl->count . ' músicas</div>';
             echo '</div>';
         }
         echo '</div>';
@@ -108,7 +115,7 @@ class CV_UM_Integration {
 
     public static function tab_settings() {
         if ( get_current_user_id() !== um_profile_id() ) {
-            echo '<p style="color:#888">Estas configurações são privadas.</p>';
+            echo '<p style="color:#8A6A55">Estas configurações são privadas.</p>';
             return;
         }
 
@@ -122,10 +129,10 @@ class CV_UM_Integration {
             <h3 style="font-size:15px;margin-bottom:16px;color:var(--cv-text)">Preferências Musicais</h3>
             <form id="cv-um-settings-form">
                 <div style="margin-bottom:18px">
-                    <label style="display:block;font-size:12px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">
+                    <label style="display:block;font-size:12px;color:#8A6A55;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">
                         Gênero Favorito
                     </label>
-                    <select id="cv-um-genre" style="width:100%;background:#1a1a1a;border:1px solid rgba(212,160,23,.2);border-radius:8px;padding:10px 14px;color:var(--cv-text);font-size:13px;outline:none">
+                    <select id="cv-um-genre" style="width:100%;background:#FFFFFF;border:1px solid rgba(201,162,126,0.4);border-radius:8px;padding:10px 14px;color:var(--cv-text);font-size:13px;outline:none">
                         <option value="">Selecione um gênero</option>
                         <?php if ( ! is_wp_error( $genres ) ) :
                             foreach ( $genres as $g ) : ?>
@@ -134,7 +141,7 @@ class CV_UM_Integration {
                         </option>
                         <?php endforeach; endif; ?>
                     </select>
-                    <p style="font-size:11px;color:#555;margin-top:4px">Receba notificações de novas músicas neste gênero.</p>
+                    <p style="font-size:11px;color:#8A6A55;margin-top:4px">Receba notificações de novas músicas neste gênero.</p>
                 </div>
                 <div style="margin-bottom:18px">
                     <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
@@ -145,7 +152,7 @@ class CV_UM_Integration {
                 <button type="button" id="cv-um-save-settings" class="cv-button cv-button-primary" style="padding:10px 24px;font-size:13px">
                     Salvar Preferências
                 </button>
-                <span id="cv-um-save-msg" style="font-size:12px;color:#7fce7f;margin-left:12px;display:none">✅ Salvo!</span>
+                <span id="cv-um-save-msg" style="font-size:12px;color:#2F7B2F;margin-left:12px;display:none">✅ Salvo!</span>
             </form>
         </div>
         <script>
@@ -191,4 +198,6 @@ function cv_save_um_settings_handler() {
     wp_send_json_success();
 }
 
-CV_UM_Integration::init();
+// Em plugins_loaded: este plugin carrega antes do ultimate-member (ordem
+// alfabética), então class_exists('UM') ainda seria false aqui no include.
+add_action( 'plugins_loaded', array( 'CV_UM_Integration', 'init' ) );

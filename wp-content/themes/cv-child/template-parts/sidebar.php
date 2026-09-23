@@ -111,7 +111,7 @@ if ( $is_logged ) {
            style="position:relative">
             <span class="nav-icon">🔔</span> Notificações
             <?php if ( $notif_unread > 0 ) : ?>
-            <span style="background:var(--cv-error);color:#fff;font-size:10px;font-weight:700;
+            <span style="background:var(--cv-error);color:#3B2418;font-size:10px;font-weight:700;
                          padding:1px 6px;border-radius:50px;margin-left:auto">
                 <?php echo $notif_unread; ?>
             </span>
@@ -236,7 +236,7 @@ if ( $is_logged ) {
 <style>
 /* Estilos específicos da sidebar — complementam cv-layout.css */
 .cv-genre-pill-active {
-    background: rgba(212,160,23,.18) !important;
+    background: rgba(242,165,26,0.23) !important;
     border-color: var(--cv-gold) !important;
     color: var(--cv-gold) !important;
 }

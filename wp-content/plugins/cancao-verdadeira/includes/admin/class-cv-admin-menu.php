@@ -124,9 +124,9 @@ class CV_Admin_Menu {
             $editing = get_term( absint($_GET['tag_id']), 'cv_genre' );
         }
 
-        echo '<div class="wrap" style="background:#0f0f1a;min-height:100vh;padding:20px">';
-        echo '<h1 style="color:#e0e0e0;margin-bottom:4px">🎸 Gêneros Musicais</h1>';
-        echo '<p style="color:#aaa;margin-bottom:24px">' . count((array)$generos) . ' gênero(s) cadastrado(s)</p>';
+        echo '<div class="wrap" style="background:#FFFFFF;min-height:100vh;padding:20px">';
+        echo '<h1 style="color:#3B2418;margin-bottom:4px">🎸 Gêneros Musicais</h1>';
+        echo '<p style="color:#6B4C3B;margin-bottom:24px">' . count((array)$generos) . ' gênero(s) cadastrado(s)</p>';
 
         if ( isset($_GET['msg']) ) {
             echo '<div class="notice notice-success is-dismissible"><p>Operação realizada com sucesso.</p></div>';
@@ -136,12 +136,12 @@ class CV_Admin_Menu {
 
         // Tabela
         echo '<div>';
-        echo '<table class="widefat" style="background:#1a1a2e;color:#e0e0e0;border:1px solid #2a2a3e;border-radius:8px;overflow:hidden">';
-        echo '<thead style="background:#16213e"><tr>';
-        echo '<th style="color:#aaa;padding:12px">Gênero</th>';
-        echo '<th style="color:#aaa;padding:12px">Descrição</th>';
-        echo '<th style="color:#aaa;padding:12px;text-align:center">Músicas</th>';
-        echo '<th style="color:#aaa;padding:12px">Ações</th>';
+        echo '<table class="widefat" style="background:#F8F0E4;color:#3B2418;border:1px solid #EADBC6;border-radius:8px;overflow:hidden">';
+        echo '<thead style="background:#F8F0E4"><tr>';
+        echo '<th style="color:#6B4C3B;padding:12px">Gênero</th>';
+        echo '<th style="color:#6B4C3B;padding:12px">Descrição</th>';
+        echo '<th style="color:#6B4C3B;padding:12px;text-align:center">Músicas</th>';
+        echo '<th style="color:#6B4C3B;padding:12px">Ações</th>';
         echo '</tr></thead><tbody>';
 
         if ( ! empty($generos) && ! is_wp_error($generos) ) {
@@ -152,22 +152,22 @@ class CV_Admin_Menu {
                      WHERE tt.term_id = %d AND tt.taxonomy = 'cv_genre'", $g->term_id
                 ));
                 $edit_url = esc_url(add_query_arg(array('page'=>'cv-generos','action'=>'edit','tag_id'=>$g->term_id), admin_url('admin.php')));
-                echo '<tr style="border-bottom:1px solid #2a2a3e">';
+                echo '<tr style="border-bottom:1px solid #EADBC6">';
                 echo '<td style="padding:12px;font-weight:600">' . esc_html($g->name) . '</td>';
-                echo '<td style="padding:12px;color:#aaa;font-size:12px">' . esc_html(mb_substr($g->description,0,60)) . '</td>';
-                echo '<td style="padding:12px;text-align:center"><span style="background:#1DB95422;border:1px solid #1DB954;color:#1DB954;border-radius:12px;padding:2px 10px;font-size:12px">' . $count . '</span></td>';
+                echo '<td style="padding:12px;color:#6B4C3B;font-size:12px">' . esc_html(mb_substr($g->description,0,60)) . '</td>';
+                echo '<td style="padding:12px;text-align:center"><span style="background:#1DB95422;border:1px solid #1DB954;color:#137B38;border-radius:12px;padding:2px 10px;font-size:12px">' . $count . '</span></td>';
                 echo '<td style="padding:12px">';
-                echo '<a href="' . $edit_url . '" style="color:#1DB954;text-decoration:none;margin-right:12px">✏️ Editar</a>';
+                echo '<a href="' . $edit_url . '" style="color:#137B38;text-decoration:none;margin-right:12px">✏️ Editar</a>';
                 echo '<form method="post" style="display:inline" onsubmit="return confirm(\'Remover este gênero?\')">';
                 wp_nonce_field('cv_genero_nonce','cv_gnonce');
                 echo '<input type="hidden" name="cv_genero_action" value="delete">';
                 echo '<input type="hidden" name="cv_genero_id" value="' . (int)$g->term_id . '">';
-                echo '<button type="submit" style="background:none;border:none;color:#e74c3c;cursor:pointer;font-size:13px">🗑️ Remover</button>';
+                echo '<button type="submit" style="background:none;border:none;color:#D62C1A;cursor:pointer;font-size:13px">🗑️ Remover</button>';
                 echo '</form>';
                 echo '</td></tr>';
             }
         } else {
-            echo '<tr><td colspan="4" style="padding:40px;text-align:center;color:#aaa">Nenhum gênero cadastrado ainda.</td></tr>';
+            echo '<tr><td colspan="4" style="padding:40px;text-align:center;color:#6B4C3B">Nenhum gênero cadastrado ainda.</td></tr>';
         }
         echo '</tbody></table></div>';
 
@@ -181,25 +181,25 @@ class CV_Admin_Menu {
         $f_btn    = $is_edit ? '💾 Salvar'                     : '➕ Adicionar';
         $cancel   = esc_url(admin_url('admin.php?page=cv-generos'));
 
-        echo '<div style="background:#1a1a2e;border:1px solid #2a2a3e;border-radius:8px;padding:20px">';
-        echo '<h3 style="color:#e0e0e0;margin-top:0">' . $f_title . '</h3>';
+        echo '<div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:8px;padding:20px">';
+        echo '<h3 style="color:#3B2418;margin-top:0">' . $f_title . '</h3>';
         echo '<form method="post">';
         wp_nonce_field('cv_genero_nonce','cv_gnonce');
         echo '<input type="hidden" name="cv_genero_action" value="' . $f_action . '">';
         if ($f_id) { echo '<input type="hidden" name="cv_genero_id" value="' . $f_id . '">'; }
 
         echo '<div style="margin-bottom:14px">';
-        echo '<label style="display:block;color:#b0b0c0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Nome *</label>';
-        echo '<input type="text" name="cv_genero_nome" value="' . $f_nome . '" required style="width:100%;background:#0f0f1a;border:1px solid #2a2a3e;border-radius:6px;color:#e0e0e0;padding:9px 12px;box-sizing:border-box;font-size:14px">';
+        echo '<label style="display:block;color:#6B4C3B;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Nome *</label>';
+        echo '<input type="text" name="cv_genero_nome" value="' . $f_nome . '" required style="width:100%;background:#FFFFFF;border:1px solid #EADBC6;border-radius:6px;color:#3B2418;padding:9px 12px;box-sizing:border-box;font-size:14px">';
         echo '</div>';
 
         echo '<div style="margin-bottom:14px">';
-        echo '<label style="display:block;color:#b0b0c0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Descrição</label>';
-        echo '<textarea name="cv_genero_desc" rows="3" style="width:100%;background:#0f0f1a;border:1px solid #2a2a3e;border-radius:6px;color:#e0e0e0;padding:9px 12px;box-sizing:border-box;font-size:14px;resize:vertical">' . $f_desc . '</textarea>';
+        echo '<label style="display:block;color:#6B4C3B;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Descrição</label>';
+        echo '<textarea name="cv_genero_desc" rows="3" style="width:100%;background:#FFFFFF;border:1px solid #EADBC6;border-radius:6px;color:#3B2418;padding:9px 12px;box-sizing:border-box;font-size:14px;resize:vertical">' . $f_desc . '</textarea>';
         echo '</div>';
 
-        echo '<button type="submit" style="background:#1DB954;border:none;color:#fff;padding:9px 20px;border-radius:6px;font-size:14px;cursor:pointer;font-weight:600">' . $f_btn . '</button>';
-        if ($is_edit) { echo ' <a href="' . $cancel . '" style="margin-left:10px;color:#aaa;text-decoration:none">Cancelar</a>'; }
+        echo '<button type="submit" style="background:#1DB954;border:none;color:#3B2418;padding:9px 20px;border-radius:6px;font-size:14px;cursor:pointer;font-weight:600">' . $f_btn . '</button>';
+        if ($is_edit) { echo ' <a href="' . $cancel . '" style="margin-left:10px;color:#6B4C3B;text-decoration:none">Cancelar</a>'; }
         echo '</form></div>';
         echo '</div>'; // grid
         echo '</div>'; // wrap

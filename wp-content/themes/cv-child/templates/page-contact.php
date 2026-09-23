@@ -73,11 +73,11 @@ get_header();
                 <a href="<?php echo esc_url($r['url']); ?>"
                    target="_blank" rel="noopener"
                    style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;
-                          background:rgba(255,255,255,.05);border:1px solid var(--cv-border);
+                          background:rgba(123,58,34,0.06);border:1px solid var(--cv-border);
                           border-radius:var(--cv-radius-full);color:var(--cv-text);
                           font-size:13px;font-weight:600;text-decoration:none;transition:all .2s"
                    onmouseover="this.style.background='<?php echo esc_attr($r['color']); ?>';this.style.borderColor='transparent'"
-                   onmouseout="this.style.background='rgba(255,255,255,.05)';this.style.borderColor='var(--cv-border)'">
+                   onmouseout="this.style.background='rgba(123,58,34,0.06)';this.style.borderColor='var(--cv-border)'">
                     <?php echo $r['icon']; ?> <?php echo esc_html($r['label']); ?>
                 </a>
                 <?php endforeach; ?>
@@ -86,13 +86,13 @@ get_header();
 
             <!-- Feedback de envio -->
             <?php if ($msg_enviada) : ?>
-            <div style="background:#1a3a1a;border:1px solid #2d6a2d;border-radius:var(--cv-radius);
-                        padding:20px 24px;margin-bottom:28px;color:#5cb85c;font-size:15px">
+            <div style="background:#EAF6EA;border:1px solid #2d6a2d;border-radius:var(--cv-radius);
+                        padding:20px 24px;margin-bottom:28px;color:#388038;font-size:15px">
                 ✓ Mensagem enviada com sucesso! Responderemos em breve.
             </div>
             <?php elseif ($msg_erro) : ?>
-            <div style="background:#3a1a1a;border:1px solid #6a2d2d;border-radius:var(--cv-radius);
-                        padding:20px 24px;margin-bottom:28px;color:#e74c3c;font-size:15px">
+            <div style="background:#F6EAEA;border:1px solid #6a2d2d;border-radius:var(--cv-radius);
+                        padding:20px 24px;margin-bottom:28px;color:#D62C1A;font-size:15px">
                 ⚠ <?php echo esc_html($msg_erro); ?>
             </div>
             <?php endif; ?>

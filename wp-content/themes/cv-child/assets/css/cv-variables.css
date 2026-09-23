@@ -11,8 +11,8 @@
    O Astra usa fundo claro por padrão — sobrescrevemos aqui.
 ═══════════════════════════════════════════════════════════════ */
 html, body {
-    background-color: #1A1A1A !important;
-    color: #F5F0E0 !important;
+    background-color: #FBF6EE !important;
+    color: #3B2418 !important;
 }
 
 /* Remove margens que o Astra adiciona ao body */
@@ -28,35 +28,41 @@ html, body {
    VARIÁVEIS CSS — PALETA E TOKENS
 ═══════════════════════════════════════════════════════════════ */
 :root {
-    /* Cores principais */
-    --cv-bg:            #1A1A1A;
-    --cv-bg-card:       #242424;
-    --cv-bg-elevated:   #2e2e2e;
-    --cv-bg-sidebar:    #111111;
-    --cv-bg-player:     #0d0d0d;
+    /* Paleta clara (23/09/2026): creme + marrom e laranja da marca.
+       Os nomes "gold" foram mantidos para não quebrar o CSS existente:
+       --cv-gold agora é o marrom da marca (links, destaques de texto) e
+       --cv-accent é o laranja (fundos de botões principais). */
+    --cv-bg:            #FBF6EE;
+    --cv-bg-card:       #FFFFFF;
+    --cv-bg-elevated:   #F3E6D3;
+    --cv-bg-sidebar:    #7B3A22;
+    --cv-bg-player:     #FFFFFF;
 
-    /* Dourado */
-    --cv-gold:          #D4A017;
-    --cv-gold-bright:   #FFD700;
-    --cv-gold-dim:      #8a6810;
-    --cv-gold-glow:     rgba(212,160,23,.25);
+    /* Marca */
+    --cv-gold:          #7B3A22;
+    --cv-gold-bright:   #5E2A17;
+    --cv-gold-dim:      #C9A27E;
+    --cv-gold-glow:     rgba(242,165,26,.25);
+    --cv-accent:        #F2A51A;
+    --cv-accent-hover:  #E0930C;
+    --cv-on-accent:     #3B2418;
 
     /* Texto */
-    --cv-text:          #F5F0E0;
-    --cv-text-muted:    #C8B98A;
-    --cv-text-dim:      #7a6e58;
-    --cv-text-disabled: #444;
+    --cv-text:          #3B2418;
+    --cv-text-muted:    #6B4C3B;
+    --cv-text-dim:      #8A6A55;
+    --cv-text-disabled: #B39880;
 
     /* Bordas */
-    --cv-border:        rgba(212,160,23,.15);
-    --cv-border-subtle: rgba(255,255,255,.05);
-    --cv-border-hover:  rgba(212,160,23,.4);
+    --cv-border:        #EADBC6;
+    --cv-border-subtle: rgba(123,58,34,.08);
+    --cv-border-hover:  #C9A27E;
 
     /* Status */
-    --cv-success:       #27ae60;
-    --cv-error:         #e74c3c;
-    --cv-warning:       #f39c12;
-    --cv-info:          #3498db;
+    --cv-success:       #1C7C44;
+    --cv-error:         #C0392B;
+    --cv-warning:       #B8700C;
+    --cv-info:          #2871BE;
 
     /* Layout */
     --cv-sidebar-w:     260px;
@@ -69,9 +75,9 @@ html, body {
     --font-ui:          'Lato', system-ui, sans-serif;
 
     /* Sombras */
-    --cv-shadow:        0 4px 20px rgba(0,0,0,.4);
-    --cv-shadow-lg:     0 8px 40px rgba(0,0,0,.6);
-    --cv-shadow-card:   0 2px 12px rgba(0,0,0,.3);
+    --cv-shadow:        0 4px 20px rgba(123,58,34,.10);
+    --cv-shadow-lg:     0 8px 40px rgba(123,58,34,.16);
+    --cv-shadow-card:   0 2px 12px rgba(123,58,34,.08);
 
     /* Animações */
     --cv-ease:          cubic-bezier(.4,0,.2,1);
@@ -83,6 +89,25 @@ html, body {
     --cv-radius-sm:     6px;
     --cv-radius-lg:     16px;
     --cv-radius-full:   9999px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BARRA LATERAL MARROM
+   Redefine os tokens só dentro da sidebar: tudo que usa var(--cv-*)
+   lá dentro vira texto claro sobre o marrom da marca.
+═══════════════════════════════════════════════════════════════ */
+.cv-sidebar {
+    --cv-gold:          #F2A51A;
+    --cv-gold-bright:   #FFC24D;
+    --cv-text:          #FBF6EE;
+    --cv-text-muted:    #F3E6D3;
+    --cv-text-dim:      #E3CDB3;
+    --cv-bg-card:       rgba(255,255,255,.08);
+    --cv-bg-elevated:   rgba(255,255,255,.12);
+    --cv-border:        rgba(255,255,255,.14);
+    --cv-border-subtle: rgba(255,255,255,.08);
+    --cv-border-hover:  rgba(242,165,26,.6);
+    color: var(--cv-text);
 }
 
 /* ═══════════════════════════════════════════════════════════════

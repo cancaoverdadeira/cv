@@ -188,17 +188,17 @@ class CV_Banco_Dados {
 
         $nonce = wp_create_nonce( 'cv_banco_refresh' );
         ?>
-        <div class="wrap" style="background:#0f0f1a;min-height:100vh;padding:24px;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+        <div class="wrap" style="background:#FFFFFF;min-height:100vh;padding:24px;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
 
         <!-- HEADER -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;">
             <div>
-                <h1 style="color:#fff;font-size:22px;margin:0 0 4px 0;font-weight:700;">🗄️ Banco de Dados</h1>
-                <p style="color:#666;font-size:13px;margin:0;">Estrutura e saúde das tabelas Canção Verdadeira · <?php echo esc_html( DB_NAME ); ?></p>
+                <h1 style="color:#3B2418;font-size:22px;margin:0 0 4px 0;font-weight:700;">🗄️ Banco de Dados</h1>
+                <p style="color:#8A6A55;font-size:13px;margin:0;">Estrutura e saúde das tabelas Canção Verdadeira · <?php echo esc_html( DB_NAME ); ?></p>
             </div>
             <div style="display:flex;align-items:center;gap:12px;">
-                <span id="cv-banco-ts" style="color:#555;font-size:12px;">Atualizado agora</span>
-                <button id="cv-banco-refresh" style="background:#D4A01722;border:1px solid #D4A017;color:#D4A017;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;">
+                <span id="cv-banco-ts" style="color:#8A6A55;font-size:12px;">Atualizado agora</span>
+                <button id="cv-banco-refresh" style="background:#D4A01722;border:1px solid #C9A27E;color:#7B3A22;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;">
                     🔄 Atualizar
                 </button>
             </div>
@@ -207,95 +207,95 @@ class CV_Banco_Dados {
         <!-- KPI CARDS -->
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px;">
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:12px;padding:20px;">
-                <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Tabelas CV Ativas</div>
-                <div style="font-size:32px;font-weight:800;color:#D4A017;"><?php echo $cv_count; ?></div>
-                <div style="font-size:12px;color:#e74c3c;margin-top:4px;"><?php echo $cv_missing; ?> ausentes</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:12px;padding:20px;">
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Tabelas CV Ativas</div>
+                <div style="font-size:32px;font-weight:800;color:#7B3A22;"><?php echo $cv_count; ?></div>
+                <div style="font-size:12px;color:#D62C1A;margin-top:4px;"><?php echo $cv_missing; ?> ausentes</div>
             </div>
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:12px;padding:20px;">
-                <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Registros CV</div>
-                <div style="font-size:32px;font-weight:800;color:#1DB954;"><?php echo number_format( $cv_rows, 0, ',', '.' ); ?></div>
-                <div style="font-size:12px;color:#555;margin-top:4px;">total nas tabelas plugin</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:12px;padding:20px;">
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Registros CV</div>
+                <div style="font-size:32px;font-weight:800;color:#137B38;"><?php echo number_format( $cv_rows, 0, ',', '.' ); ?></div>
+                <div style="font-size:12px;color:#8A6A55;margin-top:4px;">total nas tabelas plugin</div>
             </div>
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:12px;padding:20px;">
-                <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Tamanho CV</div>
-                <div style="font-size:32px;font-weight:800;color:#4a90d9;"><?php echo self::format_bytes( $cv_size ); ?></div>
-                <div style="font-size:12px;color:#555;margin-top:4px;">dados + índices</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:12px;padding:20px;">
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Tamanho CV</div>
+                <div style="font-size:32px;font-weight:800;color:#2871BE;"><?php echo self::format_bytes( $cv_size ); ?></div>
+                <div style="font-size:12px;color:#8A6A55;margin-top:4px;">dados + índices</div>
             </div>
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:12px;padding:20px;">
-                <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Total BD WordPress</div>
-                <div style="font-size:32px;font-weight:800;color:#9b59b6;"><?php echo self::format_bytes( (int) $wp_total['total_size'] ); ?></div>
-                <div style="font-size:12px;color:#555;margin-top:4px;"><?php echo (int) $wp_total['total_tables']; ?> tabelas no banco</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:12px;padding:20px;">
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Total BD WordPress</div>
+                <div style="font-size:32px;font-weight:800;color:#9752B3;"><?php echo self::format_bytes( (int) $wp_total['total_size'] ); ?></div>
+                <div style="font-size:12px;color:#8A6A55;margin-top:4px;"><?php echo (int) $wp_total['total_tables']; ?> tabelas no banco</div>
             </div>
 
         </div>
 
         <!-- TABELA PRINCIPAL -->
-        <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:12px;overflow:hidden;">
-            <div style="padding:18px 20px;border-bottom:1px solid #2a2a4a;display:flex;align-items:center;justify-content:space-between;">
-                <div style="color:#D4A017;font-size:14px;font-weight:700;">📊 Tabelas do Plugin</div>
-                <div style="font-size:12px;color:#666;">Contagem real de registros · Engine · Índices · Tamanho</div>
+        <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:12px;overflow:hidden;">
+            <div style="padding:18px 20px;border-bottom:1px solid #EADBC6;display:flex;align-items:center;justify-content:space-between;">
+                <div style="color:#7B3A22;font-size:14px;font-weight:700;">📊 Tabelas do Plugin</div>
+                <div style="font-size:12px;color:#8A6A55;">Contagem real de registros · Engine · Índices · Tamanho</div>
             </div>
 
             <div style="overflow-x:auto;">
             <table id="cv-banco-table" style="width:100%;border-collapse:collapse;">
                 <thead>
-                <tr style="background:#12122a;">
-                    <th style="padding:12px 16px;text-align:left;color:#888;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Tabela</th>
-                    <th style="padding:12px 16px;text-align:left;color:#888;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Descrição</th>
-                    <th style="padding:12px 16px;text-align:center;color:#888;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Status</th>
-                    <th style="padding:12px 16px;text-align:right;color:#888;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Registros</th>
-                    <th style="padding:12px 16px;text-align:center;color:#888;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Engine</th>
-                    <th style="padding:12px 16px;text-align:center;color:#888;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Índices</th>
-                    <th style="padding:12px 16px;text-align:right;color:#888;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Dados</th>
-                    <th style="padding:12px 16px;text-align:right;color:#888;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Índice</th>
-                    <th style="padding:12px 16px;text-align:right;color:#888;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Total</th>
+                <tr style="background:#FFFFFF;">
+                    <th style="padding:12px 16px;text-align:left;color:#8A6A55;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Tabela</th>
+                    <th style="padding:12px 16px;text-align:left;color:#8A6A55;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Descrição</th>
+                    <th style="padding:12px 16px;text-align:center;color:#8A6A55;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Status</th>
+                    <th style="padding:12px 16px;text-align:right;color:#8A6A55;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Registros</th>
+                    <th style="padding:12px 16px;text-align:center;color:#8A6A55;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Engine</th>
+                    <th style="padding:12px 16px;text-align:center;color:#8A6A55;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Índices</th>
+                    <th style="padding:12px 16px;text-align:right;color:#8A6A55;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Dados</th>
+                    <th style="padding:12px 16px;text-align:right;color:#8A6A55;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Índice</th>
+                    <th style="padding:12px 16px;text-align:right;color:#8A6A55;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Total</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php foreach ( $tables as $i => $t ) :
-                    $bg      = $i % 2 === 0 ? '#1a1a2e' : '#1d1d35';
+                    $bg      = $i % 2 === 0 ? '#F8F0E4' : '#F8F0E4';
                     $hc      = self::health_color( $t['rows'], $t['exists'] );
                     $status  = ! $t['exists'] ? '❌ Ausente' : ( $t['rows'] === 0 ? '⚠️ Vazia' : '✅ OK' );
                     $short   = str_replace( $GLOBALS['wpdb']->prefix . 'cv_', 'cv_', $t['table'] );
                 ?>
-                <tr style="background:<?php echo $bg; ?>;border-bottom:1px solid #22223a;transition:background .15s;" onmouseover="this.style.background='#232340'" onmouseout="this.style.background='<?php echo $bg; ?>'">
+                <tr style="background:<?php echo $bg; ?>;border-bottom:1px solid #EADBC6;transition:background .15s;" onmouseover="this.style.background='#F3E6D3'" onmouseout="this.style.background='<?php echo $bg; ?>'">
                     <td style="padding:13px 16px;">
                         <div style="display:flex;align-items:center;gap:8px;">
                             <span style="font-size:18px;"><?php echo $t['icon']; ?></span>
                             <div>
-                                <div style="color:#e0e0e0;font-size:13px;font-weight:600;"><?php echo esc_html( $t['label'] ); ?></div>
-                                <div style="color:#555;font-size:11px;font-family:monospace;"><?php echo esc_html( $short ); ?></div>
+                                <div style="color:#3B2418;font-size:13px;font-weight:600;"><?php echo esc_html( $t['label'] ); ?></div>
+                                <div style="color:#8A6A55;font-size:11px;font-family:monospace;"><?php echo esc_html( $short ); ?></div>
                             </div>
                         </div>
                     </td>
-                    <td style="padding:13px 16px;color:#888;font-size:12px;"><?php echo esc_html( $t['desc'] ); ?></td>
+                    <td style="padding:13px 16px;color:#8A6A55;font-size:12px;"><?php echo esc_html( $t['desc'] ); ?></td>
                     <td style="padding:13px 16px;text-align:center;">
                         <span style="background:<?php echo $hc; ?>22;color:<?php echo $hc; ?>;border:1px solid <?php echo $hc; ?>44;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;">
                             <?php echo $status; ?>
                         </span>
                     </td>
-                    <td style="padding:13px 16px;text-align:right;color:<?php echo $t['rows'] > 0 ? '#D4A017' : '#555'; ?>;font-weight:700;font-size:14px;">
+                    <td style="padding:13px 16px;text-align:right;color:<?php echo $t['rows'] > 0 ? '#B8700C' : '#F3E6D3'; ?>;font-weight:700;font-size:14px;">
                         <?php echo $t['exists'] ? number_format( $t['rows'], 0, ',', '.' ) : '—'; ?>
                     </td>
-                    <td style="padding:13px 16px;text-align:center;color:#555;font-size:12px;font-family:monospace;">
+                    <td style="padding:13px 16px;text-align:center;color:#8A6A55;font-size:12px;font-family:monospace;">
                         <?php echo esc_html( $t['engine'] ); ?>
                     </td>
                     <td style="padding:13px 16px;text-align:center;">
                         <?php if ( $t['indexes'] > 0 ) : ?>
-                        <span style="background:#4a90d922;color:#4a90d9;border:1px solid #4a90d944;border-radius:12px;padding:2px 8px;font-size:11px;font-weight:700;">
+                        <span style="background:#4a90d922;color:#2871BE;border:1px solid #4a90d944;border-radius:12px;padding:2px 8px;font-size:11px;font-weight:700;">
                             <?php echo $t['indexes']; ?>
                         </span>
                         <?php else : ?>
-                        <span style="color:#444;">—</span>
+                        <span style="color:#8A6A55;">—</span>
                         <?php endif; ?>
                     </td>
-                    <td style="padding:13px 16px;text-align:right;color:#555;font-size:12px;"><?php echo $t['exists'] ? self::format_bytes( $t['data'] ) : '—'; ?></td>
-                    <td style="padding:13px 16px;text-align:right;color:#555;font-size:12px;"><?php echo $t['exists'] ? self::format_bytes( $t['index'] ) : '—'; ?></td>
-                    <td style="padding:13px 16px;text-align:right;color:<?php echo $t['size'] > 0 ? '#9b59b6' : '#444'; ?>;font-size:12px;font-weight:600;"><?php echo $t['exists'] ? self::format_bytes( $t['size'] ) : '—'; ?></td>
+                    <td style="padding:13px 16px;text-align:right;color:#8A6A55;font-size:12px;"><?php echo $t['exists'] ? self::format_bytes( $t['data'] ) : '—'; ?></td>
+                    <td style="padding:13px 16px;text-align:right;color:#8A6A55;font-size:12px;"><?php echo $t['exists'] ? self::format_bytes( $t['index'] ) : '—'; ?></td>
+                    <td style="padding:13px 16px;text-align:right;color:<?php echo $t['size'] > 0 ? '#9b59b6' : '#F3E6D3'; ?>;font-size:12px;font-weight:600;"><?php echo $t['exists'] ? self::format_bytes( $t['size'] ) : '—'; ?></td>
                 </tr>
                 <?php endforeach; ?>
                 </tbody>
@@ -307,11 +307,11 @@ class CV_Banco_Dados {
         <?php $missing = array_filter( $tables, function( $t ) { return ! $t['exists']; } ); ?>
         <?php if ( ! empty( $missing ) ) : ?>
         <div style="background:#e74c3c11;border:1px solid #e74c3c44;border-radius:12px;padding:20px;margin-top:20px;">
-            <div style="color:#e74c3c;font-size:14px;font-weight:700;margin-bottom:12px;">⚠️ Tabelas Ausentes — Ação Recomendada</div>
-            <p style="color:#aaa;font-size:13px;margin:0 0 12px 0;">As tabelas abaixo não foram criadas ainda. Desative e reative o plugin para executar o script de criação (dbDelta).</p>
+            <div style="color:#D62C1A;font-size:14px;font-weight:700;margin-bottom:12px;">⚠️ Tabelas Ausentes — Ação Recomendada</div>
+            <p style="color:#6B4C3B;font-size:13px;margin:0 0 12px 0;">As tabelas abaixo não foram criadas ainda. Desative e reative o plugin para executar o script de criação (dbDelta).</p>
             <div style="display:flex;flex-wrap:wrap;gap:8px;">
                 <?php foreach ( $missing as $m ) : ?>
-                <span style="background:#e74c3c22;color:#e74c3c;border:1px solid #e74c3c44;border-radius:6px;padding:4px 10px;font-size:12px;font-family:monospace;">
+                <span style="background:#e74c3c22;color:#D62C1A;border:1px solid #e74c3c44;border-radius:6px;padding:4px 10px;font-size:12px;font-family:monospace;">
                     <?php echo esc_html( $m['icon'] . ' ' . $m['label'] ); ?>
                 </span>
                 <?php endforeach; ?>
@@ -321,9 +321,9 @@ class CV_Banco_Dados {
 
         <!-- LEGENDA -->
         <div style="display:flex;gap:20px;margin-top:16px;flex-wrap:wrap;">
-            <div style="color:#555;font-size:12px;display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#1DB954;display:inline-block;"></span> Tabela OK com dados</div>
-            <div style="color:#555;font-size:12px;display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#e67e22;display:inline-block;"></span> Tabela existe mas está vazia</div>
-            <div style="color:#555;font-size:12px;display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#e74c3c;display:inline-block;"></span> Tabela não criada no banco</div>
+            <div style="color:#8A6A55;font-size:12px;display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#1DB954;display:inline-block;"></span> Tabela OK com dados</div>
+            <div style="color:#8A6A55;font-size:12px;display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#e67e22;display:inline-block;"></span> Tabela existe mas está vazia</div>
+            <div style="color:#8A6A55;font-size:12px;display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#e74c3c;display:inline-block;"></span> Tabela não criada no banco</div>
         </div>
 
         </div><!-- .wrap -->

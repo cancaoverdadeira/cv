@@ -75,7 +75,7 @@ $redes_sociais = class_exists('CV_Social') ? CV_Social::get_all() : array();
                    style="display:inline-flex;align-items:center;justify-content:center;
                           width:36px;height:36px;border-radius:50%;
                           background:<?php echo esc_attr($rede['color']); ?>;
-                          color:#fff;font-size:15px;text-decoration:none;
+                          color:#3B2418;font-size:15px;text-decoration:none;
                           transition:opacity .2s,transform .2s"
                    onmouseover="this.style.opacity='.8';this.style.transform='translateY(-2px)'"
                    onmouseout="this.style.opacity='1';this.style.transform='none'">

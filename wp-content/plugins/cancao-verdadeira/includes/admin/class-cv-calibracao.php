@@ -63,7 +63,7 @@ class CV_Calibracao {
         $usos_restantes  = max( 0, self::LIMITE_USOS - $usos_realizados );
         $logs            = self::get_logs( 10 );
         $pct_usos        = round( $usos_realizados / self::LIMITE_USOS * 100 );
-        $cor_status      = $usos_restantes <= 2 ? '#e74c3c' : ( $usos_restantes <= 5 ? '#D4A017' : '#1DB954' );
+        $cor_status      = $usos_restantes <= 2 ? '#e74c3c' : ( $usos_restantes <= 5 ? '#B8700C' : '#1DB954' );
         $nonce           = wp_create_nonce( 'cv_admin_nonce' );
         $ajax            = admin_url( 'admin-ajax.php' );
 
@@ -95,19 +95,19 @@ class CV_Calibracao {
         ?>
         <div class="wrap" id="cv-cal-exec">
         <style>
-        body.wp-admin { background:#0f0f1a !important; }
-        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#0f0f1a !important; }
+        body.wp-admin { background:#FBF6EE !important; }
+        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#FBF6EE !important; }
         #cv-cal-exec {
-            --gold:#D4A017; --bg:#0f0f1a; --card:#1a1a2e; --bord:#2a2a4a;
-            --text:#e0e0e0; --muted:#888; --green:#1DB954; --red:#e74c3c;
+            --gold:#B8700C; --bg:#FFFFFF; --card:#F8F0E4; --bord:#F3E6D3;
+            --text:#3B2418; --muted:#C9A27E; --green:#1DB954; --red:#e74c3c;
             color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; padding-bottom:60px;
         }
         #cv-cal-exec * { box-sizing:border-box; }
 
         .cv-cal-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px; }
-        .cv-cal-title { font-size:22px; font-weight:700; color:#fff; margin:0; }
+        .cv-cal-title { font-size:22px; font-weight:700; color:#3B2418; margin:0; }
         .cv-cal-title span { color:var(--gold); }
-        .cv-cal-badge { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:20px; font-size:11px; font-weight:700; background:rgba(212,160,23,.1); border:1px solid rgba(212,160,23,.3); color:var(--gold); }
+        .cv-cal-badge { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:20px; font-size:11px; font-weight:700; background:rgba(242,165,26,0.13); border:1px solid rgba(201,162,126,0.6); color:var(--gold); }
 
         /* Layout */
         .cv-cal-layout { display:grid; grid-template-columns:260px 1fr; gap:20px; align-items:start; }
@@ -118,14 +118,14 @@ class CV_Calibracao {
         .cv-cal-card:last-child { margin-bottom:0; }
         .cv-cal-hdr { padding:13px 18px; border-bottom:1px solid var(--bord); display:flex; align-items:center; gap:10px; }
         .cv-cal-hdr-icon { font-size:18px; }
-        .cv-cal-hdr-title { font-size:13px; font-weight:700; color:#fff; }
+        .cv-cal-hdr-title { font-size:13px; font-weight:700; color:#3B2418; }
         .cv-cal-body { padding:18px; }
 
         /* Anel de créditos */
         .cv-cal-ring-wrap { text-align:center; padding:20px 18px 14px; }
         .cv-cal-ring {
             width:100px; height:100px; border-radius:50%; margin:0 auto 12px;
-            background: conic-gradient(<?php echo esc_attr($cor_status); ?> <?php echo $pct_usos; ?>%, #111 <?php echo $pct_usos; ?>%);
+            background: conic-gradient(<?php echo esc_attr($cor_status); ?> <?php echo $pct_usos; ?>%, #FBF6EE <?php echo $pct_usos; ?>%);
             display:flex; align-items:center; justify-content:center; position:relative;
         }
         .cv-cal-ring::before { content:''; position:absolute; inset:10px; border-radius:50%; background:var(--card); }
@@ -140,14 +140,14 @@ class CV_Calibracao {
             border-radius:8px; cursor:pointer; transition:background .15s;
             border:1px solid transparent; margin-bottom:4px;
         }
-        .cv-cal-musica-item:hover { background:rgba(255,255,255,.04); }
-        .cv-cal-musica-item.ativa { background:rgba(212,160,23,.08); border-color:rgba(212,160,23,.3); }
+        .cv-cal-musica-item:hover { background:rgba(123,58,34,0.04); }
+        .cv-cal-musica-item.ativa { background:rgba(242,165,26,0.1); border-color:rgba(201,162,126,0.6); }
         .cv-cal-capa { width:36px; height:36px; border-radius:5px; object-fit:cover; flex-shrink:0; }
         .cv-cal-mus-info { flex:1; min-width:0; }
         .cv-cal-mus-titulo { font-size:12px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--text); }
         .cv-cal-mus-stats { font-size:10px; color:var(--muted); margin-top:2px; }
         .cv-cal-mus-stats.tem-dados { color:var(--green); }
-        .cv-cal-musica-search { width:100%; background:rgba(255,255,255,.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:8px 12px; font-size:12px; outline:none; font-family:inherit; margin-bottom:10px; }
+        .cv-cal-musica-search { width:100%; background:rgba(123,58,34,0.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:8px 12px; font-size:12px; outline:none; font-family:inherit; margin-bottom:10px; }
         .cv-cal-musica-search:focus { border-color:var(--gold); }
         .cv-cal-lista-scroll { max-height:420px; overflow-y:auto; }
         .cv-cal-lista-scroll::-webkit-scrollbar { width:4px; }
@@ -160,26 +160,26 @@ class CV_Calibracao {
         .cv-cal-placeholder-emoji { font-size:48px; margin-bottom:12px; }
 
         /* Preview da música selecionada */
-        .cv-cal-preview { display:flex; gap:14px; align-items:center; background:rgba(255,255,255,.03); border-radius:10px; padding:14px; margin-bottom:20px; }
+        .cv-cal-preview { display:flex; gap:14px; align-items:center; background:rgba(123,58,34,0.03); border-radius:10px; padding:14px; margin-bottom:20px; }
         .cv-cal-preview-capa { width:56px; height:56px; border-radius:8px; object-fit:cover; }
-        .cv-cal-preview-titulo { font-size:16px; font-weight:700; color:#fff; }
+        .cv-cal-preview-titulo { font-size:16px; font-weight:700; color:#3B2418; }
         .cv-cal-preview-sub { font-size:12px; color:var(--muted); margin-top:3px; }
 
         /* Métricas atuais */
         .cv-cal-metricas-atuais { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:20px; }
-        .cv-cal-metrica-atual { background:rgba(255,255,255,.03); border:1px solid var(--bord); border-radius:8px; padding:12px; text-align:center; }
+        .cv-cal-metrica-atual { background:rgba(123,58,34,0.03); border:1px solid var(--bord); border-radius:8px; padding:12px; text-align:center; }
         .cv-cal-metrica-val { font-size:20px; font-weight:800; color:var(--gold); }
         .cv-cal-metrica-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.3px; margin-top:3px; }
 
         /* Controles de incremento */
         .cv-cal-incrementos { display:flex; flex-direction:column; gap:14px; margin-bottom:20px; }
-        .cv-cal-inc-row { background:rgba(255,255,255,.03); border:1px solid var(--bord); border-radius:10px; padding:14px 16px; }
+        .cv-cal-inc-row { background:rgba(123,58,34,0.03); border:1px solid var(--bord); border-radius:10px; padding:14px 16px; }
         .cv-cal-inc-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; }
         .cv-cal-inc-label strong { color:var(--text); font-size:13px; text-transform:none; letter-spacing:0; }
         .cv-cal-inc-controls { display:flex; align-items:center; gap:10px; }
-        .cv-cal-inc-btn { width:32px; height:32px; border-radius:6px; border:1px solid var(--bord); background:rgba(255,255,255,.06); color:var(--text); font-size:16px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s; font-family:inherit; line-height:1; }
+        .cv-cal-inc-btn { width:32px; height:32px; border-radius:6px; border:1px solid var(--bord); background:rgba(123,58,34,0.07); color:var(--text); font-size:16px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s; font-family:inherit; line-height:1; }
         .cv-cal-inc-btn:hover { border-color:var(--gold); color:var(--gold); }
-        .cv-cal-inc-input { flex:1; text-align:center; background:rgba(255,255,255,.06); border:1px solid var(--bord); border-radius:8px; color:#fff; font-size:18px; font-weight:700; padding:6px 0; outline:none; font-family:inherit; }
+        .cv-cal-inc-input { flex:1; text-align:center; background:rgba(123,58,34,0.07); border:1px solid var(--bord); border-radius:8px; color:#3B2418; font-size:18px; font-weight:700; padding:6px 0; outline:none; font-family:inherit; }
         .cv-cal-inc-input:focus { border-color:var(--gold); }
         .cv-cal-inc-result { font-size:11px; color:var(--muted); margin-top:6px; text-align:center; }
         .cv-cal-inc-result span { color:var(--green); font-weight:600; }
@@ -191,20 +191,20 @@ class CV_Calibracao {
         .cv-cal-star:hover { transform:scale(1.15); }
 
         /* Botão aplicar */
-        .cv-cal-btn-aplicar { width:100%; background:var(--green); color:#fff; border:none; padding:13px; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; transition:opacity .2s; display:flex; align-items:center; justify-content:center; gap:8px; }
+        .cv-cal-btn-aplicar { width:100%; background:var(--green); color:#3B2418; border:none; padding:13px; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; transition:opacity .2s; display:flex; align-items:center; justify-content:center; gap:8px; }
         .cv-cal-btn-aplicar:hover { opacity:.85; }
-        .cv-cal-btn-aplicar:disabled { background:#2a2a2a; color:#555; cursor:not-allowed; }
+        .cv-cal-btn-aplicar:disabled { background:#F8F0E4; color:#8A6A55; cursor:not-allowed; }
 
         /* Toast */
-        .cv-cal-toast { position:fixed; bottom:24px; right:24px; padding:12px 20px; border-radius:10px; font-size:13px; font-weight:600; box-shadow:0 4px 20px rgba(0,0,0,.5); z-index:9999; transform:translateY(80px); opacity:0; transition:all .3s; max-width:320px; }
+        .cv-cal-toast { position:fixed; bottom:24px; right:24px; padding:12px 20px; border-radius:10px; font-size:13px; font-weight:600; box-shadow:0 4px 20px rgba(123,58,34,0.15); z-index:9999; transform:translateY(80px); opacity:0; transition:all .3s; max-width:320px; }
         .cv-cal-toast.show { transform:translateY(0); opacity:1; }
-        .cv-cal-toast.ok  { background:var(--green); color:#fff; }
-        .cv-cal-toast.err { background:var(--red); color:#fff; }
+        .cv-cal-toast.ok  { background:var(--green); color:#3B2418; }
+        .cv-cal-toast.err { background:var(--red); color:#3B2418; }
 
         /* Log */
         .cv-cal-log-item { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--bord); }
         .cv-cal-log-item:last-child { border-bottom:none; }
-        .cv-cal-log-dot { width:28px; height:28px; border-radius:50%; background:rgba(212,160,23,.12); border:1px solid rgba(212,160,23,.3); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:var(--gold); flex-shrink:0; }
+        .cv-cal-log-dot { width:28px; height:28px; border-radius:50%; background:rgba(242,165,26,0.16); border:1px solid rgba(201,162,126,0.6); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:var(--gold); flex-shrink:0; }
         .cv-cal-log-info { flex:1; }
         .cv-cal-log-titulo { font-size:12px; font-weight:600; color:var(--text); }
         .cv-cal-log-meta { font-size:10px; color:var(--muted); margin-top:3px; }
@@ -301,8 +301,8 @@ class CV_Calibracao {
                         <!-- Placeholder -->
                         <div class="cv-cal-placeholder" id="cv-cal-placeholder">
                             <div class="cv-cal-placeholder-emoji">👈</div>
-                            <div style="font-size:14px;color:#666">Selecione uma música na lista ao lado</div>
-                            <div style="font-size:12px;color:#444;margin-top:6px">Você poderá ajustar plays, favoritos e avaliação individualmente</div>
+                            <div style="font-size:14px;color:#8A6A55">Selecione uma música na lista ao lado</div>
+                            <div style="font-size:12px;color:#8A6A55;margin-top:6px">Você poderá ajustar plays, favoritos e avaliação individualmente</div>
                         </div>
 
                         <!-- Editor (oculto até selecionar) -->

@@ -70,7 +70,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 <!-- Painel da fila -->
 <div id="cv-queue-panel"
      style="display:none;position:fixed;bottom:calc(var(--cv-player-h) + 8px);right:16px;
-            width:300px;max-height:380px;background:#1a1a1a;border:1px solid var(--cv-border);
+            width:300px;max-height:380px;background:#FFFFFF;border:1px solid var(--cv-border);
             border-radius:var(--cv-radius);z-index:490;overflow:hidden;box-shadow:var(--cv-shadow-lg)">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;
                 border-bottom:1px solid var(--cv-border-subtle)">

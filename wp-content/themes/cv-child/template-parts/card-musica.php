@@ -94,7 +94,7 @@ $yt_id = cv_youtube_id( $youtube_url );
             <span class="<?php echo esc_attr($td[1]); ?>"
                   title="<?php echo esc_attr($td[2]); ?>"
                   style="position:absolute;top:8px;right:8px;font-size:12px;font-weight:700;
-                         background:rgba(0,0,0,.7);padding:2px 6px;border-radius:4px">
+                         background:rgba(59,36,24,0.45);padding:2px 6px;border-radius:4px">
                 <?php echo $td[0]; ?>
             </span>
             <?php endif; endif; ?>

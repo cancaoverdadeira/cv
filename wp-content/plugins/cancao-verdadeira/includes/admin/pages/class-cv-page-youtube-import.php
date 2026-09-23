@@ -23,20 +23,20 @@ class CV_Page_Youtube_Import {
         ?>
         <div class="wrap" id="cv-yt-exec">
         <style>
-        body.wp-admin { background:#0f0f1a !important; }
-        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#0f0f1a !important; }
+        body.wp-admin { background:#FBF6EE !important; }
+        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#FBF6EE !important; }
         #cv-yt-exec {
-            --gold:#D4A017; --bg:#0f0f1a; --card:#1a1a2e; --bord:#2a2a4a;
-            --text:#e0e0e0; --muted:#888; --green:#1DB954; --red:#e74c3c; --yt:#FF0000;
+            --gold:#B8700C; --bg:#FFFFFF; --card:#F8F0E4; --bord:#F3E6D3;
+            --text:#3B2418; --muted:#C9A27E; --green:#1DB954; --red:#e74c3c; --yt:#FF0000;
             color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; padding-bottom:48px;
         }
         #cv-yt-exec * { box-sizing:border-box; }
         .cv-yt-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
-        .cv-yt-title { font-size:24px; font-weight:700; color:#fff; margin:0; }
+        .cv-yt-title { font-size:24px; font-weight:700; color:#3B2418; margin:0; }
         .cv-yt-title span { color:var(--yt); }
         .cv-yt-pill { display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:600; }
         .cv-yt-pill.ok  { background:rgba(29,185,84,.1); border:1px solid rgba(29,185,84,.3); color:var(--green); }
-        .cv-yt-pill.off { background:rgba(255,0,0,.08); border:1px solid rgba(255,0,0,.25); color:#ff6b6b; }
+        .cv-yt-pill.off { background:rgba(255,0,0,.08); border:1px solid rgba(255,0,0,.25); color:#DB0000; }
         /* Grid layout */
         .cv-yt-layout { display:grid; grid-template-columns:320px 1fr; gap:20px; align-items:start; }
         @media (max-width:1000px) { .cv-yt-layout { grid-template-columns:1fr; } }
@@ -45,20 +45,20 @@ class CV_Page_Youtube_Import {
         .cv-yt-card { background:var(--card); border:1px solid var(--bord); border-radius:14px; overflow:hidden; }
         .cv-yt-card-hdr { padding:14px 18px; border-bottom:1px solid var(--bord); display:flex; align-items:center; gap:10px; }
         .cv-yt-card-hdr-icon { font-size:18px; }
-        .cv-yt-card-hdr-title { font-size:14px; font-weight:700; color:#fff; }
+        .cv-yt-card-hdr-title { font-size:14px; font-weight:700; color:#3B2418; }
         .cv-yt-card-body { padding:18px; }
         /* API form */
         .cv-yt-api-row { display:flex; gap:8px; }
-        .cv-yt-input { flex:1; background:rgba(255,255,255,.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
+        .cv-yt-input { flex:1; background:rgba(123,58,34,0.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
         .cv-yt-input:focus { border-color:var(--gold); }
         .cv-yt-btn { padding:9px 16px; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer; border:none; font-family:inherit; transition:opacity .2s; }
         .cv-yt-btn:hover { opacity:.85; }
-        .cv-yt-btn-save { background:var(--gold); color:#000; }
-        .cv-yt-btn-primary { background:var(--yt); color:#fff; width:100%; justify-content:center; display:flex; align-items:center; gap:8px; padding:11px; }
+        .cv-yt-btn-save { background:var(--gold); color:#3B2418; }
+        .cv-yt-btn-primary { background:var(--yt); color:#3B2418; width:100%; justify-content:center; display:flex; align-items:center; gap:8px; padding:11px; }
         .cv-yt-hint { font-size:11px; color:var(--muted); margin-top:8px; line-height:1.5; }
         /* Busca */
         .cv-yt-search-row { display:flex; gap:8px; margin-bottom:14px; }
-        .cv-yt-channel-input { flex:1; background:rgba(255,255,255,.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:10px 14px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
+        .cv-yt-channel-input { flex:1; background:rgba(123,58,34,0.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:10px 14px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
         .cv-yt-channel-input:focus { border-color:var(--yt); }
         /* Stats bar */
         .cv-yt-statsbar { display:flex; gap:16px; padding:12px 0; border-bottom:1px solid var(--bord); margin-bottom:16px; flex-wrap:wrap; }
@@ -67,37 +67,37 @@ class CV_Page_Youtube_Import {
         .cv-yt-stat-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; }
         /* Progress */
         .cv-yt-progress-wrap { margin:14px 0; display:none; }
-        .cv-yt-progress-bar { background:rgba(255,255,255,.06); border-radius:6px; height:8px; overflow:hidden; margin-bottom:8px; }
+        .cv-yt-progress-bar { background:rgba(123,58,34,0.07); border-radius:6px; height:8px; overflow:hidden; margin-bottom:8px; }
         .cv-yt-progress-fill { height:100%; background:linear-gradient(90deg,var(--yt),#ff6b6b); width:0%; transition:width .3s; border-radius:6px; }
         .cv-yt-progress-txt { font-size:12px; color:var(--muted); }
         /* Result cards */
         .cv-yt-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
         .cv-yt-video-card {
-            background:rgba(255,255,255,.03); border:1px solid var(--bord);
+            background:rgba(123,58,34,0.03); border:1px solid var(--bord);
             border-radius:10px; overflow:hidden; cursor:pointer;
             transition:border-color .2s, transform .15s;
             position:relative;
         }
-        .cv-yt-video-card:hover { border-color:rgba(212,160,23,.4); transform:translateY(-2px); }
-        .cv-yt-video-card.selected { border-color:var(--gold); background:rgba(212,160,23,.06); }
+        .cv-yt-video-card:hover { border-color:rgba(201,162,126,0.8); transform:translateY(-2px); }
+        .cv-yt-video-card.selected { border-color:var(--gold); background:rgba(242,165,26,0.08); }
         .cv-yt-video-card.imported { border-color:rgba(29,185,84,.4); opacity:.6; }
         .cv-yt-thumb { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
         .cv-yt-video-info { padding:10px; }
         .cv-yt-video-title { font-size:12px; font-weight:600; color:var(--text); line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
         .cv-yt-video-date { font-size:10px; color:var(--muted); margin-top:4px; }
-        .cv-yt-check { position:absolute; top:6px; right:6px; width:22px; height:22px; border-radius:50%; background:var(--gold); color:#000; font-size:12px; font-weight:700; display:none; align-items:center; justify-content:center; }
+        .cv-yt-check { position:absolute; top:6px; right:6px; width:22px; height:22px; border-radius:50%; background:var(--gold); color:#3B2418; font-size:12px; font-weight:700; display:none; align-items:center; justify-content:center; }
         .cv-yt-video-card.selected .cv-yt-check { display:flex; }
-        .cv-yt-imported-badge { position:absolute; top:6px; left:6px; background:rgba(29,185,84,.9); color:#fff; font-size:9px; font-weight:700; padding:2px 6px; border-radius:10px; }
+        .cv-yt-imported-badge { position:absolute; top:6px; left:6px; background:rgba(29,185,84,.9); color:#3B2418; font-size:9px; font-weight:700; padding:2px 6px; border-radius:10px; }
         /* Status */
         .cv-yt-status-msg { font-size:13px; color:var(--gold); padding:10px 0; display:none; }
         .cv-yt-done-msg { display:none; }
         /* Toolbar */
         .cv-yt-toolbar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:14px; }
-        .cv-yt-btn-outline { background:rgba(255,255,255,.05); border:1px solid var(--bord); color:var(--text); padding:7px 14px; }
-        .cv-yt-btn-import { background:var(--yt); color:#fff; padding:9px 20px; }
+        .cv-yt-btn-outline { background:rgba(123,58,34,0.06); border:1px solid var(--bord); color:var(--text); padding:7px 14px; }
+        .cv-yt-btn-import { background:var(--yt); color:#3B2418; padding:9px 20px; }
         .cv-yt-selected-count { font-size:12px; color:var(--muted); }
         .cv-yt-loading { text-align:center; padding:40px; color:var(--muted); display:none; }
-        .cv-yt-spinner { display:inline-block; width:24px; height:24px; border:3px solid rgba(255,255,255,.1); border-top-color:var(--yt); border-radius:50%; animation:cv-spin .7s linear infinite; }
+        .cv-yt-spinner { display:inline-block; width:24px; height:24px; border:3px solid rgba(123,58,34,0.16); border-top-color:var(--yt); border-radius:50%; animation:cv-spin .7s linear infinite; }
         @keyframes cv-spin { to { transform:rotate(360deg); } }
         </style>
 
@@ -139,7 +139,7 @@ class CV_Page_Youtube_Import {
                             1. console.cloud.google.com<br>
                             2. Criar projeto → Ativar "YouTube Data API v3"<br>
                             3. Credenciais → Criar chave de API<br>
-                            <span style="color:#555">Cota gratuita: 10.000 req/dia</span>
+                            <span style="color:#8A6A55">Cota gratuita: 10.000 req/dia</span>
                         </div>
                     </div>
                 </div>
@@ -230,7 +230,7 @@ class CV_Page_Youtube_Import {
                     <!-- Estado vazio inicial -->
                     <div id="cv-yt-empty" style="text-align:center;padding:60px 20px;color:var(--muted)">
                         <div style="font-size:48px;margin-bottom:14px">▶</div>
-                        <div style="font-size:15px;color:#666;margin-bottom:6px">Nenhuma busca realizada</div>
+                        <div style="font-size:15px;color:#8A6A55;margin-bottom:6px">Nenhuma busca realizada</div>
                         <div style="font-size:12px">Insira o handle do canal e clique em Buscar Vídeos.</div>
                     </div>
 
@@ -374,7 +374,7 @@ class CV_Page_Youtube_Import {
                             + (falhas ? '⚠️ ' : '✅ ') + 'Importados: <strong>' + imported + '</strong> &nbsp;|&nbsp; Já existiam: <strong>' + skipped + '</strong>'
                             + (falhas ? ' &nbsp;|&nbsp; Falharam: <strong>' + falhas + '</strong>' : '') + '<br>';
                         if (falhas) {
-                            html += '<div style="margin-top:8px;font-weight:400;font-size:12px;color:#ff8a80;max-height:140px;overflow:auto">'
+                            html += '<div style="margin-top:8px;font-weight:400;font-size:12px;color:#DC1100;max-height:140px;overflow:auto">'
                                   + erros.map(escHtml).join('<br>') + '</div>';
                         }
                         html += '<a href="<?php echo esc_js( admin_url("admin.php?page=cv-publicacao-rapida") ); ?>" style="color:var(--gold);margin-top:8px;display:inline-block;font-size:12px">⚡ Ir para Publicação Acelerada →</a>'

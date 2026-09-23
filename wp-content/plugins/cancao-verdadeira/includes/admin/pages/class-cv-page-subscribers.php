@@ -71,55 +71,55 @@ class CV_Page_Subscribers {
         
         <style>
         .cv-subs-v2 * { box-sizing:border-box; }
-        .cv-subs-hero { background:linear-gradient(135deg,#0d1a2e 0%,#1a1a1a 100%);border:1px solid #1a2e4a;border-radius:14px;padding:22px 28px;margin-bottom:22px;display:flex;align-items:center;gap:20px; }
-        .cv-subs-hero h1 { color:#4a90d9;font-size:20px;margin:0 0 2px;font-weight:800; }
-        .cv-subs-hero p { color:#555;font-size:12px;margin:0; }
+        .cv-subs-hero { background:linear-gradient(135deg,#E7EEF8 0%,#FFFFFF 100%);border:1px solid #EADBC6;border-radius:14px;padding:22px 28px;margin-bottom:22px;display:flex;align-items:center;gap:20px; }
+        .cv-subs-hero h1 { color:#2871BE;font-size:20px;margin:0 0 2px;font-weight:800; }
+        .cv-subs-hero p { color:#8A6A55;font-size:12px;margin:0; }
         .cv-subs-kpis { display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px; }
         @media(max-width:800px){.cv-subs-kpis{grid-template-columns:1fr 1fr;}}
-        .cv-subs-kpi { background:#1a1a1a;border:1px solid #1e2a3a;border-radius:12px;padding:18px 16px;position:relative;overflow:hidden; }
+        .cv-subs-kpi { background:#FFFFFF;border:1px solid #EADBC6;border-radius:12px;padding:18px 16px;position:relative;overflow:hidden; }
         .cv-subs-kpi::after { content:"";position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0 0 12px 12px; }
         .cv-subs-kpi.k1::after{background:linear-gradient(90deg,#4a90d9,#5aa8f0);}
         .cv-subs-kpi.k2::after{background:linear-gradient(90deg,#1db954,#22d460);}
-        .cv-subs-kpi.k3::after{background:linear-gradient(90deg,#D4A017,#FFD700);}
+        .cv-subs-kpi.k3::after{background:linear-gradient(90deg,#F2A51A,#F2A51A);}
         .cv-subs-kpi.k4::after{background:linear-gradient(90deg,#9b59b6,#b278cc);}
         .cv-subs-kpi-icon { font-size:18px;margin-bottom:6px;display:block; }
-        .cv-subs-kpi-val { font-size:28px;font-weight:800;color:#f0f0f0;line-height:1;margin-bottom:3px; }
-        .cv-subs-kpi-label { font-size:11px;color:#555;text-transform:uppercase;letter-spacing:.4px; }
+        .cv-subs-kpi-val { font-size:28px;font-weight:800;color:#3B2418;line-height:1;margin-bottom:3px; }
+        .cv-subs-kpi-label { font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.4px; }
         .cv-subs-kpi-badge { position:absolute;top:12px;right:12px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px; }
-        .badge-up{background:rgba(29,185,84,.15);color:#1db954;}
-        .badge-neu{background:rgba(255,255,255,.05);color:#444;}
+        .badge-up{background:rgba(29,185,84,.15);color:#137B38;}
+        .badge-neu{background:rgba(123,58,34,0.06);color:#8A6A55;}
         .cv-subs-mid { display:grid;grid-template-columns:1.6fr 1fr;gap:18px;margin-bottom:22px;align-items:start; }
         @media(max-width:900px){.cv-subs-mid{grid-template-columns:1fr;}}
-        .cv-subs-panel { background:#1a1a1a;border:1px solid #1e2a3a;border-radius:12px;padding:20px 22px;max-height:260px;overflow-y:auto; }
-        .cv-subs-panel h3 { font-size:12px;color:#555;text-transform:uppercase;letter-spacing:.6px;margin:0 0 14px;font-weight:600; }
-        .cv-subs-panel h3 strong { color:#4a90d9; }
+        .cv-subs-panel { background:#FFFFFF;border:1px solid #EADBC6;border-radius:12px;padding:20px 22px;max-height:260px;overflow-y:auto; }
+        .cv-subs-panel h3 { font-size:12px;color:#8A6A55;text-transform:uppercase;letter-spacing:.6px;margin:0 0 14px;font-weight:600; }
+        .cv-subs-panel h3 strong { color:#2871BE; }
         #cv-subs-chart { width:100%;height:110px;max-height:110px; }
         .cv-genre-bar { margin-bottom:12px; }
         .cv-genre-bar:last-child { margin-bottom:0; }
         .cv-genre-header { display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px; }
-        .cv-genre-name { color:#888; }
-        .cv-genre-val { color:#4a90d9;font-weight:700; }
-        .cv-genre-bg { height:5px;background:#111;border-radius:5px; }
+        .cv-genre-name { color:#8A6A55; }
+        .cv-genre-val { color:#2871BE;font-weight:700; }
+        .cv-genre-bg { height:5px;background:#FBF6EE;border-radius:5px; }
         .cv-genre-fill { height:100%;border-radius:5px;background:linear-gradient(90deg,#4a90d9,#5aa8f0); }
         /* Tabela */
         .cv-subs-toolbar { display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px; }
         .cv-subs-search { display:flex;gap:8px;align-items:center; }
-        .cv-subs-search input { background:#111;border:1px solid #1e2a3a;color:#ddd;border-radius:6px;padding:7px 12px;font-size:12px;outline:none;min-width:220px; }
+        .cv-subs-search input { background:#FBF6EE;border:1px solid #EADBC6;color:#3B2418;border-radius:6px;padding:7px 12px;font-size:12px;outline:none;min-width:220px; }
         .cv-subs-search input:focus { border-color:#4a90d9; }
         .cv-subs-actions { display:flex;gap:8px; }
-        .cv-sub-btn { font-size:11px;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:600;border:1px solid #1e2a3a;background:#111;color:#888;transition:all .2s; }
-        .cv-sub-btn:hover { border-color:#4a90d9;color:#4a90d9; }
-        .cv-sub-btn.primary { background:#4a90d9;color:#fff;border-color:#4a90d9; }
+        .cv-sub-btn { font-size:11px;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:600;border:1px solid #EADBC6;background:#FBF6EE;color:#8A6A55;transition:all .2s; }
+        .cv-sub-btn:hover { border-color:#4a90d9;color:#2871BE; }
+        .cv-sub-btn.primary { background:#4a90d9;color:#3B2418;border-color:#4a90d9; }
         .cv-sub-btn.primary:hover { background:#5aa8f0; }
         .cv-subs-table { width:100%;border-collapse:collapse; }
-        .cv-subs-table th { font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#333;padding:8px 10px;text-align:left;border-bottom:1px solid #1a1a1a; }
-        .cv-subs-table td { padding:9px 10px;border-bottom:1px solid #141414;vertical-align:middle;font-size:13px; }
+        .cv-subs-table th { font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#8A6A55;padding:8px 10px;text-align:left;border-bottom:1px solid #EADBC6; }
+        .cv-subs-table td { padding:9px 10px;border-bottom:1px solid #EADBC6;vertical-align:middle;font-size:13px; }
         .cv-subs-table tr:hover td { background:rgba(74,144,217,.04); }
         .cv-subs-table tr:last-child td { border-bottom:none; }
-        .cv-subs-avatar { width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0; }
+        .cv-subs-avatar { width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#3B2418;flex-shrink:0; }
         .cv-subs-name { display:flex;align-items:center;gap:8px; }
-        .cv-genre-pill { font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(74,144,217,.12);color:#4a90d9; }
-        .cv-subs-empty { text-align:center;padding:48px;color:#333; }
+        .cv-genre-pill { font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(74,144,217,.12);color:#2871BE; }
+        .cv-subs-empty { text-align:center;padding:48px;color:#8A6A55; }
         </style>
 
         <!-- Hero -->
@@ -130,8 +130,8 @@ class CV_Page_Subscribers {
                 <p>Gerencie assinantes, visualize crescimento e exporte listas para o MailerLite.</p>
             </div>
             <div style="margin-left:auto;text-align:right">
-                <div style="font-size:28px;font-weight:800;color:#4a90d9;line-height:1"><?php echo number_format($total); ?></div>
-                <div style="font-size:11px;color:#444;text-transform:uppercase;letter-spacing:.4px">assinantes totais</div>
+                <div style="font-size:28px;font-weight:800;color:#2871BE;line-height:1"><?php echo number_format($total); ?></div>
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.4px">assinantes totais</div>
             </div>
         </div>
 
@@ -170,7 +170,7 @@ class CV_Page_Subscribers {
             <div class="cv-subs-panel">
                 <h3>Assinantes por <strong>gênero favorito</strong></h3>
                 <?php if(empty($por_genero)):?>
-                    <p style="color:#333;font-size:12px">Nenhum dado de gênero disponível.</p>
+                    <p style="color:#8A6A55;font-size:12px">Nenhum dado de gênero disponível.</p>
                 <?php else:
                 $max_g = max(array_column((array)$por_genero,'total'));
                 $max_g = max(1,$max_g);
@@ -205,11 +205,11 @@ class CV_Page_Subscribers {
             <?php if(empty($subscribers)):?>
             <div class="cv-subs-empty">
                 <div style="font-size:36px;margin-bottom:10px">📭</div>
-                <p style="color:#444"><?php echo $search?'Nenhum resultado para "'.esc_html($search).'".':'Nenhum assinante ainda. O formulário de newsletter está ativo no site!';?></p>
+                <p style="color:#8A6A55"><?php echo $search?'Nenhum resultado para "'.esc_html($search).'".':'Nenhum assinante ainda. O formulário de newsletter está ativo no site!';?></p>
             </div>
             <?php else:?>
             <?php
-            $cores = array('#4a90d9','#1db954','#D4A017','#9b59b6','#e74c3c','#e67e22','#1abc9c','#e91e63');
+            $cores = array('#4a90d9','#1db954','#B8700C','#9b59b6','#e74c3c','#e67e22','#1abc9c','#e91e63');
             ?>
             <table class="cv-subs-table">
                 <thead><tr>
@@ -228,26 +228,26 @@ class CV_Page_Subscribers {
                     $tempo   = $dias===0?'hoje':($dias===1?'ontem':$dias.' dias atrás');
                 ?>
                 <tr id="cv-sub-row-<?php echo esc_attr($sub->id);?>">
-                    <td style="color:#333;font-size:11px"><?php echo $i+1;?></td>
+                    <td style="color:#8A6A55;font-size:11px"><?php echo $i+1;?></td>
                     <td>
                         <div class="cv-subs-name">
                             <div class="cv-subs-avatar" style="background:<?php echo $cor;?>1a;color:<?php echo $cor;?>;border:1px solid <?php echo $cor;?>33"><?php echo esc_html($inicial);?></div>
-                            <span style="color:#ddd;font-weight:600"><?php echo esc_html($sub->name?:$sub->email);?></span>
+                            <span style="color:#3B2418;font-weight:600"><?php echo esc_html($sub->name?:$sub->email);?></span>
                         </div>
                     </td>
-                    <td><span class="cv-sub-email" style="color:#888;font-size:12px"><?php echo esc_html($sub->email);?></span></td>
-                    <td><?php if($sub->genre??''):?><span class="cv-genre-pill"><?php echo esc_html($sub->genre);?></span><?php else:?><span style="color:#333;font-size:11px">—</span><?php endif;?></td>
-                    <td style="font-size:11px;color:#444"><?php echo esc_html($tempo);?></td>
+                    <td><span class="cv-sub-email" style="color:#8A6A55;font-size:12px"><?php echo esc_html($sub->email);?></span></td>
+                    <td><?php if($sub->genre??''):?><span class="cv-genre-pill"><?php echo esc_html($sub->genre);?></span><?php else:?><span style="color:#8A6A55;font-size:11px">—</span><?php endif;?></td>
+                    <td style="font-size:11px;color:#8A6A55"><?php echo esc_html($tempo);?></td>
                     <td>
                         <button class="cv-sub-delete" data-id="<?php echo esc_attr($sub->id);?>" data-email="<?php echo esc_attr($sub->email);?>"
-                                style="background:none;border:none;color:#333;cursor:pointer;font-size:14px;padding:4px" title="Remover">🗑</button>
+                                style="background:none;border:none;color:#8A6A55;cursor:pointer;font-size:14px;padding:4px" title="Remover">🗑</button>
                     </td>
                 </tr>
                 <?php endforeach;?>
                 </tbody>
             </table>
             <?php if(count($subscribers)>=300):?>
-            <p style="text-align:center;color:#444;font-size:11px;margin-top:12px;padding-top:12px;border-top:1px solid #141414">
+            <p style="text-align:center;color:#8A6A55;font-size:11px;margin-top:12px;padding-top:12px;border-top:1px solid #EADBC6">
                 Exibindo 300 mais recentes. Exporte o CSV para ver todos.
             </p>
             <?php endif;?>
@@ -274,10 +274,10 @@ class CV_Page_Subscribers {
                     pointBackgroundColor:'#4a90d9', fill:true, tension:0.4
                 }]},
                 options:{ responsive:true, maintainAspectRatio:false,
-                    plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#1e1e1e',borderColor:'#1e2a3a',borderWidth:1,titleColor:'#4a90d9',bodyColor:'#aaa'}},
+                    plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#FFFFFF',borderColor:'#F8F0E4',borderWidth:1,titleColor:'#4a90d9',bodyColor:'#C9A27E'}},
                     scales:{
-                        x:{ grid:{color:'rgba(255,255,255,0.03)'}, ticks:{color:'#333',font:{size:10},maxTicksLimit:10} },
-                        y:{ grid:{color:'rgba(255,255,255,0.03)'}, ticks:{color:'#333',font:{size:10},precision:0}, beginAtZero:false }
+                        x:{ grid:{color:'rgba(123,58,34,0.03)'}, ticks:{color:'#F3E6D3',font:{size:10},maxTicksLimit:10} },
+                        y:{ grid:{color:'rgba(123,58,34,0.03)'}, ticks:{color:'#F3E6D3',font:{size:10},precision:0}, beginAtZero:false }
                     }
                 }
             }); }

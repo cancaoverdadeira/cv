@@ -104,10 +104,10 @@ get_header();
 
                     <!-- Breadcrumb -->
                     <nav aria-label="Navegação" style="margin-bottom:16px">
-                        <ol style="list-style:none;padding:0;margin:0;display:flex;gap:6px;flex-wrap:wrap;font-size:12px;color:rgba(255,255,255,.5)">
-                            <li><a href="<?php echo esc_url(home_url('/')); ?>" style="color:rgba(255,255,255,.5);text-decoration:none">Início</a></li>
+                        <ol style="list-style:none;padding:0;margin:0;display:flex;gap:6px;flex-wrap:wrap;font-size:12px;color:rgba(59,36,24,0.55)">
+                            <li><a href="<?php echo esc_url(home_url('/')); ?>" style="color:rgba(59,36,24,0.55);text-decoration:none">Início</a></li>
                             <li>/</li>
-                            <li><a href="<?php echo esc_url(home_url('/musicas/')); ?>" style="color:rgba(255,255,255,.5);text-decoration:none">Músicas</a></li>
+                            <li><a href="<?php echo esc_url(home_url('/musicas/')); ?>" style="color:rgba(59,36,24,0.55);text-decoration:none">Músicas</a></li>
                             <?php if ($genero_nome) : ?>
                             <li>/</li>
                             <li><a href="<?php echo esc_url(get_term_link($generos[0])); ?>" style="color:var(--cv-gold);text-decoration:none"><?php echo esc_html($genero_nome); ?></a></li>
@@ -120,7 +120,7 @@ get_header();
 
                         <!-- Capa -->
                         <div style="width:160px;height:160px;border-radius:var(--cv-radius);overflow:hidden;
-                                    box-shadow:0 8px 32px rgba(0,0,0,.5);flex-shrink:0;border:2px solid rgba(212,160,23,.3)">
+                                    box-shadow:0 8px 32px rgba(123,58,34,0.15);flex-shrink:0;border:2px solid rgba(201,162,126,0.6)">
                             <img src="<?php echo esc_url($cover); ?>"
                                  alt="<?php echo esc_attr("Capa de $titulo"); ?>"
                                  itemprop="image"
@@ -138,20 +138,20 @@ get_header();
                             <?php endif; ?>
 
                             <h1 style="font-family:var(--font-display);font-size:clamp(24px,4vw,40px);
-                                       font-weight:700;color:#fff;margin:8px 0 6px;line-height:1.1"
+                                       font-weight:700;color:#3B2418;margin:8px 0 6px;line-height:1.1"
                                 itemprop="name">
                                 <?php echo esc_html($titulo); ?>
                             </h1>
 
                             <?php if ($artista) : ?>
-                            <p style="font-size:16px;color:rgba(255,255,255,.8);margin:0 0 4px"
+                            <p style="font-size:16px;color:rgba(59,36,24,0.8);margin:0 0 4px"
                                itemprop="lyricist" itemscope itemtype="https://schema.org/Person">
                                 <span itemprop="name"><?php echo esc_html($artista); ?></span>
                             </p>
                             <?php endif; ?>
 
                             <?php if ($compositor && $compositor !== $artista) : ?>
-                            <p style="font-size:13px;color:rgba(255,255,255,.55);margin:0 0 12px"
+                            <p style="font-size:13px;color:rgba(59,36,24,0.55);margin:0 0 12px"
                                itemprop="composer" itemscope itemtype="https://schema.org/Person">
                                 Compositor: <span itemprop="name"><?php echo esc_html($compositor); ?></span>
                             </p>
@@ -160,20 +160,20 @@ get_header();
                             <!-- Stats rápidas -->
                             <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px">
                                 <?php if ($plays) : ?>
-                                <span style="font-size:13px;color:rgba(255,255,255,.6)">
+                                <span style="font-size:13px;color:rgba(59,36,24,0.6)">
                                     ▶ <?php echo number_format($plays); ?> plays
                                 </span>
                                 <?php endif; ?>
                                 <?php if ($avg_rating > 0) : ?>
                                 <span style="font-size:13px;color:var(--cv-gold)">
                                     ★ <?php echo number_format($avg_rating, 1); ?>/5
-                                    <span style="color:rgba(255,255,255,.4);font-size:11px">
+                                    <span style="color:rgba(59,36,24,0.55);font-size:11px">
                                         (<?php echo $rating_count; ?> avaliações)
                                     </span>
                                 </span>
                                 <?php endif; ?>
                                 <?php if ($posicao) : ?>
-                                <span style="font-size:13px;color:rgba(255,255,255,.6)">
+                                <span style="font-size:13px;color:rgba(59,36,24,0.6)">
                                     🏆 #<?php echo $posicao; ?> no ranking
                                 </span>
                                 <?php endif; ?>
@@ -199,7 +199,7 @@ get_header();
                                         id="cv-fav-btn"
                                         data-music-id="<?php echo esc_attr($music_id); ?>"
                                         aria-pressed="<?php echo $is_fav ? 'true' : 'false'; ?>"
-                                        style="<?php echo $is_fav ? 'background:rgba(231,76,60,.2);border-color:#e74c3c;color:#e74c3c' : ''; ?>">
+                                        style="<?php echo $is_fav ? 'background:rgba(231,76,60,.2);border-color:#e74c3c;color:#D62C1A' : ''; ?>">
                                     <?php echo $is_fav ? '❤ Favoritado' : '♡ Favoritar'; ?>
                                     <span id="cv-fav-count">(<?php echo $favoritos; ?>)</span>
                                 </button>
@@ -255,7 +255,7 @@ get_header();
 
                         <!-- Instrução de seleção de trecho -->
                         <?php if (is_user_logged_in()) : ?>
-                        <div style="background:rgba(212,160,23,.08);border:1px solid rgba(212,160,23,.2);
+                        <div style="background:rgba(242,165,26,0.1);border:1px solid rgba(201,162,126,0.4);
                                     border-radius:var(--cv-radius-sm);padding:10px 14px;
                                     margin-bottom:16px;font-size:12px;color:var(--cv-text-muted)">
                             💡 Selecione qualquer trecho da letra para comentar sobre ele
@@ -280,7 +280,7 @@ get_header();
 
                         <!-- Popup de comentário de trecho (aparece ao selecionar texto) -->
                         <div id="cv-trecho-popup"
-                             style="display:none;position:absolute;background:#1a1a1a;
+                             style="display:none;position:absolute;background:#FFFFFF;
                                     border:1px solid var(--cv-gold);border-radius:var(--cv-radius-sm);
                                     padding:8px 12px;z-index:100;box-shadow:var(--cv-shadow);
                                     font-size:12px;white-space:nowrap">
@@ -294,10 +294,10 @@ get_header();
 
                     <!-- Modal de comentário de trecho -->
                     <div id="cv-trecho-modal"
-                         style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);
+                         style="display:none;position:fixed;inset:0;background:rgba(59,36,24,0.45);
                                 z-index:1000;display:none;align-items:center;justify-content:center;
                                 padding:20px">
-                        <div style="background:#1e1e1e;border:1px solid var(--cv-border);
+                        <div style="background:#FFFFFF;border:1px solid var(--cv-border);
                                     border-radius:var(--cv-radius);padding:28px;max-width:500px;
                                     width:100%;position:relative;box-shadow:var(--cv-shadow-lg)">
                             <button id="cv-trecho-modal-close"
@@ -308,7 +308,7 @@ get_header();
                                 💬 Comentar trecho
                             </h3>
                             <div id="cv-trecho-selecionado"
-                                 style="background:#111;border-left:3px solid var(--cv-gold);
+                                 style="background:#FBF6EE;border-left:3px solid var(--cv-gold);
                                         padding:10px 14px;border-radius:4px;
                                         font-family:var(--font-body);font-style:italic;
                                         color:var(--cv-text-muted);font-size:14px;
@@ -438,7 +438,7 @@ get_header();
                             </a>
                             <a href="<?php echo esc_url($share_links['twitter']); ?>"
                                target="_blank" rel="noopener"
-                               class="cv-share-btn" style="--share-color:#000">
+                               class="cv-share-btn" style="--share-color:#FBF6EE">
                                 ✕ Twitter/X
                             </a>
                             <a href="<?php echo esc_url($share_links['telegram']); ?>"
@@ -448,7 +448,7 @@ get_header();
                             </a>
                             <button id="cv-copy-link-btn"
                                     class="cv-share-btn"
-                                    style="--share-color:#555;border:none;cursor:pointer;
+                                    style="--share-color:#F3E6D3;border:none;cursor:pointer;
                                            width:100%;text-align:left"
                                     data-url="<?php echo esc_attr(get_permalink()); ?>">
                                 🔗 Copiar link
@@ -528,7 +528,7 @@ get_header();
 .cv-musica-hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(26,26,26,1) 0%, rgba(26,26,26,.6) 50%, rgba(26,26,26,.1) 100%);
+    background: linear-gradient(to top, #FFFFFF 0%, rgba(59,36,24,0.45) 50%, rgba(123,58,34,0.03) 100%);
 }
 .cv-musica-hero-content {
     position: relative;
@@ -564,7 +564,7 @@ get_header();
     user-select: text;
 }
 .cv-letra-conteudo ::selection {
-    background: rgba(212,160,23,.3);
+    background: rgba(242,165,26,0.39);
     color: var(--cv-text);
 }
 
@@ -592,7 +592,7 @@ get_header();
     align-items: center;
     gap: 8px;
     padding: 9px 14px;
-    background: rgba(255,255,255,.04);
+    background: rgba(123,58,34,0.04);
     border: 1px solid var(--cv-border-subtle);
     border-radius: var(--cv-radius-sm);
     color: var(--cv-text);
@@ -603,7 +603,7 @@ get_header();
 }
 .cv-share-btn:hover {
     background: var(--share-color, var(--cv-gold));
-    color: #fff;
+    color: #3B2418;
     border-color: transparent;
     transform: translateX(3px);
 }
@@ -617,7 +617,7 @@ get_header();
     margin-bottom: 12px;
 }
 .cv-lyric-comment-excerpt {
-    background: rgba(212,160,23,.06);
+    background: rgba(242,165,26,0.08);
     border-left: 3px solid var(--cv-gold);
     padding: 8px 12px;
     border-radius: 0 4px 4px 0;

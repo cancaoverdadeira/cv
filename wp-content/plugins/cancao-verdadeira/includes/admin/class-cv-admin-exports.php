@@ -39,7 +39,7 @@ class CV_Admin_Exports {
         }
         $css = '
         body.toplevel_page_cancao-verdadeira #wpcontent,
-        body #wpcontent { background: #111 !important; }
+        body #wpcontent { background: #FBF6EE !important; }
 
         .cv-exports-wrap {
             max-width: 980px;
@@ -47,8 +47,8 @@ class CV_Admin_Exports {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         }
         .cv-exp-hero {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a1f00 100%);
-            border: 1px solid #3a3000;
+            background: linear-gradient(135deg, #FFFFFF 0%, #F8F4E7 100%);
+            border: 1px solid #E0D7AE;
             border-radius: 14px;
             padding: 28px 32px;
             margin-bottom: 28px;
@@ -59,17 +59,17 @@ class CV_Admin_Exports {
         .cv-exp-hero-icon {
             font-size: 48px;
             line-height: 1;
-            filter: drop-shadow(0 0 12px rgba(212,160,23,0.4));
+            filter: drop-shadow(0 0 12px rgba(242,165,26,0.52));
         }
         .cv-exp-hero h1 {
-            color: #D4A017;
+            color: #7B3A22;
             font-size: 22px;
             margin: 0 0 4px 0;
             font-weight: 700;
             letter-spacing: -0.3px;
         }
         .cv-exp-hero p {
-            color: #888;
+            color: #8A6A55;
             font-size: 13px;
             margin: 0;
         }
@@ -79,8 +79,8 @@ class CV_Admin_Exports {
             margin-left: auto;
         }
         .cv-exp-stat {
-            background: rgba(212,160,23,0.08);
-            border: 1px solid rgba(212,160,23,0.2);
+            background: rgba(242,165,26,0.1);
+            border: 1px solid rgba(201,162,126,0.4);
             border-radius: 10px;
             padding: 12px 18px;
             text-align: center;
@@ -90,12 +90,12 @@ class CV_Admin_Exports {
             display: block;
             font-size: 22px;
             font-weight: 800;
-            color: #D4A017;
+            color: #7B3A22;
             line-height: 1.1;
         }
         .cv-exp-stat span {
             font-size: 10px;
-            color: #666;
+            color: #8A6A55;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -109,8 +109,8 @@ class CV_Admin_Exports {
         @media (max-width: 800px) { .cv-exp-grid { grid-template-columns: 1fr; } }
 
         .cv-export-card {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
+            background: #FFFFFF;
+            border: 1px solid #EADBC6;
             border-radius: 12px;
             padding: 24px;
             transition: border-color 0.2s, box-shadow 0.2s;
@@ -124,14 +124,14 @@ class CV_Admin_Exports {
             height: 3px;
             border-radius: 12px 12px 0 0;
         }
-        .cv-export-card.card-musicas::before  { background: linear-gradient(90deg, #D4A017, #FFD700); }
+        .cv-export-card.card-musicas::before  { background: linear-gradient(90deg, #F2A51A, #F2A51A); }
         .cv-export-card.card-plays::before    { background: linear-gradient(90deg, #1db954, #17a845); }
-        .cv-export-card.card-ranking::before  { background: linear-gradient(90deg, #e8a020, #c07010); }
+        .cv-export-card.card-ranking::before  { background: linear-gradient(90deg, #F2A51A, #c07010); }
         .cv-export-card.card-assin::before    { background: linear-gradient(90deg, #4a90d9, #2070b0); }
 
         .cv-export-card:hover {
-            border-color: #3a3a3a;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+            border-color: #EADBC6;
+            box-shadow: 0 4px 24px rgba(123,58,34,0.12);
         }
         .cv-export-card h2 {
             font-size: 15px;
@@ -140,11 +140,11 @@ class CV_Admin_Exports {
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #f0f0f0;
+            color: #3B2418;
         }
         .cv-export-card h2 .icon { font-size: 20px; }
         .cv-export-card p.cv-desc {
-            color: #777;
+            color: #8A6A55;
             font-size: 12px;
             margin: 0 0 20px 0;
             line-height: 1.5;
@@ -161,16 +161,16 @@ class CV_Admin_Exports {
             gap: 4px;
         }
         .cv-export-field label {
-            color: #666;
+            color: #8A6A55;
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.4px;
         }
         .cv-export-field select,
         .cv-export-field input[type="date"] {
-            background: #111;
-            border: 1px solid #333;
-            color: #ddd;
+            background: #FBF6EE;
+            border: 1px solid #EADBC6;
+            color: #3B2418;
             border-radius: 6px;
             padding: 7px 10px;
             font-size: 12px;
@@ -180,7 +180,7 @@ class CV_Admin_Exports {
         }
         .cv-export-field select:focus,
         .cv-export-field input[type="date"]:focus {
-            border-color: #D4A017;
+            border-color: #C9A27E;
         }
         .cv-btn-export {
             font-weight: 700;
@@ -193,18 +193,18 @@ class CV_Admin_Exports {
             white-space: nowrap;
             letter-spacing: 0.2px;
         }
-        .card-musicas  .cv-btn-export { background: #D4A017; color: #111; }
-        .card-musicas  .cv-btn-export:hover { background: #FFD700; }
-        .card-plays    .cv-btn-export { background: #1db954; color: #111; }
+        .card-musicas  .cv-btn-export { background: #F2A51A; color: #3B2418; }
+        .card-musicas  .cv-btn-export:hover { background: #F2A51A; }
+        .card-plays    .cv-btn-export { background: #1db954; color: #3B2418; }
         .card-plays    .cv-btn-export:hover { background: #22d460; }
-        .card-ranking  .cv-btn-export { background: #e8a020; color: #111; }
-        .card-ranking  .cv-btn-export:hover { background: #f0b030; }
-        .card-assin    .cv-btn-export { background: #4a90d9; color: #fff; }
+        .card-ranking  .cv-btn-export { background: #F2A51A; color: #3B2418; }
+        .card-ranking  .cv-btn-export:hover { background: #F2A51A; }
+        .card-assin    .cv-btn-export { background: #4a90d9; color: #3B2418; }
         .card-assin    .cv-btn-export:hover { background: #5aa0e9; }
 
         .cv-export-badge {
-            background: rgba(212,160,23,0.12);
-            color: #D4A017;
+            background: rgba(242,165,26,0.16);
+            color: #7B3A22;
             font-size: 10px;
             border-radius: 20px;
             padding: 2px 8px;
@@ -212,13 +212,13 @@ class CV_Admin_Exports {
         }
         .cv-exp-columns {
             font-size: 11px;
-            color: #444;
+            color: #8A6A55;
             margin-top: 12px;
             padding-top: 12px;
-            border-top: 1px solid #222;
+            border-top: 1px solid #EADBC6;
             line-height: 1.6;
         }
-        .cv-exp-columns strong { color: #555; }
+        .cv-exp-columns strong { color: #8A6A55; }
         ';
         wp_add_inline_style( 'wp-admin', $css );
     }

@@ -126,8 +126,8 @@ class CV_Admin_Charts {
         }
 
         $colors = array(
-            '#D4A017', '#E8C547', '#8B4513', '#556B2F',
-            '#8B0000', '#4169E1', '#696969', '#9B59B6',
+            '#B8700C', '#B8700C', '#8B4513', '#556B2F',
+            '#F8E7E7', '#4169E1', '#C9A27E', '#9B59B6',
         );
 
         $labels = array();
@@ -394,18 +394,18 @@ class CV_Admin_Charts {
 
         /* Hero */
         .cv-an-hero {
-            background:linear-gradient(135deg,#0a0a1a 0%,#1a1a2e 50%,#1a1a1a 100%);
-            border:1px solid #1a1a3a;border-radius:16px;padding:24px 32px;
+            background:linear-gradient(135deg,#FFFFFF 0%,#F8F0E4 50%,#FFFFFF 100%);
+            border:1px solid #EADBC6;border-radius:16px;padding:24px 32px;
             margin-bottom:24px;display:flex;align-items:center;gap:20px;
         }
-        .cv-an-hero-left h1 { color:#7b68ee;font-size:22px;margin:0 0 2px;font-weight:800;letter-spacing:-.3px; }
-        .cv-an-hero-left p  { color:#555;font-size:12px;margin:0; }
+        .cv-an-hero-left h1 { color:#6B56EC;font-size:22px;margin:0 0 2px;font-weight:800;letter-spacing:-.3px; }
+        .cv-an-hero-left p  { color:#8A6A55;font-size:12px;margin:0; }
         .cv-an-hero-controls { margin-left:auto;display:flex;gap:10px;align-items:center; }
-        .cv-an-select { background:#111;border:1px solid #1a1a3a;color:#aaa;border-radius:8px;padding:8px 14px;font-size:12px;outline:none;cursor:pointer; }
+        .cv-an-select { background:#FBF6EE;border:1px solid #EADBC6;color:#6B4C3B;border-radius:8px;padding:8px 14px;font-size:12px;outline:none;cursor:pointer; }
         .cv-an-select:focus { border-color:#7b68ee; }
-        .cv-an-btn { font-size:11px;font-weight:600;padding:8px 16px;border-radius:8px;cursor:pointer;transition:all .2s;border:1px solid #1a1a3a;background:#111;color:#666; }
-        .cv-an-btn:hover { border-color:#7b68ee;color:#7b68ee; }
-        .cv-an-btn.primary { background:#7b68ee;color:#fff;border-color:#7b68ee; }
+        .cv-an-btn { font-size:11px;font-weight:600;padding:8px 16px;border-radius:8px;cursor:pointer;transition:all .2s;border:1px solid #EADBC6;background:#FBF6EE;color:#8A6A55; }
+        .cv-an-btn:hover { border-color:#7b68ee;color:#6B56EC; }
+        .cv-an-btn.primary { background:#7b68ee;color:#3B2418;border-color:#7b68ee; }
         .cv-an-btn.primary:hover { background:#9b88ff; }
 
         /* KPI strip */
@@ -414,22 +414,22 @@ class CV_Admin_Charts {
         }
         @media(max-width:900px){.cv-an-kpis{grid-template-columns:repeat(3,1fr);}}
         .cv-an-kpi {
-            background:#1a1a1a;border:1px solid #1e1e2e;border-radius:12px;
+            background:#FFFFFF;border:1px solid #EADBC6;border-radius:12px;
             padding:16px 14px;position:relative;overflow:hidden;transition:transform .2s,border-color .2s;
         }
-        .cv-an-kpi:hover { transform:translateY(-2px);border-color:#2e2e4e; }
+        .cv-an-kpi:hover { transform:translateY(-2px);border-color:#EADBC6; }
         .cv-an-kpi::after { content:"";position:absolute;bottom:0;left:0;right:0;height:2px; }
-        .cv-an-kpi.k1::after{background:linear-gradient(90deg,#D4A017,#FFD700);}
+        .cv-an-kpi.k1::after{background:linear-gradient(90deg,#F2A51A,#F2A51A);}
         .cv-an-kpi.k2::after{background:linear-gradient(90deg,#7b68ee,#9b88ff);}
         .cv-an-kpi.k3::after{background:linear-gradient(90deg,#1db954,#22d460);}
         .cv-an-kpi.k4::after{background:linear-gradient(90deg,#e74c3c,#ff6b6b);}
         .cv-an-kpi.k5::after{background:linear-gradient(90deg,#4a90d9,#5aa8f0);}
         .cv-an-kpi-icon  { font-size:16px;margin-bottom:6px;display:block; }
-        .cv-an-kpi-val   { font-size:24px;font-weight:800;color:#f0f0f0;line-height:1;margin-bottom:2px; }
-        .cv-an-kpi-label { font-size:10px;color:#444;text-transform:uppercase;letter-spacing:.5px; }
+        .cv-an-kpi-val   { font-size:24px;font-weight:800;color:#3B2418;line-height:1;margin-bottom:2px; }
+        .cv-an-kpi-label { font-size:10px;color:#8A6A55;text-transform:uppercase;letter-spacing:.5px; }
 
         /* Loading */
-        .cv-an-loading { text-align:center;padding:80px 0;color:#555; }
+        .cv-an-loading { text-align:center;padding:80px 0;color:#8A6A55; }
         .cv-an-spinner { font-size:32px;animation:cv-spin2 1s linear infinite;display:inline-block;margin-bottom:10px; }
         @keyframes cv-spin2 { from{transform:rotate(0)} to{transform:rotate(360deg)} }
 
@@ -441,20 +441,20 @@ class CV_Admin_Charts {
 
         /* Cards de gráfico */
         .cv-an-card {
-            background:#1a1a1a;border:1px solid #1e1e2e;border-radius:14px;overflow:hidden;
+            background:#FFFFFF;border:1px solid #EADBC6;border-radius:14px;overflow:hidden;
         }
         .cv-an-card-header {
-            padding:14px 20px 10px;border-bottom:1px solid #111;
+            padding:14px 20px 10px;border-bottom:1px solid #EADBC6;
             display:flex;align-items:center;justify-content:space-between;
         }
-        .cv-an-card-title { font-size:13px;font-weight:700;color:#ddd; }
-        .cv-an-card-sub   { font-size:11px;color:#555; }
+        .cv-an-card-title { font-size:13px;font-weight:700;color:#3B2418; }
+        .cv-an-card-sub   { font-size:11px;color:#8A6A55; }
         .cv-an-card-badge { font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px; }
-        .badge-gold  { background:rgba(212,160,23,.12);color:#D4A017; }
-        .badge-green { background:rgba(29,185,84,.12);color:#1db954; }
-        .badge-purple{ background:rgba(123,104,238,.12);color:#7b68ee; }
-        .badge-red   { background:rgba(231,76,60,.12);color:#e74c3c; }
-        .badge-blue  { background:rgba(74,144,217,.12);color:#4a90d9; }
+        .badge-gold  { background:rgba(242,165,26,0.16);color:#7B3A22; }
+        .badge-green { background:rgba(29,185,84,.12);color:#137B38; }
+        .badge-purple{ background:rgba(123,104,238,.12);color:#6B56EC; }
+        .badge-red   { background:rgba(231,76,60,.12);color:#D62C1A; }
+        .badge-blue  { background:rgba(74,144,217,.12);color:#2871BE; }
 
         .cv-an-card-body { padding:16px 20px 20px;position:relative; }
         .cv-an-card-body canvas { width:100%!important; }
@@ -466,11 +466,11 @@ class CV_Admin_Charts {
 
         /* Seção separadora */
         .cv-an-section-title {
-            font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:#333;
+            font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:#8A6A55;
             margin:0 0 14px;font-weight:700;padding-left:2px;
             display:flex;align-items:center;gap:8px;
         }
-        .cv-an-section-title::after { content:"";flex:1;height:1px;background:#1a1a1a; }
+        .cv-an-section-title::after { content:"";flex:1;height:1px;background:#FFFFFF; }
         </style>
 
         <!-- Hero -->
@@ -624,18 +624,18 @@ class CV_Admin_Charts {
         jQuery(function($){
             var AJAX  = '<?php echo esc_js( $ajax ); ?>';
             var NONCE = '<?php echo esc_js( $nonce ); ?>';
-            var GOLD='#D4A017',GOLD2='#FFD700',CREAM='#F5F0E0',PURPLE='#7b68ee',GREEN='#1db954',RED='#e74c3c',BLUE='#4a90d9';
-            Chart.defaults.color = '#888';
-            Chart.defaults.borderColor = 'rgba(255,255,255,0.04)';
+            var GOLD='#B8700C',GOLD2='#B8700C',CREAM='#3B2418',PURPLE='#7b68ee',GREEN='#1db954',RED='#e74c3c',BLUE='#4a90d9';
+            Chart.defaults.color = '#8A6A55';
+            Chart.defaults.borderColor = 'rgba(123,58,34,0.04)';
             Chart.defaults.font.family = "'Lato','Arial',sans-serif";
             Chart.defaults.font.size   = 11;
             var charts = {};
             function destroy(id){ if(charts[id]){charts[id].destroy();delete charts[id];} }
-            function grid(){ return {color:'rgba(255,255,255,0.04)',drawBorder:false}; }
-            function ticks(){ return {color:'#444',maxRotation:0}; }
+            function grid(){ return {color:'rgba(123,58,34,0.04)',drawBorder:false}; }
+            function ticks(){ return {color:'#F3E6D3',maxRotation:0}; }
             function tip(accent){
-                return {backgroundColor:'#111',borderColor:accent||'rgba(123,104,238,.3)',borderWidth:1,
-                        titleColor:accent||PURPLE,bodyColor:'#aaa',padding:10};
+                return {backgroundColor:'#FBF6EE',borderColor:accent||'rgba(123,104,238,.3)',borderWidth:1,
+                        titleColor:accent||PURPLE,bodyColor:'#C9A27E',padding:10};
             }
 
             function loadPlaysDaily(){
@@ -646,7 +646,7 @@ class CV_Admin_Charts {
                     destroy('daily');
                     var ctx=document.getElementById('chart-plays-daily').getContext('2d');
                     var g=ctx.createLinearGradient(0,0,0,180);
-                    g.addColorStop(0,'rgba(212,160,23,.35)');g.addColorStop(1,'rgba(212,160,23,0)');
+                    g.addColorStop(0,'rgba(242,165,26,0.45)');g.addColorStop(1,'rgba(242,165,26,0)');
                     charts['daily']=new Chart(ctx,{type:'line',
                         data:{labels:d.labels,datasets:[{label:'Plays',data:d.values,
                             borderColor:GOLD,backgroundColor:g,borderWidth:2,
@@ -679,9 +679,9 @@ class CV_Admin_Charts {
                     destroy('genres');
                     var ctx=document.getElementById('chart-genres').getContext('2d');
                     charts['genres']=new Chart(ctx,{type:'doughnut',
-                        data:{labels:d.labels,datasets:[{data:d.values,backgroundColor:d.bg,borderColor:'#1a1a1a',borderWidth:3}]},
+                        data:{labels:d.labels,datasets:[{data:d.values,backgroundColor:d.bg,borderColor:'#FFFFFF',borderWidth:3}]},
                         options:{responsive:true,maintainAspectRatio:false,cutout:'58%',
-                            plugins:{legend:{position:'right',labels:{color:'#888',boxWidth:10,padding:8,font:{size:10}}},tooltip:tip(GOLD)}}
+                            plugins:{legend:{position:'right',labels:{color:'#C9A27E',boxWidth:10,padding:8,font:{size:10}}},tooltip:tip(GOLD)}}
                     });
                 });
             }
@@ -700,7 +700,7 @@ class CV_Admin_Charts {
                             {label:'Acumulado',data:d.acumulado,borderColor:GOLD,backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,4],pointRadius:0,fill:false,tension:.4,yAxisID:'y2'}
                         ]},
                         options:{responsive:true,maintainAspectRatio:false,
-                            plugins:{legend:{labels:{color:'#666',boxWidth:10,padding:8,font:{size:10}}},tooltip:tip(GREEN)},
+                            plugins:{legend:{labels:{color:'#C9A27E',boxWidth:10,padding:8,font:{size:10}}},tooltip:tip(GREEN)},
                             scales:{x:{grid:grid(),ticks:{...ticks(),maxTicksLimit:8}},y:{grid:grid(),ticks:ticks(),beginAtZero:true,position:'left'},y2:{grid:{display:false},ticks:ticks(),position:'right'}}}
                     });
                 });
@@ -712,11 +712,11 @@ class CV_Admin_Charts {
                     var ctx=document.getElementById('chart-ranking-trend').getContext('2d');
                     charts['ranking']=new Chart(ctx,{type:'bar',
                         data:{labels:d.labels,datasets:[
-                            {label:'Score',data:d.scores,backgroundColor:'rgba(212,160,23,.8)',borderRadius:4,borderSkipped:false},
+                            {label:'Score',data:d.scores,backgroundColor:'rgba(242,165,26,1)',borderRadius:4,borderSkipped:false},
                             {label:'Favs',data:d.favs,backgroundColor:'rgba(231,76,60,.55)',borderRadius:4,borderSkipped:false}
                         ]},
                         options:{responsive:true,maintainAspectRatio:false,
-                            plugins:{legend:{labels:{color:'#666',boxWidth:10,padding:8,font:{size:10}}},tooltip:tip(GOLD)},
+                            plugins:{legend:{labels:{color:'#C9A27E',boxWidth:10,padding:8,font:{size:10}}},tooltip:tip(GOLD)},
                             scales:{x:{grid:{display:false},ticks:{...ticks(),maxRotation:30,font:{size:9}}},y:{grid:grid(),ticks:ticks(),beginAtZero:true}}}
                     });
                 });
@@ -724,14 +724,14 @@ class CV_Admin_Charts {
             function loadRatingGenre(){
                 $.post(AJAX,{action:'cv_chart_rating_genre',nonce:NONCE},function(res){
                     if(!res.success)return; var d=res.data;
-                    if(!d.labels.length){$('#chart-rating-genre').closest('.cv-an-card').find('.cv-an-card-body').html('<div style="padding:30px;text-align:center;color:#333;font-size:12px">Avalie músicas para ver este gráfico</div>');return;}
+                    if(!d.labels.length){$('#chart-rating-genre').closest('.cv-an-card').find('.cv-an-card-body').html('<div style="padding:30px;text-align:center;color:#8A6A55;font-size:12px">Avalie músicas para ver este gráfico</div>');return;}
                     destroy('radar');
                     var ctx=document.getElementById('chart-rating-genre').getContext('2d');
                     charts['radar']=new Chart(ctx,{type:'radar',
                         data:{labels:d.labels,datasets:[{label:'Avaliação',data:d.ratings,borderColor:PURPLE,backgroundColor:'rgba(123,104,238,.12)',pointBackgroundColor:PURPLE,pointRadius:3,borderWidth:2}]},
                         options:{responsive:true,maintainAspectRatio:false,
                             plugins:{legend:{display:false},tooltip:tip(PURPLE)},
-                            scales:{r:{min:0,max:5,ticks:{stepSize:1,color:'#333',backdropColor:'transparent'},grid:{color:'rgba(255,255,255,0.04)'},pointLabels:{color:'#888',font:{size:10}},angleLines:{color:'rgba(255,255,255,0.04)'}}}}
+                            scales:{r:{min:0,max:5,ticks:{stepSize:1,color:'#F3E6D3',backdropColor:'transparent'},grid:{color:'rgba(123,58,34,0.04)'},pointLabels:{color:'#C9A27E',font:{size:10}},angleLines:{color:'rgba(123,58,34,0.04)'}}}}
                     });
                 });
             }
@@ -757,11 +757,11 @@ class CV_Admin_Charts {
                     var ctx=document.getElementById('chart-top-compare').getContext('2d');
                     charts['compare']=new Chart(ctx,{type:'bar',
                         data:{labels:d.labels,datasets:[
-                            {label:'Plays',data:d.plays,backgroundColor:'rgba(212,160,23,.8)',borderRadius:3},
+                            {label:'Plays',data:d.plays,backgroundColor:'rgba(242,165,26,1)',borderRadius:3},
                             {label:'Favoritos',data:d.favs,backgroundColor:'rgba(231,76,60,.65)',borderRadius:3}
                         ]},
                         options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-                            plugins:{legend:{labels:{color:'#666',boxWidth:10,padding:8,font:{size:10}}},tooltip:tip(GOLD)},
+                            plugins:{legend:{labels:{color:'#C9A27E',boxWidth:10,padding:8,font:{size:10}}},tooltip:tip(GOLD)},
                             scales:{x:{grid:grid(),ticks:ticks(),beginAtZero:true},y:{grid:{display:false},ticks:{...ticks(),font:{size:10}}}}}
                     });
                 });

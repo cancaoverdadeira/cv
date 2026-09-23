@@ -248,21 +248,21 @@ class CV_Editorial {
         }
         $score_color = $score >= 85 ? '#1DB954' : ( $score >= 60 ? '#e67e22' : '#e74c3c' );
         ?>
-        <div class="wrap" style="background:#0f0f1a;min-height:100vh;padding:24px;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+        <div class="wrap" style="background:#FFFFFF;min-height:100vh;padding:24px;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
 
         <!-- HEADER -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px;">
             <div>
-                <h1 style="color:#fff;font-size:22px;margin:0 0 4px 0;font-weight:700;">🧠 Inteligência Editorial</h1>
-                <p style="color:#666;font-size:13px;margin:0;">Oportunidades de melhoria no catálogo · <?php echo $total_pub; ?> músicas publicadas</p>
+                <h1 style="color:#3B2418;font-size:22px;margin:0 0 4px 0;font-weight:700;">🧠 Inteligência Editorial</h1>
+                <p style="color:#8A6A55;font-size:13px;margin:0;">Oportunidades de melhoria no catálogo · <?php echo $total_pub; ?> músicas publicadas</p>
             </div>
             <div style="display:flex;align-items:center;gap:16px;">
                 <!-- Score geral -->
                 <div style="text-align:center;">
                     <div style="font-size:36px;font-weight:800;color:<?php echo $score_color; ?>;"><?php echo $score; ?>%</div>
-                    <div style="font-size:11px;color:#555;text-transform:uppercase;letter-spacing:1px;">Completude</div>
+                    <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;">Completude</div>
                 </div>
-                <button id="cv-ed-refresh" style="background:#D4A01722;border:1px solid #D4A017;color:#D4A017;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;">
+                <button id="cv-ed-refresh" style="background:#D4A01722;border:1px solid #C9A27E;color:#7B3A22;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;">
                     🔄 Atualizar
                 </button>
             </div>
@@ -270,13 +270,13 @@ class CV_Editorial {
 
         <!-- KPI RESUMO -->
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px;">
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:10px;padding:16px;text-align:center;">
-                <div style="font-size:28px;font-weight:800;color:#D4A017;"><?php echo $total_pub; ?></div>
-                <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Publicadas</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:10px;padding:16px;text-align:center;">
+                <div style="font-size:28px;font-weight:800;color:#7B3A22;"><?php echo $total_pub; ?></div>
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Publicadas</div>
             </div>
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:10px;padding:16px;text-align:center;">
-                <div style="font-size:28px;font-weight:800;color:#e67e22;"><?php echo $totals['draft']; ?></div>
-                <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Rascunhos</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:10px;padding:16px;text-align:center;">
+                <div style="font-size:28px;font-weight:800;color:#AD5C14;"><?php echo $totals['draft']; ?></div>
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Rascunhos</div>
             </div>
             <?php
             $total_issues = 0;
@@ -285,29 +285,29 @@ class CV_Editorial {
             foreach ( $gaps as $g ) $musicas_com_gap = array_merge( $musicas_com_gap, $g['ids'] );
             $musicas_com_gap = count( array_unique( $musicas_com_gap ) );
             ?>
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:10px;padding:16px;text-align:center;">
-                <div style="font-size:28px;font-weight:800;color:#e74c3c;"><?php echo $musicas_com_gap; ?></div>
-                <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Têm algum gap</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:10px;padding:16px;text-align:center;">
+                <div style="font-size:28px;font-weight:800;color:#D62C1A;"><?php echo $musicas_com_gap; ?></div>
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Têm algum gap</div>
             </div>
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:10px;padding:16px;text-align:center;">
-                <div style="font-size:28px;font-weight:800;color:#1DB954;"><?php echo max(0, $total_pub - $musicas_com_gap); ?></div>
-                <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-top:4px;">100% Completas</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:10px;padding:16px;text-align:center;">
+                <div style="font-size:28px;font-weight:800;color:#137B38;"><?php echo max(0, $total_pub - $musicas_com_gap); ?></div>
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin-top:4px;">100% Completas</div>
             </div>
         </div>
 
         <!-- BARRA DE SCORE VISUAL -->
-        <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:12px;padding:20px;margin-bottom:24px;">
+        <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:12px;padding:20px;margin-bottom:24px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-                <div style="color:#D4A017;font-size:13px;font-weight:700;">📊 Score de Completude do Catálogo</div>
+                <div style="color:#7B3A22;font-size:13px;font-weight:700;">📊 Score de Completude do Catálogo</div>
                 <div style="color:<?php echo $score_color; ?>;font-size:15px;font-weight:800;"><?php echo $score; ?>%</div>
             </div>
-            <div style="background:#111;border-radius:20px;height:12px;overflow:clip;">
+            <div style="background:#FBF6EE;border-radius:20px;height:12px;overflow:clip;">
                 <div style="height:100%;width:<?php echo $score; ?>%;background:<?php echo $score_color; ?>;border-radius:20px;transition:width 1s;"></div>
             </div>
             <div style="display:flex;justify-content:space-between;margin-top:6px;">
-                <span style="font-size:11px;color:#444;">0%</span>
-                <span style="font-size:11px;color:#444;">Alvo: 85%+</span>
-                <span style="font-size:11px;color:#444;">100%</span>
+                <span style="font-size:11px;color:#8A6A55;">0%</span>
+                <span style="font-size:11px;color:#8A6A55;">Alvo: 85%+</span>
+                <span style="font-size:11px;color:#8A6A55;">100%</span>
             </div>
         </div>
 
@@ -320,11 +320,11 @@ class CV_Editorial {
             $urg_c   = $g['priority'] === 1 ? '#e74c3c' : ( $g['priority'] === 2 ? '#e67e22' : '#1DB954' );
             if ( $count === 0 ) continue;
             ?>
-        <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-left:4px solid <?php echo $g['color']; ?>;border-radius:12px;padding:20px;">
+        <div style="background:#F8F0E4;border:1px solid #EADBC6;border-left:4px solid <?php echo $g['color']; ?>;border-radius:12px;padding:20px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
                 <div style="display:flex;align-items:center;gap:8px;">
                     <span style="font-size:22px;"><?php echo $g['icon']; ?></span>
-                    <div style="color:#e0e0e0;font-size:14px;font-weight:700;"><?php echo esc_html( $g['label'] ); ?></div>
+                    <div style="color:#3B2418;font-size:14px;font-weight:700;"><?php echo esc_html( $g['label'] ); ?></div>
                 </div>
                 <span style="background:<?php echo $urg_c; ?>22;color:<?php echo $urg_c; ?>;border:1px solid <?php echo $urg_c; ?>44;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;">
                     <?php echo $urgency; ?>
@@ -333,14 +333,14 @@ class CV_Editorial {
 
             <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
                 <span style="font-size:38px;font-weight:800;color:<?php echo $g['color']; ?>;"><?php echo $count; ?></span>
-                <span style="font-size:14px;color:#888;">músicas (<?php echo $pct; ?>%)</span>
+                <span style="font-size:14px;color:#8A6A55;">músicas (<?php echo $pct; ?>%)</span>
             </div>
 
-            <div style="background:#111;border-radius:10px;height:6px;overflow:clip;margin-bottom:10px;">
+            <div style="background:#FBF6EE;border-radius:10px;height:6px;overflow:clip;margin-bottom:10px;">
                 <div style="height:100%;width:<?php echo $pct; ?>%;background:<?php echo $g['color']; ?>;border-radius:10px;"></div>
             </div>
 
-            <p style="color:#666;font-size:12px;margin:0 0 12px 0;line-height:1.5;"><?php echo esc_html( $g['tip'] ); ?></p>
+            <p style="color:#8A6A55;font-size:12px;margin:0 0 12px 0;line-height:1.5;"><?php echo esc_html( $g['tip'] ); ?></p>
 
             <?php if ( ! empty( $g['ids'] ) ) :
                 $sample = array_slice( $g['ids'], 0, 3 );
@@ -350,13 +350,13 @@ class CV_Editorial {
                     $title = get_the_title( $sid );
                     $edit  = get_edit_post_link( $sid );
                     ?>
-                <div style="display:flex;align-items:center;justify-content:space-between;background:#12122a;border-radius:6px;padding:7px 10px;">
-                    <span style="color:#aaa;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px;"><?php echo esc_html( $title ); ?></span>
-                    <a href="<?php echo esc_url( $edit ); ?>" style="color:#D4A017;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap;margin-left:8px;">Editar →</a>
+                <div style="display:flex;align-items:center;justify-content:space-between;background:#FFFFFF;border-radius:6px;padding:7px 10px;">
+                    <span style="color:#6B4C3B;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px;"><?php echo esc_html( $title ); ?></span>
+                    <a href="<?php echo esc_url( $edit ); ?>" style="color:#7B3A22;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap;margin-left:8px;">Editar →</a>
                 </div>
                 <?php endforeach; ?>
                 <?php if ( count( $g['ids'] ) > 3 ) : ?>
-                <div style="color:#555;font-size:11px;text-align:center;padding:4px 0;">
+                <div style="color:#8A6A55;font-size:11px;text-align:center;padding:4px 0;">
                     + <?php echo count( $g['ids'] ) - 3; ?> outras músicas
                 </div>
                 <?php endif; ?>
@@ -375,15 +375,15 @@ class CV_Editorial {
         if ( empty( $all_clear ) ) : ?>
         <div style="background:#1DB95411;border:1px solid #1DB95444;border-radius:12px;padding:40px;text-align:center;grid-column:1/-1;">
             <div style="font-size:48px;margin-bottom:12px;">🎉</div>
-            <div style="color:#1DB954;font-size:18px;font-weight:700;margin-bottom:8px;">Catálogo 100% Completo!</div>
-            <div style="color:#888;font-size:13px;">Todas as músicas publicadas têm letra, capa, YouTube, artista, compositor e gênero preenchidos.</div>
+            <div style="color:#137B38;font-size:18px;font-weight:700;margin-bottom:8px;">Catálogo 100% Completo!</div>
+            <div style="color:#8A6A55;font-size:13px;">Todas as músicas publicadas têm letra, capa, YouTube, artista, compositor e gênero preenchidos.</div>
         </div>
         <?php endif; ?>
         </div>
 
         <!-- CHECKLIST EDITORIAL -->
-        <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:12px;padding:20px;margin-bottom:20px;">
-            <div style="color:#D4A017;font-size:14px;font-weight:700;margin-bottom:16px;">✅ Checklist Editorial — Campos Obrigatórios por Música</div>
+        <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:12px;padding:20px;margin-bottom:20px;">
+            <div style="color:#7B3A22;font-size:14px;font-weight:700;margin-bottom:16px;">✅ Checklist Editorial — Campos Obrigatórios por Música</div>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
                 <?php
                 $checklist = array(
@@ -402,10 +402,10 @@ class CV_Editorial {
                     $col  = $ok ? '#1DB954' : '#e74c3c';
                     $icon = $ok ? '✅' : '❌';
                     ?>
-                <div style="display:flex;align-items:center;gap:8px;background:#12122a;border-radius:8px;padding:10px 12px;">
+                <div style="display:flex;align-items:center;gap:8px;background:#FFFFFF;border-radius:8px;padding:10px 12px;">
                     <span style="font-size:16px;"><?php echo $icon; ?></span>
                     <div>
-                        <div style="color:#c0c0c0;font-size:12px;font-weight:600;"><?php echo esc_html( $label ); ?></div>
+                        <div style="color:#6B4C3B;font-size:12px;font-weight:600;"><?php echo esc_html( $label ); ?></div>
                         <div style="font-size:11px;color:<?php echo $col; ?>;"><?php echo $ok ? 'Todas completas' : $cnt . ' pendentes'; ?></div>
                     </div>
                 </div>

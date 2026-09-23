@@ -28,10 +28,10 @@ $hero_cover     = $banner_url ?: ( $hero_music ? cv_cover_url($hero_music->music
 $genero_icones = array(
     'sertanejo-universitario' => array('icone' => '🎸', 'cor' => '#8B4513'),
     'sertanejo-raiz'          => array('icone' => '🪗', 'cor' => '#556B2F'),
-    'sertanejo-romantico'     => array('icone' => '❤',  'cor' => '#8B0000'),
-    'modao'                   => array('icone' => '🎩', 'cor' => '#4B3832'),
+    'sertanejo-romantico'     => array('icone' => '❤',  'cor' => '#F8E7E7'),
+    'modao'                   => array('icone' => '🎩', 'cor' => '#F3EEED'),
     'sertanejo-gospel'        => array('icone' => '✝',  'cor' => '#4169E1'),
-    'sertanejo-sofrencia'     => array('icone' => '💔', 'cor' => '#696969'),
+    'sertanejo-sofrencia'     => array('icone' => '💔', 'cor' => '#C9A27E'),
     'sertanejo-pop'           => array('icone' => '🎤', 'cor' => '#9B59B6'),
 );
 
@@ -139,7 +139,7 @@ get_header();
 
             <div class="cv-genre-grid">
                 <?php foreach ( $generos as $genero ) :
-                    $cfg   = $genero_icones[$genero->slug] ?? array('icone' => '🎵', 'cor' => '#D4A017');
+                    $cfg   = $genero_icones[$genero->slug] ?? array('icone' => '🎵', 'cor' => '#B8700C');
                     $url   = get_term_link($genero);
                     $count = $genero->count;
                 ?>
@@ -147,7 +147,7 @@ get_header();
                    class="cv-genre-card"
                    aria-label="<?php echo esc_attr($genero->name . ' — ' . $count . ' músicas'); ?>">
                     <div class="cv-genre-card-bg"
-                         style="background:linear-gradient(135deg, <?php echo esc_attr($cfg['cor']); ?> 0%, #1a1a1a 100%)"></div>
+                         style="background:linear-gradient(135deg, <?php echo esc_attr($cfg['cor']); ?> 0%, #FFFFFF 100%)"></div>
                     <div class="cv-genre-card-overlay"></div>
                     <div class="cv-genre-card-name">
                         <?php echo $cfg['icone']; ?>
@@ -383,13 +383,13 @@ jQuery(function($){
 /* Botão hero pulsante — chama atenção para o play */
 .cv-hero-pulse {
     animation: cv-hero-pulse 2s ease-in-out infinite;
-    background: var(--cv-gold) !important;
-    box-shadow: 0 0 0 0 rgba(212,160,23,.7);
+    background: var(--cv-accent) !important;
+    box-shadow: 0 0 0 0 rgba(242,165,26,0.91);
 }
 @keyframes cv-hero-pulse {
-    0%   { box-shadow: 0 0 0 0 rgba(212,160,23,.7); }
-    50%  { box-shadow: 0 0 0 14px rgba(212,160,23,0); transform: translateY(-1px) scale(1.03); }
-    100% { box-shadow: 0 0 0 0 rgba(212,160,23,0); }
+    0%   { box-shadow: 0 0 0 0 rgba(242,165,26,0.91); }
+    50%  { box-shadow: 0 0 0 14px rgba(242,165,26,0); transform: translateY(-1px) scale(1.03); }
+    100% { box-shadow: 0 0 0 0 rgba(242,165,26,0); }
 }
 .cv-pulse-active {
     font-size: 17px;

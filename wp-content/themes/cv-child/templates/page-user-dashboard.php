@@ -36,7 +36,7 @@ get_header();
         <div style="max-width:1100px;margin:0 auto;padding:0 0 40px">
 
             <!-- Cabeçalho do perfil -->
-            <div style="background:linear-gradient(180deg,#1e1e1e 0%,var(--cv-bg) 100%);
+            <div style="background:linear-gradient(180deg,#FFFFFF 0%,var(--cv-bg) 100%);
                         padding:40px 36px 32px">
                 <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
 
@@ -78,7 +78,7 @@ get_header();
                                         font-weight:700;color:var(--cv-gold)">
                                 <?php echo $s[1]; ?>
                             </div>
-                            <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.5px">
+                            <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.5px">
                                 <?php echo $s[2]; ?>
                             </div>
                         </div>
@@ -173,7 +173,7 @@ get_header();
                     <div class="cv-badges-grid">
                         <?php foreach ($conquistas as $a) : ?>
                         <div class="cv-badge <?php echo $a['earned'] ? 'earned' : 'locked'; ?>"
-                             style="<?php echo $a['earned'] ? '--badge-color:' . esc_attr($a['color'] ?? '#D4A017') . ';' : ''; ?>"
+                             style="<?php echo $a['earned'] ? '--badge-color:' . esc_attr($a['color'] ?? '#B8700C') . ';' : ''; ?>"
                              title="<?php echo esc_attr($a['desc']); ?>">
                             <div class="cv-badge-icon"><?php echo esc_html($a['icon']); ?></div>
                             <div class="cv-badge-name"><?php echo esc_html($a['name']); ?></div>
@@ -292,7 +292,7 @@ jQuery(function($){
                     + 'border-radius:var(--cv-radius);padding:16px;text-align:center">'
                     + '<div style="font-size:36px;margin-bottom:10px">📋</div>'
                     + '<div style="font-weight:700;font-size:14px;margin-bottom:4px;color:var(--cv-text)">' + pl.name + '</div>'
-                    + '<div style="font-size:12px;color:#666">' + (pl.total_musicas || pl.count || 0) + ' músicas</div>'
+                    + '<div style="font-size:12px;color:#8A6A55">' + (pl.total_musicas || pl.count || 0) + ' músicas</div>'
                     + (pl.is_public ? '<div style="font-size:10px;color:var(--cv-gold);margin-top:4px">🌐 Pública</div>' : '')
                     + '<div style="display:flex;gap:8px;justify-content:center;margin-top:12px">'
                     + '<button class="cv-btn-del-pl cv-btn cv-btn-secondary cv-btn-sm" data-id="' + pl.id + '">🗑 Excluir</button>'

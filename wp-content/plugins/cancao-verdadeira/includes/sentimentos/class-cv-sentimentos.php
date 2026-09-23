@@ -14,7 +14,7 @@ class CV_Sentimentos {
 
     const DEFAULTS = array(
         array( 'nome' => 'Sofrência',  'slug' => 'sofrencia',  'icone' => '💔', 'cor' => '#e74c3c', 'ordem' => 1 ),
-        array( 'nome' => 'Festa',      'slug' => 'festa',      'icone' => '🎉', 'cor' => '#f39c12', 'ordem' => 2 ),
+        array( 'nome' => 'Festa',      'slug' => 'festa',      'icone' => '🎉', 'cor' => '#B8700C', 'ordem' => 2 ),
         array( 'nome' => 'Romance',    'slug' => 'romance',    'icone' => '❤️',  'cor' => '#e91e63', 'ordem' => 3 ),
         array( 'nome' => 'Saudade',    'slug' => 'saudade',    'icone' => '🌧️',  'cor' => '#3498db', 'ordem' => 4 ),
         array( 'nome' => 'Motivação',  'slug' => 'motivacao',  'icone' => '💪', 'cor' => '#27ae60', 'ordem' => 5 ),
@@ -115,7 +115,7 @@ class CV_Sentimentos {
         $atuais_id = array();
         foreach ( $atuais as $s ) { $atuais_id[] = (int) $s->id; }
         wp_nonce_field( 'cv_sentimentos_metabox', 'cv_sentimentos_nonce' );
-        echo '<p style="color:#aaa;font-size:11px;margin-top:0">Opcional — selecione um ou mais sentimentos</p>';
+        echo '<p style="color:#6B4C3B;font-size:11px;margin-top:0">Opcional — selecione um ou mais sentimentos</p>';
         echo '<div style="display:flex;flex-direction:column;gap:6px">';
         foreach ( $todos as $s ) {
             $checked = in_array( (int)$s->id, $atuais_id, true ) ? 'checked' : '';
@@ -125,7 +125,7 @@ class CV_Sentimentos {
             echo '<label style="display:flex;align-items:center;gap:8px;cursor:pointer">';
             echo '<input type="checkbox" name="cv_sentimentos[]" value="' . $sid . '" ' . $checked . '>';
             echo '<span style="font-size:16px">' . $icone . '</span>';
-            echo '<span style="color:#e0e0e0">' . $nome . '</span>';
+            echo '<span style="color:#3B2418">' . $nome . '</span>';
             echo '</label>';
         }
         echo '</div>';
@@ -177,7 +177,7 @@ class CV_Sentimentos {
             $delete_url = esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=cv_delete_sentimento&id=' . (int)$s->id ), 'cv_delete_sentimento_' . (int)$s->id ) );
             echo '<tr>';
             echo '<td style="font-size:20px;text-align:center">' . esc_html( $s->icone ) . '</td>';
-            echo '<td><strong>' . esc_html( $s->nome ) . '</strong><br><small style="color:#aaa">' . esc_html( $musicas_txt ) . '</small></td>';
+            echo '<td><strong>' . esc_html( $s->nome ) . '</strong><br><small style="color:#6B4C3B">' . esc_html( $musicas_txt ) . '</small></td>';
             echo '<td><code>' . esc_html( $s->slug ) . '</code></td>';
             echo '<td><span style="display:inline-block;width:24px;height:24px;border-radius:50%;background:' . $cor_safe . '"></span></td>';
             echo '<td>' . (int)$s->ordem . '</td>';
@@ -189,7 +189,7 @@ class CV_Sentimentos {
             echo '</tr>';
         }
         if ( empty( $todos ) ) {
-            echo '<tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px">Nenhum sentimento cadastrado ainda.</td></tr>';
+            echo '<tr><td colspan="6" style="text-align:center;color:#6B4C3B;padding:20px">Nenhum sentimento cadastrado ainda.</td></tr>';
         }
         echo '</tbody></table>';
         echo '</div>';
@@ -207,15 +207,15 @@ class CV_Sentimentos {
         $btn_txt     = $editing ? '💾 Salvar Alterações'  : '➕ Adicionar Sentimento';
 
         echo '<div>';
-        echo '<div style="background:#1e1e2e;padding:20px;border-radius:8px;border:1px solid #333">';
-        echo '<h3 style="margin-top:0;color:#e0e0e0">' . $form_title . '</h3>';
+        echo '<div style="background:#F8F0E4;padding:20px;border-radius:8px;border:1px solid #EADBC6">';
+        echo '<h3 style="margin-top:0;color:#3B2418">' . $form_title . '</h3>';
         echo '<form method="post" action="' . $form_action . '">';
         wp_nonce_field( 'cv_save_sentimento', 'cv_sent_nonce' );
         echo '<input type="hidden" name="action" value="cv_save_sentimento">';
         if ( $editing ) {
             echo '<input type="hidden" name="sentimento_id" value="' . $ed_id . '">';
         }
-        echo '<table class="form-table" style="color:#e0e0e0">';
+        echo '<table class="form-table" style="color:#3B2418">';
         echo '<tr><th>Nome *</th><td><input type="text" name="nome" class="regular-text" required value="' . $ed_nome . '"></td></tr>';
         echo '<tr><th>Ícone (emoji)</th><td><input type="text" name="icone" maxlength="10" style="width:60px;font-size:20px;text-align:center" value="' . $ed_icone . '"></td></tr>';
         echo '<tr><th>Cor</th><td><input type="color" name="cor" value="' . $ed_cor . '"></td></tr>';
@@ -319,8 +319,8 @@ class CV_Sentimentos {
         echo '<div class="cv-sent-header" style="display:flex;align-items:center;gap:16px;margin-bottom:32px">';
         echo '<span style="font-size:56px">' . esc_html($sent->icone) . '</span>';
         echo '<div>';
-        echo '<h1 style="margin:0;color:#e0e0e0">' . esc_html($sent->nome) . '</h1>';
-        echo '<p style="margin:4px 0 0;color:#aaa">' . count($musicas) . ' músicas neste sentimento</p>';
+        echo '<h1 style="margin:0;color:#3B2418">' . esc_html($sent->nome) . '</h1>';
+        echo '<p style="margin:4px 0 0;color:#6B4C3B">' . count($musicas) . ' músicas neste sentimento</p>';
         echo '</div></div>';
         if ( ! empty($musicas) ) {
             echo '<div class="cv-grid-musicas" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px">';
@@ -329,14 +329,14 @@ class CV_Sentimentos {
                 $url     = esc_url( get_permalink($m->ID) );
                 $title   = esc_html( $m->post_title );
                 $img_url = esc_url( $cover );
-                echo '<a href="' . $url . '" class="cv-card-mini" style="display:block;text-decoration:none;background:#1a1a2e;border-radius:8px;overflow:hidden">';
+                echo '<a href="' . $url . '" class="cv-card-mini" style="display:block;text-decoration:none;background:#F8F0E4;border-radius:8px;overflow:hidden">';
                 echo '<img src="' . $img_url . '" alt="' . $title . '" style="width:100%;aspect-ratio:1;object-fit:cover">';
-                echo '<div style="padding:10px"><p style="margin:0;color:#e0e0e0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' . $title . '</p></div>';
+                echo '<div style="padding:10px"><p style="margin:0;color:#3B2418;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' . $title . '</p></div>';
                 echo '</a>';
             }
             echo '</div>';
         } else {
-            echo '<p style="color:#aaa">Nenhuma música cadastrada com este sentimento ainda.</p>';
+            echo '<p style="color:#6B4C3B">Nenhuma música cadastrada com este sentimento ainda.</p>';
         }
         echo '</div>';
         get_footer();
@@ -351,7 +351,7 @@ class CV_Sentimentos {
             $url  = esc_url( home_url('/sentimento/' . $s->slug . '/') );
             $cor  = esc_attr( $s->cor );
             $html .= '<a href="' . $url . '" class="cv-sent-badge" title="' . esc_attr($s->nome) . '" ';
-            $html .= 'style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:11px;text-decoration:none;background:' . $cor . '22;border:1px solid ' . $cor . ';color:#e0e0e0">';
+            $html .= 'style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:11px;text-decoration:none;background:' . $cor . '22;border:1px solid ' . $cor . ';color:#3B2418">';
             $html .= esc_html($s->icone) . ' ' . esc_html($s->nome);
             $html .= '</a>';
         }
@@ -369,7 +369,7 @@ class CV_Sentimentos {
             $url = esc_url( home_url('/sentimento/' . $s->slug . '/') );
             $cor = esc_attr( $s->cor );
             $html .= '<a href="' . $url . '" class="cv-sent-btn" ';
-            $html .= 'style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:24px;text-decoration:none;background:' . $cor . '22;border:1px solid ' . $cor . ';color:#e0e0e0;font-size:13px">';
+            $html .= 'style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:24px;text-decoration:none;background:' . $cor . '22;border:1px solid ' . $cor . ';color:#3B2418;font-size:13px">';
             $html .= esc_html($s->icone) . ' ' . esc_html($s->nome);
             $html .= '</a>';
         }

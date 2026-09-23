@@ -241,16 +241,16 @@ class CV_Publicacao_Rapida {
         
 
         <style>
-        body.wp-admin { background: #0f0f1a !important; }
-        #wpwrap, #wpcontent, #wpbody, #wpbody-content { background: #0f0f1a !important; }
+        body.wp-admin { background: #FBF6EE !important; }
+        #wpwrap, #wpcontent, #wpbody, #wpbody-content { background: #FBF6EE !important; }
         #cv-pr-page {
-            --gold: #D4A017;
-            --bg:   #0f0f1a;
-            --card: #1a1a2e;
-            --card2:#16213e;
-            --bord: #2a2a4a;
-            --text: #e0e0e0;
-            --muted:#888;
+            --gold: #B8700C;
+            --bg:   #FFFFFF;
+            --card: #F8F0E4;
+            --card2:#F8F0E4;
+            --bord: #F3E6D3;
+            --text: #3B2418;
+            --muted:#C9A27E;
             --green:#1DB954;
             --red:  #e74c3c;
             background: var(--bg);
@@ -269,12 +269,12 @@ class CV_Publicacao_Rapida {
             flex-wrap: wrap;
             gap: 12px;
         }
-        .cv-pr-title { font-size: 22px; font-weight: 700; color: #fff; margin: 0; }
+        .cv-pr-title { font-size: 22px; font-weight: 700; color: #3B2418; margin: 0; }
         .cv-pr-title span { color: var(--gold); }
         .cv-pr-progress-wrap { display: flex; align-items: center; gap: 12px; }
         .cv-pr-progress-bar {
             width: 200px; height: 6px;
-            background: rgba(255,255,255,.08);
+            background: rgba(123,58,34,0.09);
             border-radius: 4px; overflow: hidden;
         }
         .cv-pr-progress-fill {
@@ -309,7 +309,7 @@ class CV_Publicacao_Rapida {
             align-items: center;
             justify-content: space-between;
         }
-        .cv-pr-lista-header h3 { margin: 0; font-size: 13px; color: #fff; }
+        .cv-pr-lista-header h3 { margin: 0; font-size: 13px; color: #3B2418; }
         .cv-pr-lista-header small { color: var(--muted); font-size: 11px; }
         .cv-pr-lista-scroll { max-height: 70vh; overflow-y: auto; }
         .cv-pr-lista-scroll::-webkit-scrollbar { width: 4px; }
@@ -325,8 +325,8 @@ class CV_Publicacao_Rapida {
             cursor: pointer;
             transition: background .15s;
         }
-        .cv-pr-item:hover { background: rgba(255,255,255,.04); }
-        .cv-pr-item.ativo { background: rgba(212,160,23,.08); border-left: 3px solid var(--gold); }
+        .cv-pr-item:hover { background: rgba(123,58,34,0.04); }
+        .cv-pr-item.ativo { background: rgba(242,165,26,0.1); border-left: 3px solid var(--gold); }
         .cv-pr-item.publicada { opacity: .4; pointer-events: none; }
         .cv-pr-item-capa {
             width: 38px; height: 38px;
@@ -372,7 +372,7 @@ class CV_Publicacao_Rapida {
             background: transparent;
             border: none;
             border-bottom: 1px solid var(--bord);
-            color: #fff;
+            color: #3B2418;
             font-size: 18px;
             font-weight: 700;
             padding: 4px 0;
@@ -405,7 +405,7 @@ class CV_Publicacao_Rapida {
         }
         .cv-pr-input, .cv-pr-select, .cv-pr-textarea {
             width: 100%;
-            background: rgba(255,255,255,.04);
+            background: rgba(123,58,34,0.04);
             border: 1px solid var(--bord);
             border-radius: 8px;
             color: var(--text);
@@ -417,9 +417,9 @@ class CV_Publicacao_Rapida {
         }
         .cv-pr-input:focus, .cv-pr-select:focus, .cv-pr-textarea:focus {
             border-color: var(--gold);
-            background: rgba(212,160,23,.04);
+            background: rgba(242,165,26,0.05);
         }
-        .cv-pr-select option { background: #1a1a2e; }
+        .cv-pr-select option { background: #F8F0E4; }
         .cv-pr-textarea { min-height: 180px; resize: vertical; font-size: 12px; line-height: 1.7; }
         .cv-pr-textarea-letra { min-height: 280px; }
 
@@ -432,7 +432,7 @@ class CV_Publicacao_Rapida {
         }
         .cv-pr-check-label {
             display: inline-flex; align-items: center; gap: 6px;
-            background: rgba(255,255,255,.04);
+            background: rgba(123,58,34,0.04);
             border: 1px solid var(--bord);
             border-radius: 20px;
             padding: 5px 12px;
@@ -443,7 +443,7 @@ class CV_Publicacao_Rapida {
         .cv-pr-check-label:hover { border-color: var(--gold); }
         .cv-pr-check-label input { display: none; }
         .cv-pr-check-label.marcado {
-            background: rgba(212,160,23,.15);
+            background: rgba(242,165,26,0.2);
             border-color: var(--gold);
             color: var(--gold);
         }
@@ -481,19 +481,19 @@ class CV_Publicacao_Rapida {
         }
         .cv-pr-btn:hover { opacity: .88; }
         .cv-pr-btn:active { transform: scale(.97); }
-        .cv-pr-btn-publicar { background: var(--green); color: #fff; flex: 1; justify-content: center; }
-        .cv-pr-btn-salvar   { background: rgba(255,255,255,.08); color: var(--text); }
+        .cv-pr-btn-publicar { background: var(--green); color: #3B2418; flex: 1; justify-content: center; }
+        .cv-pr-btn-salvar   { background: rgba(123,58,34,0.09); color: var(--text); }
         .cv-pr-btn-pular    { background: transparent; color: var(--muted); border: 1px solid var(--bord); }
-        .cv-pr-btn-ext      { background: rgba(255,0,0,.12); color: #ff6b6b; border: 1px solid rgba(255,0,0,.2); text-decoration: none; }
-        .cv-pr-btn-excluir  { background: rgba(231,76,60,.12); color: #e74c3c; border: 1px solid rgba(231,76,60,.3); }
+        .cv-pr-btn-ext      { background: rgba(255,0,0,.12); color: #DB0000; border: 1px solid rgba(255,0,0,.2); text-decoration: none; }
+        .cv-pr-btn-excluir  { background: rgba(231,76,60,.12); color: #D62C1A; border: 1px solid rgba(231,76,60,.3); }
         .cv-pr-btn-excluir:hover { background: rgba(231,76,60,.25); }
 
         .cv-pr-toast {
             position: fixed; bottom: 24px; right: 24px;
-            background: var(--green); color: #fff;
+            background: var(--green); color: #3B2418;
             padding: 12px 20px; border-radius: 10px;
             font-size: 13px; font-weight: 600;
-            box-shadow: 0 4px 20px rgba(0,0,0,.4);
+            box-shadow: 0 4px 20px rgba(123,58,34,0.12);
             z-index: 9999;
             transform: translateY(80px); opacity: 0;
             transition: all .3s ease;
@@ -510,8 +510,8 @@ class CV_Publicacao_Rapida {
 
         .cv-pr-spinner {
             display: inline-block; width: 16px; height: 16px;
-            border: 2px solid rgba(255,255,255,.2);
-            border-top-color: #fff;
+            border: 2px solid rgba(123,58,34,0.32);
+            border-top-color: #EADBC6;
             border-radius: 50%;
             animation: cv-spin .6s linear infinite;
         }
@@ -522,9 +522,9 @@ class CV_Publicacao_Rapida {
         <div class="cv-pr-topbar">
             <h1 class="cv-pr-title">⚡ Publicação <span>Acelerada</span></h1>
             <div class="cv-pr-progress-wrap">
-                <div style="font-size:13px;color:var(--cv-muted,#888)">
+                <div style="font-size:13px;color:var(--cv-muted,#8A6A55)">
                     <span id="cv-pr-count-pub">0</span> publicadas /
-                    <strong style="color:#fff"><?php echo $total; ?></strong> rascunhos
+                    <strong style="color:#3B2418"><?php echo $total; ?></strong> rascunhos
                 </div>
                 <div class="cv-pr-progress-bar">
                     <div class="cv-pr-progress-fill" id="cv-pr-prog" style="width:0%"></div>
@@ -533,12 +533,12 @@ class CV_Publicacao_Rapida {
         </div>
 
         <?php if ( $total === 0 ) : ?>
-        <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:14px;padding:60px;text-align:center">
+        <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:14px;padding:60px;text-align:center">
             <div style="font-size:48px;margin-bottom:16px">🎉</div>
-            <div style="font-size:18px;color:#fff;margin-bottom:8px">Nenhum rascunho na fila!</div>
-            <div style="font-size:13px;color:#888;margin-bottom:20px">Todas as músicas importadas já foram publicadas.</div>
+            <div style="font-size:18px;color:#3B2418;margin-bottom:8px">Nenhum rascunho na fila!</div>
+            <div style="font-size:13px;color:#8A6A55;margin-bottom:20px">Todas as músicas importadas já foram publicadas.</div>
             <a href="<?php echo esc_url(admin_url('admin.php?page=cv-youtube-import')); ?>"
-               style="background:#D4A017;color:#000;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:700">
+               style="background:#F2A51A;color:#3B2418;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:700">
                 ▶ Importar mais do YouTube
             </a>
         </div>
@@ -561,7 +561,7 @@ class CV_Publicacao_Rapida {
                         <div class="cv-pr-item-info">
                             <div class="cv-pr-item-titulo"><?php echo esc_html($r['titulo']); ?></div>
                             <div class="cv-pr-item-sub">
-                                <?php echo $r['artista'] ? esc_html($r['artista']) : '<span style="color:#555">sem artista</span>'; ?>
+                                <?php echo $r['artista'] ? esc_html($r['artista']) : '<span style="color:#8A6A55">sem artista</span>'; ?>
                                 <?php if ($r['tem_letra']) : ?>
                                 &nbsp;<span class="cv-pr-badge-letra">letra ✓</span>
                                 <?php endif; ?>
@@ -894,7 +894,7 @@ class CV_Publicacao_Rapida {
             window.cvPrToggleSent = function(label) {
                 if (!label) return;
                 var cb  = label.querySelector('input');
-                var cor = label.dataset.cor || '#D4A017';
+                var cor = label.dataset.cor || '#B8700C';
                 if (cb && cb.checked) {
                     label.style.background    = cor + '33';
                     label.style.borderColor   = cor;

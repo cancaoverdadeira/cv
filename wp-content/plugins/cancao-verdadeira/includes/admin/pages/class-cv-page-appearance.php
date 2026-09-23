@@ -30,29 +30,29 @@ class CV_Page_Appearance {
         ?>
         <div class="wrap" id="cv-appearance-exec">
         <style>
-        body.wp-admin { background:#0f0f1a !important; }
-        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#0f0f1a !important; }
+        body.wp-admin { background:#FBF6EE !important; }
+        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#FBF6EE !important; }
         #cv-appearance-exec {
-            --gold:#D4A017; --bg:#0f0f1a; --card:#1a1a2e; --bord:#2a2a4a;
-            --text:#e0e0e0; --muted:#888; --green:#1DB954;
+            --gold:#B8700C; --bg:#FFFFFF; --card:#F8F0E4; --bord:#F3E6D3;
+            --text:#3B2418; --muted:#C9A27E; --green:#1DB954;
             color:var(--text); font-family:'Segoe UI',system-ui,sans-serif;
             padding-bottom:48px;
         }
         #cv-appearance-exec * { box-sizing:border-box; }
         .cv-ap-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
-        .cv-ap-title { font-size:24px; font-weight:700; color:#fff; margin:0; }
+        .cv-ap-title { font-size:24px; font-weight:700; color:#3B2418; margin:0; }
         .cv-ap-title span { color:var(--gold); }
         .cv-ap-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
         @media (max-width:900px) { .cv-ap-grid { grid-template-columns:1fr; } }
         .cv-ap-card { background:var(--card); border:1px solid var(--bord); border-radius:14px; overflow:hidden; }
         .cv-ap-card-header { padding:16px 20px; border-bottom:1px solid var(--bord); display:flex; align-items:center; gap:12px; }
         .cv-ap-card-icon { font-size:22px; }
-        .cv-ap-card-title { font-size:15px; font-weight:700; color:#fff; }
+        .cv-ap-card-title { font-size:15px; font-weight:700; color:#3B2418; }
         .cv-ap-card-sub { font-size:11px; color:var(--muted); margin-top:2px; }
         .cv-ap-card-body { padding:20px; }
         /* Preview logo */
         .cv-ap-logo-preview {
-            background:linear-gradient(135deg,#0d0d0d,#1a1a1a);
+            background:linear-gradient(135deg,#FBF6EE,#FFFFFF);
             border:1px solid var(--bord); border-radius:10px;
             min-height:100px; display:flex; align-items:center; justify-content:center;
             margin-bottom:16px; padding:20px; position:relative; overflow:hidden;
@@ -60,20 +60,20 @@ class CV_Page_Appearance {
         .cv-ap-logo-preview::before {
             content:'Prévia do cabeçalho';
             position:absolute; top:8px; left:12px;
-            font-size:9px; color:#333; text-transform:uppercase; letter-spacing:.5px;
+            font-size:9px; color:#8A6A55; text-transform:uppercase; letter-spacing:.5px;
         }
         .cv-ap-logo-preview img { max-width:240px; max-height:70px; object-fit:contain; }
-        .cv-ap-logo-placeholder { color:#333; font-size:12px; text-align:center; }
+        .cv-ap-logo-placeholder { color:#8A6A55; font-size:12px; text-align:center; }
         /* Preview banner */
         .cv-ap-banner-preview {
             border:1px solid var(--bord); border-radius:10px;
             height:140px; overflow:hidden; position:relative; margin-bottom:16px;
-            background:#0d0d0d;
+            background:#FBF6EE;
         }
         .cv-ap-banner-preview::before {
             content:'Prévia do banner home';
             position:absolute; top:8px; left:12px; z-index:2;
-            font-size:9px; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:.5px;
+            font-size:9px; color:rgba(59,36,24,0.55); text-transform:uppercase; letter-spacing:.5px;
         }
         .cv-ap-banner-img {
             width:100%; height:100%; object-fit:cover;
@@ -82,38 +82,38 @@ class CV_Page_Appearance {
         .cv-ap-banner-img:hover { transform:scale(1); }
         .cv-ap-banner-overlay {
             position:absolute; inset:0; z-index:1;
-            background:linear-gradient(to bottom, transparent 40%, rgba(0,0,0,.7) 100%);
+            background:linear-gradient(to bottom, transparent 40%, rgba(59,36,24,0.45) 100%);
             display:flex; align-items:flex-end; padding:12px 14px;
         }
-        .cv-ap-banner-label { font-size:11px; color:rgba(255,255,255,.6); }
+        .cv-ap-banner-label { font-size:11px; color:rgba(59,36,24,0.6); }
         .cv-ap-banner-placeholder {
             display:flex; align-items:center; justify-content:center;
-            height:100%; color:#333; font-size:12px; flex-direction:column; gap:8px;
+            height:100%; color:#8A6A55; font-size:12px; flex-direction:column; gap:8px;
         }
         /* Input area */
         .cv-ap-field { margin-bottom:14px; }
         .cv-ap-field label { display:block; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
         .cv-ap-input-row { display:flex; gap:8px; }
-        .cv-ap-input { flex:1; background:rgba(255,255,255,.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
+        .cv-ap-input { flex:1; background:rgba(123,58,34,0.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
         .cv-ap-input:focus { border-color:var(--gold); }
-        .cv-ap-btn-select { background:rgba(212,160,23,.12); border:1px solid rgba(212,160,23,.3); color:var(--gold); padding:9px 14px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:600; white-space:nowrap; transition:background .2s; font-family:inherit; }
-        .cv-ap-btn-select:hover { background:rgba(212,160,23,.22); }
+        .cv-ap-btn-select { background:rgba(242,165,26,0.16); border:1px solid rgba(201,162,126,0.6); color:var(--gold); padding:9px 14px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:600; white-space:nowrap; transition:background .2s; font-family:inherit; }
+        .cv-ap-btn-select:hover { background:rgba(242,165,26,0.29); }
         .cv-ap-hint { font-size:11px; color:var(--muted); margin-top:4px; display:flex; align-items:center; gap:8px; }
         .cv-ap-badge { font-size:10px; padding:2px 7px; border-radius:10px; font-weight:600; }
         .cv-ap-badge.ok  { background:rgba(29,185,84,.12); color:var(--green); border:1px solid rgba(29,185,84,.3); }
-        .cv-ap-badge.off { background:rgba(136,136,136,.1); color:var(--muted); border:1px solid var(--bord); }
+        .cv-ap-badge.off { background:rgba(123,58,34,0.11); color:var(--muted); border:1px solid var(--bord); }
         /* Status geral */
         .cv-ap-status-row { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
         .cv-ap-pill { display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:600; }
         .cv-ap-pill.ok  { background:rgba(29,185,84,.1); border:1px solid rgba(29,185,84,.3); color:var(--green); }
-        .cv-ap-pill.off { background:rgba(136,136,136,.08); border:1px solid var(--bord); color:var(--muted); }
+        .cv-ap-pill.off { background:rgba(123,58,34,0.09); border:1px solid var(--bord); color:var(--muted); }
         /* Save bar */
         .cv-ap-save-bar { margin-top:22px; background:var(--card); border:1px solid var(--bord); border-radius:14px; padding:16px 20px; display:flex; align-items:center; gap:12px; }
-        .cv-ap-btn-save { background:var(--gold); color:#000; border:none; padding:11px 28px; border-radius:8px; font-weight:700; font-size:14px; cursor:pointer; transition:opacity .2s; font-family:inherit; }
+        .cv-ap-btn-save { background:var(--gold); color:#3B2418; border:none; padding:11px 28px; border-radius:8px; font-weight:700; font-size:14px; cursor:pointer; transition:opacity .2s; font-family:inherit; }
         .cv-ap-btn-save:hover { opacity:.85; }
         .cv-ap-saved { color:var(--green); font-size:13px; <?php echo $saved ? '' : 'display:none'; ?> }
         /* Dica de dimensão */
-        .cv-ap-dim { display:inline-flex; align-items:center; gap:4px; font-size:10px; color:#555; background:rgba(255,255,255,.04); border:1px solid var(--bord); border-radius:6px; padding:3px 8px; }
+        .cv-ap-dim { display:inline-flex; align-items:center; gap:4px; font-size:10px; color:#8A6A55; background:rgba(123,58,34,0.04); border:1px solid var(--bord); border-radius:6px; padding:3px 8px; }
         </style>
 
         <div class="cv-ap-topbar">
@@ -198,7 +198,7 @@ class CV_Page_Appearance {
                             <div class="cv-ap-banner-placeholder" id="cv-banner-placeholder">
                                 <span style="font-size:28px">🌅</span>
                                 <span>Nenhum banner definido</span>
-                                <span style="font-size:10px;color:#444">Aparecerá um gradiente padrão no site</span>
+                                <span style="font-size:10px;color:#8A6A55">Aparecerá um gradiente padrão no site</span>
                             </div>
                             <?php endif; ?>
                         </div>

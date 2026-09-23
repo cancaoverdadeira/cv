@@ -208,15 +208,15 @@ class CV_System_Status {
         $d     = self::collect();
         $nonce = wp_create_nonce('cv_admin_nonce');
         $score = $d['security']['score'];
-        $score_cor = $score >= 80 ? '#1DB954' : ($score >= 60 ? '#D4A017' : '#e74c3c');
+        $score_cor = $score >= 80 ? '#1DB954' : ($score >= 60 ? '#B8700C' : '#e74c3c');
         ?>
         <div class="wrap" id="cv-status-exec">
         <style>
-        body.wp-admin { background:#0f0f1a !important; }
-        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#0f0f1a !important; }
+        body.wp-admin { background:#FBF6EE !important; }
+        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#FBF6EE !important; }
         #cv-status-exec {
-            --gold:#D4A017; --bg:#0f0f1a; --card:#1a1a2e; --card2:#16213e;
-            --bord:#2a2a4a; --text:#e0e0e0; --muted:#888;
+            --gold:#B8700C; --bg:#FFFFFF; --card:#F8F0E4; --card2:#F8F0E4;
+            --bord:#F3E6D3; --text:#3B2418; --muted:#C9A27E;
             --green:#1DB954; --red:#e74c3c; --blue:#3498db;
             color:var(--text); font-family:'Segoe UI',system-ui,sans-serif;
             padding-bottom:60px;
@@ -224,7 +224,7 @@ class CV_System_Status {
         #cv-status-exec * { box-sizing:border-box; }
 
         .cv-st-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; flex-wrap:wrap; gap:12px; }
-        .cv-st-title { font-size:24px; font-weight:700; color:#fff; margin:0; }
+        .cv-st-title { font-size:24px; font-weight:700; color:#3B2418; margin:0; }
         .cv-st-title span { color:var(--blue); }
         .cv-st-updated { font-size:11px; color:var(--muted); }
 
@@ -236,20 +236,20 @@ class CV_System_Status {
         }
         .cv-st-score-ring {
             width:90px; height:90px; border-radius:50%; flex-shrink:0;
-            background: conic-gradient(<?php echo esc_attr($score_cor); ?> <?php echo $score; ?>%, #111 <?php echo $score; ?>%);
+            background: conic-gradient(<?php echo esc_attr($score_cor); ?> <?php echo $score; ?>%, #FBF6EE <?php echo $score; ?>%);
             display:flex; align-items:center; justify-content:center; position:relative;
         }
         .cv-st-score-ring::before { content:''; position:absolute; inset:10px; border-radius:50%; background:var(--card); }
         .cv-st-score-inner { position:relative; z-index:1; text-align:center; }
         .cv-st-score-num { font-size:22px; font-weight:800; color:<?php echo esc_attr($score_cor); ?>; line-height:1; }
         .cv-st-score-label { font-size:9px; color:var(--muted); text-transform:uppercase; }
-        .cv-st-score-info h3 { margin:0 0 4px; font-size:17px; font-weight:700; color:#fff; }
+        .cv-st-score-info h3 { margin:0 0 4px; font-size:17px; font-weight:700; color:#3B2418; }
         .cv-st-score-info p { margin:0; font-size:13px; color:var(--muted); }
         .cv-st-score-pills { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
         .cv-st-pill { font-size:11px; padding:3px 10px; border-radius:20px; font-weight:600; }
         .cv-st-pill.ok  { background:rgba(29,185,84,.12); border:1px solid rgba(29,185,84,.3); color:var(--green); }
         .cv-st-pill.off { background:rgba(231,76,60,.08); border:1px solid rgba(231,76,60,.25); color:var(--red); }
-        .cv-st-pill.warn { background:rgba(212,160,23,.08); border:1px solid rgba(212,160,23,.25); color:var(--gold); }
+        .cv-st-pill.warn { background:rgba(242,165,26,0.1); border:1px solid rgba(201,162,126,0.5); color:var(--gold); }
 
         /* KPIs do plugin */
         .cv-st-kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:12px; margin-bottom:22px; }
@@ -268,12 +268,12 @@ class CV_System_Status {
         .cv-st-card { background:var(--card); border:1px solid var(--bord); border-radius:14px; overflow:hidden; }
         .cv-st-card-hdr { padding:13px 18px; border-bottom:1px solid var(--bord); display:flex; align-items:center; gap:10px; }
         .cv-st-card-hdr-icon { font-size:18px; }
-        .cv-st-card-hdr-title { font-size:13px; font-weight:700; color:#fff; flex:1; }
+        .cv-st-card-hdr-title { font-size:13px; font-weight:700; color:#3B2418; flex:1; }
         .cv-st-card-hdr-badge { font-size:10px; padding:2px 8px; border-radius:10px; font-weight:700; }
         .cv-st-card-body { padding:16px 18px; }
 
         /* Rows de info */
-        .cv-st-row { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.04); }
+        .cv-st-row { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(123,58,34,0.12); }
         .cv-st-row:last-child { border-bottom:none; }
         .cv-st-row-label { font-size:12px; color:var(--muted); display:flex; align-items:center; gap:6px; }
         .cv-st-row-val { font-size:12px; color:var(--text); font-weight:600; text-align:right; }
@@ -289,7 +289,7 @@ class CV_System_Status {
         /* Tabela de tabelas DB */
         .cv-st-db-table { width:100%; border-collapse:collapse; font-size:11px; }
         .cv-st-db-table th { color:var(--muted); font-weight:600; text-align:left; padding:5px 0; border-bottom:1px solid var(--bord); }
-        .cv-st-db-table td { padding:6px 0; border-bottom:1px solid rgba(255,255,255,.03); color:var(--text); }
+        .cv-st-db-table td { padding:6px 0; border-bottom:1px solid rgba(123,58,34,0.12); color:var(--text); }
         .cv-st-db-table td:not(:first-child) { text-align:right; color:var(--muted); }
 
         /* Extensions */
@@ -298,13 +298,13 @@ class CV_System_Status {
         .cv-st-ext-dot { width:7px; height:7px; border-radius:50%; }
 
         /* API status */
-        .cv-st-api-row { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.04); }
+        .cv-st-api-row { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid rgba(123,58,34,0.12); }
         .cv-st-api-row:last-child { border-bottom:none; }
         .cv-st-api-name { flex:1; font-size:12px; color:var(--muted); }
         .cv-st-api-status { font-size:11px; font-weight:700; }
 
         /* Cron */
-        .cv-st-cron { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.04); }
+        .cv-st-cron { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid rgba(123,58,34,0.12); }
         .cv-st-cron:last-child { border-bottom:none; }
         .cv-st-cron-label { flex:1; font-size:12px; color:var(--muted); }
         .cv-st-cron-next { font-size:11px; color:var(--text); font-family:monospace; }
@@ -418,7 +418,7 @@ class CV_System_Status {
                 <div class="cv-st-card-hdr">
                     <span class="cv-st-card-hdr-icon">🗄️</span>
                     <span class="cv-st-card-hdr-title">Banco de Dados</span>
-                    <span class="cv-st-card-hdr-badge" style="background:<?php echo $d['db']['ping_ok'] ? 'rgba(29,185,84,.12)' : 'rgba(212,160,23,.12)'; ?>;color:<?php echo $d['db']['ping_ok'] ? '#1DB954' : '#D4A017'; ?>;border:1px solid <?php echo $d['db']['ping_ok'] ? 'rgba(29,185,84,.3)' : 'rgba(212,160,23,.3)'; ?>">
+                    <span class="cv-st-card-hdr-badge" style="background:<?php echo $d['db']['ping_ok'] ? 'rgba(29,185,84,.12)' : 'rgba(242,165,26,0.16)'; ?>;color:<?php echo $d['db']['ping_ok'] ? '#1DB954' : '#B8700C'; ?>;border:1px solid <?php echo $d['db']['ping_ok'] ? 'rgba(29,185,84,.3)' : 'rgba(242,165,26,0.39)'; ?>">
                         <?php echo $d['db']['ping_ms']; ?>ms
                     </span>
                 </div>
@@ -463,7 +463,7 @@ class CV_System_Status {
                 <div class="cv-st-card-hdr">
                     <span class="cv-st-card-hdr-icon">🔵</span>
                     <span class="cv-st-card-hdr-title">WordPress</span>
-                    <span class="cv-st-card-hdr-badge" style="background:rgba(52,152,219,.12);color:#3498db;border:1px solid rgba(52,152,219,.3)">v<?php echo esc_html($d['wp']['version']); ?></span>
+                    <span class="cv-st-card-hdr-badge" style="background:rgba(52,152,219,.12);color:#1E72AA;border:1px solid rgba(52,152,219,.3)">v<?php echo esc_html($d['wp']['version']); ?></span>
                 </div>
                 <div class="cv-st-card-body">
                     <?php
@@ -645,20 +645,20 @@ class CV_System_Status {
                             var d = res.data;
                             if (d.status === 'ok') {
                                 btn.textContent = '✅';
-                                result.style.color = '#1DB954';
+                                result.style.color = '#137B38';
                                 result.textContent = '✅ MailerLite respondeu em ' + d.ms + 'ms (HTTP ' + d.code + ')';
                             } else if (d.status === 'not_configured') {
                                 btn.textContent = 'Testar';
-                                result.style.color = '#888';
+                                result.style.color = '#8A6A55';
                                 result.textContent = 'API Key não configurada.';
                             } else {
                                 btn.textContent = '❌';
-                                result.style.color = '#e74c3c';
+                                result.style.color = '#D62C1A';
                                 result.textContent = '❌ Erro: HTTP ' + (d.code||'?') + ' — verifique a API Key.';
                             }
                         } else {
                             btn.textContent = 'Testar';
-                            result.style.color = '#e74c3c';
+                            result.style.color = '#D62C1A';
                             result.textContent = 'Erro de conexão.';
                         }
                         setTimeout(function(){ result.style.display='none'; btn.textContent='Testar'; }, 6000);

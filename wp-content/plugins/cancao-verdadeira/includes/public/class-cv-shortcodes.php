@@ -620,10 +620,10 @@ class CV_Shortcodes {
                     $count = $genero->count;
                     $url   = get_term_link( $genero );
                 ?>
-                <a href="<?php echo esc_url( $url ); ?>" class="cv-genero-card" style="display:block;background:#242424;border:1px solid rgba(212,160,23,.15);border-radius:12px;padding:24px 16px;text-align:center;text-decoration:none;color:inherit;transition:all .2s">
+                <a href="<?php echo esc_url( $url ); ?>" class="cv-genero-card" style="display:block;background:#F8F0E4;border:1px solid rgba(201,162,126,0.3);border-radius:12px;padding:24px 16px;text-align:center;text-decoration:none;color:inherit;transition:all .2s">
                     <div style="font-size:32px;margin-bottom:10px"><?php echo $icone; ?></div>
-                    <div style="font-weight:700;font-size:14px;color:#F5F0E0;margin-bottom:4px"><?php echo esc_html( $genero->name ); ?></div>
-                    <div style="font-size:12px;color:#888"><?php echo $count; ?> música<?php echo $count !== 1 ? 's' : ''; ?></div>
+                    <div style="font-weight:700;font-size:14px;color:#3B2418;margin-bottom:4px"><?php echo esc_html( $genero->name ); ?></div>
+                    <div style="font-size:12px;color:#8A6A55"><?php echo $count; ?> música<?php echo $count !== 1 ? 's' : ''; ?></div>
                 </a>
                 <?php endforeach; ?>
             </div>

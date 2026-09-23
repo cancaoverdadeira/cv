@@ -35,16 +35,16 @@ class CV_Page_Settings {
         ?>
         <div class="wrap" id="cv-settings-exec">
         <style>
-        body.wp-admin { background:#0f0f1a !important; }
-        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#0f0f1a !important; }
+        body.wp-admin { background:#FBF6EE !important; }
+        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#FBF6EE !important; }
         #cv-settings-exec {
-            --gold:#D4A017; --bg:#0f0f1a; --card:#1a1a2e; --card2:#16213e;
-            --bord:#2a2a4a; --text:#e0e0e0; --muted:#888; --green:#1DB954; --red:#e74c3c;
+            --gold:#B8700C; --bg:#FFFFFF; --card:#F8F0E4; --card2:#F8F0E4;
+            --bord:#F3E6D3; --text:#3B2418; --muted:#C9A27E; --green:#1DB954; --red:#e74c3c;
             color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; padding-bottom:48px;
         }
         #cv-settings-exec * { box-sizing:border-box; }
         .cv-set-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
-        .cv-set-title { font-size:24px; font-weight:700; color:#fff; margin:0; }
+        .cv-set-title { font-size:24px; font-weight:700; color:#3B2418; margin:0; }
         .cv-set-title span { color:var(--gold); }
         .cv-set-status { display:flex; gap:10px; flex-wrap:wrap; }
         .cv-set-pill { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:600; }
@@ -55,29 +55,29 @@ class CV_Page_Settings {
         .cv-set-card { background:var(--card); border:1px solid var(--bord); border-radius:14px; overflow:hidden; }
         .cv-set-card-header { padding:16px 20px; border-bottom:1px solid var(--bord); display:flex; align-items:center; gap:12px; }
         .cv-set-card-icon { font-size:22px; }
-        .cv-set-card-title { font-size:15px; font-weight:700; color:#fff; }
+        .cv-set-card-title { font-size:15px; font-weight:700; color:#3B2418; }
         .cv-set-card-subtitle { font-size:11px; color:var(--muted); margin-top:2px; }
         .cv-set-card-body { padding:20px; display:flex; flex-direction:column; gap:16px; }
         .cv-set-field label { display:block; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; margin-bottom:5px; }
-        .cv-set-input { width:100%; background:rgba(255,255,255,.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
+        .cv-set-input { width:100%; background:rgba(123,58,34,0.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
         .cv-set-input:focus { border-color:var(--gold); }
-        .cv-set-input::placeholder { color:#444; }
+        .cv-set-input::placeholder { color:#8A6A55; }
         .cv-set-hint { font-size:11px; color:var(--muted); margin-top:4px; }
         .cv-set-status-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:4px; }
         .cv-set-status-dot.ok { background:var(--green); }
         .cv-set-status-dot.off { background:var(--red); }
         /* Preview WhatsApp */
-        .cv-wa-preview { background:#075e54; border-radius:12px; padding:14px 16px; margin-top:8px; }
-        .cv-wa-preview-label { font-size:10px; color:rgba(255,255,255,.5); margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px; }
-        .cv-wa-bubble { background:#dcf8c6; color:#111; border-radius:8px 8px 0 8px; padding:8px 12px; font-size:12px; max-width:80%; margin-left:auto; word-break:break-word; }
-        .cv-wa-bubble-time { font-size:10px; color:#666; text-align:right; margin-top:3px; }
+        .cv-wa-preview { background:#E7F8F6; border-radius:12px; padding:14px 16px; margin-top:8px; }
+        .cv-wa-preview-label { font-size:10px; color:rgba(59,36,24,0.55); margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px; }
+        .cv-wa-bubble { background:#dcf8c6; color:#3B2418; border-radius:8px 8px 0 8px; padding:8px 12px; font-size:12px; max-width:80%; margin-left:auto; word-break:break-word; }
+        .cv-wa-bubble-time { font-size:10px; color:#8A6A55; text-align:right; margin-top:3px; }
         /* Slider visual */
         .cv-set-slider-wrap { display:flex; align-items:center; gap:12px; }
         .cv-set-slider { flex:1; accent-color:var(--gold); }
         .cv-set-slider-val { font-size:14px; font-weight:700; color:var(--gold); min-width:40px; text-align:center; }
         /* Save bar */
         .cv-set-save-bar { position:sticky; bottom:0; background:var(--card); border-top:1px solid var(--bord); padding:14px 20px; display:flex; align-items:center; gap:12px; border-radius:0 0 14px 14px; }
-        .cv-set-btn-save { background:var(--gold); color:#000; border:none; padding:11px 28px; border-radius:8px; font-weight:700; font-size:14px; cursor:pointer; transition:opacity .2s; }
+        .cv-set-btn-save { background:var(--gold); color:#3B2418; border:none; padding:11px 28px; border-radius:8px; font-weight:700; font-size:14px; cursor:pointer; transition:opacity .2s; }
         .cv-set-btn-save:hover { opacity:.85; }
         .cv-set-saved-msg { color:var(--green); font-size:13px; display:none; }
         </style>
@@ -215,7 +215,7 @@ class CV_Page_Settings {
                             </div>
                             <div class="cv-set-hint">Um play só é contabilizado após este tempo de reprodução contínua. Padrão: 30s</div>
                         </div>
-                        <div style="background:rgba(212,160,23,.06);border:1px solid rgba(212,160,23,.2);border-radius:8px;padding:12px 14px">
+                        <div style="background:rgba(242,165,26,0.08);border:1px solid rgba(201,162,126,0.4);border-radius:8px;padding:12px 14px">
                             <div style="font-size:12px;color:var(--gold);font-weight:600;margin-bottom:4px">ℹ️ Como funciona</div>
                             <div style="font-size:11px;color:var(--muted);line-height:1.5">
                                 O sistema registra 1 play após <strong style="color:var(--text)"><?php echo $play_secs; ?> segundos</strong> de reprodução.

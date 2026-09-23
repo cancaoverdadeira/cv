@@ -77,20 +77,20 @@
     text-align: left;
 }
 .cv-btn-sidebar-primary {
-    background: var(--cv-gold);
-    color: #1a1a1a;
+    background: var(--cv-accent);
+    color: #3B2418;
 }
 .cv-btn-sidebar-primary:hover {
-    background: var(--cv-gold-bright);
-    color: #1a1a1a;
+    background: var(--cv-accent-hover);
+    color: #3B2418;
     transform: translateY(-1px);
 }
 .cv-btn-sidebar-secondary {
-    background: rgba(255,255,255,.05);
+    background: rgba(123,58,34,0.06);
     color: var(--cv-text-muted);
 }
 .cv-btn-sidebar-secondary:hover {
-    background: rgba(212,160,23,.1);
+    background: rgba(242,165,26,0.13);
     color: var(--cv-gold);
 }
 
@@ -121,12 +121,12 @@
 }
 .cv-nav-link:hover {
     color: var(--cv-text);
-    background: rgba(255,255,255,.04);
+    background: rgba(123,58,34,0.04);
     border-left-color: var(--cv-gold-dim);
 }
 .cv-nav-link.active {
     color: var(--cv-gold);
-    background: rgba(212,160,23,.08);
+    background: rgba(242,165,26,0.1);
     border-left-color: var(--cv-gold);
 }
 .cv-nav-link .nav-icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
@@ -147,12 +147,12 @@
     color: var(--cv-text);
     text-decoration: none;
     margin: 3px 3px 3px 0;
-    background: rgba(255,255,255,.06);
+    background: rgba(123,58,34,0.07);
     border: 1px solid var(--cv-border);
     transition: all var(--cv-transition);
 }
 .cv-genre-pill:hover {
-    background: rgba(212,160,23,.12);
+    background: rgba(242,165,26,0.16);
     border-color: var(--cv-gold);
     color: var(--cv-gold);
     transform: translateY(-1px);
@@ -194,7 +194,7 @@
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,.6);
+    background: rgba(59,36,24,0.45);
     z-index: 190;
     backdrop-filter: blur(2px);
 }
@@ -210,7 +210,7 @@
     left: 0;
     right: 0;
     height: var(--cv-topbar-h);
-    background: rgba(17,17,17,.96);
+    background: rgba(59,36,24,0.45);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--cv-border-subtle);
     z-index: 300;
@@ -235,7 +235,7 @@
 .cv-topbar-search {
     display: flex;
     align-items: center;
-    background: rgba(255,255,255,.06);
+    background: rgba(123,58,34,0.07);
     border: 1px solid var(--cv-border);
     border-radius: var(--cv-radius-full);
     padding: 6px 12px;
@@ -374,15 +374,15 @@
 .cv-player-btn.primary {
     width: 42px;
     height: 42px;
-    background: var(--cv-gold);
-    color: #1a1a1a;
+    background: var(--cv-accent);
+    color: #3B2418;
     border-radius: 50%;
     font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.cv-player-btn.primary:hover { background: var(--cv-gold-bright); transform: scale(1.05); }
+.cv-player-btn.primary:hover { background: var(--cv-accent-hover); transform: scale(1.05); }
 
 /* Barra de progresso */
 .cv-player-progress {
@@ -391,7 +391,7 @@
 }
 .cv-player-bar {
     height: 4px;
-    background: rgba(255,255,255,.1);
+    background: rgba(123,58,34,0.11);
     border-radius: 2px;
     cursor: pointer;
     position: relative;
@@ -399,7 +399,7 @@
 }
 .cv-player-bar-fill {
     height: 100%;
-    background: var(--cv-gold);
+    background: var(--cv-accent);
     border-radius: 2px;
     transition: width .5s linear;
 }
@@ -442,7 +442,7 @@
     right: 16px;
     width: 320px;
     max-height: 420px;
-    background: #1a1a1a;
+    background: #FFFFFF;
     border: 1px solid var(--cv-border);
     border-radius: var(--cv-radius);
     z-index: 9990;
@@ -474,8 +474,8 @@
     cursor: pointer;
     transition: background var(--cv-transition);
 }
-.cv-notif-item:hover { background: rgba(255,255,255,.03); }
-.cv-notif-item.cv-notif-unread { background: rgba(212,160,23,.04); }
+.cv-notif-item:hover { background: rgba(123,58,34,0.03); }
+.cv-notif-item.cv-notif-unread { background: rgba(242,165,26,0.05); }
 .cv-notif-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
 .cv-notif-msg { font-size: 13px; color: var(--cv-text); line-height: 1.4; }
 .cv-notif-msg a { color: var(--cv-gold); }
@@ -485,7 +485,7 @@
 .cv-notif-badge {
     display: none;
     background: var(--cv-error);
-    color: #fff;
+    color: #3B2418;
     font-size: 10px;
     font-weight: 700;
     padding: 2px 6px;

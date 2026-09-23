@@ -76,7 +76,7 @@ get_header();
         <?php get_template_part('template-parts/topbar'); ?>
 
         <!-- Campo de busca hero -->
-        <div style="background:linear-gradient(180deg,#1e1e1e 0%,var(--cv-bg) 100%);
+        <div style="background:linear-gradient(180deg,#FFFFFF 0%,var(--cv-bg) 100%);
                     padding:48px 36px 36px">
             <h1 style="font-family:var(--font-display);font-size:32px;font-weight:700;
                        margin:0 0 24px;text-align:center">
@@ -95,8 +95,8 @@ get_header();
                            style="font-size:16px;padding:14px 48px 14px 18px" />
                     <button type="submit"
                             style="position:absolute;right:8px;top:50%;transform:translateY(-50%);
-                                   background:var(--cv-gold);border:none;border-radius:var(--cv-radius-sm);
-                                   padding:8px 14px;color:#1a1a1a;cursor:pointer;font-size:16px">
+                                   background:var(--cv-accent);border:none;border-radius:var(--cv-radius-sm);
+                                   padding:8px 14px;color:#3B2418;cursor:pointer;font-size:16px">
                         🔍
                     </button>
                     <div class="cv-autocomplete-list"
@@ -185,7 +185,7 @@ get_header();
                           width:38px;height:38px;border-radius:50%;font-size:13px;font-weight:700;
                           text-decoration:none;transition:all .2s;
                           background:<?php echo $ativo ? 'var(--cv-gold)' : 'var(--cv-bg-card)'; ?>;
-                          color:<?php echo $ativo ? '#1a1a1a' : 'var(--cv-text-muted)'; ?>;
+                          color:<?php echo $ativo ? '#FFFFFF' : 'var(--cv-text-muted)'; ?>;
                           border:1px solid <?php echo $ativo ? 'var(--cv-gold)' : 'var(--cv-border)'; ?>">
                     <?php echo $i; ?>
                 </a>

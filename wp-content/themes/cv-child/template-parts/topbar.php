@@ -91,7 +91,7 @@ if ( $is_logged ) {
 
         <!-- Botão entrar -->
         <a href="<?php echo esc_url( cv_login_url( get_permalink() ) ); ?>"
-           style="background:var(--cv-gold);color:#1a1a1a;font-size:12px;font-weight:700;padding:6px 14px;border-radius:50px;text-decoration:none;white-space:nowrap">
+           style="background:var(--cv-accent);color:#3B2418;font-size:12px;font-weight:700;padding:6px 14px;border-radius:50px;text-decoration:none;white-space:nowrap">
             Entrar
         </a>
 
@@ -102,7 +102,7 @@ if ( $is_logged ) {
 
 <!-- Busca expandida mobile (aparece abaixo da topbar) -->
 <div id="cv-topbar-search-panel"
-     style="display:none;position:fixed;top:var(--cv-topbar-h);left:0;right:0;background:rgba(17,17,17,.98);
+     style="display:none;position:fixed;top:var(--cv-topbar-h);left:0;right:0;background:rgba(59,36,24,0.45);
             backdrop-filter:blur(12px);padding:12px 16px;z-index:299;border-bottom:1px solid var(--cv-border-subtle)">
     <div class="cv-search-wrap" style="position:relative">
         <input type="text"

@@ -167,24 +167,24 @@ class CV_Admin_Sentimentos {
 
         <style>
         /* Dark mode global — sobrepõe o cinza claro do WordPress */
-        body.wp-admin { background: #0f0f1a !important; }
-        #wpwrap, #wpcontent, #wpbody, #wpbody-content { background: #0f0f1a !important; }
+        body.wp-admin { background: #FBF6EE !important; }
+        #wpwrap, #wpcontent, #wpbody, #wpbody-content { background: #FBF6EE !important; }
         #cv-sentimentos-dashboard {
-            --cv-gold: #D4A017;
-            --cv-bg: #0f0f1a;
-            --cv-card: #1a1a2e;
-            --cv-card2: #16213e;
-            --cv-border: #2a2a4a;
-            --cv-text: #e0e0e0;
-            --cv-muted: #888;
+            --cv-gold: #7B3A22;
+            --cv-bg: #FBF6EE;
+            --cv-card: #FFFFFF;
+            --cv-card2: #F8F0E4;
+            --cv-border: #EADBC6;
+            --cv-text: #3B2418;
+            --cv-muted: #8A6A55;
             font-family: 'Segoe UI', system-ui, sans-serif;
             color: var(--cv-text);
-            background: #0f0f1a;
+            background: #FFFFFF;
             min-height: 100vh;
             padding-bottom: 40px;
         }
         /* Título H1 padrão WP */
-        #cv-sentimentos-dashboard h1.wp-heading-inline { color: #fff !important; }
+        #cv-sentimentos-dashboard h1.wp-heading-inline { color: #3B2418 !important; }
         #cv-sentimentos-dashboard .notice { border-radius: 8px; }
         #cv-sentimentos-dashboard * { box-sizing: border-box; }
 
@@ -199,14 +199,14 @@ class CV_Admin_Sentimentos {
         .cv-sent-title {
             font-size: 26px;
             font-weight: 700;
-            color: #fff;
+            color: #3B2418;
             margin: 0;
         }
         .cv-sent-title span { color: var(--cv-gold); }
         .cv-sent-actions { display: flex; gap: 10px; }
         .cv-sent-btn-manage {
-            background: var(--cv-gold);
-            color: #000;
+            background: var(--cv-accent);
+            color: #3B2418;
             border: none;
             padding: 9px 18px;
             border-radius: 8px;
@@ -219,7 +219,7 @@ class CV_Admin_Sentimentos {
             gap: 6px;
             transition: opacity .2s;
         }
-        .cv-sent-btn-manage:hover { opacity: .85; color: #000; }
+        .cv-sent-btn-manage:hover { opacity: .85; color: #3B2418; }
 
         /* KPIs */
         .cv-sent-kpis {
@@ -242,7 +242,7 @@ class CV_Admin_Sentimentos {
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 3px;
-            background: var(--cv-gold);
+            background: var(--cv-accent);
         }
         .cv-kpi-num {
             font-size: 32px;
@@ -278,7 +278,7 @@ class CV_Admin_Sentimentos {
         }
         .cv-sent-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 32px rgba(0,0,0,.4);
+            box-shadow: 0 8px 32px rgba(123,58,34,0.12);
         }
         .cv-sent-card.active {
             border-color: var(--card-cor, var(--cv-gold));
@@ -301,13 +301,13 @@ class CV_Admin_Sentimentos {
         .cv-sent-emoji {
             font-size: 36px;
             line-height: 1;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,.4));
+            filter: drop-shadow(0 2px 4px rgba(123,58,34,0.14));
         }
         .cv-sent-card-info { flex: 1; min-width: 0; }
         .cv-sent-card-nome {
             font-size: 17px;
             font-weight: 700;
-            color: #fff;
+            color: #3B2418;
         }
         .cv-sent-card-count {
             font-size: 12px;
@@ -319,7 +319,7 @@ class CV_Admin_Sentimentos {
             font-weight: 700;
             padding: 3px 8px;
             border-radius: 20px;
-            background: rgba(255,255,255,.07);
+            background: rgba(123,58,34,0.08);
             color: var(--cv-muted);
         }
         .cv-sent-metrics {
@@ -329,7 +329,7 @@ class CV_Admin_Sentimentos {
             margin-bottom: 14px;
         }
         .cv-sent-metric {
-            background: rgba(255,255,255,.04);
+            background: rgba(123,58,34,0.04);
             border-radius: 8px;
             padding: 10px 12px;
             text-align: center;
@@ -346,7 +346,7 @@ class CV_Admin_Sentimentos {
             letter-spacing: .4px;
         }
         .cv-sent-bar-container {
-            background: rgba(255,255,255,.06);
+            background: rgba(123,58,34,0.07);
             border-radius: 4px;
             height: 4px;
             overflow: hidden;
@@ -415,7 +415,7 @@ class CV_Admin_Sentimentos {
         .cv-sent-chart-title {
             font-size: 14px;
             font-weight: 700;
-            color: #fff;
+            color: #3B2418;
             margin: 0 0 16px;
             display: flex;
             align-items: center;
@@ -448,11 +448,11 @@ class CV_Admin_Sentimentos {
             margin-bottom: 18px;
         }
         .cv-sent-detail-emoji { font-size: 32px; }
-        .cv-sent-detail-nome { font-size: 18px; font-weight: 700; color: #fff; }
+        .cv-sent-detail-nome { font-size: 18px; font-weight: 700; color: #3B2418; }
         .cv-sent-detail-sub { font-size: 12px; color: var(--cv-muted); }
         .cv-sent-detail-close {
             margin-left: auto;
-            background: rgba(255,255,255,.06);
+            background: rgba(123,58,34,0.07);
             border: none;
             color: var(--cv-muted);
             width: 30px; height: 30px;
@@ -469,7 +469,7 @@ class CV_Admin_Sentimentos {
             gap: 12px;
         }
         .cv-musica-item {
-            background: rgba(255,255,255,.04);
+            background: rgba(123,58,34,0.04);
             border-radius: 10px;
             padding: 12px;
             display: flex;
@@ -479,7 +479,7 @@ class CV_Admin_Sentimentos {
             color: var(--cv-text);
             transition: background .2s;
         }
-        .cv-musica-item:hover { background: rgba(255,255,255,.08); color: #fff; }
+        .cv-musica-item:hover { background: rgba(123,58,34,0.09); color: #3B2418; }
         .cv-musica-capa {
             width: 40px;
             height: 40px;
@@ -538,7 +538,7 @@ class CV_Admin_Sentimentos {
         .cv-sent-rank-nome { flex: 1; font-size: 14px; font-weight: 600; }
         .cv-sent-rank-bar-wrap {
             flex: 2;
-            background: rgba(255,255,255,.06);
+            background: rgba(123,58,34,0.07);
             border-radius: 4px;
             height: 6px;
             overflow: hidden;
@@ -704,7 +704,7 @@ class CV_Admin_Sentimentos {
         <?php else : ?>
         <div class="cv-sent-empty">
             <div style="font-size:48px;margin-bottom:12px">🎭</div>
-            <div style="font-size:16px;color:#e0e0e0;margin-bottom:8px">Nenhum sentimento cadastrado</div>
+            <div style="font-size:16px;color:#3B2418;margin-bottom:8px">Nenhum sentimento cadastrado</div>
             <div style="font-size:13px;color:var(--cv-muted);margin-bottom:20px">Crie sentimentos e associe às músicas para ver o painel.</div>
             <a href="<?php echo esc_url( admin_url('admin.php?page=cv-sentimentos-crud') ); ?>"
                class="cv-sent-btn-manage">➕ Criar primeiro sentimento</a>
@@ -772,7 +772,7 @@ class CV_Admin_Sentimentos {
                             plugins: {
                                 legend: {
                                     position: 'right',
-                                    labels: { color: '#aaa', boxWidth: 14, font: { size: 11 } }
+                                    labels: { color: '#C9A27E', boxWidth: 14, font: { size: 11 } }
                                 },
                                 tooltip: {
                                     callbacks: {
@@ -822,12 +822,12 @@ class CV_Admin_Sentimentos {
                             },
                             scales: {
                                 x: {
-                                    grid: { color: 'rgba(255,255,255,.05)' },
-                                    ticks: { color: '#888', font: { size: 11 } }
+                                    grid: { color: 'rgba(123,58,34,0.06)' },
+                                    ticks: { color: '#C9A27E', font: { size: 11 } }
                                 },
                                 y: {
                                     grid: { display: false },
-                                    ticks: { color: '#ccc', font: { size: 11 } }
+                                    ticks: { color: '#3B2418', font: { size: 11 } }
                                 }
                             }
                         }

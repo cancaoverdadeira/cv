@@ -27,10 +27,10 @@ function cv_limpeza_page() {
         if ( file_exists($alvo) ) {
             cv_limpeza_remover_pasta($alvo);
             $msg = file_exists($alvo)
-                ? '<div style="background:#f8d7da;border:1px solid #f5c6cb;padding:12px;border-radius:4px;color:#721c24">⚠️ Não foi possível remover todos os arquivos. Tente novamente ou remova manualmente os que restaram.</div>'
-                : '<div style="background:#d4edda;border:1px solid #c3e6cb;padding:12px;border-radius:4px;color:#155724">✅ Pasta <strong>cancao-verdadeira</strong> removida com sucesso! Agora instale o novo plugin e delete este.</div>';
+                ? '<div style="background:#f8d7da;border:1px solid #EADBC6;padding:12px;border-radius:4px;color:#661921">⚠️ Não foi possível remover todos os arquivos. Tente novamente ou remova manualmente os que restaram.</div>'
+                : '<div style="background:#d4edda;border:1px solid #c3e6cb;padding:12px;border-radius:4px;color:#19662B">✅ Pasta <strong>cancao-verdadeira</strong> removida com sucesso! Agora instale o novo plugin e delete este.</div>';
         } else {
-            $msg = '<div style="background:#d4edda;border:1px solid #c3e6cb;padding:12px;border-radius:4px;color:#155724">✅ Pasta já não existe. Pode instalar o novo plugin!</div>';
+            $msg = '<div style="background:#d4edda;border:1px solid #c3e6cb;padding:12px;border-radius:4px;color:#19662B">✅ Pasta já não existe. Pode instalar o novo plugin!</div>';
         }
     }
 
@@ -39,25 +39,25 @@ function cv_limpeza_page() {
     ?>
     <div class="wrap">
         <h1>🧹 CV Limpeza — Plugin Temporário</h1>
-        <div style="background:#fff3cd;border:1px solid #ffc107;padding:12px;border-radius:4px;margin:16px 0;max-width:600px">
+        <div style="background:#fff3cd;border:1px solid #C9A27E;padding:12px;border-radius:4px;margin:16px 0;max-width:600px">
             <strong>⚠️ Atenção:</strong> Este plugin é de uso único. Após a limpeza, instale o plugin principal e <strong>delete este plugin</strong>.
         </div>
         <?= $msg ?>
-        <div style="background:#f8f9fa;border:1px solid #dee2e6;padding:20px;border-radius:8px;margin-top:20px;max-width:600px">
+        <div style="background:#f8f9fa;border:1px solid #EADBC6;padding:20px;border-radius:8px;margin-top:20px;max-width:600px">
             <h3 style="margin-top:0">Status da pasta</h3>
             <p><strong>Caminho:</strong> <code><?= esc_html($alvo) ?></code></p>
             <p><strong>Situação:</strong>
                 <?php if ($existe) : ?>
-                    <span style="color:#dc3545">⛔ Existe com <?= $arquivos ?> arquivo(s)/pasta(s)</span>
+                    <span style="color:#D72536">⛔ Existe com <?= $arquivos ?> arquivo(s)/pasta(s)</span>
                 <?php else : ?>
-                    <span style="color:#28a745">✅ Não existe — pronto para instalar!</span>
+                    <span style="color:#1E7E34">✅ Não existe — pronto para instalar!</span>
                 <?php endif; ?>
             </p>
             <?php if ($existe) : ?>
             <form method="post">
                 <?php wp_nonce_field('cv_limpeza_action'); ?>
                 <button type="submit" name="cv_fazer_limpeza" value="1"
-                    style="background:#dc3545;color:#fff;border:none;padding:10px 24px;border-radius:4px;font-size:14px;cursor:pointer"
+                    style="background:#dc3545;color:#3B2418;border:none;padding:10px 24px;border-radius:4px;font-size:14px;cursor:pointer"
                     onclick="return confirm('Confirma a remoção completa da pasta cancao-verdadeira?')">
                     🗑️ Remover pasta cancao-verdadeira
                 </button>

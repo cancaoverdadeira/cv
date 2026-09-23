@@ -44,7 +44,7 @@ class CV_Profile_Edit {
             <div class="cv-profile-avatar-section">
                 <img src="<?php echo esc_url( get_avatar_url( $user->ID, array( 'size' => 100 ) ) ); ?>"
                      alt="Avatar" class="cv-profile-avatar" id="cv-avatar-img" />
-                <p class="cv-profile-avatar-hint">Sua foto vem do <a href="https://gravatar.com" target="_blank" rel="noopener" style="color:#D4A017">Gravatar</a> (vinculado ao e-mail cadastrado)</p>
+                <p class="cv-profile-avatar-hint">Sua foto vem do <a href="https://gravatar.com" target="_blank" rel="noopener" style="color:#7B3A22">Gravatar</a> (vinculado ao e-mail cadastrado)</p>
             </div>
 
             <div class="cv-profile-msg" id="cv-profile-msg" style="display:none"></div>
@@ -99,7 +99,7 @@ class CV_Profile_Edit {
                     <input type="password" id="cv-pw-current" placeholder="Digite sua senha atual" />
                 </div>
                 <div class="cv-profile-field">
-                    <label for="cv-pw-new">Nova senha <span style="color:#888;font-weight:400">(mín. 8 caracteres)</span></label>
+                    <label for="cv-pw-new">Nova senha <span style="color:#8A6A55;font-weight:400">(mín. 8 caracteres)</span></label>
                     <input type="password" id="cv-pw-new" placeholder="Nova senha" />
                 </div>
                 <div class="cv-profile-field">
@@ -114,7 +114,7 @@ class CV_Profile_Edit {
 
             <!-- Excluir conta -->
             <div class="cv-profile-section cv-profile-danger">
-                <h3 class="cv-profile-section-title" style="color:#e74c3c">⚠️ Excluir conta</h3>
+                <h3 class="cv-profile-section-title" style="color:#D62C1A">⚠️ Excluir conta</h3>
                 <p class="cv-profile-hint">Esta ação é permanente. Todos os seus dados serão removidos.</p>
                 <div class="cv-profile-msg" id="cv-delete-msg" style="display:none"></div>
                 <div class="cv-profile-field" id="cv-delete-confirm-area" style="display:none">
@@ -135,32 +135,32 @@ class CV_Profile_Edit {
         <style>
         .cv-profile-box { max-width:560px; }
         .cv-profile-avatar-section { text-align:center; margin-bottom:28px; }
-        .cv-profile-avatar { width:100px; height:100px; border-radius:50%; border:3px solid #D4A017; object-fit:cover; }
-        .cv-profile-avatar-hint { color:#666; font-size:12px; margin-top:8px; }
-        .cv-profile-section { background:#222; border-radius:10px; padding:24px; margin-bottom:20px; }
-        .cv-profile-section-title { color:#F5F0E0; font-family:'Oswald',sans-serif; font-size:16px; margin:0 0 16px; }
-        .cv-profile-hint { color:#888; font-size:13px; margin:-10px 0 14px; }
+        .cv-profile-avatar { width:100px; height:100px; border-radius:50%; border:3px solid #C9A27E; object-fit:cover; }
+        .cv-profile-avatar-hint { color:#8A6A55; font-size:12px; margin-top:8px; }
+        .cv-profile-section { background:#F8F0E4; border-radius:10px; padding:24px; margin-bottom:20px; }
+        .cv-profile-section-title { color:#3B2418; font-family:'Oswald',sans-serif; font-size:16px; margin:0 0 16px; }
+        .cv-profile-hint { color:#8A6A55; font-size:13px; margin:-10px 0 14px; }
         .cv-profile-field { margin-bottom:14px; }
-        .cv-profile-field label { display:block; color:#C8B98A; font-size:13px; font-weight:600; margin-bottom:5px; }
+        .cv-profile-field label { display:block; color:#6B4C3B; font-size:13px; font-weight:600; margin-bottom:5px; }
         .cv-profile-field input[type="text"],
         .cv-profile-field input[type="email"],
         .cv-profile-field input[type="password"],
-        .cv-profile-field select { width:100%; padding:10px 12px; background:#1a1a1a; border:1px solid #444; border-radius:6px; color:#F5F0E0; font-size:14px; box-sizing:border-box; }
+        .cv-profile-field select { width:100%; padding:10px 12px; background:#FFFFFF; border:1px solid #EADBC6; border-radius:6px; color:#3B2418; font-size:14px; box-sizing:border-box; }
         .cv-profile-field input:focus,
-        .cv-profile-field select:focus { border-color:#D4A017; outline:none; }
+        .cv-profile-field select:focus { border-color:#C9A27E; outline:none; }
         .cv-profile-msg { padding:10px 14px; border-radius:6px; font-size:13px; margin-bottom:14px; }
-        .cv-profile-msg.success { background:#1a3a1a; color:#5cb85c; border:1px solid #2d6a2d; }
-        .cv-profile-msg.error   { background:#3a1a1a; color:#e74c3c; border:1px solid #6a2d2d; }
-        .cv-profile-danger { border:1px solid #3a1a1a; }
+        .cv-profile-msg.success { background:#EAF6EA; color:#388038; border:1px solid #2d6a2d; }
+        .cv-profile-msg.error   { background:#F6EAEA; color:#D62C1A; border:1px solid #6a2d2d; }
+        .cv-profile-danger { border:1px solid #DCB2B2; }
         .cv-btn { display:inline-block; padding:10px 20px; border-radius:6px; border:none; font-size:14px; font-weight:700; cursor:pointer; transition:all .2s; }
-        .cv-btn-primary   { background:#D4A017; color:#1a1a1a; }
-        .cv-btn-primary:hover { background:#FFD700; }
-        .cv-btn-secondary { background:#333; color:#F5F0E0; }
-        .cv-btn-secondary:hover { background:#444; }
-        .cv-btn-danger    { background:#e74c3c; color:#fff; width:100%; text-align:center; }
+        .cv-btn-primary   { background:#F2A51A; color:#3B2418; }
+        .cv-btn-primary:hover { background:#F2A51A; }
+        .cv-btn-secondary { background:#F3E6D3; color:#3B2418; }
+        .cv-btn-secondary:hover { background:#F3E6D3; }
+        .cv-btn-danger    { background:#e74c3c; color:#3B2418; width:100%; text-align:center; }
         .cv-btn-danger:hover { background:#c0392b; }
-        .cv-btn-outline-danger { background:transparent; color:#e74c3c; border:1px solid #e74c3c; }
-        .cv-btn-outline-danger:hover { background:#3a1a1a; }
+        .cv-btn-outline-danger { background:transparent; color:#D62C1A; border:1px solid #e74c3c; }
+        .cv-btn-outline-danger:hover { background:#F6EAEA; }
         </style>
 
         <script>

@@ -59,7 +59,7 @@ class CV_Page_Users {
         }
 
         $max_plays = ! empty($play_counts) ? max($play_counts) : 1;
-        $cores = array('#4a90d9','#1db954','#D4A017','#9b59b6','#e74c3c','#e67e22','#1abc9c','#e91e63');
+        $cores = array('#4a90d9','#1db954','#B8700C','#9b59b6','#e74c3c','#e67e22','#1abc9c','#e91e63');
         ?>
         <div class="cv-admin-wrap cv-users-v2" style="max-width:1100px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
         <?php echo CV_Admin::btn_voltar(); ?>
@@ -67,64 +67,64 @@ class CV_Page_Users {
         <style>
         .cv-users-v2 * { box-sizing:border-box; }
         /* Hero */
-        .cv-usr-hero { background:linear-gradient(135deg,#0d1f0d 0%,#1a1a1a 100%);border:1px solid #1a3a1a;border-radius:14px;padding:22px 28px;margin-bottom:22px;display:flex;align-items:center;gap:20px; }
-        .cv-usr-hero h1 { color:#1db954;font-size:20px;margin:0 0 2px;font-weight:800; }
-        .cv-usr-hero p  { color:#555;font-size:12px;margin:0; }
+        .cv-usr-hero { background:linear-gradient(135deg,#E9F6E9 0%,#FFFFFF 100%);border:1px solid #B2DCB2;border-radius:14px;padding:22px 28px;margin-bottom:22px;display:flex;align-items:center;gap:20px; }
+        .cv-usr-hero h1 { color:#137B38;font-size:20px;margin:0 0 2px;font-weight:800; }
+        .cv-usr-hero p  { color:#8A6A55;font-size:12px;margin:0; }
         /* KPIs */
         .cv-usr-kpis { display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px; }
         @media(max-width:800px){.cv-usr-kpis{grid-template-columns:1fr 1fr;}}
-        .cv-usr-kpi { background:#1a1a1a;border:1px solid #1a2e1a;border-radius:12px;padding:18px 16px;position:relative;overflow:hidden; }
+        .cv-usr-kpi { background:#FFFFFF;border:1px solid #B7D6B7;border-radius:12px;padding:18px 16px;position:relative;overflow:hidden; }
         .cv-usr-kpi::after { content:"";position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0 0 12px 12px; }
         .cv-usr-kpi.k1::after{background:linear-gradient(90deg,#1db954,#22d460);}
         .cv-usr-kpi.k2::after{background:linear-gradient(90deg,#4a90d9,#5aa8f0);}
-        .cv-usr-kpi.k3::after{background:linear-gradient(90deg,#D4A017,#FFD700);}
+        .cv-usr-kpi.k3::after{background:linear-gradient(90deg,#F2A51A,#F2A51A);}
         .cv-usr-kpi.k4::after{background:linear-gradient(90deg,#9b59b6,#b278cc);}
         .cv-usr-kpi-icon  { font-size:18px;margin-bottom:6px;display:block; }
-        .cv-usr-kpi-val   { font-size:28px;font-weight:800;color:#f0f0f0;line-height:1;margin-bottom:3px; }
-        .cv-usr-kpi-label { font-size:11px;color:#555;text-transform:uppercase;letter-spacing:.4px; }
+        .cv-usr-kpi-val   { font-size:28px;font-weight:800;color:#3B2418;line-height:1;margin-bottom:3px; }
+        .cv-usr-kpi-label { font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.4px; }
         .cv-usr-kpi-badge { position:absolute;top:12px;right:12px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px; }
-        .badge-green{background:rgba(29,185,84,.15);color:#1db954;}
-        .badge-neu{background:rgba(255,255,255,.05);color:#444;}
+        .badge-green{background:rgba(29,185,84,.15);color:#137B38;}
+        .badge-neu{background:rgba(123,58,34,0.06);color:#8A6A55;}
         /* Mid grid */
         .cv-usr-mid { display:grid;grid-template-columns:1.6fr 1fr;gap:18px;margin-bottom:22px;align-items:start; }
         @media(max-width:900px){.cv-usr-mid{grid-template-columns:1fr;}}
-        .cv-usr-panel { background:#1a1a1a;border:1px solid #1a2e1a;border-radius:12px;padding:20px 22px; }
-        .cv-usr-panel h3 { font-size:12px;color:#555;text-transform:uppercase;letter-spacing:.6px;margin:0 0 14px;font-weight:600; }
-        .cv-usr-panel h3 strong { color:#1db954; }
+        .cv-usr-panel { background:#FFFFFF;border:1px solid #B7D6B7;border-radius:12px;padding:20px 22px; }
+        .cv-usr-panel h3 { font-size:12px;color:#8A6A55;text-transform:uppercase;letter-spacing:.6px;margin:0 0 14px;font-weight:600; }
+        .cv-usr-panel h3 strong { color:#137B38; }
         #cv-usr-chart { width:100%;height:110px;max-height:110px; }
         /* Top ouvintes */
-        .cv-top-ouv { display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #141414; }
+        .cv-top-ouv { display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #EADBC6; }
         .cv-top-ouv:last-child { border-bottom:none; }
         .cv-top-ouv-avatar { width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0; }
         .cv-top-ouv-info { flex:1;min-width:0; }
-        .cv-top-ouv-name  { font-size:12px;font-weight:700;color:#ddd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px; }
-        .cv-top-ouv-bar-bg { height:3px;background:#111;border-radius:3px; }
+        .cv-top-ouv-name  { font-size:12px;font-weight:700;color:#3B2418;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px; }
+        .cv-top-ouv-bar-bg { height:3px;background:#FBF6EE;border-radius:3px; }
         .cv-top-ouv-bar-fill { height:100%;border-radius:3px;background:linear-gradient(90deg,#1db954,#22d460); }
-        .cv-top-ouv-plays { font-size:11px;color:#1db954;font-weight:700;white-space:nowrap; }
+        .cv-top-ouv-plays { font-size:11px;color:#137B38;font-weight:700;white-space:nowrap; }
         /* Toolbar */
         .cv-usr-toolbar { display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px; }
         .cv-usr-search { display:flex;gap:8px;align-items:center; }
-        .cv-usr-search input { background:#111;border:1px solid #1a2e1a;color:#ddd;border-radius:6px;padding:7px 12px;font-size:12px;outline:none;min-width:220px; }
+        .cv-usr-search input { background:#FBF6EE;border:1px solid #B7D6B7;color:#3B2418;border-radius:6px;padding:7px 12px;font-size:12px;outline:none;min-width:220px; }
         .cv-usr-search input:focus { border-color:#1db954; }
-        .cv-usr-btn { font-size:11px;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:600;border:1px solid #1a2e1a;background:#111;color:#666;transition:all .2s; }
-        .cv-usr-btn:hover { border-color:#1db954;color:#1db954; }
-        .cv-usr-btn.primary { background:#1db954;color:#111;border-color:#1db954; }
+        .cv-usr-btn { font-size:11px;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:600;border:1px solid #B7D6B7;background:#FBF6EE;color:#8A6A55;transition:all .2s; }
+        .cv-usr-btn:hover { border-color:#1db954;color:#137B38; }
+        .cv-usr-btn.primary { background:#1db954;color:#3B2418;border-color:#1db954; }
         .cv-usr-btn.primary:hover { background:#22d460; }
-        .cv-usr-btn.danger { background:rgba(231,76,60,.12);color:#e74c3c;border-color:rgba(231,76,60,.25); }
+        .cv-usr-btn.danger { background:rgba(231,76,60,.12);color:#D62C1A;border-color:rgba(231,76,60,.25); }
         .cv-usr-btn.danger:hover { background:rgba(231,76,60,.2); }
         /* Tabela */
         .cv-usr-table { width:100%;border-collapse:collapse; }
-        .cv-usr-table th { font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#333;padding:8px 10px;text-align:left;border-bottom:1px solid #1a1a1a; }
-        .cv-usr-table td { padding:9px 10px;border-bottom:1px solid #141414;vertical-align:middle;font-size:13px; }
+        .cv-usr-table th { font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#8A6A55;padding:8px 10px;text-align:left;border-bottom:1px solid #EADBC6; }
+        .cv-usr-table td { padding:9px 10px;border-bottom:1px solid #EADBC6;vertical-align:middle;font-size:13px; }
         .cv-usr-table tr:hover td { background:rgba(29,185,84,.03); }
         .cv-usr-table tr:last-child td { border-bottom:none; }
         .cv-usr-avatar-cell { width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800; }
         .cv-usr-name-cell { display:flex;align-items:center;gap:8px; }
-        .cv-usr-role { font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(29,185,84,.1);color:#1db954; }
-        .cv-usr-role.admin { background:rgba(212,160,23,.1);color:#D4A017; }
-        .cv-usr-engage { display:flex;align-items:center;gap:4px;font-size:12px;color:#555; }
-        .cv-usr-engage strong { color:#ddd; }
-        .cv-usr-empty { text-align:center;padding:48px;color:#333; }
+        .cv-usr-role { font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(29,185,84,.1);color:#137B38; }
+        .cv-usr-role.admin { background:rgba(242,165,26,0.13);color:#7B3A22; }
+        .cv-usr-engage { display:flex;align-items:center;gap:4px;font-size:12px;color:#8A6A55; }
+        .cv-usr-engage strong { color:#3B2418; }
+        .cv-usr-empty { text-align:center;padding:48px;color:#8A6A55; }
         .cv-usr-actions { display:flex;gap:4px;justify-content:center; }
         </style>
 
@@ -136,8 +136,8 @@ class CV_Page_Users {
                 <p>Acompanhe cadastros, engajamento e atividade da sua base de fãs.</p>
             </div>
             <div style="margin-left:auto;text-align:right">
-                <div style="font-size:28px;font-weight:800;color:#1db954;line-height:1"><?php echo number_format($total_users); ?></div>
-                <div style="font-size:11px;color:#444;text-transform:uppercase;letter-spacing:.4px">usuários cadastrados</div>
+                <div style="font-size:28px;font-weight:800;color:#137B38;line-height:1"><?php echo number_format($total_users); ?></div>
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.4px">usuários cadastrados</div>
             </div>
         </div>
 
@@ -176,7 +176,7 @@ class CV_Page_Users {
             <div class="cv-usr-panel">
                 <h3>🎧 Top <strong>ouvintes</strong></h3>
                 <?php if(empty($top3_ids)):?>
-                    <p style="color:#333;font-size:12px">Nenhum play registrado ainda.</p>
+                    <p style="color:#8A6A55;font-size:12px">Nenhum play registrado ainda.</p>
                 <?php else: foreach($top3_ids as $uid):
                     $u    = get_userdata($uid);
                     if(!$u) continue;
@@ -213,7 +213,7 @@ class CV_Page_Users {
             <?php if(empty($users)):?>
             <div class="cv-usr-empty">
                 <div style="font-size:36px;margin-bottom:10px">👤</div>
-                <p style="color:#444"><?php echo $search?'Nenhum resultado para "'.esc_html($search).'".':'Nenhum usuário cadastrado ainda.';?></p>
+                <p style="color:#8A6A55"><?php echo $search?'Nenhum resultado para "'.esc_html($search).'".':'Nenhum usuário cadastrado ainda.';?></p>
             </div>
             <?php else:?>
             <table class="cv-usr-table">
@@ -247,25 +247,25 @@ class CV_Page_Users {
                     <td>
                         <div class="cv-usr-name-cell">
                             <div>
-                                <div style="font-weight:700;color:#ddd;font-size:13px"><?php echo esc_html($user->display_name);?></div>
-                                <div style="font-size:10px;color:#444">@<?php echo esc_html($user->user_login);?></div>
+                                <div style="font-weight:700;color:#3B2418;font-size:13px"><?php echo esc_html($user->display_name);?></div>
+                                <div style="font-size:10px;color:#8A6A55">@<?php echo esc_html($user->user_login);?></div>
                             </div>
                         </div>
                     </td>
-                    <td style="font-size:12px;color:#666"><?php echo esc_html($user->user_email);?></td>
+                    <td style="font-size:12px;color:#8A6A55"><?php echo esc_html($user->user_email);?></td>
                     <td style="text-align:center">
                         <span class="cv-usr-role <?php echo $is_admin?'admin':'';?>"><?php echo esc_html($role);?></span>
                     </td>
                     <td style="text-align:center">
                         <div class="cv-usr-engage">
                             <span title="Plays">▶ <strong><?php echo $plays;?></strong></span>
-                            <span style="color:#222">·</span>
+                            <span style="color:#8A6A55">·</span>
                             <span title="Favoritos">❤ <strong><?php echo $favs;?></strong></span>
-                            <span style="color:#222">·</span>
+                            <span style="color:#8A6A55">·</span>
                             <span title="Playlists">📋 <strong><?php echo $pls;?></strong></span>
                         </div>
                     </td>
-                    <td style="font-size:11px;color:#444"><?php echo esc_html($tempo);?></td>
+                    <td style="font-size:11px;color:#8A6A55"><?php echo esc_html($tempo);?></td>
                     <td>
                         <div class="cv-usr-actions">
                             <a href="<?php echo esc_url(admin_url('user-edit.php?user_id='.$user->ID));?>" class="cv-usr-btn" title="Editar">✏</a>
@@ -298,10 +298,10 @@ class CV_Page_Users {
                     borderWidth:2,pointRadius:2,pointHoverRadius:5,pointBackgroundColor:'#1db954',fill:true,tension:0.4
                 }]},
                 options:{ responsive:true,maintainAspectRatio:false,aspectRatio:2.5,
-                    plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#1e1e1e',borderColor:'#1a2e1a',borderWidth:1,titleColor:'#1db954',bodyColor:'#aaa'}},
+                    plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#FFFFFF',borderColor:'#EBF4EB',borderWidth:1,titleColor:'#1db954',bodyColor:'#C9A27E'}},
                     scales:{
-                        x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#333',font:{size:10},maxTicksLimit:10}},
-                        y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#333',font:{size:10},precision:0},beginAtZero:false}
+                        x:{grid:{color:'rgba(123,58,34,0.03)'},ticks:{color:'#F3E6D3',font:{size:10},maxTicksLimit:10}},
+                        y:{grid:{color:'rgba(123,58,34,0.03)'},ticks:{color:'#F3E6D3',font:{size:10},precision:0},beginAtZero:false}
                     }
                 }
             }); }
@@ -309,7 +309,7 @@ class CV_Page_Users {
         jQuery(function($){
             var nonce='<?php echo esc_js(wp_create_nonce("cv_admin_nonce"));?>';
             var ajax='<?php echo esc_js(admin_url("admin-ajax.php"));?>';
-            function msg(t,ok){var $m=$('#cv-user-msg');$m.text(t).css({background:ok?'#1a2e1a':'#2e1a1a',border:'1px solid '+(ok?'#2d6a2d':'#6a2d2d'),color:ok?'#7fce7f':'#ce7f7f'}).show();setTimeout(function(){$m.fadeOut();},3500);}
+            function msg(t,ok){var $m=$('#cv-user-msg');$m.text(t).css({background:ok?'#EBF4EB':'#F4EBEB',border:'1px solid '+(ok?'#2d6a2d':'#6a2d2d'),color:ok?'#7fce7f':'#ce7f7f'}).show();setTimeout(function(){$m.fadeOut();},3500);}
             $(document).on('click','.cv-user-reset-pw',function(){
                 var id=$(this).data('id'),email=$(this).data('email');
                 if(!confirm('Enviar e-mail de redefinição para '+email+'?')) return;

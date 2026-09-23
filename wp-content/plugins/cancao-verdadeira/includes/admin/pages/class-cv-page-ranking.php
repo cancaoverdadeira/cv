@@ -89,57 +89,57 @@ class CV_Page_Ranking {
         
         <style>
         .cv-ranking-v2 * { box-sizing:border-box; }
-        .cv-rk-hero { background:linear-gradient(135deg,#1a1a1a 0%,#1f1a00 100%);border:1px solid #2e2800;border-radius:14px;padding:20px 28px;margin-bottom:22px;display:flex;align-items:center;gap:16px; }
-        .cv-rk-hero h1 { color:#D4A017;font-size:20px;margin:0 0 2px;font-weight:800; }
-        .cv-rk-hero p  { color:#555;font-size:12px;margin:0; }
+        .cv-rk-hero { background:linear-gradient(135deg,#FFFFFF 0%,#F8F5E7 100%);border:1px solid #E0DAAE;border-radius:14px;padding:20px 28px;margin-bottom:22px;display:flex;align-items:center;gap:16px; }
+        .cv-rk-hero h1 { color:#7B3A22;font-size:20px;margin:0 0 2px;font-weight:800; }
+        .cv-rk-hero p  { color:#8A6A55;font-size:12px;margin:0; }
         .cv-rk-hero-actions { margin-left:auto;display:flex;gap:10px;align-items:center; }
         .cv-podio { display:flex;align-items:flex-end;justify-content:center;gap:16px;margin-bottom:28px;padding:0 10px; }
-        .cv-podio-item { flex:1;max-width:220px;background:#1a1a1a;border-radius:12px;padding:16px 12px 14px;text-align:center;border:1px solid #252525;position:relative;transition:transform .2s; }
+        .cv-podio-item { flex:1;max-width:220px;background:#FFFFFF;border-radius:12px;padding:16px 12px 14px;text-align:center;border:1px solid #EADBC6;position:relative;transition:transform .2s; }
         .cv-podio-item:hover { transform:translateY(-3px); }
-        .cv-podio-item.pos-1 { border-color:rgba(212,160,23,.4);background:linear-gradient(180deg,#1f1a00 0%,#1a1a1a 100%);box-shadow:0 0 30px rgba(212,160,23,.08); }
-        .cv-podio-item.pos-2 { border-color:rgba(180,180,180,.2); }
+        .cv-podio-item.pos-1 { border-color:rgba(201,162,126,0.8);background:linear-gradient(180deg,#F8F5E7 0%,#FFFFFF 100%);box-shadow:0 0 30px rgba(242,165,26,0.1); }
+        .cv-podio-item.pos-2 { border-color:rgba(123,58,34,0.32); }
         .cv-podio-item.pos-3 { border-color:rgba(180,100,40,.2); }
         .cv-podio-medal { font-size:28px;margin-bottom:8px;display:block; }
-        .cv-podio-capa { width:56px;height:56px;border-radius:8px;object-fit:cover;margin:0 auto 8px;display:block;background:#222;border:2px solid #333; }
-        .cv-podio-item.pos-1 .cv-podio-capa { width:68px;height:68px;border-color:#D4A017; }
-        .cv-podio-title { font-size:12px;font-weight:700;color:#ddd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px; }
-        .cv-podio-item.pos-1 .cv-podio-title { font-size:13px;color:#FFD700; }
-        .cv-podio-stats { font-size:11px;color:#555; }
-        .cv-podio-stats strong { color:#D4A017; }
-        .cv-podio-score { position:absolute;top:10px;right:10px;font-size:10px;background:rgba(212,160,23,.1);color:#D4A017;border-radius:4px;padding:2px 6px;font-weight:700; }
+        .cv-podio-capa { width:56px;height:56px;border-radius:8px;object-fit:cover;margin:0 auto 8px;display:block;background:#F8F0E4;border:2px solid #EADBC6; }
+        .cv-podio-item.pos-1 .cv-podio-capa { width:68px;height:68px;border-color:#C9A27E; }
+        .cv-podio-title { font-size:12px;font-weight:700;color:#3B2418;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px; }
+        .cv-podio-item.pos-1 .cv-podio-title { font-size:13px;color:#7B3A22; }
+        .cv-podio-stats { font-size:11px;color:#8A6A55; }
+        .cv-podio-stats strong { color:#7B3A22; }
+        .cv-podio-score { position:absolute;top:10px;right:10px;font-size:10px;background:rgba(242,165,26,0.13);color:#7B3A22;border-radius:4px;padding:2px 6px;font-weight:700; }
         .cv-podio-bar { height:4px;border-radius:4px;margin-top:10px; }
-        .pos-1 .cv-podio-bar { background:linear-gradient(90deg,#D4A017,#FFD700); }
-        .pos-2 .cv-podio-bar { background:linear-gradient(90deg,#aaa,#ddd); }
+        .pos-1 .cv-podio-bar { background:linear-gradient(90deg,#F2A51A,#F2A51A); }
+        .pos-2 .cv-podio-bar { background:linear-gradient(90deg,#C9A27E,#ddd); }
         .pos-3 .cv-podio-bar { background:linear-gradient(90deg,#a0522d,#cd7f32); }
-        .cv-rk-tabs { display:flex;gap:4px;margin-bottom:16px;border-bottom:1px solid #222; }
-        .cv-rk-tab { padding:8px 16px;font-size:12px;font-weight:600;color:#555;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;background:none;border-top:none;border-left:none;border-right:none; }
-        .cv-rk-tab:hover { color:#aaa; }
-        .cv-rk-tab.active { color:#D4A017;border-bottom-color:#D4A017; }
+        .cv-rk-tabs { display:flex;gap:4px;margin-bottom:16px;border-bottom:1px solid #EADBC6; }
+        .cv-rk-tab { padding:8px 16px;font-size:12px;font-weight:600;color:#8A6A55;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;background:none;border-top:none;border-left:none;border-right:none; }
+        .cv-rk-tab:hover { color:#6B4C3B; }
+        .cv-rk-tab.active { color:#7B3A22;border-bottom-color:#C9A27E; }
         .cv-rk-panel { display:none; }
         .cv-rk-panel.active { display:block; }
         .cv-rk-table { width:100%;border-collapse:collapse; }
-        .cv-rk-table th { font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#444;padding:8px 10px;text-align:left;border-bottom:1px solid #1e1e1e; }
-        .cv-rk-table td { padding:10px;border-bottom:1px solid #1a1a1a;vertical-align:middle;font-size:13px; }
-        .cv-rk-table tr:hover td { background:rgba(255,255,255,.02); }
+        .cv-rk-table th { font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#8A6A55;padding:8px 10px;text-align:left;border-bottom:1px solid #EADBC6; }
+        .cv-rk-table td { padding:10px;border-bottom:1px solid #EADBC6;vertical-align:middle;font-size:13px; }
+        .cv-rk-table tr:hover td { background:rgba(123,58,34,0.03); }
         .cv-rk-table tr:last-child td { border-bottom:none; }
-        .cv-rk-pos { font-size:13px;font-weight:800;color:#333;width:36px;text-align:center; }
-        .cv-rk-pos.top3 { color:#D4A017; }
+        .cv-rk-pos { font-size:13px;font-weight:800;color:#8A6A55;width:36px;text-align:center; }
+        .cv-rk-pos.top3 { color:#7B3A22; }
         .cv-rk-var { font-size:11px;font-weight:700;padding:2px 5px;border-radius:4px;white-space:nowrap; }
-        .cv-rk-var.up   { color:#1db954;background:rgba(29,185,84,.1); }
-        .cv-rk-var.down { color:#e74c3c;background:rgba(231,76,60,.1); }
-        .cv-rk-var.same { color:#333; }
-        .cv-rk-capa { width:36px;height:36px;border-radius:6px;object-fit:cover;background:#222;display:block; }
-        .cv-rk-bar-bg { height:4px;background:#1e1e1e;border-radius:4px;margin-top:4px;min-width:60px; }
-        .cv-rk-bar-fill { height:100%;border-radius:4px;background:linear-gradient(90deg,#D4A017,#FFD700); }
-        .cv-rk-score-val { font-size:12px;font-weight:700;color:#D4A017; }
-        .cv-rk-stars { color:#D4A017;font-size:11px; }
-        .cv-rk-empty { text-align:center;padding:40px;color:#333;font-size:13px; }
+        .cv-rk-var.up   { color:#137B38;background:rgba(29,185,84,.1); }
+        .cv-rk-var.down { color:#D62C1A;background:rgba(231,76,60,.1); }
+        .cv-rk-var.same { color:#8A6A55; }
+        .cv-rk-capa { width:36px;height:36px;border-radius:6px;object-fit:cover;background:#F8F0E4;display:block; }
+        .cv-rk-bar-bg { height:4px;background:#FFFFFF;border-radius:4px;margin-top:4px;min-width:60px; }
+        .cv-rk-bar-fill { height:100%;border-radius:4px;background:linear-gradient(90deg,#F2A51A,#F2A51A); }
+        .cv-rk-score-val { font-size:12px;font-weight:700;color:#7B3A22; }
+        .cv-rk-stars { color:#7B3A22;font-size:11px; }
+        .cv-rk-empty { text-align:center;padding:40px;color:#8A6A55;font-size:13px; }
         </style>
 
         <div class="cv-rk-hero">
             <div>
                 <h1>🏆 Ranking de Músicas</h1>
-                <p>Atualizado automaticamente a cada hora<?php if($last_update): ?> — último recálculo: <strong style="color:#D4A017"><?php echo date('d/m/Y H:i',strtotime($last_update)); ?></strong><?php endif; ?></p>
+                <p>Atualizado automaticamente a cada hora<?php if($last_update): ?> — último recálculo: <strong style="color:#7B3A22"><?php echo date('d/m/Y H:i',strtotime($last_update)); ?></strong><?php endif; ?></p>
             </div>
             <div class="cv-rk-hero-actions">
                 <div id="cv-action-message" class="cv-action-message" style="display:none;margin:0"></div>
@@ -192,11 +192,11 @@ class CV_Page_Ranking {
             <tr>
                 <td class="cv-rk-pos <?php echo $row->position<=3?'top3':''; ?>"><?php echo intval($row->position); ?></td>
                 <td><img src="<?php echo esc_url($capa); ?>" alt="" class="cv-rk-capa"/></td>
-                <td><a href="<?php echo admin_url('post.php?post='.$row->music_id.'&action=edit'); ?>" style="color:#ddd;text-decoration:none;font-weight:600" onmouseover="this.style.color='#D4A017'" onmouseout="this.style.color='#ddd'"><?php echo esc_html($row->post_title); ?></a></td>
+                <td><a href="<?php echo admin_url('post.php?post='.$row->music_id.'&action=edit'); ?>" style="color:#3B2418;text-decoration:none;font-weight:600" onmouseover="this.style.color='#7B3A22'" onmouseout="this.style.color='#3B2418'"><?php echo esc_html($row->post_title); ?></a></td>
                 <td><?php if($var>0):?><span class="cv-rk-var up">↑<?php echo $var;?></span><?php elseif($var<0):?><span class="cv-rk-var down">↓<?php echo abs($var);?></span><?php else:?><span class="cv-rk-var same">—</span><?php endif;?></td>
-                <td style="text-align:right;color:#aaa"><?php echo number_format($row->plays_total);?></td>
-                <td style="text-align:right;color:#555;font-size:12px"><?php echo number_format($row->plays_7d);?></td>
-                <td style="text-align:right;color:#555;font-size:12px"><?php echo number_format($row->favorites);?></td>
+                <td style="text-align:right;color:#6B4C3B"><?php echo number_format($row->plays_total);?></td>
+                <td style="text-align:right;color:#8A6A55;font-size:12px"><?php echo number_format($row->plays_7d);?></td>
+                <td style="text-align:right;color:#8A6A55;font-size:12px"><?php echo number_format($row->favorites);?></td>
                 <td style="text-align:right"><span class="cv-rk-stars"><?php echo number_format($row->avg_rating,1);?>★</span></td>
                 <td><div class="cv-rk-score-val"><?php echo number_format($row->score,1);?></div><div class="cv-rk-bar-bg"><div class="cv-rk-bar-fill" style="width:<?php echo $pct;?>%"></div></div></td>
             </tr>
@@ -217,8 +217,8 @@ class CV_Page_Ranking {
             ?>
             <tr>
                 <td class="cv-rk-pos <?php echo $i<3?'top3':'';?>"><?php echo $i+1;?></td>
-                <td style="color:#ddd;font-weight:600"><?php echo esc_html($titulo);?></td>
-                <td style="text-align:right;color:#D4A017;font-weight:700"><?php echo number_format($row->plays_periodo);?></td>
+                <td style="color:#3B2418;font-weight:600"><?php echo esc_html($titulo);?></td>
+                <td style="text-align:right;color:#7B3A22;font-weight:700"><?php echo number_format($row->plays_periodo);?></td>
             </tr>
             <?php endforeach;?>
             </tbody>
@@ -235,8 +235,8 @@ class CV_Page_Ranking {
             <?php foreach($ranking_30d as $i=>$row):?>
             <tr>
                 <td class="cv-rk-pos <?php echo $i<3?'top3':'';?>"><?php echo $i+1;?></td>
-                <td style="color:#ddd;font-weight:600"><?php echo esc_html($row->post_title);?></td>
-                <td style="text-align:right;color:#D4A017;font-weight:700"><?php echo number_format($row->plays_periodo);?></td>
+                <td style="color:#3B2418;font-weight:600"><?php echo esc_html($row->post_title);?></td>
+                <td style="text-align:right;color:#7B3A22;font-weight:700"><?php echo number_format($row->plays_periodo);?></td>
             </tr>
             <?php endforeach;?>
             </tbody>

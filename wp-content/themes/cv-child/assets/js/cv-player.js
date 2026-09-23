@@ -241,7 +241,7 @@
             html += '<div onclick="window._cvPlay(' + i + ')"'
                   + ' style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;'
                   + 'border-bottom:1px solid var(--cv-border-subtle);'
-                  + (a ? 'background:rgba(212,160,23,.08)' : '') + '">'
+                  + (a ? 'background:rgba(242,165,26,0.1)' : '') + '">'
                   + '<span style="font-size:11px;color:var(--cv-text-dim);min-width:18px">' + (i + 1) + '</span>'
                   + '<div style="width:36px;height:36px;border-radius:4px;flex-shrink:0;'
                   + 'background:url(\'' + (m.cover || DEF_COV).replace(/'/g, "\\'") + '\') center/cover,'

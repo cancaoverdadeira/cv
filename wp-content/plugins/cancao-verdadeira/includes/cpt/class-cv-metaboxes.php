@@ -56,42 +56,42 @@ class CV_Metaboxes {
         body.post-type-musica,
         body.post-type-musica #wpcontent,
         body.post-type-musica #wpbody,
-        body.post-type-musica #wpbody-content { background: #0f0f1a !important; color: #e0e0e0 !important; }
-        body.post-type-musica #poststuff { background: #0f0f1a !important; padding-top: 10px !important; }
+        body.post-type-musica #wpbody-content { background: #FBF6EE !important; color: #3B2418 !important; }
+        body.post-type-musica #poststuff { background: #FBF6EE !important; padding-top: 10px !important; }
         body.post-type-musica #post-body-content,
         body.post-type-musica .postbox-container { background: transparent !important; }
         /* Postboxes */
-        body.post-type-musica .postbox { background: #1a1a2e !important; border: 1px solid #2a2a3e !important; border-radius: 8px !important; margin-bottom: 16px !important; box-shadow: none !important; }
-        body.post-type-musica .postbox .postbox-header { background: #16213e !important; border-bottom: 1px solid #2a2a3e !important; border-radius: 8px 8px 0 0 !important; }
+        body.post-type-musica .postbox { background: #F8F0E4 !important; border: 1px solid #EADBC6 !important; border-radius: 8px !important; margin-bottom: 16px !important; box-shadow: none !important; }
+        body.post-type-musica .postbox .postbox-header { background: #F8F0E4 !important; border-bottom: 1px solid #EADBC6 !important; border-radius: 8px 8px 0 0 !important; }
         body.post-type-musica .postbox .postbox-header h2,
-        body.post-type-musica .postbox .hndle { color: #e0e0e0 !important; font-size: 13px !important; }
+        body.post-type-musica .postbox .hndle { color: #3B2418 !important; font-size: 13px !important; }
         body.post-type-musica .postbox .inside { padding: 16px !important; background: transparent !important; }
-        body.post-type-musica .postbox .handlediv button { color: #aaa !important; }
+        body.post-type-musica .postbox .handlediv button { color: #6B4C3B !important; }
         /* Título do post */
         body.post-type-musica #titlediv { margin-bottom: 8px !important; }
-        body.post-type-musica #titlediv #title { background: #1a1a2e !important; border: 1px solid #2a2a3e !important; color: #e0e0e0 !important; font-size: 20px !important; border-radius: 6px !important; }
-        body.post-type-musica #titlediv #title::placeholder { color: #555 !important; }
-        body.post-type-musica #titlediv label { color: #aaa !important; }
-        body.post-type-musica #titlediv #title-prompt-text { color: #555 !important; }
+        body.post-type-musica #titlediv #title { background: #F8F0E4 !important; border: 1px solid #EADBC6 !important; color: #3B2418 !important; font-size: 20px !important; border-radius: 6px !important; }
+        body.post-type-musica #titlediv #title::placeholder { color: #8A6A55 !important; }
+        body.post-type-musica #titlediv label { color: #6B4C3B !important; }
+        body.post-type-musica #titlediv #title-prompt-text { color: #8A6A55 !important; }
         /* Área de publicação */
-        body.post-type-musica #submitdiv { background: #1a1a2e !important; border-color: #2a2a3e !important; }
-        body.post-type-musica #submitdiv .submitbox { background: #16213e !important; }
-        body.post-type-musica #minor-publishing { background: #16213e !important; border-color: #2a2a3e !important; }
+        body.post-type-musica #submitdiv { background: #F8F0E4 !important; border-color: #EADBC6 !important; }
+        body.post-type-musica #submitdiv .submitbox { background: #F8F0E4 !important; }
+        body.post-type-musica #minor-publishing { background: #F8F0E4 !important; border-color: #EADBC6 !important; }
         body.post-type-musica #minor-publishing-actions,
-        body.post-type-musica #misc-publishing-actions { color: #aaa !important; }
+        body.post-type-musica #misc-publishing-actions { color: #6B4C3B !important; }
         body.post-type-musica #minor-publishing label,
-        body.post-type-musica #misc-publishing-actions label { color: #aaa !important; }
-        body.post-type-musica #major-publishing-actions { background: #0f0f1a !important; border-top: 1px solid #2a2a3e !important; }
-        body.post-type-musica .button-primary { background: #1DB954 !important; border-color: #1DB954 !important; color: #fff !important; }
+        body.post-type-musica #misc-publishing-actions label { color: #6B4C3B !important; }
+        body.post-type-musica #major-publishing-actions { background: #FFFFFF !important; border-top: 1px solid #EADBC6 !important; }
+        body.post-type-musica .button-primary { background: #1DB954 !important; border-color: #1DB954 !important; color: #3B2418 !important; }
         body.post-type-musica .button-primary:hover { background: #17a349 !important; border-color: #17a349 !important; }
         /* Imagem destacada */
-        body.post-type-musica #postimagediv { background: #1a1a2e !important; border-color: #2a2a3e !important; }
-        body.post-type-musica #postimagediv .inside { background: transparent !important; color: #aaa !important; }
+        body.post-type-musica #postimagediv { background: #F8F0E4 !important; border-color: #EADBC6 !important; }
+        body.post-type-musica #postimagediv .inside { background: transparent !important; color: #6B4C3B !important; }
         /* Editor TinyMCE */
-        body.post-type-musica #wp-cv_letra-wrap { border-color: #2a2a3e !important; border-radius: 6px !important; }
-        body.post-type-musica .mce-toolbar .mce-btn { background: #1a1a2e !important; border-color: #2a2a3e !important; }
-        body.post-type-musica .mce-toolbar .mce-btn button { color: #e0e0e0 !important; }
-        body.post-type-musica #wp-cv_letra-editor-container { background: #0f0f1a !important; border-color: #2a2a3e !important; }
+        body.post-type-musica #wp-cv_letra-wrap { border-color: #EADBC6 !important; border-radius: 6px !important; }
+        body.post-type-musica .mce-toolbar .mce-btn { background: #F8F0E4 !important; border-color: #EADBC6 !important; }
+        body.post-type-musica .mce-toolbar .mce-btn button { color: #3B2418 !important; }
+        body.post-type-musica #wp-cv_letra-editor-container { background: #FFFFFF !important; border-color: #EADBC6 !important; }
         /* Ocultar metaboxes de terceiros que escaparam */
         body.post-type-musica #rank_math_metabox,
         body.post-type-musica #wpseo_meta,
@@ -105,44 +105,44 @@ class CV_Metaboxes {
         body.post-type-musica [class*="ast-"] { display: none !important; }
         /* Corrige cor roxa do WP nativo */
         body.post-type-musica #screen-options-link-wrap a,
-        body.post-type-musica #contextual-help-link { color: #aaa !important; }
-        body.post-type-musica a.page-title-action { background: #1DB954 !important; border-color: #1DB954 !important; color: #fff !important; border-radius: 4px !important; }
-        #titlediv #title { background: #1a1a2e !important; border-color: #2a2a3e !important; color: #e0e0e0 !important; font-size: 20px !important; }
-        #titlediv #title::placeholder { color: #666 !important; }
-        #titlediv label { color: #aaa !important; }
+        body.post-type-musica #contextual-help-link { color: #6B4C3B !important; }
+        body.post-type-musica a.page-title-action { background: #1DB954 !important; border-color: #1DB954 !important; color: #3B2418 !important; border-radius: 4px !important; }
+        #titlediv #title { background: #F8F0E4 !important; border-color: #EADBC6 !important; color: #3B2418 !important; font-size: 20px !important; }
+        #titlediv #title::placeholder { color: #8A6A55 !important; }
+        #titlediv label { color: #6B4C3B !important; }
         /* Campos do formulário */
-        .cv-dark-field label { display:block; font-weight:600; margin-bottom:5px; color:#b0b0c0; font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+        .cv-dark-field label { display:block; font-weight:600; margin-bottom:5px; color:#6B4C3B; font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
         .cv-dark-field input[type=text],
         .cv-dark-field input[type=url],
         .cv-dark-field input[type=number],
         .cv-dark-field input[type=date],
         .cv-dark-field input[type=time],
         .cv-dark-field textarea,
-        .cv-dark-field select { width:100%; padding:9px 12px; background:#0f0f1a; border:1px solid #2a2a3e; border-radius:6px; color:#e0e0e0; font-size:14px; box-sizing:border-box; transition:border-color .2s; }
+        .cv-dark-field select { width:100%; padding:9px 12px; background:#FFFFFF; border:1px solid #EADBC6; border-radius:6px; color:#3B2418; font-size:14px; box-sizing:border-box; transition:border-color .2s; }
         .cv-dark-field input:focus,
         .cv-dark-field textarea:focus,
         .cv-dark-field select:focus { border-color:#1DB954; outline:none; box-shadow:0 0 0 2px rgba(29,185,84,.15); }
-        .cv-dark-field select option { background:#1a1a2e; }
+        .cv-dark-field select option { background:#F8F0E4; }
         .cv-dark-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
         .cv-dark-grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
-        .cv-section-label { font-size:11px; font-weight:700; color:#1DB954; text-transform:uppercase; letter-spacing:1px; margin:16px 0 10px; padding-bottom:4px; border-bottom:1px solid #1DB95433; }
+        .cv-section-label { font-size:11px; font-weight:700; color:#137B38; text-transform:uppercase; letter-spacing:1px; margin:16px 0 10px; padding-bottom:4px; border-bottom:1px solid #1DB95433; }
         .cv-toggle-wrap { display:flex; align-items:center; gap:10px; padding:8px 0; }
-        .cv-toggle-wrap label { color:#e0e0e0; font-size:13px; margin:0; cursor:pointer; }
+        .cv-toggle-wrap label { color:#3B2418; font-size:13px; margin:0; cursor:pointer; }
         .cv-toggle-wrap input[type=checkbox] { width:16px; height:16px; accent-color:#1DB954; cursor:pointer; }
-        .cv-hint { font-size:11px; color:#666; margin-top:4px; }
+        .cv-hint { font-size:11px; color:#8A6A55; margin-top:4px; }
         .cv-yt-preview { margin-top:10px; display:none; }
-        .cv-yt-preview img { width:100%; max-width:280px; border-radius:6px; border:1px solid #2a2a3e; }
-        .cv-yt-error { color:#e74c3c; font-size:12px; margin-top:4px; display:none; }
-        .cv-badge-green { display:inline-block; background:#1DB95422; border:1px solid #1DB954; color:#1DB954; border-radius:4px; padding:2px 8px; font-size:11px; }
+        .cv-yt-preview img { width:100%; max-width:280px; border-radius:6px; border:1px solid #EADBC6; }
+        .cv-yt-error { color:#D62C1A; font-size:12px; margin-top:4px; display:none; }
+        .cv-badge-green { display:inline-block; background:#1DB95422; border:1px solid #1DB954; color:#137B38; border-radius:4px; padding:2px 8px; font-size:11px; }
         /* Stats table */
         .cv-stats-table { width:100%; border-collapse:collapse; }
-        .cv-stats-table td { padding:7px 0; border-bottom:1px solid #2a2a3e; font-size:13px; color:#aaa; }
-        .cv-stats-table td:last-child { font-weight:700; text-align:right; color:#1DB954; }
+        .cv-stats-table td { padding:7px 0; border-bottom:1px solid #EADBC6; font-size:13px; color:#6B4C3B; }
+        .cv-stats-table td:last-child { font-weight:700; text-align:right; color:#137B38; }
         /* Estreia */
-        .cv-estreia-badge { background:#1DB95422; border:1px solid #1DB954; border-radius:6px; padding:8px 12px; margin-top:10px; font-size:12px; color:#1DB954; display:none; }
+        .cv-estreia-badge { background:#1DB95422; border:1px solid #1DB954; border-radius:6px; padding:8px 12px; margin-top:10px; font-size:12px; color:#137B38; display:none; }
         /* Editor rico */
-        #wp-cv_letra-wrap { border-color: #2a2a3e !important; }
-        #cv_letra { background: #0f0f1a !important; color: #e0e0e0 !important; border-color: #2a2a3e !important; }
+        #wp-cv_letra-wrap { border-color: #EADBC6 !important; }
+        #cv_letra { background: #FFFFFF !important; color: #3B2418 !important; border-color: #EADBC6 !important; }
         </style>';
     }
 
@@ -153,7 +153,7 @@ class CV_Metaboxes {
         $audio_url   = get_post_meta( $post->ID, '_cv_audio_url',   true );
         ?>
         <div class="cv-dark-field" style="margin-bottom:14px">
-            <label for="cv_youtube_url">URL do YouTube <span style="color:#e74c3c">*</span></label>
+            <label for="cv_youtube_url">URL do YouTube <span style="color:#D62C1A">*</span></label>
             <input type="url" id="cv_youtube_url" name="cv_youtube_url"
                    value="<?php echo esc_attr($youtube_url); ?>"
                    placeholder="https://www.youtube.com/watch?v=..." />
@@ -170,7 +170,7 @@ class CV_Metaboxes {
                        value="<?php echo esc_attr($audio_url); ?>"
                        placeholder="URL do MP3 ou clique em Enviar Áudio"
                        style="flex:1" />
-                <button type="button" id="cv_audio_upload_btn" class="button" style="flex-shrink:0;background:#1DB954;border-color:#1DB954;color:#fff">
+                <button type="button" id="cv_audio_upload_btn" class="button" style="flex-shrink:0;background:#1DB954;border-color:#1DB954;color:#3B2418">
                     🎵 Áudio
                 </button>
                 <button type="button" id="cv_audio_clear_btn" class="button" style="flex-shrink:0" title="Remover">✕</button>
@@ -233,7 +233,7 @@ class CV_Metaboxes {
         ?>
         <div class="cv-dark-grid-2" style="margin-bottom:14px">
             <div class="cv-dark-field">
-                <label for="cv_compositor">Compositor <span style="color:#e74c3c">*</span></label>
+                <label for="cv_compositor">Compositor <span style="color:#D62C1A">*</span></label>
                 <input type="text" id="cv_compositor" name="cv_compositor"
                        value="<?php echo esc_attr($compositor); ?>"
                        placeholder="Nome do compositor" />
@@ -356,7 +356,7 @@ class CV_Metaboxes {
         </div>
         <div class="cv-estreia-badge" id="cv-estreia-badge"></div>
         <?php if ( $status === 'future' ) : ?>
-        <div style="background:#1DB95422;border:1px solid #1DB954;border-radius:6px;padding:8px 12px;margin-top:10px;font-size:12px;color:#1DB954">
+        <div style="background:#1DB95422;border:1px solid #1DB954;border-radius:6px;padding:8px 12px;margin-top:10px;font-size:12px;color:#137B38">
             ✅ Agendada para: <?php echo esc_html( date_i18n('d/m/Y \à\s H:i', strtotime($post_date)) ); ?>
         </div>
         <?php endif; ?>

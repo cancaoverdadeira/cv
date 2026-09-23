@@ -16,8 +16,8 @@ class CV_Social {
         'instagram'  => array( 'label' => 'Instagram',   'icon' => '📸', 'placeholder' => 'https://instagram.com/seuperfil',      'color' => '#E1306C' ),
         'youtube'    => array( 'label' => 'YouTube',     'icon' => '▶',  'placeholder' => 'https://youtube.com/@seucanal',         'color' => '#FF0000' ),
         'facebook'   => array( 'label' => 'Facebook',    'icon' => '📘', 'placeholder' => 'https://facebook.com/suapagina',        'color' => '#1877F2' ),
-        'tiktok'     => array( 'label' => 'TikTok',      'icon' => '🎵', 'placeholder' => 'https://tiktok.com/@seuperfil',         'color' => '#010101' ),
-        'twitter'    => array( 'label' => 'Twitter / X', 'icon' => '✕',  'placeholder' => 'https://twitter.com/seuperfil',         'color' => '#000000' ),
+        'tiktok'     => array( 'label' => 'TikTok',      'icon' => '🎵', 'placeholder' => 'https://tiktok.com/@seuperfil',         'color' => '#FBF6EE' ),
+        'twitter'    => array( 'label' => 'Twitter / X', 'icon' => '✕',  'placeholder' => 'https://twitter.com/seuperfil',         'color' => '#FBF6EE' ),
         'telegram'   => array( 'label' => 'Telegram',    'icon' => '✈',  'placeholder' => 'https://t.me/seucanal',                 'color' => '#2CA5E0' ),
         'spotify'    => array( 'label' => 'Spotify',     'icon' => '🎧', 'placeholder' => 'https://open.spotify.com/artist/...',   'color' => '#1DB954' ),
         'whatsapp'   => array( 'label' => 'WhatsApp',    'icon' => '💬', 'placeholder' => 'https://wa.me/5511999999999',           'color' => '#25D366' ),
@@ -65,7 +65,7 @@ class CV_Social {
 
             <div class="cv-section">
                 <h2 class="cv-section-title">🔗 Links das Redes Sociais</h2>
-                <p style="color:#888;font-size:13px;margin-bottom:24px">
+                <p style="color:#8A6A55;font-size:13px;margin-bottom:24px">
                     Preencha apenas as redes que você usa. Deixe em branco para não exibir.
                 </p>
 
@@ -96,8 +96,8 @@ class CV_Social {
                     <?php endforeach; ?>
                 </div>
 
-                <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08)">
-                    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#C8B98A;font-size:14px">
+                <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(123,58,34,0.13)">
+                    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#6B4C3B;font-size:14px">
                         <input type="checkbox" id="cv_social_mostrar_rodape"
                                <?php checked( get_option('cv_social_mostrar_rodape', 1), 1 ); ?> />
                         Exibir ícones sociais no rodapé do site
@@ -115,8 +115,8 @@ class CV_Social {
             <!-- Preview dos botões -->
             <div class="cv-section">
                 <h2 class="cv-section-title">👁 Preview — Como aparecerá no site</h2>
-                <p style="color:#888;font-size:13px;margin-bottom:20px">
-                    Estes botões aparecerão no rodapé e podem ser adicionados em qualquer página com o shortcode <code style="background:#1a1a1a;padding:2px 8px;border-radius:4px">[cv_social_links]</code>
+                <p style="color:#8A6A55;font-size:13px;margin-bottom:20px">
+                    Estes botões aparecerão no rodapé e podem ser adicionados em qualquer página com o shortcode <code style="background:#FFFFFF;padding:2px 8px;border-radius:4px">[cv_social_links]</code>
                 </p>
                 <div id="cv-social-preview" style="display:flex;flex-wrap:wrap;gap:10px">
                     <?php echo self::render_links( 'botoes' ); ?>
@@ -127,21 +127,21 @@ class CV_Social {
             <div class="cv-section">
                 <h2 class="cv-section-title">📋 Como usar em páginas</h2>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-                    <div style="background:#1a1a1a;border-radius:8px;padding:16px">
-                        <p style="color:#D4A017;font-weight:700;margin-bottom:8px;font-size:13px">Shortcodes disponíveis:</p>
-                        <code style="display:block;color:#C8B98A;font-size:13px;margin-bottom:6px">[cv_social_links]</code>
-                        <p style="color:#666;font-size:12px;margin-bottom:12px">Exibe botões com ícone e nome de todas as redes</p>
-                        <code style="display:block;color:#C8B98A;font-size:13px;margin-bottom:6px">[cv_social_links estilo="icones"]</code>
-                        <p style="color:#666;font-size:12px;margin-bottom:12px">Exibe apenas ícones (compacto)</p>
-                        <code style="display:block;color:#C8B98A;font-size:13px;margin-bottom:6px">[cv_social_links redes="instagram,youtube,tiktok"]</code>
-                        <p style="color:#666;font-size:12px">Exibe só as redes especificadas</p>
+                    <div style="background:#FFFFFF;border-radius:8px;padding:16px">
+                        <p style="color:#7B3A22;font-weight:700;margin-bottom:8px;font-size:13px">Shortcodes disponíveis:</p>
+                        <code style="display:block;color:#6B4C3B;font-size:13px;margin-bottom:6px">[cv_social_links]</code>
+                        <p style="color:#8A6A55;font-size:12px;margin-bottom:12px">Exibe botões com ícone e nome de todas as redes</p>
+                        <code style="display:block;color:#6B4C3B;font-size:13px;margin-bottom:6px">[cv_social_links estilo="icones"]</code>
+                        <p style="color:#8A6A55;font-size:12px;margin-bottom:12px">Exibe apenas ícones (compacto)</p>
+                        <code style="display:block;color:#6B4C3B;font-size:13px;margin-bottom:6px">[cv_social_links redes="instagram,youtube,tiktok"]</code>
+                        <p style="color:#8A6A55;font-size:12px">Exibe só as redes especificadas</p>
                     </div>
-                    <div style="background:#1a1a1a;border-radius:8px;padding:16px">
-                        <p style="color:#D4A017;font-weight:700;margin-bottom:8px;font-size:13px">Para usar no tema filho (PHP):</p>
-                        <code style="display:block;color:#C8B98A;font-size:13px;margin-bottom:6px">CV_Social::render_links();</code>
-                        <p style="color:#666;font-size:12px;margin-bottom:12px">Renderiza os botões diretamente em qualquer template PHP</p>
-                        <code style="display:block;color:#C8B98A;font-size:13px;margin-bottom:6px">CV_Social::get_url('instagram');</code>
-                        <p style="color:#666;font-size:12px">Retorna a URL de uma rede específica</p>
+                    <div style="background:#FFFFFF;border-radius:8px;padding:16px">
+                        <p style="color:#7B3A22;font-weight:700;margin-bottom:8px;font-size:13px">Para usar no tema filho (PHP):</p>
+                        <code style="display:block;color:#6B4C3B;font-size:13px;margin-bottom:6px">CV_Social::render_links();</code>
+                        <p style="color:#8A6A55;font-size:12px;margin-bottom:12px">Renderiza os botões diretamente em qualquer template PHP</p>
+                        <code style="display:block;color:#6B4C3B;font-size:13px;margin-bottom:6px">CV_Social::get_url('instagram');</code>
+                        <p style="color:#8A6A55;font-size:12px">Retorna a URL de uma rede específica</p>
                     </div>
                 </div>
             </div>
@@ -241,14 +241,14 @@ class CV_Social {
                        . ' title="' . esc_attr( $rede['label'] ) . '"'
                        . ' style="display:inline-flex;align-items:center;justify-content:center;'
                        . 'width:40px;height:40px;border-radius:50%;background:' . esc_attr( $rede['color'] ) . ';'
-                       . 'color:#fff;font-size:18px;text-decoration:none;transition:opacity .2s"'
+                       . 'color:#3B2418;font-size:18px;text-decoration:none;transition:opacity .2s"'
                        . ' onmouseover="this.style.opacity=.8" onmouseout="this.style.opacity=1">'
                        . $rede['icon'] . '</a>';
             } else {
                 $html .= '<a href="' . esc_url( $url ) . '" target="_blank" rel="noopener noreferrer"'
                        . ' style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;'
                        . 'border-radius:50px;background:' . esc_attr( $rede['color'] ) . ';'
-                       . 'color:#fff;font-size:13px;font-weight:700;text-decoration:none;'
+                       . 'color:#3B2418;font-size:13px;font-weight:700;text-decoration:none;'
                        . 'transition:opacity .2s"'
                        . ' onmouseover="this.style.opacity=.8" onmouseout="this.style.opacity=1">'
                        . '<span>' . $rede['icon'] . '</span>'
@@ -257,7 +257,7 @@ class CV_Social {
             }
         }
 
-        return $html ?: '<p style="color:#666;font-size:13px">Nenhuma rede configurada ainda.</p>';
+        return $html ?: '<p style="color:#8A6A55;font-size:13px">Nenhuma rede configurada ainda.</p>';
     }
 
     /**

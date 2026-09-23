@@ -111,7 +111,7 @@ class CV_MVP {
                 'href'  => 'https://twitter.com/intent/tweet?text=' . $titulo_enc . '&url=' . $url_enc,
                 'label' => 'Twitter/X',
                 'icon'  => '𝕏',
-                'color' => '#000000',
+                'color' => '#FBF6EE',
                 'class' => 'cv-share-tw',
             ),
             'telegram' => array(
@@ -125,7 +125,7 @@ class CV_MVP {
                 'href'  => '#',
                 'label' => 'Copiar link',
                 'icon'  => '🔗',
-                'color' => '#555555',
+                'color' => '#F3E6D3',
                 'class' => 'cv-share-copy',
                 'data'  => 'data-url="' . esc_attr( $url ) . '"',
             ),
@@ -161,14 +161,14 @@ class CV_MVP {
                 <?php endforeach; ?>
             </div>
 
-            <span class="cv-share-copy-msg" style="display:none;font-size:12px;color:#27ae60;margin-left:8px">
+            <span class="cv-share-copy-msg" style="display:none;font-size:12px;color:#1C7C44;margin-left:8px">
                 ✓ Link copiado!
             </span>
         </div>
 
         <style>
         .cv-share-wrap { display:flex; align-items:center; flex-wrap:wrap; gap:10px; }
-        .cv-share-label { font-size:13px; color:var(--cv-text-muted,#888); font-weight:600; }
+        .cv-share-label { font-size:13px; color:var(--cv-text-muted,#8A6A55); font-weight:600; }
         .cv-share-buttons { display:flex; flex-wrap:wrap; gap:8px; }
         .cv-share-btn {
             display:     inline-flex;

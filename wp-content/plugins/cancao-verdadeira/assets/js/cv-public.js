@@ -550,7 +550,7 @@
             var $list = $('[data-cv-notif-list], #cv-notif-list');
             if ( $list.length ) {
                 if ( notifs.length === 0 ) {
-                    $list.html('<p style="color:#555;font-size:13px;text-align:center;padding:24px">Nenhuma notificação</p>');
+                    $list.html('<p style="color:#8A6A55;font-size:13px;text-align:center;padding:24px">Nenhuma notificação</p>');
                 } else {
                     var html = '';
                     notifs.forEach(function(n) {

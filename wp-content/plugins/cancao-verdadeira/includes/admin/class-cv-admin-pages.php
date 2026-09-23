@@ -109,8 +109,8 @@ class CV_Admin_Pages {
 
         /* ── Hero ── */
         .cv-dash-hero {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a1f00 60%, #1a1500 100%);
-            border: 1px solid #3a2f00;
+            background: linear-gradient(135deg, #FFFFFF 0%, #F8F4E7 60%, #F8F5E7 100%);
+            border: 1px solid #E0D7AE;
             border-radius: 16px;
             padding: 24px 32px;
             margin-bottom: 24px;
@@ -123,13 +123,13 @@ class CV_Admin_Pages {
             height: 56px;
             object-fit: contain;
             border-radius: 10px;
-            background: rgba(212,160,23,0.08);
+            background: rgba(242,165,26,0.1);
             padding: 6px;
         }
-        .cv-dash-hero-text h1 { color: #D4A017; font-size: 20px; margin: 0 0 2px 0; font-weight: 800; }
-        .cv-dash-hero-text p  { color: #666; font-size: 12px; margin: 0; }
-        .cv-dash-hero-time    { margin-left: auto; text-align: right; color: #444; font-size: 12px; }
-        .cv-dash-hero-time strong { color: #D4A017; display: block; font-size: 18px; }
+        .cv-dash-hero-text h1 { color: #7B3A22; font-size: 20px; margin: 0 0 2px 0; font-weight: 800; }
+        .cv-dash-hero-text p  { color: #8A6A55; font-size: 12px; margin: 0; }
+        .cv-dash-hero-time    { margin-left: auto; text-align: right; color: #8A6A55; font-size: 12px; }
+        .cv-dash-hero-time strong { color: #7B3A22; display: block; font-size: 18px; }
 
         /* ── KPIs ── */
         .cv-kpi-grid-v2 {
@@ -142,15 +142,15 @@ class CV_Admin_Pages {
         @media (max-width:700px)  { .cv-kpi-grid-v2 { grid-template-columns: 1fr 1fr; } }
 
         .cv-kpi2 {
-            background: #1a1a1a;
-            border: 1px solid #252525;
+            background: #FFFFFF;
+            border: 1px solid #EADBC6;
             border-radius: 12px;
             padding: 20px 18px 16px;
             position: relative;
             overflow: hidden;
             transition: border-color .2s, transform .2s;
         }
-        .cv-kpi2:hover { border-color: #3a3a3a; transform: translateY(-2px); }
+        .cv-kpi2:hover { border-color: #EADBC6; transform: translateY(-2px); }
         .cv-kpi2::after {
             content: "";
             position: absolute;
@@ -158,7 +158,7 @@ class CV_Admin_Pages {
             height: 3px;
             border-radius: 0 0 12px 12px;
         }
-        .cv-kpi2.k-musicas::after  { background: linear-gradient(90deg,#D4A017,#FFD700); }
+        .cv-kpi2.k-musicas::after  { background: linear-gradient(90deg,#F2A51A,#F2A51A); }
         .cv-kpi2.k-users::after    { background: linear-gradient(90deg,#4a90d9,#5aa8f0); }
         .cv-kpi2.k-plays::after    { background: linear-gradient(90deg,#1db954,#22d460); }
         .cv-kpi2.k-favs::after     { background: linear-gradient(90deg,#e74c3c,#ff6b6b); }
@@ -168,12 +168,12 @@ class CV_Admin_Pages {
         .cv-kpi2-value {
             font-size: 32px;
             font-weight: 800;
-            color: #f0f0f0;
+            color: #3B2418;
             line-height: 1;
             margin-bottom: 4px;
             font-variant-numeric: tabular-nums;
         }
-        .cv-kpi2-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px; }
+        .cv-kpi2-label { font-size: 11px; color: #8A6A55; text-transform: uppercase; letter-spacing: .5px; }
         .cv-kpi2-badge {
             position: absolute;
             top: 14px; right: 14px;
@@ -182,9 +182,9 @@ class CV_Admin_Pages {
             padding: 2px 7px;
             border-radius: 20px;
         }
-        .cv-badge-up   { background: rgba(29,185,84,.15); color: #1db954; }
-        .cv-badge-down { background: rgba(231,76,60,.15);  color: #e74c3c; }
-        .cv-badge-neu  { background: rgba(255,255,255,.06); color: #555; }
+        .cv-badge-up   { background: rgba(29,185,84,.15); color: #137B38; }
+        .cv-badge-down { background: rgba(231,76,60,.15);  color: #D62C1A; }
+        .cv-badge-neu  { background: rgba(123,58,34,0.07); color: #8A6A55; }
 
         /* ── Linha central: gráfico + top5 ── */
         .cv-dash-mid {
@@ -197,8 +197,8 @@ class CV_Admin_Pages {
         @media (max-width:900px) { .cv-dash-mid { grid-template-columns: 1fr; } }
 
         .cv-dash-panel {
-            background: #1a1a1a;
-            border: 1px solid #252525;
+            background: #FFFFFF;
+            border: 1px solid #EADBC6;
             border-radius: 12px;
             padding: 20px 22px;
             max-height: 280px;
@@ -206,13 +206,13 @@ class CV_Admin_Pages {
         }
         .cv-dash-panel h3 {
             font-size: 13px;
-            color: #888;
+            color: #8A6A55;
             text-transform: uppercase;
             letter-spacing: .6px;
             margin: 0 0 16px 0;
             font-weight: 600;
         }
-        .cv-dash-panel h3 strong { color: #D4A017; }
+        .cv-dash-panel h3 strong { color: #7B3A22; }
         #cv-plays-chart { width: 100%; height: 140px; max-height: 140px; }
 
         /* Top 5 */
@@ -227,8 +227,8 @@ class CV_Admin_Pages {
             width: 22px;
             height: 22px;
             border-radius: 50%;
-            background: rgba(212,160,23,.12);
-            color: #D4A017;
+            background: rgba(242,165,26,0.16);
+            color: #7B3A22;
             font-size: 11px;
             font-weight: 800;
             display: flex;
@@ -236,13 +236,13 @@ class CV_Admin_Pages {
             justify-content: center;
             flex-shrink: 0;
         }
-        .cv-top5-pos.gold   { background: rgba(212,160,23,.25); color: #FFD700; }
-        .cv-top5-pos.silver { background: rgba(180,180,180,.15); color: #bbb; }
-        .cv-top5-pos.bronze { background: rgba(180,100,40,.15); color: #cd7f32; }
+        .cv-top5-pos.gold   { background: rgba(242,165,26,0.33); color: #7B3A22; }
+        .cv-top5-pos.silver { background: rgba(123,58,34,0.17); color: #6B4C3B; }
+        .cv-top5-pos.bronze { background: rgba(180,100,40,.15); color: #9C6126; }
         .cv-top5-info { flex: 1; min-width: 0; }
         .cv-top5-title {
             font-size: 12px;
-            color: #ddd;
+            color: #3B2418;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -250,17 +250,17 @@ class CV_Admin_Pages {
         }
         .cv-top5-bar-bg {
             height: 4px;
-            background: #222;
+            background: #F8F0E4;
             border-radius: 4px;
             overflow: hidden;
         }
         .cv-top5-bar-fill {
             height: 100%;
             border-radius: 4px;
-            background: linear-gradient(90deg,#D4A017,#FFD700);
+            background: linear-gradient(90deg,#F2A51A,#F2A51A);
             transition: width .6s ease;
         }
-        .cv-top5-plays { font-size: 11px; color: #D4A017; font-weight: 700; white-space: nowrap; }
+        .cv-top5-plays { font-size: 11px; color: #7B3A22; font-weight: 700; white-space: nowrap; }
 
         /* ── Linha inferior: feed + metas + status ── */
         .cv-dash-bot {
@@ -277,7 +277,7 @@ class CV_Admin_Pages {
             align-items: center;
             gap: 10px;
             padding: 8px 0;
-            border-bottom: 1px solid #1e1e1e;
+            border-bottom: 1px solid #EADBC6;
             font-size: 12px;
         }
         .cv-feed-item:last-child { border-bottom: none; }
@@ -290,24 +290,24 @@ class CV_Admin_Pages {
         }
         .cv-feed-icon.play { background: rgba(29,185,84,.12); }
         .cv-feed-icon.user { background: rgba(74,144,217,.12); }
-        .cv-feed-text { flex: 1; color: #aaa; line-height: 1.4; }
-        .cv-feed-text strong { color: #ddd; }
-        .cv-feed-time { color: #444; font-size: 10px; white-space: nowrap; }
+        .cv-feed-text { flex: 1; color: #6B4C3B; line-height: 1.4; }
+        .cv-feed-text strong { color: #3B2418; }
+        .cv-feed-time { color: #8A6A55; font-size: 10px; white-space: nowrap; }
 
         /* Metas */
         .cv-meta-item { margin-bottom: 18px; }
         .cv-meta-item:last-child { margin-bottom: 0; }
         .cv-meta-header { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12px; }
-        .cv-meta-name { color: #888; }
-        .cv-meta-pct  { color: #D4A017; font-weight: 700; }
-        .cv-meta-bar-bg { height: 6px; background: #222; border-radius: 6px; overflow: hidden; }
+        .cv-meta-name { color: #8A6A55; }
+        .cv-meta-pct  { color: #7B3A22; font-weight: 700; }
+        .cv-meta-bar-bg { height: 6px; background: #F8F0E4; border-radius: 6px; overflow: hidden; }
         .cv-meta-bar-fill {
             height: 100%;
             border-radius: 6px;
-            background: linear-gradient(90deg,#D4A017,#FFD700);
+            background: linear-gradient(90deg,#F2A51A,#F2A51A);
             transition: width .8s ease;
         }
-        .cv-meta-sub { font-size: 11px; color: #444; margin-top: 4px; }
+        .cv-meta-sub { font-size: 11px; color: #8A6A55; margin-top: 4px; }
 
         /* Status */
         .cv-status-item {
@@ -315,9 +315,9 @@ class CV_Admin_Pages {
             align-items: center;
             justify-content: space-between;
             padding: 9px 0;
-            border-bottom: 1px solid #1e1e1e;
+            border-bottom: 1px solid #EADBC6;
             font-size: 12px;
-            color: #888;
+            color: #8A6A55;
         }
         .cv-status-item:last-child { border-bottom: none; }
         .cv-status-dot {
@@ -328,9 +328,9 @@ class CV_Admin_Pages {
             flex-shrink: 0;
         }
         .dot-ok  { background: #1db954; box-shadow: 0 0 6px rgba(29,185,84,.5); }
-        .dot-warn{ background: #D4A017; box-shadow: 0 0 6px rgba(212,160,23,.5); }
-        .dot-off { background: #333; }
-        .cv-status-val { color: #555; font-size: 11px; }
+        .dot-warn{ background: #F2A51A; box-shadow: 0 0 6px rgba(242,165,26,0.65); }
+        .dot-off { background: #F3E6D3; }
+        .cv-status-val { color: #8A6A55; font-size: 11px; }
 
         /* Ações rápidas */
         .cv-quick-v2 {
@@ -338,7 +338,7 @@ class CV_Admin_Pages {
             gap: 10px;
             flex-wrap: wrap;
             padding: 18px 0 4px;
-            border-top: 1px solid #1e1e1e;
+            border-top: 1px solid #EADBC6;
         }
         .cv-quick-v2 .cv-btn { font-size: 12px; padding: 8px 16px; }
         </style>
@@ -407,35 +407,35 @@ class CV_Admin_Pages {
         <!-- KPIs Editoriais — v2.23.0 -->
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px;">
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
                 <div style="font-size:24px;">📝</div>
                 <div>
                     <div style="font-size:20px;font-weight:800;color:<?php echo $sem_letra > 0 ? '#e74c3c' : '#1DB954'; ?>;"><?php echo $sem_letra; ?></div>
-                    <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.5px;">Sem Letra</div>
+                    <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.5px;">Sem Letra</div>
                 </div>
             </div>
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
                 <div style="font-size:24px;">▶️</div>
                 <div>
                     <div style="font-size:20px;font-weight:800;color:<?php echo $sem_yt > 0 ? '#e74c3c' : '#1DB954'; ?>;"><?php echo $sem_yt; ?></div>
-                    <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.5px;">Sem YouTube</div>
+                    <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.5px;">Sem YouTube</div>
                 </div>
             </div>
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
                 <div style="font-size:24px;">🖼️</div>
                 <div>
                     <div style="font-size:20px;font-weight:800;color:<?php echo $sem_capa > 0 ? '#e67e22' : '#1DB954'; ?>;"><?php echo $sem_capa; ?></div>
-                    <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.5px;">Sem Capa</div>
+                    <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.5px;">Sem Capa</div>
                 </div>
             </div>
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
                 <div style="font-size:24px;">🧠</div>
                 <div>
                     <div style="font-size:20px;font-weight:800;color:<?php echo $score_editorial >= 85 ? '#1DB954' : ( $score_editorial >= 60 ? '#e67e22' : '#e74c3c' ); ?>;"><?php echo $score_editorial; ?>%</div>
-                    <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.5px;">Completude</div>
+                    <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.5px;">Completude</div>
                 </div>
             </div>
 
@@ -443,8 +443,8 @@ class CV_Admin_Pages {
                style="background:#D4A01711;border:1px solid #D4A01744;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;text-decoration:none;">
                 <div style="font-size:24px;">🔍</div>
                 <div>
-                    <div style="font-size:13px;font-weight:700;color:#D4A017;">Ver Oportunidades</div>
-                    <div style="font-size:11px;color:#666;">Inteligência Editorial</div>
+                    <div style="font-size:13px;font-weight:700;color:#7B3A22;">Ver Oportunidades</div>
+                    <div style="font-size:11px;color:#8A6A55;">Inteligência Editorial</div>
                 </div>
             </a>
 
@@ -455,7 +455,7 @@ class CV_Admin_Pages {
 
             <div class="cv-dash-panel">
                 <h3>📈 Plays diários — <strong>últimos 30 dias</strong>
-                    <span style="float:right;color:#1db954;font-size:12px;text-transform:none;letter-spacing:0">
+                    <span style="float:right;color:#137B38;font-size:12px;text-transform:none;letter-spacing:0">
                         <?php echo number_format( $plays_7d ); ?> esta semana
                     </span>
                 </h3>
@@ -465,7 +465,7 @@ class CV_Admin_Pages {
             <div class="cv-dash-panel">
                 <h3>🏆 Top 5 Mais Tocadas</h3>
                 <?php if ( empty( $top5 ) ) : ?>
-                    <p style="color:#444;font-size:13px">Nenhuma música rankeada ainda.</p>
+                    <p style="color:#8A6A55;font-size:13px">Nenhuma música rankeada ainda.</p>
                 <?php else : ?>
                     <?php
                     $pos_classes = array( 'gold', 'silver', 'bronze', '', '' );
@@ -509,7 +509,7 @@ class CV_Admin_Pages {
                 </div>
                 <?php endforeach; ?>
                 <?php if ( empty( $recent_plays ) && empty( $recent_users ) ) : ?>
-                    <p style="color:#444;font-size:12px">Nenhuma atividade recente.</p>
+                    <p style="color:#8A6A55;font-size:12px">Nenhuma atividade recente.</p>
                 <?php endif; ?>
             </div>
 
@@ -587,20 +587,20 @@ class CV_Admin_Pages {
         <div id="cv-action-message" style="display:none;padding:10px 16px;border-radius:6px;margin-bottom:16px;font-size:13px"></div>
         <style>
         .cv-action-hub { margin-top:24px; }
-        .cv-action-hub-title { font-size:11px;font-weight:700;color:#444;text-transform:uppercase;letter-spacing:1px;margin:0 0 12px 0; }
-        .cv-action-group { background:#1a1a1a;border:1px solid #252525;border-radius:12px;padding:18px 20px;margin-bottom:16px; }
-        .cv-action-group-label { font-size:10px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:6px; }
-        .cv-action-group-label span { display:inline-block;width:20px;height:1px;background:#333; }
+        .cv-action-hub-title { font-size:11px;font-weight:700;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin:0 0 12px 0; }
+        .cv-action-group { background:#FFFFFF;border:1px solid #EADBC6;border-radius:12px;padding:18px 20px;margin-bottom:16px; }
+        .cv-action-group-label { font-size:10px;font-weight:700;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:6px; }
+        .cv-action-group-label span { display:inline-block;width:20px;height:1px;background:#F3E6D3; }
         .cv-action-btns { display:flex;flex-wrap:wrap;gap:10px; }
         .cv-ab { display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid transparent;text-decoration:none;transition:all .18s;white-space:nowrap; }
         .cv-ab:hover { transform:translateY(-1px);filter:brightness(1.1); }
-        .cv-ab-primary   { background:#1DB954;border-color:#1DB954;color:#fff; }
-        .cv-ab-gold      { background:#D4A01722;border-color:#D4A017;color:#D4A017; }
-        .cv-ab-blue      { background:#4a90d922;border-color:#4a90d9;color:#4a90d9; }
-        .cv-ab-purple    { background:#9b59b622;border-color:#9b59b6;color:#9b59b6; }
-        .cv-ab-red       { background:#e74c3c22;border-color:#e74c3c;color:#e74c3c; }
-        .cv-ab-gray      { background:#2a2a2a;border-color:#333;color:#aaa; }
-        .cv-ab-orange    { background:#e67e2222;border-color:#e67e22;color:#e67e22; }
+        .cv-ab-primary   { background:#1DB954;border-color:#1DB954;color:#3B2418; }
+        .cv-ab-gold      { background:#D4A01722;border-color:#C9A27E;color:#7B3A22; }
+        .cv-ab-blue      { background:#4a90d922;border-color:#4a90d9;color:#2871BE; }
+        .cv-ab-purple    { background:#9b59b622;border-color:#9b59b6;color:#9752B3; }
+        .cv-ab-red       { background:#e74c3c22;border-color:#e74c3c;color:#D62C1A; }
+        .cv-ab-gray      { background:#F8F0E4;border-color:#EADBC6;color:#6B4C3B; }
+        .cv-ab-orange    { background:#e67e2222;border-color:#e67e22;color:#AD5C14; }
         </style>
 
         <div class="cv-action-hub">
@@ -663,7 +663,7 @@ class CV_Admin_Pages {
         <div class="cv-action-group">
             <div class="cv-action-group-label"><span></span>⚙️ Sistema <span></span></div>
             <div class="cv-action-btns">
-                <button id="cv-btn-recalculate" class="cv-ab" style="background:#1DB95422;border-color:#1DB954;color:#1DB954;border:1px solid #1DB954">🔄 Recalcular Ranking</button>
+                <button id="cv-btn-recalculate" class="cv-ab" style="background:#1DB95422;border-color:#1DB954;color:#137B38;border:1px solid #1DB954">🔄 Recalcular Ranking</button>
                 <button id="cv-btn-clear-cache" class="cv-ab cv-ab-gray">🗑 Limpar Cache</button>
                 <button id="cv-btn-recreate-pages" class="cv-ab cv-ab-gray" onclick="return confirm('⚠️ ATENÇÃO: Recriar páginas pode sobrescrever conteúdo personalizado. Confirma?')">📄 Recriar Páginas</button>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-appearance')); ?>" class="cv-ab cv-ab-gray">🎨 Aparência</a>
@@ -704,12 +704,12 @@ class CV_Admin_Pages {
                         datasets: [{
                             label: 'Plays',
                             data:  <?php echo json_encode( $chart_values ); ?>,
-                            borderColor: '#D4A017',
-                            backgroundColor: 'rgba(212,160,23,0.08)',
+                            borderColor: '#B8700C',
+                            backgroundColor: 'rgba(242,165,26,0.1)',
                             borderWidth: 2,
                             pointRadius: 2,
                             pointHoverRadius: 5,
-                            pointBackgroundColor: '#D4A017',
+                            pointBackgroundColor: '#B8700C',
                             fill: true,
                             tension: 0.4,
                         }]
@@ -721,11 +721,11 @@ class CV_Admin_Pages {
                         plugins: {
                             legend: { display: false },
                             tooltip: {
-                                backgroundColor: '#1e1e1e',
-                                borderColor: '#333',
+                                backgroundColor: '#FFFFFF',
+                                borderColor: '#F3E6D3',
                                 borderWidth: 1,
-                                titleColor: '#D4A017',
-                                bodyColor: '#aaa',
+                                titleColor: '#B8700C',
+                                bodyColor: '#C9A27E',
                                 callbacks: {
                                     label: function(c){ return ' ' + c.parsed.y + ' plays'; }
                                 }
@@ -733,12 +733,12 @@ class CV_Admin_Pages {
                         },
                         scales: {
                             x: {
-                                grid: { color: 'rgba(255,255,255,0.04)' },
-                                ticks: { color: '#444', font: { size: 10 }, maxTicksLimit: 10 }
+                                grid: { color: 'rgba(123,58,34,0.04)' },
+                                ticks: { color: '#F3E6D3', font: { size: 10 }, maxTicksLimit: 10 }
                             },
                             y: {
-                                grid: { color: 'rgba(255,255,255,0.04)' },
-                                ticks: { color: '#444', font: { size: 10 }, precision: 0 },
+                                grid: { color: 'rgba(123,58,34,0.04)' },
+                                ticks: { color: '#F3E6D3', font: { size: 10 }, precision: 0 },
                                 beginAtZero: true
                             }
                         }
@@ -869,57 +869,57 @@ class CV_Admin_Pages {
         
         <style>
         .cv-ranking-v2 * { box-sizing:border-box; }
-        .cv-rk-hero { background:linear-gradient(135deg,#1a1a1a 0%,#1f1a00 100%);border:1px solid #2e2800;border-radius:14px;padding:20px 28px;margin-bottom:22px;display:flex;align-items:center;gap:16px; }
-        .cv-rk-hero h1 { color:#D4A017;font-size:20px;margin:0 0 2px;font-weight:800; }
-        .cv-rk-hero p  { color:#555;font-size:12px;margin:0; }
+        .cv-rk-hero { background:linear-gradient(135deg,#FFFFFF 0%,#F8F5E7 100%);border:1px solid #E0DAAE;border-radius:14px;padding:20px 28px;margin-bottom:22px;display:flex;align-items:center;gap:16px; }
+        .cv-rk-hero h1 { color:#7B3A22;font-size:20px;margin:0 0 2px;font-weight:800; }
+        .cv-rk-hero p  { color:#8A6A55;font-size:12px;margin:0; }
         .cv-rk-hero-actions { margin-left:auto;display:flex;gap:10px;align-items:center; }
         .cv-podio { display:flex;align-items:flex-end;justify-content:center;gap:16px;margin-bottom:28px;padding:0 10px; }
-        .cv-podio-item { flex:1;max-width:220px;background:#1a1a1a;border-radius:12px;padding:16px 12px 14px;text-align:center;border:1px solid #252525;position:relative;transition:transform .2s; }
+        .cv-podio-item { flex:1;max-width:220px;background:#FFFFFF;border-radius:12px;padding:16px 12px 14px;text-align:center;border:1px solid #EADBC6;position:relative;transition:transform .2s; }
         .cv-podio-item:hover { transform:translateY(-3px); }
-        .cv-podio-item.pos-1 { border-color:rgba(212,160,23,.4);background:linear-gradient(180deg,#1f1a00 0%,#1a1a1a 100%);box-shadow:0 0 30px rgba(212,160,23,.08); }
-        .cv-podio-item.pos-2 { border-color:rgba(180,180,180,.2); }
+        .cv-podio-item.pos-1 { border-color:rgba(201,162,126,0.8);background:linear-gradient(180deg,#F8F5E7 0%,#FFFFFF 100%);box-shadow:0 0 30px rgba(242,165,26,0.1); }
+        .cv-podio-item.pos-2 { border-color:rgba(123,58,34,0.32); }
         .cv-podio-item.pos-3 { border-color:rgba(180,100,40,.2); }
         .cv-podio-medal { font-size:28px;margin-bottom:8px;display:block; }
-        .cv-podio-capa { width:56px;height:56px;border-radius:8px;object-fit:cover;margin:0 auto 8px;display:block;background:#222;border:2px solid #333; }
-        .cv-podio-item.pos-1 .cv-podio-capa { width:68px;height:68px;border-color:#D4A017; }
-        .cv-podio-title { font-size:12px;font-weight:700;color:#ddd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px; }
-        .cv-podio-item.pos-1 .cv-podio-title { font-size:13px;color:#FFD700; }
-        .cv-podio-stats { font-size:11px;color:#555; }
-        .cv-podio-stats strong { color:#D4A017; }
-        .cv-podio-score { position:absolute;top:10px;right:10px;font-size:10px;background:rgba(212,160,23,.1);color:#D4A017;border-radius:4px;padding:2px 6px;font-weight:700; }
+        .cv-podio-capa { width:56px;height:56px;border-radius:8px;object-fit:cover;margin:0 auto 8px;display:block;background:#F8F0E4;border:2px solid #EADBC6; }
+        .cv-podio-item.pos-1 .cv-podio-capa { width:68px;height:68px;border-color:#C9A27E; }
+        .cv-podio-title { font-size:12px;font-weight:700;color:#3B2418;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px; }
+        .cv-podio-item.pos-1 .cv-podio-title { font-size:13px;color:#7B3A22; }
+        .cv-podio-stats { font-size:11px;color:#8A6A55; }
+        .cv-podio-stats strong { color:#7B3A22; }
+        .cv-podio-score { position:absolute;top:10px;right:10px;font-size:10px;background:rgba(242,165,26,0.13);color:#7B3A22;border-radius:4px;padding:2px 6px;font-weight:700; }
         .cv-podio-bar { height:4px;border-radius:4px;margin-top:10px; }
-        .pos-1 .cv-podio-bar { background:linear-gradient(90deg,#D4A017,#FFD700); }
-        .pos-2 .cv-podio-bar { background:linear-gradient(90deg,#aaa,#ddd); }
+        .pos-1 .cv-podio-bar { background:linear-gradient(90deg,#F2A51A,#F2A51A); }
+        .pos-2 .cv-podio-bar { background:linear-gradient(90deg,#C9A27E,#ddd); }
         .pos-3 .cv-podio-bar { background:linear-gradient(90deg,#a0522d,#cd7f32); }
-        .cv-rk-tabs { display:flex;gap:4px;margin-bottom:16px;border-bottom:1px solid #222; }
-        .cv-rk-tab { padding:8px 16px;font-size:12px;font-weight:600;color:#555;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;background:none;border-top:none;border-left:none;border-right:none; }
-        .cv-rk-tab:hover { color:#aaa; }
-        .cv-rk-tab.active { color:#D4A017;border-bottom-color:#D4A017; }
+        .cv-rk-tabs { display:flex;gap:4px;margin-bottom:16px;border-bottom:1px solid #EADBC6; }
+        .cv-rk-tab { padding:8px 16px;font-size:12px;font-weight:600;color:#8A6A55;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;background:none;border-top:none;border-left:none;border-right:none; }
+        .cv-rk-tab:hover { color:#6B4C3B; }
+        .cv-rk-tab.active { color:#7B3A22;border-bottom-color:#C9A27E; }
         .cv-rk-panel { display:none; }
         .cv-rk-panel.active { display:block; }
         .cv-rk-table { width:100%;border-collapse:collapse; }
-        .cv-rk-table th { font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#444;padding:8px 10px;text-align:left;border-bottom:1px solid #1e1e1e; }
-        .cv-rk-table td { padding:10px;border-bottom:1px solid #1a1a1a;vertical-align:middle;font-size:13px; }
-        .cv-rk-table tr:hover td { background:rgba(255,255,255,.02); }
+        .cv-rk-table th { font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#8A6A55;padding:8px 10px;text-align:left;border-bottom:1px solid #EADBC6; }
+        .cv-rk-table td { padding:10px;border-bottom:1px solid #EADBC6;vertical-align:middle;font-size:13px; }
+        .cv-rk-table tr:hover td { background:rgba(123,58,34,0.03); }
         .cv-rk-table tr:last-child td { border-bottom:none; }
-        .cv-rk-pos { font-size:13px;font-weight:800;color:#333;width:36px;text-align:center; }
-        .cv-rk-pos.top3 { color:#D4A017; }
+        .cv-rk-pos { font-size:13px;font-weight:800;color:#8A6A55;width:36px;text-align:center; }
+        .cv-rk-pos.top3 { color:#7B3A22; }
         .cv-rk-var { font-size:11px;font-weight:700;padding:2px 5px;border-radius:4px;white-space:nowrap; }
-        .cv-rk-var.up   { color:#1db954;background:rgba(29,185,84,.1); }
-        .cv-rk-var.down { color:#e74c3c;background:rgba(231,76,60,.1); }
-        .cv-rk-var.same { color:#333; }
-        .cv-rk-capa { width:36px;height:36px;border-radius:6px;object-fit:cover;background:#222;display:block; }
-        .cv-rk-bar-bg { height:4px;background:#1e1e1e;border-radius:4px;margin-top:4px;min-width:60px; }
-        .cv-rk-bar-fill { height:100%;border-radius:4px;background:linear-gradient(90deg,#D4A017,#FFD700); }
-        .cv-rk-score-val { font-size:12px;font-weight:700;color:#D4A017; }
-        .cv-rk-stars { color:#D4A017;font-size:11px; }
-        .cv-rk-empty { text-align:center;padding:40px;color:#333;font-size:13px; }
+        .cv-rk-var.up   { color:#137B38;background:rgba(29,185,84,.1); }
+        .cv-rk-var.down { color:#D62C1A;background:rgba(231,76,60,.1); }
+        .cv-rk-var.same { color:#8A6A55; }
+        .cv-rk-capa { width:36px;height:36px;border-radius:6px;object-fit:cover;background:#F8F0E4;display:block; }
+        .cv-rk-bar-bg { height:4px;background:#FFFFFF;border-radius:4px;margin-top:4px;min-width:60px; }
+        .cv-rk-bar-fill { height:100%;border-radius:4px;background:linear-gradient(90deg,#F2A51A,#F2A51A); }
+        .cv-rk-score-val { font-size:12px;font-weight:700;color:#7B3A22; }
+        .cv-rk-stars { color:#7B3A22;font-size:11px; }
+        .cv-rk-empty { text-align:center;padding:40px;color:#8A6A55;font-size:13px; }
         </style>
 
         <div class="cv-rk-hero">
             <div>
                 <h1>🏆 Ranking de Músicas</h1>
-                <p>Atualizado automaticamente a cada hora<?php if($last_update): ?> — último recálculo: <strong style="color:#D4A017"><?php echo date('d/m/Y H:i',strtotime($last_update)); ?></strong><?php endif; ?></p>
+                <p>Atualizado automaticamente a cada hora<?php if($last_update): ?> — último recálculo: <strong style="color:#7B3A22"><?php echo date('d/m/Y H:i',strtotime($last_update)); ?></strong><?php endif; ?></p>
             </div>
             <div class="cv-rk-hero-actions">
                 <div id="cv-action-message" class="cv-action-message" style="display:none;margin:0"></div>
@@ -972,11 +972,11 @@ class CV_Admin_Pages {
             <tr>
                 <td class="cv-rk-pos <?php echo $row->position<=3?'top3':''; ?>"><?php echo intval($row->position); ?></td>
                 <td><img src="<?php echo esc_url($capa); ?>" alt="" class="cv-rk-capa"/></td>
-                <td><a href="<?php echo admin_url('post.php?post='.$row->music_id.'&action=edit'); ?>" style="color:#ddd;text-decoration:none;font-weight:600" onmouseover="this.style.color='#D4A017'" onmouseout="this.style.color='#ddd'"><?php echo esc_html($row->post_title); ?></a></td>
+                <td><a href="<?php echo admin_url('post.php?post='.$row->music_id.'&action=edit'); ?>" style="color:#3B2418;text-decoration:none;font-weight:600" onmouseover="this.style.color='#7B3A22'" onmouseout="this.style.color='#3B2418'"><?php echo esc_html($row->post_title); ?></a></td>
                 <td><?php if($var>0):?><span class="cv-rk-var up">↑<?php echo $var;?></span><?php elseif($var<0):?><span class="cv-rk-var down">↓<?php echo abs($var);?></span><?php else:?><span class="cv-rk-var same">—</span><?php endif;?></td>
-                <td style="text-align:right;color:#aaa"><?php echo number_format($row->plays_total);?></td>
-                <td style="text-align:right;color:#555;font-size:12px"><?php echo number_format($row->plays_7d);?></td>
-                <td style="text-align:right;color:#555;font-size:12px"><?php echo number_format($row->favorites);?></td>
+                <td style="text-align:right;color:#6B4C3B"><?php echo number_format($row->plays_total);?></td>
+                <td style="text-align:right;color:#8A6A55;font-size:12px"><?php echo number_format($row->plays_7d);?></td>
+                <td style="text-align:right;color:#8A6A55;font-size:12px"><?php echo number_format($row->favorites);?></td>
                 <td style="text-align:right"><span class="cv-rk-stars"><?php echo number_format($row->avg_rating,1);?>★</span></td>
                 <td><div class="cv-rk-score-val"><?php echo number_format($row->score,1);?></div><div class="cv-rk-bar-bg"><div class="cv-rk-bar-fill" style="width:<?php echo $pct;?>%"></div></div></td>
             </tr>
@@ -997,8 +997,8 @@ class CV_Admin_Pages {
             ?>
             <tr>
                 <td class="cv-rk-pos <?php echo $i<3?'top3':'';?>"><?php echo $i+1;?></td>
-                <td style="color:#ddd;font-weight:600"><?php echo esc_html($titulo);?></td>
-                <td style="text-align:right;color:#D4A017;font-weight:700"><?php echo number_format($row->plays_periodo);?></td>
+                <td style="color:#3B2418;font-weight:600"><?php echo esc_html($titulo);?></td>
+                <td style="text-align:right;color:#7B3A22;font-weight:700"><?php echo number_format($row->plays_periodo);?></td>
             </tr>
             <?php endforeach;?>
             </tbody>
@@ -1015,8 +1015,8 @@ class CV_Admin_Pages {
             <?php foreach($ranking_30d as $i=>$row):?>
             <tr>
                 <td class="cv-rk-pos <?php echo $i<3?'top3':'';?>"><?php echo $i+1;?></td>
-                <td style="color:#ddd;font-weight:600"><?php echo esc_html($row->post_title);?></td>
-                <td style="text-align:right;color:#D4A017;font-weight:700"><?php echo number_format($row->plays_periodo);?></td>
+                <td style="color:#3B2418;font-weight:600"><?php echo esc_html($row->post_title);?></td>
+                <td style="text-align:right;color:#7B3A22;font-weight:700"><?php echo number_format($row->plays_periodo);?></td>
             </tr>
             <?php endforeach;?>
             </tbody>
@@ -1107,55 +1107,55 @@ class CV_Admin_Pages {
         
         <style>
         .cv-subs-v2 * { box-sizing:border-box; }
-        .cv-subs-hero { background:linear-gradient(135deg,#0d1a2e 0%,#1a1a1a 100%);border:1px solid #1a2e4a;border-radius:14px;padding:22px 28px;margin-bottom:22px;display:flex;align-items:center;gap:20px; }
-        .cv-subs-hero h1 { color:#4a90d9;font-size:20px;margin:0 0 2px;font-weight:800; }
-        .cv-subs-hero p { color:#555;font-size:12px;margin:0; }
+        .cv-subs-hero { background:linear-gradient(135deg,#E7EEF8 0%,#FFFFFF 100%);border:1px solid #EADBC6;border-radius:14px;padding:22px 28px;margin-bottom:22px;display:flex;align-items:center;gap:20px; }
+        .cv-subs-hero h1 { color:#2871BE;font-size:20px;margin:0 0 2px;font-weight:800; }
+        .cv-subs-hero p { color:#8A6A55;font-size:12px;margin:0; }
         .cv-subs-kpis { display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px; }
         @media(max-width:800px){.cv-subs-kpis{grid-template-columns:1fr 1fr;}}
-        .cv-subs-kpi { background:#1a1a1a;border:1px solid #1e2a3a;border-radius:12px;padding:18px 16px;position:relative;overflow:hidden; }
+        .cv-subs-kpi { background:#FFFFFF;border:1px solid #EADBC6;border-radius:12px;padding:18px 16px;position:relative;overflow:hidden; }
         .cv-subs-kpi::after { content:"";position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0 0 12px 12px; }
         .cv-subs-kpi.k1::after{background:linear-gradient(90deg,#4a90d9,#5aa8f0);}
         .cv-subs-kpi.k2::after{background:linear-gradient(90deg,#1db954,#22d460);}
-        .cv-subs-kpi.k3::after{background:linear-gradient(90deg,#D4A017,#FFD700);}
+        .cv-subs-kpi.k3::after{background:linear-gradient(90deg,#F2A51A,#F2A51A);}
         .cv-subs-kpi.k4::after{background:linear-gradient(90deg,#9b59b6,#b278cc);}
         .cv-subs-kpi-icon { font-size:18px;margin-bottom:6px;display:block; }
-        .cv-subs-kpi-val { font-size:28px;font-weight:800;color:#f0f0f0;line-height:1;margin-bottom:3px; }
-        .cv-subs-kpi-label { font-size:11px;color:#555;text-transform:uppercase;letter-spacing:.4px; }
+        .cv-subs-kpi-val { font-size:28px;font-weight:800;color:#3B2418;line-height:1;margin-bottom:3px; }
+        .cv-subs-kpi-label { font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.4px; }
         .cv-subs-kpi-badge { position:absolute;top:12px;right:12px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px; }
-        .badge-up{background:rgba(29,185,84,.15);color:#1db954;}
-        .badge-neu{background:rgba(255,255,255,.05);color:#444;}
+        .badge-up{background:rgba(29,185,84,.15);color:#137B38;}
+        .badge-neu{background:rgba(123,58,34,0.06);color:#8A6A55;}
         .cv-subs-mid { display:grid;grid-template-columns:1.6fr 1fr;gap:18px;margin-bottom:22px;align-items:start; }
         @media(max-width:900px){.cv-subs-mid{grid-template-columns:1fr;}}
-        .cv-subs-panel { background:#1a1a1a;border:1px solid #1e2a3a;border-radius:12px;padding:20px 22px;max-height:260px;overflow-y:auto; }
-        .cv-subs-panel h3 { font-size:12px;color:#555;text-transform:uppercase;letter-spacing:.6px;margin:0 0 14px;font-weight:600; }
-        .cv-subs-panel h3 strong { color:#4a90d9; }
+        .cv-subs-panel { background:#FFFFFF;border:1px solid #EADBC6;border-radius:12px;padding:20px 22px;max-height:260px;overflow-y:auto; }
+        .cv-subs-panel h3 { font-size:12px;color:#8A6A55;text-transform:uppercase;letter-spacing:.6px;margin:0 0 14px;font-weight:600; }
+        .cv-subs-panel h3 strong { color:#2871BE; }
         #cv-subs-chart { width:100%;height:110px;max-height:110px; }
         .cv-genre-bar { margin-bottom:12px; }
         .cv-genre-bar:last-child { margin-bottom:0; }
         .cv-genre-header { display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px; }
-        .cv-genre-name { color:#888; }
-        .cv-genre-val { color:#4a90d9;font-weight:700; }
-        .cv-genre-bg { height:5px;background:#111;border-radius:5px; }
+        .cv-genre-name { color:#8A6A55; }
+        .cv-genre-val { color:#2871BE;font-weight:700; }
+        .cv-genre-bg { height:5px;background:#FBF6EE;border-radius:5px; }
         .cv-genre-fill { height:100%;border-radius:5px;background:linear-gradient(90deg,#4a90d9,#5aa8f0); }
         /* Tabela */
         .cv-subs-toolbar { display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px; }
         .cv-subs-search { display:flex;gap:8px;align-items:center; }
-        .cv-subs-search input { background:#111;border:1px solid #1e2a3a;color:#ddd;border-radius:6px;padding:7px 12px;font-size:12px;outline:none;min-width:220px; }
+        .cv-subs-search input { background:#FBF6EE;border:1px solid #EADBC6;color:#3B2418;border-radius:6px;padding:7px 12px;font-size:12px;outline:none;min-width:220px; }
         .cv-subs-search input:focus { border-color:#4a90d9; }
         .cv-subs-actions { display:flex;gap:8px; }
-        .cv-sub-btn { font-size:11px;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:600;border:1px solid #1e2a3a;background:#111;color:#888;transition:all .2s; }
-        .cv-sub-btn:hover { border-color:#4a90d9;color:#4a90d9; }
-        .cv-sub-btn.primary { background:#4a90d9;color:#fff;border-color:#4a90d9; }
+        .cv-sub-btn { font-size:11px;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:600;border:1px solid #EADBC6;background:#FBF6EE;color:#8A6A55;transition:all .2s; }
+        .cv-sub-btn:hover { border-color:#4a90d9;color:#2871BE; }
+        .cv-sub-btn.primary { background:#4a90d9;color:#3B2418;border-color:#4a90d9; }
         .cv-sub-btn.primary:hover { background:#5aa8f0; }
         .cv-subs-table { width:100%;border-collapse:collapse; }
-        .cv-subs-table th { font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#333;padding:8px 10px;text-align:left;border-bottom:1px solid #1a1a1a; }
-        .cv-subs-table td { padding:9px 10px;border-bottom:1px solid #141414;vertical-align:middle;font-size:13px; }
+        .cv-subs-table th { font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#8A6A55;padding:8px 10px;text-align:left;border-bottom:1px solid #EADBC6; }
+        .cv-subs-table td { padding:9px 10px;border-bottom:1px solid #EADBC6;vertical-align:middle;font-size:13px; }
         .cv-subs-table tr:hover td { background:rgba(74,144,217,.04); }
         .cv-subs-table tr:last-child td { border-bottom:none; }
-        .cv-subs-avatar { width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0; }
+        .cv-subs-avatar { width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#3B2418;flex-shrink:0; }
         .cv-subs-name { display:flex;align-items:center;gap:8px; }
-        .cv-genre-pill { font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(74,144,217,.12);color:#4a90d9; }
-        .cv-subs-empty { text-align:center;padding:48px;color:#333; }
+        .cv-genre-pill { font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(74,144,217,.12);color:#2871BE; }
+        .cv-subs-empty { text-align:center;padding:48px;color:#8A6A55; }
         </style>
 
         <!-- Hero -->
@@ -1166,8 +1166,8 @@ class CV_Admin_Pages {
                 <p>Gerencie assinantes, visualize crescimento e exporte listas para o MailerLite.</p>
             </div>
             <div style="margin-left:auto;text-align:right">
-                <div style="font-size:28px;font-weight:800;color:#4a90d9;line-height:1"><?php echo number_format($total); ?></div>
-                <div style="font-size:11px;color:#444;text-transform:uppercase;letter-spacing:.4px">assinantes totais</div>
+                <div style="font-size:28px;font-weight:800;color:#2871BE;line-height:1"><?php echo number_format($total); ?></div>
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.4px">assinantes totais</div>
             </div>
         </div>
 
@@ -1206,7 +1206,7 @@ class CV_Admin_Pages {
             <div class="cv-subs-panel">
                 <h3>Assinantes por <strong>gênero favorito</strong></h3>
                 <?php if(empty($por_genero)):?>
-                    <p style="color:#333;font-size:12px">Nenhum dado de gênero disponível.</p>
+                    <p style="color:#8A6A55;font-size:12px">Nenhum dado de gênero disponível.</p>
                 <?php else:
                 $max_g = max(array_column((array)$por_genero,'total'));
                 $max_g = max(1,$max_g);
@@ -1241,11 +1241,11 @@ class CV_Admin_Pages {
             <?php if(empty($subscribers)):?>
             <div class="cv-subs-empty">
                 <div style="font-size:36px;margin-bottom:10px">📭</div>
-                <p style="color:#444"><?php echo $search?'Nenhum resultado para "'.esc_html($search).'".':'Nenhum assinante ainda. O formulário de newsletter está ativo no site!';?></p>
+                <p style="color:#8A6A55"><?php echo $search?'Nenhum resultado para "'.esc_html($search).'".':'Nenhum assinante ainda. O formulário de newsletter está ativo no site!';?></p>
             </div>
             <?php else:?>
             <?php
-            $cores = array('#4a90d9','#1db954','#D4A017','#9b59b6','#e74c3c','#e67e22','#1abc9c','#e91e63');
+            $cores = array('#4a90d9','#1db954','#B8700C','#9b59b6','#e74c3c','#e67e22','#1abc9c','#e91e63');
             ?>
             <table class="cv-subs-table">
                 <thead><tr>
@@ -1264,26 +1264,26 @@ class CV_Admin_Pages {
                     $tempo   = $dias===0?'hoje':($dias===1?'ontem':$dias.' dias atrás');
                 ?>
                 <tr id="cv-sub-row-<?php echo esc_attr($sub->id);?>">
-                    <td style="color:#333;font-size:11px"><?php echo $i+1;?></td>
+                    <td style="color:#8A6A55;font-size:11px"><?php echo $i+1;?></td>
                     <td>
                         <div class="cv-subs-name">
                             <div class="cv-subs-avatar" style="background:<?php echo $cor;?>1a;color:<?php echo $cor;?>;border:1px solid <?php echo $cor;?>33"><?php echo esc_html($inicial);?></div>
-                            <span style="color:#ddd;font-weight:600"><?php echo esc_html($sub->name?:$sub->email);?></span>
+                            <span style="color:#3B2418;font-weight:600"><?php echo esc_html($sub->name?:$sub->email);?></span>
                         </div>
                     </td>
-                    <td><span class="cv-sub-email" style="color:#888;font-size:12px"><?php echo esc_html($sub->email);?></span></td>
-                    <td><?php if($sub->genre??''):?><span class="cv-genre-pill"><?php echo esc_html($sub->genre);?></span><?php else:?><span style="color:#333;font-size:11px">—</span><?php endif;?></td>
-                    <td style="font-size:11px;color:#444"><?php echo esc_html($tempo);?></td>
+                    <td><span class="cv-sub-email" style="color:#8A6A55;font-size:12px"><?php echo esc_html($sub->email);?></span></td>
+                    <td><?php if($sub->genre??''):?><span class="cv-genre-pill"><?php echo esc_html($sub->genre);?></span><?php else:?><span style="color:#8A6A55;font-size:11px">—</span><?php endif;?></td>
+                    <td style="font-size:11px;color:#8A6A55"><?php echo esc_html($tempo);?></td>
                     <td>
                         <button class="cv-sub-delete" data-id="<?php echo esc_attr($sub->id);?>" data-email="<?php echo esc_attr($sub->email);?>"
-                                style="background:none;border:none;color:#333;cursor:pointer;font-size:14px;padding:4px" title="Remover">🗑</button>
+                                style="background:none;border:none;color:#8A6A55;cursor:pointer;font-size:14px;padding:4px" title="Remover">🗑</button>
                     </td>
                 </tr>
                 <?php endforeach;?>
                 </tbody>
             </table>
             <?php if(count($subscribers)>=300):?>
-            <p style="text-align:center;color:#444;font-size:11px;margin-top:12px;padding-top:12px;border-top:1px solid #141414">
+            <p style="text-align:center;color:#8A6A55;font-size:11px;margin-top:12px;padding-top:12px;border-top:1px solid #EADBC6">
                 Exibindo 300 mais recentes. Exporte o CSV para ver todos.
             </p>
             <?php endif;?>
@@ -1310,10 +1310,10 @@ class CV_Admin_Pages {
                     pointBackgroundColor:'#4a90d9', fill:true, tension:0.4
                 }]},
                 options:{ responsive:true, maintainAspectRatio:false,
-                    plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#1e1e1e',borderColor:'#1e2a3a',borderWidth:1,titleColor:'#4a90d9',bodyColor:'#aaa'}},
+                    plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#FFFFFF',borderColor:'#F8F0E4',borderWidth:1,titleColor:'#4a90d9',bodyColor:'#C9A27E'}},
                     scales:{
-                        x:{ grid:{color:'rgba(255,255,255,0.03)'}, ticks:{color:'#333',font:{size:10},maxTicksLimit:10} },
-                        y:{ grid:{color:'rgba(255,255,255,0.03)'}, ticks:{color:'#333',font:{size:10},precision:0}, beginAtZero:false }
+                        x:{ grid:{color:'rgba(123,58,34,0.03)'}, ticks:{color:'#F3E6D3',font:{size:10},maxTicksLimit:10} },
+                        y:{ grid:{color:'rgba(123,58,34,0.03)'}, ticks:{color:'#F3E6D3',font:{size:10},precision:0}, beginAtZero:false }
                     }
                 }
             }); }
@@ -1360,29 +1360,29 @@ class CV_Admin_Pages {
         ?>
         <div class="wrap" id="cv-appearance-exec">
         <style>
-        body.wp-admin { background:#0f0f1a !important; }
-        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#0f0f1a !important; }
+        body.wp-admin { background:#FBF6EE !important; }
+        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#FBF6EE !important; }
         #cv-appearance-exec {
-            --gold:#D4A017; --bg:#0f0f1a; --card:#1a1a2e; --bord:#2a2a4a;
-            --text:#e0e0e0; --muted:#888; --green:#1DB954;
+            --gold:#B8700C; --bg:#FFFFFF; --card:#F8F0E4; --bord:#F3E6D3;
+            --text:#3B2418; --muted:#C9A27E; --green:#1DB954;
             color:var(--text); font-family:'Segoe UI',system-ui,sans-serif;
             padding-bottom:48px;
         }
         #cv-appearance-exec * { box-sizing:border-box; }
         .cv-ap-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
-        .cv-ap-title { font-size:24px; font-weight:700; color:#fff; margin:0; }
+        .cv-ap-title { font-size:24px; font-weight:700; color:#3B2418; margin:0; }
         .cv-ap-title span { color:var(--gold); }
         .cv-ap-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
         @media (max-width:900px) { .cv-ap-grid { grid-template-columns:1fr; } }
         .cv-ap-card { background:var(--card); border:1px solid var(--bord); border-radius:14px; overflow:hidden; }
         .cv-ap-card-header { padding:16px 20px; border-bottom:1px solid var(--bord); display:flex; align-items:center; gap:12px; }
         .cv-ap-card-icon { font-size:22px; }
-        .cv-ap-card-title { font-size:15px; font-weight:700; color:#fff; }
+        .cv-ap-card-title { font-size:15px; font-weight:700; color:#3B2418; }
         .cv-ap-card-sub { font-size:11px; color:var(--muted); margin-top:2px; }
         .cv-ap-card-body { padding:20px; }
         /* Preview logo */
         .cv-ap-logo-preview {
-            background:linear-gradient(135deg,#0d0d0d,#1a1a1a);
+            background:linear-gradient(135deg,#FBF6EE,#FFFFFF);
             border:1px solid var(--bord); border-radius:10px;
             min-height:100px; display:flex; align-items:center; justify-content:center;
             margin-bottom:16px; padding:20px; position:relative; overflow:hidden;
@@ -1390,20 +1390,20 @@ class CV_Admin_Pages {
         .cv-ap-logo-preview::before {
             content:'Prévia do cabeçalho';
             position:absolute; top:8px; left:12px;
-            font-size:9px; color:#333; text-transform:uppercase; letter-spacing:.5px;
+            font-size:9px; color:#8A6A55; text-transform:uppercase; letter-spacing:.5px;
         }
         .cv-ap-logo-preview img { max-width:240px; max-height:70px; object-fit:contain; }
-        .cv-ap-logo-placeholder { color:#333; font-size:12px; text-align:center; }
+        .cv-ap-logo-placeholder { color:#8A6A55; font-size:12px; text-align:center; }
         /* Preview banner */
         .cv-ap-banner-preview {
             border:1px solid var(--bord); border-radius:10px;
             height:140px; overflow:hidden; position:relative; margin-bottom:16px;
-            background:#0d0d0d;
+            background:#FBF6EE;
         }
         .cv-ap-banner-preview::before {
             content:'Prévia do banner home';
             position:absolute; top:8px; left:12px; z-index:2;
-            font-size:9px; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:.5px;
+            font-size:9px; color:rgba(59,36,24,0.55); text-transform:uppercase; letter-spacing:.5px;
         }
         .cv-ap-banner-img {
             width:100%; height:100%; object-fit:cover;
@@ -1412,38 +1412,38 @@ class CV_Admin_Pages {
         .cv-ap-banner-img:hover { transform:scale(1); }
         .cv-ap-banner-overlay {
             position:absolute; inset:0; z-index:1;
-            background:linear-gradient(to bottom, transparent 40%, rgba(0,0,0,.7) 100%);
+            background:linear-gradient(to bottom, transparent 40%, rgba(59,36,24,0.45) 100%);
             display:flex; align-items:flex-end; padding:12px 14px;
         }
-        .cv-ap-banner-label { font-size:11px; color:rgba(255,255,255,.6); }
+        .cv-ap-banner-label { font-size:11px; color:rgba(59,36,24,0.6); }
         .cv-ap-banner-placeholder {
             display:flex; align-items:center; justify-content:center;
-            height:100%; color:#333; font-size:12px; flex-direction:column; gap:8px;
+            height:100%; color:#8A6A55; font-size:12px; flex-direction:column; gap:8px;
         }
         /* Input area */
         .cv-ap-field { margin-bottom:14px; }
         .cv-ap-field label { display:block; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
         .cv-ap-input-row { display:flex; gap:8px; }
-        .cv-ap-input { flex:1; background:rgba(255,255,255,.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
+        .cv-ap-input { flex:1; background:rgba(123,58,34,0.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
         .cv-ap-input:focus { border-color:var(--gold); }
-        .cv-ap-btn-select { background:rgba(212,160,23,.12); border:1px solid rgba(212,160,23,.3); color:var(--gold); padding:9px 14px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:600; white-space:nowrap; transition:background .2s; font-family:inherit; }
-        .cv-ap-btn-select:hover { background:rgba(212,160,23,.22); }
+        .cv-ap-btn-select { background:rgba(242,165,26,0.16); border:1px solid rgba(201,162,126,0.6); color:var(--gold); padding:9px 14px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:600; white-space:nowrap; transition:background .2s; font-family:inherit; }
+        .cv-ap-btn-select:hover { background:rgba(242,165,26,0.29); }
         .cv-ap-hint { font-size:11px; color:var(--muted); margin-top:4px; display:flex; align-items:center; gap:8px; }
         .cv-ap-badge { font-size:10px; padding:2px 7px; border-radius:10px; font-weight:600; }
         .cv-ap-badge.ok  { background:rgba(29,185,84,.12); color:var(--green); border:1px solid rgba(29,185,84,.3); }
-        .cv-ap-badge.off { background:rgba(136,136,136,.1); color:var(--muted); border:1px solid var(--bord); }
+        .cv-ap-badge.off { background:rgba(123,58,34,0.11); color:var(--muted); border:1px solid var(--bord); }
         /* Status geral */
         .cv-ap-status-row { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
         .cv-ap-pill { display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:600; }
         .cv-ap-pill.ok  { background:rgba(29,185,84,.1); border:1px solid rgba(29,185,84,.3); color:var(--green); }
-        .cv-ap-pill.off { background:rgba(136,136,136,.08); border:1px solid var(--bord); color:var(--muted); }
+        .cv-ap-pill.off { background:rgba(123,58,34,0.09); border:1px solid var(--bord); color:var(--muted); }
         /* Save bar */
         .cv-ap-save-bar { margin-top:22px; background:var(--card); border:1px solid var(--bord); border-radius:14px; padding:16px 20px; display:flex; align-items:center; gap:12px; }
-        .cv-ap-btn-save { background:var(--gold); color:#000; border:none; padding:11px 28px; border-radius:8px; font-weight:700; font-size:14px; cursor:pointer; transition:opacity .2s; font-family:inherit; }
+        .cv-ap-btn-save { background:var(--gold); color:#3B2418; border:none; padding:11px 28px; border-radius:8px; font-weight:700; font-size:14px; cursor:pointer; transition:opacity .2s; font-family:inherit; }
         .cv-ap-btn-save:hover { opacity:.85; }
         .cv-ap-saved { color:var(--green); font-size:13px; <?php echo $saved ? '' : 'display:none'; ?> }
         /* Dica de dimensão */
-        .cv-ap-dim { display:inline-flex; align-items:center; gap:4px; font-size:10px; color:#555; background:rgba(255,255,255,.04); border:1px solid var(--bord); border-radius:6px; padding:3px 8px; }
+        .cv-ap-dim { display:inline-flex; align-items:center; gap:4px; font-size:10px; color:#8A6A55; background:rgba(123,58,34,0.04); border:1px solid var(--bord); border-radius:6px; padding:3px 8px; }
         </style>
 
         <div class="cv-ap-topbar">
@@ -1528,7 +1528,7 @@ class CV_Admin_Pages {
                             <div class="cv-ap-banner-placeholder" id="cv-banner-placeholder">
                                 <span style="font-size:28px">🌅</span>
                                 <span>Nenhum banner definido</span>
-                                <span style="font-size:10px;color:#444">Aparecerá um gradiente padrão no site</span>
+                                <span style="font-size:10px;color:#8A6A55">Aparecerá um gradiente padrão no site</span>
                             </div>
                             <?php endif; ?>
                         </div>
@@ -1631,16 +1631,16 @@ class CV_Admin_Pages {
         ?>
         <div class="wrap" id="cv-settings-exec">
         <style>
-        body.wp-admin { background:#0f0f1a !important; }
-        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#0f0f1a !important; }
+        body.wp-admin { background:#FBF6EE !important; }
+        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#FBF6EE !important; }
         #cv-settings-exec {
-            --gold:#D4A017; --bg:#0f0f1a; --card:#1a1a2e; --card2:#16213e;
-            --bord:#2a2a4a; --text:#e0e0e0; --muted:#888; --green:#1DB954; --red:#e74c3c;
+            --gold:#B8700C; --bg:#FFFFFF; --card:#F8F0E4; --card2:#F8F0E4;
+            --bord:#F3E6D3; --text:#3B2418; --muted:#C9A27E; --green:#1DB954; --red:#e74c3c;
             color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; padding-bottom:48px;
         }
         #cv-settings-exec * { box-sizing:border-box; }
         .cv-set-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
-        .cv-set-title { font-size:24px; font-weight:700; color:#fff; margin:0; }
+        .cv-set-title { font-size:24px; font-weight:700; color:#3B2418; margin:0; }
         .cv-set-title span { color:var(--gold); }
         .cv-set-status { display:flex; gap:10px; flex-wrap:wrap; }
         .cv-set-pill { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:600; }
@@ -1651,29 +1651,29 @@ class CV_Admin_Pages {
         .cv-set-card { background:var(--card); border:1px solid var(--bord); border-radius:14px; overflow:hidden; }
         .cv-set-card-header { padding:16px 20px; border-bottom:1px solid var(--bord); display:flex; align-items:center; gap:12px; }
         .cv-set-card-icon { font-size:22px; }
-        .cv-set-card-title { font-size:15px; font-weight:700; color:#fff; }
+        .cv-set-card-title { font-size:15px; font-weight:700; color:#3B2418; }
         .cv-set-card-subtitle { font-size:11px; color:var(--muted); margin-top:2px; }
         .cv-set-card-body { padding:20px; display:flex; flex-direction:column; gap:16px; }
         .cv-set-field label { display:block; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; margin-bottom:5px; }
-        .cv-set-input { width:100%; background:rgba(255,255,255,.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
+        .cv-set-input { width:100%; background:rgba(123,58,34,0.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
         .cv-set-input:focus { border-color:var(--gold); }
-        .cv-set-input::placeholder { color:#444; }
+        .cv-set-input::placeholder { color:#8A6A55; }
         .cv-set-hint { font-size:11px; color:var(--muted); margin-top:4px; }
         .cv-set-status-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:4px; }
         .cv-set-status-dot.ok { background:var(--green); }
         .cv-set-status-dot.off { background:var(--red); }
         /* Preview WhatsApp */
-        .cv-wa-preview { background:#075e54; border-radius:12px; padding:14px 16px; margin-top:8px; }
-        .cv-wa-preview-label { font-size:10px; color:rgba(255,255,255,.5); margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px; }
-        .cv-wa-bubble { background:#dcf8c6; color:#111; border-radius:8px 8px 0 8px; padding:8px 12px; font-size:12px; max-width:80%; margin-left:auto; word-break:break-word; }
-        .cv-wa-bubble-time { font-size:10px; color:#666; text-align:right; margin-top:3px; }
+        .cv-wa-preview { background:#E7F8F6; border-radius:12px; padding:14px 16px; margin-top:8px; }
+        .cv-wa-preview-label { font-size:10px; color:rgba(59,36,24,0.55); margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px; }
+        .cv-wa-bubble { background:#dcf8c6; color:#3B2418; border-radius:8px 8px 0 8px; padding:8px 12px; font-size:12px; max-width:80%; margin-left:auto; word-break:break-word; }
+        .cv-wa-bubble-time { font-size:10px; color:#8A6A55; text-align:right; margin-top:3px; }
         /* Slider visual */
         .cv-set-slider-wrap { display:flex; align-items:center; gap:12px; }
         .cv-set-slider { flex:1; accent-color:var(--gold); }
         .cv-set-slider-val { font-size:14px; font-weight:700; color:var(--gold); min-width:40px; text-align:center; }
         /* Save bar */
         .cv-set-save-bar { position:sticky; bottom:0; background:var(--card); border-top:1px solid var(--bord); padding:14px 20px; display:flex; align-items:center; gap:12px; border-radius:0 0 14px 14px; }
-        .cv-set-btn-save { background:var(--gold); color:#000; border:none; padding:11px 28px; border-radius:8px; font-weight:700; font-size:14px; cursor:pointer; transition:opacity .2s; }
+        .cv-set-btn-save { background:var(--gold); color:#3B2418; border:none; padding:11px 28px; border-radius:8px; font-weight:700; font-size:14px; cursor:pointer; transition:opacity .2s; }
         .cv-set-btn-save:hover { opacity:.85; }
         .cv-set-saved-msg { color:var(--green); font-size:13px; display:none; }
         </style>
@@ -1811,7 +1811,7 @@ class CV_Admin_Pages {
                             </div>
                             <div class="cv-set-hint">Um play só é contabilizado após este tempo de reprodução contínua. Padrão: 30s</div>
                         </div>
-                        <div style="background:rgba(212,160,23,.06);border:1px solid rgba(212,160,23,.2);border-radius:8px;padding:12px 14px">
+                        <div style="background:rgba(242,165,26,0.08);border:1px solid rgba(201,162,126,0.4);border-radius:8px;padding:12px 14px">
                             <div style="font-size:12px;color:var(--gold);font-weight:600;margin-bottom:4px">ℹ️ Como funciona</div>
                             <div style="font-size:11px;color:var(--muted);line-height:1.5">
                                 O sistema registra 1 play após <strong style="color:var(--text)"><?php echo $play_secs; ?> segundos</strong> de reprodução.
@@ -1913,28 +1913,28 @@ class CV_Admin_Pages {
         ?>
         <div id="cv-admin-page" class="cv-admin-wrap">
         <style>
-        body.wp-admin { background:#0f0f1a !important; }
-        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#0f0f1a !important; }
+        body.wp-admin { background:#FBF6EE !important; }
+        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#FBF6EE !important; }
         /* Dark nos campos do formulário de playlists */
         #cv-admin-page .cv-input {
-            background:rgba(255,255,255,.04) !important;
-            border:1px solid #2a2a4a !important;
-            color:#e0e0e0 !important;
+            background:rgba(123,58,34,0.04) !important;
+            border:1px solid #EADBC6 !important;
+            color:#3B2418 !important;
             border-radius:8px !important;
         }
-        #cv-admin-page .cv-input:focus { border-color:#D4A017 !important; outline:none !important; }
-        #cv-admin-page .cv-form-label { color:#aaa !important; font-size:11px !important; text-transform:uppercase; letter-spacing:.4px; }
-        #cv-admin-page .cv-section { background:#1a1a2e !important; border:1px solid #2a2a4a !important; border-radius:14px; padding:22px 24px !important; margin-bottom:18px; }
-        #cv-admin-page .cv-section-title { color:#D4A017; border-color:#2a2a4a !important; }
-        #cv-admin-page .cv-admin-header { background:#1a1a2e; border:1px solid #2a2a4a; border-radius:12px; padding:18px 22px; margin-bottom:18px; }
-        #cv-admin-page h1 { color:#fff !important; }
-        #cv-admin-page .cv-admin-subtitle { color:#888 !important; }
-        #cv-admin-page .cv-btn-primary { background:#D4A017 !important; color:#000 !important; font-weight:700 !important; border-radius:8px !important; }
-        #cv-admin-page .cv-btn-outline { background:rgba(255,255,255,.05) !important; border:1px solid #2a2a4a !important; color:#aaa !important; border-radius:8px !important; }
-        #cv-admin-page .cv-table { background:#1a1a2e !important; }
-        #cv-admin-page .cv-table th { background:#16213e !important; color:#888 !important; border-color:#2a2a4a !important; }
-        #cv-admin-page .cv-table td { border-color:#2a2a4a !important; color:#e0e0e0 !important; }
-        #cv-admin-page .cv-table tr:hover td { background:rgba(255,255,255,.03) !important; }
+        #cv-admin-page .cv-input:focus { border-color:#C9A27E !important; outline:none !important; }
+        #cv-admin-page .cv-form-label { color:#6B4C3B !important; font-size:11px !important; text-transform:uppercase; letter-spacing:.4px; }
+        #cv-admin-page .cv-section { background:#F8F0E4 !important; border:1px solid #EADBC6 !important; border-radius:14px; padding:22px 24px !important; margin-bottom:18px; }
+        #cv-admin-page .cv-section-title { color:#7B3A22; border-color:#EADBC6 !important; }
+        #cv-admin-page .cv-admin-header { background:#F8F0E4; border:1px solid #EADBC6; border-radius:12px; padding:18px 22px; margin-bottom:18px; }
+        #cv-admin-page h1 { color:#3B2418 !important; }
+        #cv-admin-page .cv-admin-subtitle { color:#8A6A55 !important; }
+        #cv-admin-page .cv-btn-primary { background:#F2A51A !important; color:#3B2418 !important; font-weight:700 !important; border-radius:8px !important; }
+        #cv-admin-page .cv-btn-outline { background:rgba(123,58,34,0.06) !important; border:1px solid #EADBC6 !important; color:#6B4C3B !important; border-radius:8px !important; }
+        #cv-admin-page .cv-table { background:#F8F0E4 !important; }
+        #cv-admin-page .cv-table th { background:#F8F0E4 !important; color:#8A6A55 !important; border-color:#EADBC6 !important; }
+        #cv-admin-page .cv-table td { border-color:#EADBC6 !important; color:#3B2418 !important; }
+        #cv-admin-page .cv-table tr:hover td { background:rgba(123,58,34,0.03) !important; }
         </style>
         <?php echo CV_Admin::btn_voltar(); ?>
 
@@ -1956,10 +1956,10 @@ class CV_Admin_Pages {
 
             <!-- Formulário de nova playlist -->
             <div id="cv-pl-form-nova" class="cv-section" style="display:block">
-                <h2 class="cv-section-title" style="color:#D4A017;font-size:16px;margin-bottom:18px">🎵 Nova Playlist Oficial</h2>
+                <h2 class="cv-section-title" style="color:#7B3A22;font-size:16px;margin-bottom:18px">🎵 Nova Playlist Oficial</h2>
                 <div style="display:flex;flex-direction:column;gap:14px;max-width:560px">
                     <div class="cv-form-group">
-                        <label class="cv-form-label">Nome da playlist <span style="color:#e74c3c">*</span></label>
+                        <label class="cv-form-label">Nome da playlist <span style="color:#D62C1A">*</span></label>
                         <input type="text" id="cv-pl-nome" class="cv-input"
                                placeholder="Ex: Top Sertanejo Universitário" maxlength="100" />
                     </div>
@@ -1969,13 +1969,13 @@ class CV_Admin_Pages {
                                   placeholder="Descrição opcional da playlist"></textarea>
                     </div>
                     <div class="cv-form-group" style="display:flex;align-items:center;gap:10px">
-                        <input type="checkbox" id="cv-pl-publica" style="width:18px;height:18px;accent-color:#D4A017" />
+                        <input type="checkbox" id="cv-pl-publica" style="width:18px;height:18px;accent-color:#B8700C" />
                         <label for="cv-pl-publica" class="cv-form-label" style="margin:0">
                             Playlist pública (visível para todos os usuários)
                         </label>
                     </div>
                     <div class="cv-form-group" style="display:flex;align-items:center;gap:10px">
-                        <input type="checkbox" id="cv-pl-destaque" style="width:18px;height:18px;accent-color:#D4A017" />
+                        <input type="checkbox" id="cv-pl-destaque" style="width:18px;height:18px;accent-color:#B8700C" />
                         <label for="cv-pl-destaque" class="cv-form-label" style="margin:0">
                             ⭐ Fixar na home (aparece na seção de playlists em destaque)
                         </label>
@@ -1992,7 +1992,7 @@ class CV_Admin_Pages {
                         </div>
                         <div id="cv-pl-capa-preview" style="margin-top:8px;display:none">
                             <img id="cv-pl-capa-img" src="" alt="Preview da capa"
-                                 style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid #333" />
+                                 style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid #EADBC6" />
                         </div>
                     </div>
                     <div style="display:flex;gap:10px">
@@ -2005,15 +2005,15 @@ class CV_Admin_Pages {
             <!-- Tabela de playlists -->
             <div class="cv-section">
                 <?php if ( empty( $playlists ) ) : ?>
-                    <div style="background:rgba(212,160,23,.05);border:1px dashed rgba(212,160,23,.25);border-radius:14px;padding:40px;text-align:center;margin-bottom:8px">
+                    <div style="background:rgba(242,165,26,0.07);border:1px dashed rgba(201,162,126,0.5);border-radius:14px;padding:40px;text-align:center;margin-bottom:8px">
                         <div style="font-size:48px;margin-bottom:14px">🎵</div>
-                        <div style="font-size:17px;color:#fff;font-weight:700;margin-bottom:8px">Nenhuma playlist criada ainda</div>
-                        <div style="font-size:13px;color:#888;margin-bottom:20px;line-height:1.6">
+                        <div style="font-size:17px;color:#3B2418;font-weight:700;margin-bottom:8px">Nenhuma playlist criada ainda</div>
+                        <div style="font-size:13px;color:#8A6A55;margin-bottom:20px;line-height:1.6">
                             Playlists editoriais são curadas por você e aparecem para todos os usuários do site.<br>
                             Ideal para destacar os maiores hits, lançamentos e temáticas especiais.
                         </div>
                         <button onclick="document.getElementById('cv-pl-nome').focus()"
-                                style="background:#D4A017;color:#000;border:none;padding:10px 24px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer">
+                                style="background:#F2A51A;color:#3B2418;border:none;padding:10px 24px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer">
                             ↑ Preencha o formulário acima para criar a primeira
                         </button>
                     </div>
@@ -2033,14 +2033,14 @@ class CV_Admin_Pages {
                     <tbody>
                     <?php foreach ( $playlists as $i => $pl ) : ?>
                         <tr id="cv-pl-row-<?php echo esc_attr( $pl->id ); ?>">
-                            <td style="color:#555;font-size:12px"><?php echo $i + 1; ?></td>
+                            <td style="color:#8A6A55;font-size:12px"><?php echo $i + 1; ?></td>
                             <td>
                                 <strong style="color:var(--cv-text)"><?php echo esc_html( $pl->name ); ?></strong>
                                 <?php if ( $pl->description ) : ?>
-                                    <br><span style="font-size:11px;color:#555"><?php echo esc_html( mb_substr( $pl->description, 0, 60 ) ); ?></span>
+                                    <br><span style="font-size:11px;color:#8A6A55"><?php echo esc_html( mb_substr( $pl->description, 0, 60 ) ); ?></span>
                                 <?php endif; ?>
                             </td>
-                            <td style="color:#888;font-size:13px"><?php echo esc_html( $pl->user_name ?: 'Admin' ); ?></td>
+                            <td style="color:#8A6A55;font-size:13px"><?php echo esc_html( $pl->user_name ?: 'Admin' ); ?></td>
                             <td style="text-align:center">
                                 <span class="cv-badge-count" id="cv-pl-count-<?php echo esc_attr( $pl->id ); ?>">
                                     <?php echo (int) $pl->total_musicas; ?>
@@ -2048,12 +2048,12 @@ class CV_Admin_Pages {
                             </td>
                             <td style="text-align:center">
                                 <?php if ( $pl->is_public ) : ?>
-                                    <span style="color:#27ae60;font-size:18px" title="Pública">●</span>
+                                    <span style="color:#1C7C44;font-size:18px" title="Pública">●</span>
                                 <?php else : ?>
-                                    <span style="color:#444;font-size:18px" title="Privada">○</span>
+                                    <span style="color:#8A6A55;font-size:18px" title="Privada">○</span>
                                 <?php endif; ?>
                             </td>
-                            <td style="color:#555;font-size:12px">
+                            <td style="color:#8A6A55;font-size:12px">
                                 <?php echo esc_html( date( 'd/m/Y', strtotime( $pl->created_at ) ) ); ?>
                             </td>
                             <td style="text-align:center">
@@ -2072,7 +2072,7 @@ class CV_Admin_Pages {
                                     </button>
                                     <button class="cv-btn cv-pl-excluir"
                                             data-id="<?php echo esc_attr( $pl->id ); ?>"
-                                            style="padding:4px 10px;font-size:11px;background:rgba(192,57,43,.15);color:#e74c3c;border:1px solid rgba(192,57,43,.3)">
+                                            style="padding:4px 10px;font-size:11px;background:rgba(192,57,43,.15);color:#D62C1A;border:1px solid rgba(192,57,43,.3)">
                                         🗑
                                     </button>
                                 </div>
@@ -2087,39 +2087,39 @@ class CV_Admin_Pages {
         </div><!-- /.cv-admin-wrap -->
 
         <!-- Modal: gerenciar músicas da playlist -->
-        <div id="cv-pl-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;align-items:center;justify-content:center">
-            <div style="background:#1a1a1a;border:1px solid rgba(212,160,23,.2);border-radius:16px;width:90%;max-width:680px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column">
+        <div id="cv-pl-modal" style="display:none;position:fixed;inset:0;background:rgba(59,36,24,0.45);z-index:9999;align-items:center;justify-content:center">
+            <div style="background:#FFFFFF;border:1px solid rgba(201,162,126,0.4);border-radius:16px;width:90%;max-width:680px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column">
 
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.06)">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(123,58,34,0.12)">
                     <div>
-                        <h3 id="cv-pl-modal-titulo" style="font-size:17px;font-weight:700;color:#F5F0E0;margin:0"></h3>
-                        <span id="cv-pl-modal-count" style="font-size:12px;color:#666"></span>
+                        <h3 id="cv-pl-modal-titulo" style="font-size:17px;font-weight:700;color:#3B2418;margin:0"></h3>
+                        <span id="cv-pl-modal-count" style="font-size:12px;color:#8A6A55"></span>
                     </div>
-                    <button id="cv-pl-modal-fechar" style="background:none;border:none;color:#666;font-size:20px;cursor:pointer;padding:4px 8px">✕</button>
+                    <button id="cv-pl-modal-fechar" style="background:none;border:none;color:#8A6A55;font-size:20px;cursor:pointer;padding:4px 8px">✕</button>
                 </div>
 
                 <div style="display:flex;gap:0;flex:1;overflow:hidden">
 
                     <!-- Músicas na playlist -->
-                    <div style="flex:1;overflow-y:auto;padding:16px;border-right:1px solid rgba(255,255,255,.05)">
-                        <p style="font-size:11px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Na playlist</p>
+                    <div style="flex:1;overflow-y:auto;padding:16px;border-right:1px solid rgba(123,58,34,0.12)">
+                        <p style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Na playlist</p>
                         <div id="cv-pl-musicas-lista" style="display:flex;flex-direction:column;gap:6px">
-                            <p style="color:#444;font-size:13px">Carregando...</p>
+                            <p style="color:#8A6A55;font-size:13px">Carregando...</p>
                         </div>
                     </div>
 
                     <!-- Adicionar músicas -->
                     <div style="flex:1;overflow-y:auto;padding:16px">
-                        <p style="font-size:11px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Adicionar música</p>
+                        <p style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Adicionar música</p>
                         <input type="text" id="cv-pl-busca-musica" placeholder="Filtrar músicas..."
-                               style="width:100%;background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:8px 12px;color:#F5F0E0;font-size:13px;outline:none;margin-bottom:10px;box-sizing:border-box" />
+                               style="width:100%;background:#FBF6EE;border:1px solid #EADBC6;border-radius:8px;padding:8px 12px;color:#3B2418;font-size:13px;outline:none;margin-bottom:10px;box-sizing:border-box" />
                         <div id="cv-pl-musicas-disponiveis" style="display:flex;flex-direction:column;gap:4px;max-height:320px;overflow-y:auto">
                             <?php foreach ( $musicas as $musica ) : ?>
                             <div class="cv-pl-musica-item"
                                  data-id="<?php echo esc_attr( $musica->ID ); ?>"
                                  data-titulo="<?php echo esc_attr( strtolower( $musica->post_title ) ); ?>"
-                                 style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:rgba(255,255,255,.03);border-radius:6px;cursor:pointer;transition:background .15s">
-                                <span style="font-size:13px;color:#C8B98A"><?php echo esc_html( $musica->post_title ); ?></span>
+                                 style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:rgba(123,58,34,0.03);border-radius:6px;cursor:pointer;transition:background .15s">
+                                <span style="font-size:13px;color:#6B4C3B"><?php echo esc_html( $musica->post_title ); ?></span>
                                 <button class="cv-pl-add-musica cv-btn cv-btn-outline"
                                         data-id="<?php echo esc_attr( $musica->ID ); ?>"
                                         style="padding:3px 10px;font-size:11px;flex-shrink:0">
@@ -2143,7 +2143,7 @@ class CV_Admin_Pages {
             function showMsg(msg, ok) {
                 var $m = $('#cv-pl-msg');
                 $m.text(msg)
-                  .css({ background: ok ? '#1a2e1a' : '#2e1a1a',
+                  .css({ background: ok ? '#EBF4EB' : '#F4EBEB',
                          border: '1px solid ' + (ok ? '#2d6a2d' : '#6a2d2d'),
                          color:  ok ? '#7fce7f' : '#ce7f7f' })
                   .show();
@@ -2254,7 +2254,7 @@ class CV_Admin_Pages {
             });
 
             function carregarMusicasPlaylist(plId) {
-                $('#cv-pl-musicas-lista').html('<p style="color:#444;font-size:13px">Carregando...</p>');
+                $('#cv-pl-musicas-lista').html('<p style="color:#8A6A55;font-size:13px">Carregando...</p>');
 
                 // Busca músicas via endpoint REST do plugin
                 $.get('<?php echo esc_js( rest_url( 'cv/v1/ranking/top' ) ); ?>', function(){})
@@ -2270,7 +2270,7 @@ class CV_Admin_Pages {
                             $('#cv-pl-modal-count').text(res.data.items.length + ' música(s)');
                             $('#cv-pl-count-' + plId).text(res.data.items.length);
                         } else {
-                            $('#cv-pl-musicas-lista').html('<p style="color:#444;font-size:13px">Nenhuma música ainda.</p>');
+                            $('#cv-pl-musicas-lista').html('<p style="color:#8A6A55;font-size:13px">Nenhuma música ainda.</p>');
                         }
                     });
                  });
@@ -2278,16 +2278,16 @@ class CV_Admin_Pages {
 
             function renderMusicasPlaylist(items, plId) {
                 if (!items.length) {
-                    $('#cv-pl-musicas-lista').html('<p style="color:#444;font-size:13px;font-style:italic">Playlist vazia. Adicione músicas ao lado.</p>');
+                    $('#cv-pl-musicas-lista').html('<p style="color:#8A6A55;font-size:13px;font-style:italic">Playlist vazia. Adicione músicas ao lado.</p>');
                     return;
                 }
                 var html = '';
                 $.each(items, function(i, item){
-                    html += '<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(255,255,255,.03);border-radius:6px">'
-                          + '<span style="font-size:11px;color:#555;min-width:18px">' + (i+1) + '</span>'
-                          + '<span style="flex:1;font-size:13px;color:#C8B98A;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + escHtml(item.title) + '</span>'
+                    html += '<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(123,58,34,0.03);border-radius:6px">'
+                          + '<span style="font-size:11px;color:#8A6A55;min-width:18px">' + (i+1) + '</span>'
+                          + '<span style="flex:1;font-size:13px;color:#6B4C3B;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + escHtml(item.title) + '</span>'
                           + '<button class="cv-pl-remover-musica cv-btn" data-pl="' + plId + '" data-music="' + item.id + '"'
-                          + ' style="padding:3px 8px;font-size:11px;background:rgba(192,57,43,.15);color:#e74c3c;border:1px solid rgba(192,57,43,.3);flex-shrink:0">✕</button>'
+                          + ' style="padding:3px 8px;font-size:11px;background:rgba(192,57,43,.15);color:#D62C1A;border:1px solid rgba(192,57,43,.3);flex-shrink:0">✕</button>'
                           + '</div>';
                 });
                 $('#cv-pl-musicas-lista').html(html);
@@ -2436,7 +2436,7 @@ class CV_Admin_Pages {
         }
 
         $max_plays = ! empty($play_counts) ? max($play_counts) : 1;
-        $cores = array('#4a90d9','#1db954','#D4A017','#9b59b6','#e74c3c','#e67e22','#1abc9c','#e91e63');
+        $cores = array('#4a90d9','#1db954','#B8700C','#9b59b6','#e74c3c','#e67e22','#1abc9c','#e91e63');
         ?>
         <div class="cv-admin-wrap cv-users-v2" style="max-width:1100px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
         <?php echo CV_Admin::btn_voltar(); ?>
@@ -2444,64 +2444,64 @@ class CV_Admin_Pages {
         <style>
         .cv-users-v2 * { box-sizing:border-box; }
         /* Hero */
-        .cv-usr-hero { background:linear-gradient(135deg,#0d1f0d 0%,#1a1a1a 100%);border:1px solid #1a3a1a;border-radius:14px;padding:22px 28px;margin-bottom:22px;display:flex;align-items:center;gap:20px; }
-        .cv-usr-hero h1 { color:#1db954;font-size:20px;margin:0 0 2px;font-weight:800; }
-        .cv-usr-hero p  { color:#555;font-size:12px;margin:0; }
+        .cv-usr-hero { background:linear-gradient(135deg,#E9F6E9 0%,#FFFFFF 100%);border:1px solid #B2DCB2;border-radius:14px;padding:22px 28px;margin-bottom:22px;display:flex;align-items:center;gap:20px; }
+        .cv-usr-hero h1 { color:#137B38;font-size:20px;margin:0 0 2px;font-weight:800; }
+        .cv-usr-hero p  { color:#8A6A55;font-size:12px;margin:0; }
         /* KPIs */
         .cv-usr-kpis { display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px; }
         @media(max-width:800px){.cv-usr-kpis{grid-template-columns:1fr 1fr;}}
-        .cv-usr-kpi { background:#1a1a1a;border:1px solid #1a2e1a;border-radius:12px;padding:18px 16px;position:relative;overflow:hidden; }
+        .cv-usr-kpi { background:#FFFFFF;border:1px solid #B7D6B7;border-radius:12px;padding:18px 16px;position:relative;overflow:hidden; }
         .cv-usr-kpi::after { content:"";position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0 0 12px 12px; }
         .cv-usr-kpi.k1::after{background:linear-gradient(90deg,#1db954,#22d460);}
         .cv-usr-kpi.k2::after{background:linear-gradient(90deg,#4a90d9,#5aa8f0);}
-        .cv-usr-kpi.k3::after{background:linear-gradient(90deg,#D4A017,#FFD700);}
+        .cv-usr-kpi.k3::after{background:linear-gradient(90deg,#F2A51A,#F2A51A);}
         .cv-usr-kpi.k4::after{background:linear-gradient(90deg,#9b59b6,#b278cc);}
         .cv-usr-kpi-icon  { font-size:18px;margin-bottom:6px;display:block; }
-        .cv-usr-kpi-val   { font-size:28px;font-weight:800;color:#f0f0f0;line-height:1;margin-bottom:3px; }
-        .cv-usr-kpi-label { font-size:11px;color:#555;text-transform:uppercase;letter-spacing:.4px; }
+        .cv-usr-kpi-val   { font-size:28px;font-weight:800;color:#3B2418;line-height:1;margin-bottom:3px; }
+        .cv-usr-kpi-label { font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.4px; }
         .cv-usr-kpi-badge { position:absolute;top:12px;right:12px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px; }
-        .badge-green{background:rgba(29,185,84,.15);color:#1db954;}
-        .badge-neu{background:rgba(255,255,255,.05);color:#444;}
+        .badge-green{background:rgba(29,185,84,.15);color:#137B38;}
+        .badge-neu{background:rgba(123,58,34,0.06);color:#8A6A55;}
         /* Mid grid */
         .cv-usr-mid { display:grid;grid-template-columns:1.6fr 1fr;gap:18px;margin-bottom:22px;align-items:start; }
         @media(max-width:900px){.cv-usr-mid{grid-template-columns:1fr;}}
-        .cv-usr-panel { background:#1a1a1a;border:1px solid #1a2e1a;border-radius:12px;padding:20px 22px; }
-        .cv-usr-panel h3 { font-size:12px;color:#555;text-transform:uppercase;letter-spacing:.6px;margin:0 0 14px;font-weight:600; }
-        .cv-usr-panel h3 strong { color:#1db954; }
+        .cv-usr-panel { background:#FFFFFF;border:1px solid #B7D6B7;border-radius:12px;padding:20px 22px; }
+        .cv-usr-panel h3 { font-size:12px;color:#8A6A55;text-transform:uppercase;letter-spacing:.6px;margin:0 0 14px;font-weight:600; }
+        .cv-usr-panel h3 strong { color:#137B38; }
         #cv-usr-chart { width:100%;height:110px;max-height:110px; }
         /* Top ouvintes */
-        .cv-top-ouv { display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #141414; }
+        .cv-top-ouv { display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #EADBC6; }
         .cv-top-ouv:last-child { border-bottom:none; }
         .cv-top-ouv-avatar { width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0; }
         .cv-top-ouv-info { flex:1;min-width:0; }
-        .cv-top-ouv-name  { font-size:12px;font-weight:700;color:#ddd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px; }
-        .cv-top-ouv-bar-bg { height:3px;background:#111;border-radius:3px; }
+        .cv-top-ouv-name  { font-size:12px;font-weight:700;color:#3B2418;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px; }
+        .cv-top-ouv-bar-bg { height:3px;background:#FBF6EE;border-radius:3px; }
         .cv-top-ouv-bar-fill { height:100%;border-radius:3px;background:linear-gradient(90deg,#1db954,#22d460); }
-        .cv-top-ouv-plays { font-size:11px;color:#1db954;font-weight:700;white-space:nowrap; }
+        .cv-top-ouv-plays { font-size:11px;color:#137B38;font-weight:700;white-space:nowrap; }
         /* Toolbar */
         .cv-usr-toolbar { display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px; }
         .cv-usr-search { display:flex;gap:8px;align-items:center; }
-        .cv-usr-search input { background:#111;border:1px solid #1a2e1a;color:#ddd;border-radius:6px;padding:7px 12px;font-size:12px;outline:none;min-width:220px; }
+        .cv-usr-search input { background:#FBF6EE;border:1px solid #B7D6B7;color:#3B2418;border-radius:6px;padding:7px 12px;font-size:12px;outline:none;min-width:220px; }
         .cv-usr-search input:focus { border-color:#1db954; }
-        .cv-usr-btn { font-size:11px;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:600;border:1px solid #1a2e1a;background:#111;color:#666;transition:all .2s; }
-        .cv-usr-btn:hover { border-color:#1db954;color:#1db954; }
-        .cv-usr-btn.primary { background:#1db954;color:#111;border-color:#1db954; }
+        .cv-usr-btn { font-size:11px;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:600;border:1px solid #B7D6B7;background:#FBF6EE;color:#8A6A55;transition:all .2s; }
+        .cv-usr-btn:hover { border-color:#1db954;color:#137B38; }
+        .cv-usr-btn.primary { background:#1db954;color:#3B2418;border-color:#1db954; }
         .cv-usr-btn.primary:hover { background:#22d460; }
-        .cv-usr-btn.danger { background:rgba(231,76,60,.12);color:#e74c3c;border-color:rgba(231,76,60,.25); }
+        .cv-usr-btn.danger { background:rgba(231,76,60,.12);color:#D62C1A;border-color:rgba(231,76,60,.25); }
         .cv-usr-btn.danger:hover { background:rgba(231,76,60,.2); }
         /* Tabela */
         .cv-usr-table { width:100%;border-collapse:collapse; }
-        .cv-usr-table th { font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#333;padding:8px 10px;text-align:left;border-bottom:1px solid #1a1a1a; }
-        .cv-usr-table td { padding:9px 10px;border-bottom:1px solid #141414;vertical-align:middle;font-size:13px; }
+        .cv-usr-table th { font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#8A6A55;padding:8px 10px;text-align:left;border-bottom:1px solid #EADBC6; }
+        .cv-usr-table td { padding:9px 10px;border-bottom:1px solid #EADBC6;vertical-align:middle;font-size:13px; }
         .cv-usr-table tr:hover td { background:rgba(29,185,84,.03); }
         .cv-usr-table tr:last-child td { border-bottom:none; }
         .cv-usr-avatar-cell { width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800; }
         .cv-usr-name-cell { display:flex;align-items:center;gap:8px; }
-        .cv-usr-role { font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(29,185,84,.1);color:#1db954; }
-        .cv-usr-role.admin { background:rgba(212,160,23,.1);color:#D4A017; }
-        .cv-usr-engage { display:flex;align-items:center;gap:4px;font-size:12px;color:#555; }
-        .cv-usr-engage strong { color:#ddd; }
-        .cv-usr-empty { text-align:center;padding:48px;color:#333; }
+        .cv-usr-role { font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(29,185,84,.1);color:#137B38; }
+        .cv-usr-role.admin { background:rgba(242,165,26,0.13);color:#7B3A22; }
+        .cv-usr-engage { display:flex;align-items:center;gap:4px;font-size:12px;color:#8A6A55; }
+        .cv-usr-engage strong { color:#3B2418; }
+        .cv-usr-empty { text-align:center;padding:48px;color:#8A6A55; }
         .cv-usr-actions { display:flex;gap:4px;justify-content:center; }
         </style>
 
@@ -2513,8 +2513,8 @@ class CV_Admin_Pages {
                 <p>Acompanhe cadastros, engajamento e atividade da sua base de fãs.</p>
             </div>
             <div style="margin-left:auto;text-align:right">
-                <div style="font-size:28px;font-weight:800;color:#1db954;line-height:1"><?php echo number_format($total_users); ?></div>
-                <div style="font-size:11px;color:#444;text-transform:uppercase;letter-spacing:.4px">usuários cadastrados</div>
+                <div style="font-size:28px;font-weight:800;color:#137B38;line-height:1"><?php echo number_format($total_users); ?></div>
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.4px">usuários cadastrados</div>
             </div>
         </div>
 
@@ -2553,7 +2553,7 @@ class CV_Admin_Pages {
             <div class="cv-usr-panel">
                 <h3>🎧 Top <strong>ouvintes</strong></h3>
                 <?php if(empty($top3_ids)):?>
-                    <p style="color:#333;font-size:12px">Nenhum play registrado ainda.</p>
+                    <p style="color:#8A6A55;font-size:12px">Nenhum play registrado ainda.</p>
                 <?php else: foreach($top3_ids as $uid):
                     $u    = get_userdata($uid);
                     if(!$u) continue;
@@ -2590,7 +2590,7 @@ class CV_Admin_Pages {
             <?php if(empty($users)):?>
             <div class="cv-usr-empty">
                 <div style="font-size:36px;margin-bottom:10px">👤</div>
-                <p style="color:#444"><?php echo $search?'Nenhum resultado para "'.esc_html($search).'".':'Nenhum usuário cadastrado ainda.';?></p>
+                <p style="color:#8A6A55"><?php echo $search?'Nenhum resultado para "'.esc_html($search).'".':'Nenhum usuário cadastrado ainda.';?></p>
             </div>
             <?php else:?>
             <table class="cv-usr-table">
@@ -2624,25 +2624,25 @@ class CV_Admin_Pages {
                     <td>
                         <div class="cv-usr-name-cell">
                             <div>
-                                <div style="font-weight:700;color:#ddd;font-size:13px"><?php echo esc_html($user->display_name);?></div>
-                                <div style="font-size:10px;color:#444">@<?php echo esc_html($user->user_login);?></div>
+                                <div style="font-weight:700;color:#3B2418;font-size:13px"><?php echo esc_html($user->display_name);?></div>
+                                <div style="font-size:10px;color:#8A6A55">@<?php echo esc_html($user->user_login);?></div>
                             </div>
                         </div>
                     </td>
-                    <td style="font-size:12px;color:#666"><?php echo esc_html($user->user_email);?></td>
+                    <td style="font-size:12px;color:#8A6A55"><?php echo esc_html($user->user_email);?></td>
                     <td style="text-align:center">
                         <span class="cv-usr-role <?php echo $is_admin?'admin':'';?>"><?php echo esc_html($role);?></span>
                     </td>
                     <td style="text-align:center">
                         <div class="cv-usr-engage">
                             <span title="Plays">▶ <strong><?php echo $plays;?></strong></span>
-                            <span style="color:#222">·</span>
+                            <span style="color:#8A6A55">·</span>
                             <span title="Favoritos">❤ <strong><?php echo $favs;?></strong></span>
-                            <span style="color:#222">·</span>
+                            <span style="color:#8A6A55">·</span>
                             <span title="Playlists">📋 <strong><?php echo $pls;?></strong></span>
                         </div>
                     </td>
-                    <td style="font-size:11px;color:#444"><?php echo esc_html($tempo);?></td>
+                    <td style="font-size:11px;color:#8A6A55"><?php echo esc_html($tempo);?></td>
                     <td>
                         <div class="cv-usr-actions">
                             <a href="<?php echo esc_url(admin_url('user-edit.php?user_id='.$user->ID));?>" class="cv-usr-btn" title="Editar">✏</a>
@@ -2675,10 +2675,10 @@ class CV_Admin_Pages {
                     borderWidth:2,pointRadius:2,pointHoverRadius:5,pointBackgroundColor:'#1db954',fill:true,tension:0.4
                 }]},
                 options:{ responsive:true,maintainAspectRatio:false,aspectRatio:2.5,
-                    plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#1e1e1e',borderColor:'#1a2e1a',borderWidth:1,titleColor:'#1db954',bodyColor:'#aaa'}},
+                    plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#FFFFFF',borderColor:'#EBF4EB',borderWidth:1,titleColor:'#1db954',bodyColor:'#C9A27E'}},
                     scales:{
-                        x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#333',font:{size:10},maxTicksLimit:10}},
-                        y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#333',font:{size:10},precision:0},beginAtZero:false}
+                        x:{grid:{color:'rgba(123,58,34,0.03)'},ticks:{color:'#F3E6D3',font:{size:10},maxTicksLimit:10}},
+                        y:{grid:{color:'rgba(123,58,34,0.03)'},ticks:{color:'#F3E6D3',font:{size:10},precision:0},beginAtZero:false}
                     }
                 }
             }); }
@@ -2686,7 +2686,7 @@ class CV_Admin_Pages {
         jQuery(function($){
             var nonce='<?php echo esc_js(wp_create_nonce("cv_admin_nonce"));?>';
             var ajax='<?php echo esc_js(admin_url("admin-ajax.php"));?>';
-            function msg(t,ok){var $m=$('#cv-user-msg');$m.text(t).css({background:ok?'#1a2e1a':'#2e1a1a',border:'1px solid '+(ok?'#2d6a2d':'#6a2d2d'),color:ok?'#7fce7f':'#ce7f7f'}).show();setTimeout(function(){$m.fadeOut();},3500);}
+            function msg(t,ok){var $m=$('#cv-user-msg');$m.text(t).css({background:ok?'#EBF4EB':'#F4EBEB',border:'1px solid '+(ok?'#2d6a2d':'#6a2d2d'),color:ok?'#7fce7f':'#ce7f7f'}).show();setTimeout(function(){$m.fadeOut();},3500);}
             $(document).on('click','.cv-user-reset-pw',function(){
                 var id=$(this).data('id'),email=$(this).data('email');
                 if(!confirm('Enviar e-mail de redefinição para '+email+'?')) return;
@@ -2740,10 +2740,10 @@ class CV_Admin_Pages {
 
         $action_map = array(
             'music_published' => array('icon' => '🎵', 'label' => 'Música publicada',   'color' => '#1DB954'),
-            'music_saved'     => array('icon' => '✏️',  'label' => 'Música salva',       'color' => '#D4A017'),
+            'music_saved'     => array('icon' => '✏️',  'label' => 'Música salva',       'color' => '#B8700C'),
             'music_deleted'   => array('icon' => '🗑️',  'label' => 'Música excluída',    'color' => '#e74c3c'),
             'admin_login'     => array('icon' => '🔐',  'label' => 'Login admin',        'color' => '#3498db'),
-            'admin_logout'    => array('icon' => '↩️',   'label' => 'Logout admin',       'color' => '#95a5a6'),
+            'admin_logout'    => array('icon' => '↩️',   'label' => 'Logout admin',       'color' => '#C9A27E'),
             'playlist_created'=> array('icon' => '📋',  'label' => 'Playlist criada',    'color' => '#9b59b6'),
             'cache_cleared'   => array('icon' => '🗑️',  'label' => 'Cache limpo',        'color' => '#e67e22'),
             'ranking_recalc'  => array('icon' => '🔄',  'label' => 'Ranking recalculado','color' => '#1DB954'),
@@ -2751,17 +2751,17 @@ class CV_Admin_Pages {
         ?>
         <div class="wrap" id="cv-logs-executive">
         <style>
-        body.wp-admin { background:#0f0f1a !important; }
-        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#0f0f1a !important; }
+        body.wp-admin { background:#FBF6EE !important; }
+        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#FBF6EE !important; }
         #cv-logs-executive {
-            --gold:#D4A017; --bg:#0f0f1a; --card:#1a1a2e; --bord:#2a2a4a;
-            --text:#e0e0e0; --muted:#888; --green:#1DB954;
+            --gold:#B8700C; --bg:#FFFFFF; --card:#F8F0E4; --bord:#F3E6D3;
+            --text:#3B2418; --muted:#C9A27E; --green:#1DB954;
             color:var(--text); font-family:'Segoe UI',system-ui,sans-serif;
             padding-bottom:40px;
         }
         #cv-logs-executive * { box-sizing:border-box; }
         .cv-log-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
-        .cv-log-title { font-size:24px; font-weight:700; color:#fff; margin:0; }
+        .cv-log-title { font-size:24px; font-weight:700; color:#3B2418; margin:0; }
         .cv-log-title span { color:var(--gold); }
         .cv-log-kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:14px; margin-bottom:24px; }
         .cv-log-kpi { background:var(--card); border:1px solid var(--bord); border-radius:12px; padding:16px 14px; text-align:center; position:relative; overflow:hidden; }
@@ -2770,7 +2770,7 @@ class CV_Admin_Pages {
         .cv-log-kpi-label { font-size:11px; color:var(--muted); margin-top:5px; text-transform:uppercase; letter-spacing:.4px; }
         /* Chart de atividade */
         .cv-log-chart-box { background:var(--card); border:1px solid var(--bord); border-radius:14px; padding:20px; margin-bottom:24px; }
-        .cv-log-chart-title { font-size:13px; font-weight:700; color:#fff; margin:0 0 14px; }
+        .cv-log-chart-title { font-size:13px; font-weight:700; color:#3B2418; margin:0 0 14px; }
         .cv-log-chart-title span { color:var(--muted); font-weight:400; font-size:11px; }
         .cv-log-bars { display:flex; align-items:flex-end; gap:3px; height:60px; }
         .cv-log-bar { flex:1; border-radius:3px 3px 0 0; background:var(--gold); opacity:.4; transition:opacity .2s; min-height:2px; }
@@ -2779,7 +2779,7 @@ class CV_Admin_Pages {
         /* Filtros */
         .cv-log-filters { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
         .cv-log-filter-btn { padding:6px 14px; border-radius:20px; border:1px solid var(--bord); background:transparent; color:var(--muted); font-size:12px; cursor:pointer; transition:all .2s; font-family:inherit; }
-        .cv-log-filter-btn.active, .cv-log-filter-btn:hover { border-color:var(--gold); color:var(--gold); background:rgba(212,160,23,.08); }
+        .cv-log-filter-btn.active, .cv-log-filter-btn:hover { border-color:var(--gold); color:var(--gold); background:rgba(242,165,26,0.1); }
         /* Timeline */
         .cv-log-timeline { position:relative; }
         .cv-log-timeline::before { content:''; position:absolute; left:20px; top:0; bottom:0; width:2px; background:var(--bord); }
@@ -2789,13 +2789,13 @@ class CV_Admin_Pages {
         .cv-log-dot-circle { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; border:2px solid var(--bord); background:var(--card); z-index:1; position:relative; }
         .cv-log-dot-line { flex:1; width:2px; background:transparent; }
         .cv-log-body { flex:1; background:var(--card); border:1px solid var(--bord); border-radius:10px; padding:12px 14px; transition:border-color .2s; }
-        .cv-log-body:hover { border-color:rgba(212,160,23,.3); }
+        .cv-log-body:hover { border-color:rgba(201,162,126,0.6); }
         .cv-log-body-top { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-        .cv-log-label { font-size:13px; font-weight:600; color:#fff; }
+        .cv-log-label { font-size:13px; font-weight:600; color:#3B2418; }
         .cv-log-badge { font-size:10px; padding:2px 8px; border-radius:10px; font-weight:600; }
         .cv-log-user { font-size:11px; color:var(--gold); margin-left:auto; }
         .cv-log-desc { font-size:12px; color:var(--muted); margin-top:5px; }
-        .cv-log-meta { display:flex; gap:12px; margin-top:6px; font-size:10px; color:#555; }
+        .cv-log-meta { display:flex; gap:12px; margin-top:6px; font-size:10px; color:#8A6A55; }
         .cv-log-empty { text-align:center; padding:60px; color:var(--muted); }
         /* Categorias ocultas */
         .cv-log-entry[data-cat].hidden { display:none; }
@@ -2863,14 +2863,14 @@ class CV_Admin_Pages {
         <?php if ( empty($logs) ) : ?>
         <div class="cv-log-empty">
             <div style="font-size:48px;margin-bottom:12px">📋</div>
-            <div style="font-size:16px;color:#e0e0e0;margin-bottom:6px">Nenhum log registrado ainda</div>
+            <div style="font-size:16px;color:#3B2418;margin-bottom:6px">Nenhum log registrado ainda</div>
             <div style="font-size:13px">As ações serão registradas automaticamente conforme você usa o painel.</div>
         </div>
         <?php else : ?>
         <div class="cv-log-timeline" id="cv-log-timeline">
         <?php foreach ($logs as $log):
             $action = isset($log->action) ? $log->action : 'other';
-            $map    = isset($action_map[$action]) ? $action_map[$action] : array('icon'=>'⚙️','label'=>$action,'color'=>'#888');
+            $map    = isset($action_map[$action]) ? $action_map[$action] : array('icon'=>'⚙️','label'=>$action,'color'=>'#C9A27E');
             $icon   = $map['icon']; $label = $map['label']; $cor = $map['color'];
             // Categoria para filtro
             if ( strpos($action,'music') !== false ) { $cat = 'music'; }
@@ -2972,7 +2972,7 @@ class CV_Admin_Pages {
                 'perms' => array('Tudo do Ouvinte', 'Criar músicas', 'Editar músicas', 'Painel admin (restrito)'),
             ),
             'cv_gerente'  => array(
-                'label' => 'Gerente CV', 'icon' => '🎛️', 'cor' => '#D4A017',
+                'label' => 'Gerente CV', 'icon' => '🎛️', 'cor' => '#B8700C',
                 'desc'  => 'Editor com poderes extras: excluir músicas, gerenciar playlists e usuários.',
                 'perms' => array('Tudo do Editor', 'Excluir músicas', 'Gerenciar playlists', 'Ver usuários'),
             ),
@@ -2996,16 +2996,16 @@ class CV_Admin_Pages {
         ?>
         <div class="wrap" id="cv-roles-exec">
         <style>
-        body.wp-admin { background:#0f0f1a !important; }
-        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#0f0f1a !important; }
+        body.wp-admin { background:#FBF6EE !important; }
+        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#FBF6EE !important; }
         #cv-roles-exec {
-            --gold:#D4A017; --bg:#0f0f1a; --card:#1a1a2e; --bord:#2a2a4a;
-            --text:#e0e0e0; --muted:#888;
+            --gold:#B8700C; --bg:#FFFFFF; --card:#F8F0E4; --bord:#F3E6D3;
+            --text:#3B2418; --muted:#C9A27E;
             color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; padding-bottom:48px;
         }
         #cv-roles-exec * { box-sizing:border-box; }
         .cv-rol-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
-        .cv-rol-title { font-size:24px; font-weight:700; color:#fff; margin:0; }
+        .cv-rol-title { font-size:24px; font-weight:700; color:#3B2418; margin:0; }
         .cv-rol-title span { color:var(--gold); }
         /* Cards de role */
         .cv-rol-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; margin-bottom:28px; }
@@ -3013,7 +3013,7 @@ class CV_Admin_Pages {
         .cv-rol-card:hover { transform:translateY(-2px); }
         .cv-rol-card-top { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
         .cv-rol-icon { font-size:28px; }
-        .cv-rol-name { font-size:15px; font-weight:700; color:#fff; }
+        .cv-rol-name { font-size:15px; font-weight:700; color:#3B2418; }
         .cv-rol-count { font-size:11px; margin-top:2px; }
         .cv-rol-desc { font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:12px; }
         .cv-rol-perms { display:flex; flex-direction:column; gap:4px; }
@@ -3021,16 +3021,16 @@ class CV_Admin_Pages {
         .cv-rol-perm::before { content:'✓'; font-size:10px; font-weight:700; }
         /* Formulário de atribuição */
         .cv-rol-assign-box { background:var(--card); border:1px solid var(--bord); border-radius:14px; padding:22px; }
-        .cv-rol-assign-title { font-size:15px; font-weight:700; color:#fff; margin:0 0 18px; }
+        .cv-rol-assign-title { font-size:15px; font-weight:700; color:#3B2418; margin:0 0 18px; }
         .cv-rol-assign-grid { display:grid; grid-template-columns:1fr 1fr auto; gap:12px; align-items:end; }
         @media (max-width:800px) { .cv-rol-assign-grid { grid-template-columns:1fr; } }
         .cv-rol-field label { display:block; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; margin-bottom:5px; }
-        .cv-rol-select { width:100%; background:rgba(255,255,255,.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
+        .cv-rol-select { width:100%; background:rgba(123,58,34,0.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
         .cv-rol-select:focus { border-color:var(--gold); }
-        .cv-rol-select option { background:#1a1a2e; }
-        .cv-rol-btn-save { background:var(--gold); color:#000; border:none; padding:10px 20px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; white-space:nowrap; font-family:inherit; transition:opacity .2s; }
+        .cv-rol-select option { background:#F8F0E4; }
+        .cv-rol-btn-save { background:var(--gold); color:#3B2418; border:none; padding:10px 20px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; white-space:nowrap; font-family:inherit; transition:opacity .2s; }
         .cv-rol-btn-save:hover { opacity:.85; }
-        .cv-rol-notice { background:rgba(29,185,84,.08); border:1px solid rgba(29,185,84,.3); color:#1DB954; border-radius:8px; padding:10px 14px; font-size:13px; margin-bottom:18px; }
+        .cv-rol-notice { background:rgba(29,185,84,.08); border:1px solid rgba(29,185,84,.3); color:#137B38; border-radius:8px; padding:10px 14px; font-size:13px; margin-bottom:18px; }
         .cv-rol-warn { font-size:11px; color:var(--muted); margin-top:14px; padding:10px 14px; background:rgba(231,76,60,.06); border:1px solid rgba(231,76,60,.15); border-radius:8px; }
         </style>
 
@@ -3135,20 +3135,20 @@ class CV_Admin_Pages {
         ?>
         <div class="wrap" id="cv-yt-exec">
         <style>
-        body.wp-admin { background:#0f0f1a !important; }
-        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#0f0f1a !important; }
+        body.wp-admin { background:#FBF6EE !important; }
+        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#FBF6EE !important; }
         #cv-yt-exec {
-            --gold:#D4A017; --bg:#0f0f1a; --card:#1a1a2e; --bord:#2a2a4a;
-            --text:#e0e0e0; --muted:#888; --green:#1DB954; --red:#e74c3c; --yt:#FF0000;
+            --gold:#B8700C; --bg:#FFFFFF; --card:#F8F0E4; --bord:#F3E6D3;
+            --text:#3B2418; --muted:#C9A27E; --green:#1DB954; --red:#e74c3c; --yt:#FF0000;
             color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; padding-bottom:48px;
         }
         #cv-yt-exec * { box-sizing:border-box; }
         .cv-yt-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
-        .cv-yt-title { font-size:24px; font-weight:700; color:#fff; margin:0; }
+        .cv-yt-title { font-size:24px; font-weight:700; color:#3B2418; margin:0; }
         .cv-yt-title span { color:var(--yt); }
         .cv-yt-pill { display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:600; }
         .cv-yt-pill.ok  { background:rgba(29,185,84,.1); border:1px solid rgba(29,185,84,.3); color:var(--green); }
-        .cv-yt-pill.off { background:rgba(255,0,0,.08); border:1px solid rgba(255,0,0,.25); color:#ff6b6b; }
+        .cv-yt-pill.off { background:rgba(255,0,0,.08); border:1px solid rgba(255,0,0,.25); color:#DB0000; }
         /* Grid layout */
         .cv-yt-layout { display:grid; grid-template-columns:320px 1fr; gap:20px; align-items:start; }
         @media (max-width:1000px) { .cv-yt-layout { grid-template-columns:1fr; } }
@@ -3157,20 +3157,20 @@ class CV_Admin_Pages {
         .cv-yt-card { background:var(--card); border:1px solid var(--bord); border-radius:14px; overflow:hidden; }
         .cv-yt-card-hdr { padding:14px 18px; border-bottom:1px solid var(--bord); display:flex; align-items:center; gap:10px; }
         .cv-yt-card-hdr-icon { font-size:18px; }
-        .cv-yt-card-hdr-title { font-size:14px; font-weight:700; color:#fff; }
+        .cv-yt-card-hdr-title { font-size:14px; font-weight:700; color:#3B2418; }
         .cv-yt-card-body { padding:18px; }
         /* API form */
         .cv-yt-api-row { display:flex; gap:8px; }
-        .cv-yt-input { flex:1; background:rgba(255,255,255,.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
+        .cv-yt-input { flex:1; background:rgba(123,58,34,0.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:9px 12px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
         .cv-yt-input:focus { border-color:var(--gold); }
         .cv-yt-btn { padding:9px 16px; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer; border:none; font-family:inherit; transition:opacity .2s; }
         .cv-yt-btn:hover { opacity:.85; }
-        .cv-yt-btn-save { background:var(--gold); color:#000; }
-        .cv-yt-btn-primary { background:var(--yt); color:#fff; width:100%; justify-content:center; display:flex; align-items:center; gap:8px; padding:11px; }
+        .cv-yt-btn-save { background:var(--gold); color:#3B2418; }
+        .cv-yt-btn-primary { background:var(--yt); color:#3B2418; width:100%; justify-content:center; display:flex; align-items:center; gap:8px; padding:11px; }
         .cv-yt-hint { font-size:11px; color:var(--muted); margin-top:8px; line-height:1.5; }
         /* Busca */
         .cv-yt-search-row { display:flex; gap:8px; margin-bottom:14px; }
-        .cv-yt-channel-input { flex:1; background:rgba(255,255,255,.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:10px 14px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
+        .cv-yt-channel-input { flex:1; background:rgba(123,58,34,0.04); border:1px solid var(--bord); border-radius:8px; color:var(--text); padding:10px 14px; font-size:13px; outline:none; transition:border-color .2s; font-family:inherit; }
         .cv-yt-channel-input:focus { border-color:var(--yt); }
         /* Stats bar */
         .cv-yt-statsbar { display:flex; gap:16px; padding:12px 0; border-bottom:1px solid var(--bord); margin-bottom:16px; flex-wrap:wrap; }
@@ -3179,37 +3179,37 @@ class CV_Admin_Pages {
         .cv-yt-stat-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; }
         /* Progress */
         .cv-yt-progress-wrap { margin:14px 0; display:none; }
-        .cv-yt-progress-bar { background:rgba(255,255,255,.06); border-radius:6px; height:8px; overflow:hidden; margin-bottom:8px; }
+        .cv-yt-progress-bar { background:rgba(123,58,34,0.07); border-radius:6px; height:8px; overflow:hidden; margin-bottom:8px; }
         .cv-yt-progress-fill { height:100%; background:linear-gradient(90deg,var(--yt),#ff6b6b); width:0%; transition:width .3s; border-radius:6px; }
         .cv-yt-progress-txt { font-size:12px; color:var(--muted); }
         /* Result cards */
         .cv-yt-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
         .cv-yt-video-card {
-            background:rgba(255,255,255,.03); border:1px solid var(--bord);
+            background:rgba(123,58,34,0.03); border:1px solid var(--bord);
             border-radius:10px; overflow:hidden; cursor:pointer;
             transition:border-color .2s, transform .15s;
             position:relative;
         }
-        .cv-yt-video-card:hover { border-color:rgba(212,160,23,.4); transform:translateY(-2px); }
-        .cv-yt-video-card.selected { border-color:var(--gold); background:rgba(212,160,23,.06); }
+        .cv-yt-video-card:hover { border-color:rgba(201,162,126,0.8); transform:translateY(-2px); }
+        .cv-yt-video-card.selected { border-color:var(--gold); background:rgba(242,165,26,0.08); }
         .cv-yt-video-card.imported { border-color:rgba(29,185,84,.4); opacity:.6; }
         .cv-yt-thumb { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
         .cv-yt-video-info { padding:10px; }
         .cv-yt-video-title { font-size:12px; font-weight:600; color:var(--text); line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
         .cv-yt-video-date { font-size:10px; color:var(--muted); margin-top:4px; }
-        .cv-yt-check { position:absolute; top:6px; right:6px; width:22px; height:22px; border-radius:50%; background:var(--gold); color:#000; font-size:12px; font-weight:700; display:none; align-items:center; justify-content:center; }
+        .cv-yt-check { position:absolute; top:6px; right:6px; width:22px; height:22px; border-radius:50%; background:var(--gold); color:#3B2418; font-size:12px; font-weight:700; display:none; align-items:center; justify-content:center; }
         .cv-yt-video-card.selected .cv-yt-check { display:flex; }
-        .cv-yt-imported-badge { position:absolute; top:6px; left:6px; background:rgba(29,185,84,.9); color:#fff; font-size:9px; font-weight:700; padding:2px 6px; border-radius:10px; }
+        .cv-yt-imported-badge { position:absolute; top:6px; left:6px; background:rgba(29,185,84,.9); color:#3B2418; font-size:9px; font-weight:700; padding:2px 6px; border-radius:10px; }
         /* Status */
         .cv-yt-status-msg { font-size:13px; color:var(--gold); padding:10px 0; display:none; }
         .cv-yt-done-msg { display:none; }
         /* Toolbar */
         .cv-yt-toolbar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:14px; }
-        .cv-yt-btn-outline { background:rgba(255,255,255,.05); border:1px solid var(--bord); color:var(--text); padding:7px 14px; }
-        .cv-yt-btn-import { background:var(--yt); color:#fff; padding:9px 20px; }
+        .cv-yt-btn-outline { background:rgba(123,58,34,0.06); border:1px solid var(--bord); color:var(--text); padding:7px 14px; }
+        .cv-yt-btn-import { background:var(--yt); color:#3B2418; padding:9px 20px; }
         .cv-yt-selected-count { font-size:12px; color:var(--muted); }
         .cv-yt-loading { text-align:center; padding:40px; color:var(--muted); display:none; }
-        .cv-yt-spinner { display:inline-block; width:24px; height:24px; border:3px solid rgba(255,255,255,.1); border-top-color:var(--yt); border-radius:50%; animation:cv-spin .7s linear infinite; }
+        .cv-yt-spinner { display:inline-block; width:24px; height:24px; border:3px solid rgba(123,58,34,0.16); border-top-color:var(--yt); border-radius:50%; animation:cv-spin .7s linear infinite; }
         @keyframes cv-spin { to { transform:rotate(360deg); } }
         </style>
 
@@ -3251,7 +3251,7 @@ class CV_Admin_Pages {
                             1. console.cloud.google.com<br>
                             2. Criar projeto → Ativar "YouTube Data API v3"<br>
                             3. Credenciais → Criar chave de API<br>
-                            <span style="color:#555">Cota gratuita: 10.000 req/dia</span>
+                            <span style="color:#8A6A55">Cota gratuita: 10.000 req/dia</span>
                         </div>
                     </div>
                 </div>
@@ -3342,7 +3342,7 @@ class CV_Admin_Pages {
                     <!-- Estado vazio inicial -->
                     <div id="cv-yt-empty" style="text-align:center;padding:60px 20px;color:var(--muted)">
                         <div style="font-size:48px;margin-bottom:14px">▶</div>
-                        <div style="font-size:15px;color:#666;margin-bottom:6px">Nenhuma busca realizada</div>
+                        <div style="font-size:15px;color:#8A6A55;margin-bottom:6px">Nenhuma busca realizada</div>
                         <div style="font-size:12px">Insira o handle do canal e clique em Buscar Vídeos.</div>
                     </div>
 
@@ -3486,7 +3486,7 @@ class CV_Admin_Pages {
                             + (falhas ? '⚠️ ' : '✅ ') + 'Importados: <strong>' + imported + '</strong> &nbsp;|&nbsp; Já existiam: <strong>' + skipped + '</strong>'
                             + (falhas ? ' &nbsp;|&nbsp; Falharam: <strong>' + falhas + '</strong>' : '') + '<br>';
                         if (falhas) {
-                            html += '<div style="margin-top:8px;font-weight:400;font-size:12px;color:#ff8a80;max-height:140px;overflow:auto">'
+                            html += '<div style="margin-top:8px;font-weight:400;font-size:12px;color:#DC1100;max-height:140px;overflow:auto">'
                                   + erros.map(escHtml).join('<br>') + '</div>';
                         }
                         html += '<a href="<?php echo esc_js( admin_url("admin.php?page=cv-publicacao-rapida") ); ?>" style="color:var(--gold);margin-top:8px;display:inline-block;font-size:12px">⚡ Ir para Publicação Acelerada →</a>'

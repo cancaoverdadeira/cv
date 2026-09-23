@@ -35,28 +35,28 @@ class CV_Page_Playlists {
         ?>
         <div id="cv-admin-page" class="cv-admin-wrap">
         <style>
-        body.wp-admin { background:#0f0f1a !important; }
-        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#0f0f1a !important; }
+        body.wp-admin { background:#FBF6EE !important; }
+        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#FBF6EE !important; }
         /* Dark nos campos do formulário de playlists */
         #cv-admin-page .cv-input {
-            background:rgba(255,255,255,.04) !important;
-            border:1px solid #2a2a4a !important;
-            color:#e0e0e0 !important;
+            background:rgba(123,58,34,0.04) !important;
+            border:1px solid #EADBC6 !important;
+            color:#3B2418 !important;
             border-radius:8px !important;
         }
-        #cv-admin-page .cv-input:focus { border-color:#D4A017 !important; outline:none !important; }
-        #cv-admin-page .cv-form-label { color:#aaa !important; font-size:11px !important; text-transform:uppercase; letter-spacing:.4px; }
-        #cv-admin-page .cv-section { background:#1a1a2e !important; border:1px solid #2a2a4a !important; border-radius:14px; padding:22px 24px !important; margin-bottom:18px; }
-        #cv-admin-page .cv-section-title { color:#D4A017; border-color:#2a2a4a !important; }
-        #cv-admin-page .cv-admin-header { background:#1a1a2e; border:1px solid #2a2a4a; border-radius:12px; padding:18px 22px; margin-bottom:18px; }
-        #cv-admin-page h1 { color:#fff !important; }
-        #cv-admin-page .cv-admin-subtitle { color:#888 !important; }
-        #cv-admin-page .cv-btn-primary { background:#D4A017 !important; color:#000 !important; font-weight:700 !important; border-radius:8px !important; }
-        #cv-admin-page .cv-btn-outline { background:rgba(255,255,255,.05) !important; border:1px solid #2a2a4a !important; color:#aaa !important; border-radius:8px !important; }
-        #cv-admin-page .cv-table { background:#1a1a2e !important; }
-        #cv-admin-page .cv-table th { background:#16213e !important; color:#888 !important; border-color:#2a2a4a !important; }
-        #cv-admin-page .cv-table td { border-color:#2a2a4a !important; color:#e0e0e0 !important; }
-        #cv-admin-page .cv-table tr:hover td { background:rgba(255,255,255,.03) !important; }
+        #cv-admin-page .cv-input:focus { border-color:#C9A27E !important; outline:none !important; }
+        #cv-admin-page .cv-form-label { color:#6B4C3B !important; font-size:11px !important; text-transform:uppercase; letter-spacing:.4px; }
+        #cv-admin-page .cv-section { background:#F8F0E4 !important; border:1px solid #EADBC6 !important; border-radius:14px; padding:22px 24px !important; margin-bottom:18px; }
+        #cv-admin-page .cv-section-title { color:#7B3A22; border-color:#EADBC6 !important; }
+        #cv-admin-page .cv-admin-header { background:#F8F0E4; border:1px solid #EADBC6; border-radius:12px; padding:18px 22px; margin-bottom:18px; }
+        #cv-admin-page h1 { color:#3B2418 !important; }
+        #cv-admin-page .cv-admin-subtitle { color:#8A6A55 !important; }
+        #cv-admin-page .cv-btn-primary { background:#F2A51A !important; color:#3B2418 !important; font-weight:700 !important; border-radius:8px !important; }
+        #cv-admin-page .cv-btn-outline { background:rgba(123,58,34,0.06) !important; border:1px solid #EADBC6 !important; color:#6B4C3B !important; border-radius:8px !important; }
+        #cv-admin-page .cv-table { background:#F8F0E4 !important; }
+        #cv-admin-page .cv-table th { background:#F8F0E4 !important; color:#8A6A55 !important; border-color:#EADBC6 !important; }
+        #cv-admin-page .cv-table td { border-color:#EADBC6 !important; color:#3B2418 !important; }
+        #cv-admin-page .cv-table tr:hover td { background:rgba(123,58,34,0.03) !important; }
         </style>
         <?php echo CV_Admin::btn_voltar(); ?>
 
@@ -78,10 +78,10 @@ class CV_Page_Playlists {
 
             <!-- Formulário de nova playlist -->
             <div id="cv-pl-form-nova" class="cv-section" style="display:block">
-                <h2 class="cv-section-title" style="color:#D4A017;font-size:16px;margin-bottom:18px">🎵 Nova Playlist Oficial</h2>
+                <h2 class="cv-section-title" style="color:#7B3A22;font-size:16px;margin-bottom:18px">🎵 Nova Playlist Oficial</h2>
                 <div style="display:flex;flex-direction:column;gap:14px;max-width:560px">
                     <div class="cv-form-group">
-                        <label class="cv-form-label">Nome da playlist <span style="color:#e74c3c">*</span></label>
+                        <label class="cv-form-label">Nome da playlist <span style="color:#D62C1A">*</span></label>
                         <input type="text" id="cv-pl-nome" class="cv-input"
                                placeholder="Ex: Top Sertanejo Universitário" maxlength="100" />
                     </div>
@@ -91,13 +91,13 @@ class CV_Page_Playlists {
                                   placeholder="Descrição opcional da playlist"></textarea>
                     </div>
                     <div class="cv-form-group" style="display:flex;align-items:center;gap:10px">
-                        <input type="checkbox" id="cv-pl-publica" style="width:18px;height:18px;accent-color:#D4A017" />
+                        <input type="checkbox" id="cv-pl-publica" style="width:18px;height:18px;accent-color:#B8700C" />
                         <label for="cv-pl-publica" class="cv-form-label" style="margin:0">
                             Playlist pública (visível para todos os usuários)
                         </label>
                     </div>
                     <div class="cv-form-group" style="display:flex;align-items:center;gap:10px">
-                        <input type="checkbox" id="cv-pl-destaque" style="width:18px;height:18px;accent-color:#D4A017" />
+                        <input type="checkbox" id="cv-pl-destaque" style="width:18px;height:18px;accent-color:#B8700C" />
                         <label for="cv-pl-destaque" class="cv-form-label" style="margin:0">
                             ⭐ Fixar na home (aparece na seção de playlists em destaque)
                         </label>
@@ -114,7 +114,7 @@ class CV_Page_Playlists {
                         </div>
                         <div id="cv-pl-capa-preview" style="margin-top:8px;display:none">
                             <img id="cv-pl-capa-img" src="" alt="Preview da capa"
-                                 style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid #333" />
+                                 style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid #EADBC6" />
                         </div>
                     </div>
                     <div style="display:flex;gap:10px">
@@ -127,15 +127,15 @@ class CV_Page_Playlists {
             <!-- Tabela de playlists -->
             <div class="cv-section">
                 <?php if ( empty( $playlists ) ) : ?>
-                    <div style="background:rgba(212,160,23,.05);border:1px dashed rgba(212,160,23,.25);border-radius:14px;padding:40px;text-align:center;margin-bottom:8px">
+                    <div style="background:rgba(242,165,26,0.07);border:1px dashed rgba(201,162,126,0.5);border-radius:14px;padding:40px;text-align:center;margin-bottom:8px">
                         <div style="font-size:48px;margin-bottom:14px">🎵</div>
-                        <div style="font-size:17px;color:#fff;font-weight:700;margin-bottom:8px">Nenhuma playlist criada ainda</div>
-                        <div style="font-size:13px;color:#888;margin-bottom:20px;line-height:1.6">
+                        <div style="font-size:17px;color:#3B2418;font-weight:700;margin-bottom:8px">Nenhuma playlist criada ainda</div>
+                        <div style="font-size:13px;color:#8A6A55;margin-bottom:20px;line-height:1.6">
                             Playlists editoriais são curadas por você e aparecem para todos os usuários do site.<br>
                             Ideal para destacar os maiores hits, lançamentos e temáticas especiais.
                         </div>
                         <button onclick="document.getElementById('cv-pl-nome').focus()"
-                                style="background:#D4A017;color:#000;border:none;padding:10px 24px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer">
+                                style="background:#F2A51A;color:#3B2418;border:none;padding:10px 24px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer">
                             ↑ Preencha o formulário acima para criar a primeira
                         </button>
                     </div>
@@ -155,14 +155,14 @@ class CV_Page_Playlists {
                     <tbody>
                     <?php foreach ( $playlists as $i => $pl ) : ?>
                         <tr id="cv-pl-row-<?php echo esc_attr( $pl->id ); ?>">
-                            <td style="color:#555;font-size:12px"><?php echo $i + 1; ?></td>
+                            <td style="color:#8A6A55;font-size:12px"><?php echo $i + 1; ?></td>
                             <td>
                                 <strong style="color:var(--cv-text)"><?php echo esc_html( $pl->name ); ?></strong>
                                 <?php if ( $pl->description ) : ?>
-                                    <br><span style="font-size:11px;color:#555"><?php echo esc_html( mb_substr( $pl->description, 0, 60 ) ); ?></span>
+                                    <br><span style="font-size:11px;color:#8A6A55"><?php echo esc_html( mb_substr( $pl->description, 0, 60 ) ); ?></span>
                                 <?php endif; ?>
                             </td>
-                            <td style="color:#888;font-size:13px"><?php echo esc_html( $pl->user_name ?: 'Admin' ); ?></td>
+                            <td style="color:#8A6A55;font-size:13px"><?php echo esc_html( $pl->user_name ?: 'Admin' ); ?></td>
                             <td style="text-align:center">
                                 <span class="cv-badge-count" id="cv-pl-count-<?php echo esc_attr( $pl->id ); ?>">
                                     <?php echo (int) $pl->total_musicas; ?>
@@ -170,12 +170,12 @@ class CV_Page_Playlists {
                             </td>
                             <td style="text-align:center">
                                 <?php if ( $pl->is_public ) : ?>
-                                    <span style="color:#27ae60;font-size:18px" title="Pública">●</span>
+                                    <span style="color:#1C7C44;font-size:18px" title="Pública">●</span>
                                 <?php else : ?>
-                                    <span style="color:#444;font-size:18px" title="Privada">○</span>
+                                    <span style="color:#8A6A55;font-size:18px" title="Privada">○</span>
                                 <?php endif; ?>
                             </td>
-                            <td style="color:#555;font-size:12px">
+                            <td style="color:#8A6A55;font-size:12px">
                                 <?php echo esc_html( date( 'd/m/Y', strtotime( $pl->created_at ) ) ); ?>
                             </td>
                             <td style="text-align:center">
@@ -194,7 +194,7 @@ class CV_Page_Playlists {
                                     </button>
                                     <button class="cv-btn cv-pl-excluir"
                                             data-id="<?php echo esc_attr( $pl->id ); ?>"
-                                            style="padding:4px 10px;font-size:11px;background:rgba(192,57,43,.15);color:#e74c3c;border:1px solid rgba(192,57,43,.3)">
+                                            style="padding:4px 10px;font-size:11px;background:rgba(192,57,43,.15);color:#D62C1A;border:1px solid rgba(192,57,43,.3)">
                                         🗑
                                     </button>
                                 </div>
@@ -209,39 +209,39 @@ class CV_Page_Playlists {
         </div><!-- /.cv-admin-wrap -->
 
         <!-- Modal: gerenciar músicas da playlist -->
-        <div id="cv-pl-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;align-items:center;justify-content:center">
-            <div style="background:#1a1a1a;border:1px solid rgba(212,160,23,.2);border-radius:16px;width:90%;max-width:680px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column">
+        <div id="cv-pl-modal" style="display:none;position:fixed;inset:0;background:rgba(59,36,24,0.45);z-index:9999;align-items:center;justify-content:center">
+            <div style="background:#FFFFFF;border:1px solid rgba(201,162,126,0.4);border-radius:16px;width:90%;max-width:680px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column">
 
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.06)">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(123,58,34,0.12)">
                     <div>
-                        <h3 id="cv-pl-modal-titulo" style="font-size:17px;font-weight:700;color:#F5F0E0;margin:0"></h3>
-                        <span id="cv-pl-modal-count" style="font-size:12px;color:#666"></span>
+                        <h3 id="cv-pl-modal-titulo" style="font-size:17px;font-weight:700;color:#3B2418;margin:0"></h3>
+                        <span id="cv-pl-modal-count" style="font-size:12px;color:#8A6A55"></span>
                     </div>
-                    <button id="cv-pl-modal-fechar" style="background:none;border:none;color:#666;font-size:20px;cursor:pointer;padding:4px 8px">✕</button>
+                    <button id="cv-pl-modal-fechar" style="background:none;border:none;color:#8A6A55;font-size:20px;cursor:pointer;padding:4px 8px">✕</button>
                 </div>
 
                 <div style="display:flex;gap:0;flex:1;overflow:hidden">
 
                     <!-- Músicas na playlist -->
-                    <div style="flex:1;overflow-y:auto;padding:16px;border-right:1px solid rgba(255,255,255,.05)">
-                        <p style="font-size:11px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Na playlist</p>
+                    <div style="flex:1;overflow-y:auto;padding:16px;border-right:1px solid rgba(123,58,34,0.12)">
+                        <p style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Na playlist</p>
                         <div id="cv-pl-musicas-lista" style="display:flex;flex-direction:column;gap:6px">
-                            <p style="color:#444;font-size:13px">Carregando...</p>
+                            <p style="color:#8A6A55;font-size:13px">Carregando...</p>
                         </div>
                     </div>
 
                     <!-- Adicionar músicas -->
                     <div style="flex:1;overflow-y:auto;padding:16px">
-                        <p style="font-size:11px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Adicionar música</p>
+                        <p style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Adicionar música</p>
                         <input type="text" id="cv-pl-busca-musica" placeholder="Filtrar músicas..."
-                               style="width:100%;background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:8px 12px;color:#F5F0E0;font-size:13px;outline:none;margin-bottom:10px;box-sizing:border-box" />
+                               style="width:100%;background:#FBF6EE;border:1px solid #EADBC6;border-radius:8px;padding:8px 12px;color:#3B2418;font-size:13px;outline:none;margin-bottom:10px;box-sizing:border-box" />
                         <div id="cv-pl-musicas-disponiveis" style="display:flex;flex-direction:column;gap:4px;max-height:320px;overflow-y:auto">
                             <?php foreach ( $musicas as $musica ) : ?>
                             <div class="cv-pl-musica-item"
                                  data-id="<?php echo esc_attr( $musica->ID ); ?>"
                                  data-titulo="<?php echo esc_attr( strtolower( $musica->post_title ) ); ?>"
-                                 style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:rgba(255,255,255,.03);border-radius:6px;cursor:pointer;transition:background .15s">
-                                <span style="font-size:13px;color:#C8B98A"><?php echo esc_html( $musica->post_title ); ?></span>
+                                 style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:rgba(123,58,34,0.03);border-radius:6px;cursor:pointer;transition:background .15s">
+                                <span style="font-size:13px;color:#6B4C3B"><?php echo esc_html( $musica->post_title ); ?></span>
                                 <button class="cv-pl-add-musica cv-btn cv-btn-outline"
                                         data-id="<?php echo esc_attr( $musica->ID ); ?>"
                                         style="padding:3px 10px;font-size:11px;flex-shrink:0">
@@ -265,7 +265,7 @@ class CV_Page_Playlists {
             function showMsg(msg, ok) {
                 var $m = $('#cv-pl-msg');
                 $m.text(msg)
-                  .css({ background: ok ? '#1a2e1a' : '#2e1a1a',
+                  .css({ background: ok ? '#EBF4EB' : '#F4EBEB',
                          border: '1px solid ' + (ok ? '#2d6a2d' : '#6a2d2d'),
                          color:  ok ? '#7fce7f' : '#ce7f7f' })
                   .show();
@@ -376,7 +376,7 @@ class CV_Page_Playlists {
             });
 
             function carregarMusicasPlaylist(plId) {
-                $('#cv-pl-musicas-lista').html('<p style="color:#444;font-size:13px">Carregando...</p>');
+                $('#cv-pl-musicas-lista').html('<p style="color:#8A6A55;font-size:13px">Carregando...</p>');
 
                 // Busca músicas via endpoint REST do plugin
                 $.get('<?php echo esc_js( rest_url( 'cv/v1/ranking/top' ) ); ?>', function(){})
@@ -392,7 +392,7 @@ class CV_Page_Playlists {
                             $('#cv-pl-modal-count').text(res.data.items.length + ' música(s)');
                             $('#cv-pl-count-' + plId).text(res.data.items.length);
                         } else {
-                            $('#cv-pl-musicas-lista').html('<p style="color:#444;font-size:13px">Nenhuma música ainda.</p>');
+                            $('#cv-pl-musicas-lista').html('<p style="color:#8A6A55;font-size:13px">Nenhuma música ainda.</p>');
                         }
                     });
                  });
@@ -400,16 +400,16 @@ class CV_Page_Playlists {
 
             function renderMusicasPlaylist(items, plId) {
                 if (!items.length) {
-                    $('#cv-pl-musicas-lista').html('<p style="color:#444;font-size:13px;font-style:italic">Playlist vazia. Adicione músicas ao lado.</p>');
+                    $('#cv-pl-musicas-lista').html('<p style="color:#8A6A55;font-size:13px;font-style:italic">Playlist vazia. Adicione músicas ao lado.</p>');
                     return;
                 }
                 var html = '';
                 $.each(items, function(i, item){
-                    html += '<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(255,255,255,.03);border-radius:6px">'
-                          + '<span style="font-size:11px;color:#555;min-width:18px">' + (i+1) + '</span>'
-                          + '<span style="flex:1;font-size:13px;color:#C8B98A;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + escHtml(item.title) + '</span>'
+                    html += '<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(123,58,34,0.03);border-radius:6px">'
+                          + '<span style="font-size:11px;color:#8A6A55;min-width:18px">' + (i+1) + '</span>'
+                          + '<span style="flex:1;font-size:13px;color:#6B4C3B;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + escHtml(item.title) + '</span>'
                           + '<button class="cv-pl-remover-musica cv-btn" data-pl="' + plId + '" data-music="' + item.id + '"'
-                          + ' style="padding:3px 8px;font-size:11px;background:rgba(192,57,43,.15);color:#e74c3c;border:1px solid rgba(192,57,43,.3);flex-shrink:0">✕</button>'
+                          + ' style="padding:3px 8px;font-size:11px;background:rgba(192,57,43,.15);color:#D62C1A;border:1px solid rgba(192,57,43,.3);flex-shrink:0">✕</button>'
                           + '</div>';
                 });
                 $('#cv-pl-musicas-lista').html(html);

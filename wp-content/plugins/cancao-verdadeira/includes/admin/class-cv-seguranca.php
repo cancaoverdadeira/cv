@@ -195,52 +195,52 @@ class CV_Seguranca {
         );
 
         ?>
-        <div class="wrap" style="background:#0f0f1a;min-height:100vh;padding:24px;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+        <div class="wrap" style="background:#FFFFFF;min-height:100vh;padding:24px;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
 
         <!-- HEADER -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px;">
             <div>
-                <h1 style="color:#fff;font-size:22px;margin:0 0 4px 0;font-weight:700;">🔐 Segurança Avançada</h1>
-                <p style="color:#666;font-size:13px;margin:0;">Monitoramento de ameaças e tentativas de invasão · Canção Verdadeira</p>
+                <h1 style="color:#3B2418;font-size:22px;margin:0 0 4px 0;font-weight:700;">🔐 Segurança Avançada</h1>
+                <p style="color:#8A6A55;font-size:13px;margin:0;">Monitoramento de ameaças e tentativas de invasão · Canção Verdadeira</p>
             </div>
-            <div style="text-align:center;background:#1a1a2e;border:2px solid <?php echo $sc; ?>44;border-radius:12px;padding:14px 24px;">
+            <div style="text-align:center;background:#F8F0E4;border:2px solid <?php echo $sc; ?>44;border-radius:12px;padding:14px 24px;">
                 <div style="font-size:34px;font-weight:800;color:<?php echo $sc; ?>;"><?php echo $score; ?></div>
                 <div style="font-size:11px;color:<?php echo $sc; ?>;text-transform:uppercase;letter-spacing:1px;font-weight:700;"><?php echo $sl; ?></div>
-                <div style="font-size:10px;color:#555;margin-top:2px;">Score de Segurança</div>
+                <div style="font-size:10px;color:#8A6A55;margin-top:2px;">Score de Segurança</div>
             </div>
         </div>
 
         <!-- KPI CARDS -->
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px;">
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-left:4px solid #e74c3c;border-radius:10px;padding:18px;">
-                <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px;">Falhas de Login (24h)</div>
-                <div style="font-size:36px;font-weight:800;color:<?php echo $d['fail_24h'] > 10 ? '#e74c3c' : '#D4A017'; ?>;margin:6px 0;"><?php echo $d['fail_24h']; ?></div>
-                <div style="font-size:12px;color:#555;"><?php echo $d['fail_7d']; ?> nos últimos 7 dias</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-left:4px solid #e74c3c;border-radius:10px;padding:18px;">
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;">Falhas de Login (24h)</div>
+                <div style="font-size:36px;font-weight:800;color:<?php echo $d['fail_24h'] > 10 ? '#e74c3c' : '#B8700C'; ?>;margin:6px 0;"><?php echo $d['fail_24h']; ?></div>
+                <div style="font-size:12px;color:#8A6A55;"><?php echo $d['fail_7d']; ?> nos últimos 7 dias</div>
             </div>
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-left:4px solid #e67e22;border-radius:10px;padding:18px;">
-                <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px;">IPs Bloqueados (24h)</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-left:4px solid #e67e22;border-radius:10px;padding:18px;">
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;">IPs Bloqueados (24h)</div>
                 <div style="font-size:36px;font-weight:800;color:<?php echo $d['blocked_24h'] > 0 ? '#e67e22' : '#1DB954'; ?>;margin:6px 0;"><?php echo $d['blocked_24h']; ?></div>
-                <div style="font-size:12px;color:#555;"><?php echo count($d['active_blocks']); ?> ativos agora (10min)</div>
+                <div style="font-size:12px;color:#8A6A55;"><?php echo count($d['active_blocks']); ?> ativos agora (10min)</div>
             </div>
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-left:4px solid #1DB954;border-radius:10px;padding:18px;">
-                <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px;">Logins Bem Sucedidos (24h)</div>
-                <div style="font-size:36px;font-weight:800;color:#1DB954;margin:6px 0;"><?php echo $d['ok_24h']; ?></div>
-                <div style="font-size:12px;color:#555;">acessos legítimos</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-left:4px solid #1DB954;border-radius:10px;padding:18px;">
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;">Logins Bem Sucedidos (24h)</div>
+                <div style="font-size:36px;font-weight:800;color:#137B38;margin:6px 0;"><?php echo $d['ok_24h']; ?></div>
+                <div style="font-size:12px;color:#8A6A55;">acessos legítimos</div>
             </div>
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-left:4px solid #4a90d9;border-radius:10px;padding:18px;">
-                <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px;">Headers HTTP</div>
-                <div style="font-size:36px;font-weight:800;color:#4a90d9;margin:6px 0;"><?php echo count( array_filter( $headers_ok ) ); ?>/<?php echo count($headers_ok); ?></div>
-                <div style="font-size:12px;color:#555;">headers de segurança ativos</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-left:4px solid #4a90d9;border-radius:10px;padding:18px;">
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;">Headers HTTP</div>
+                <div style="font-size:36px;font-weight:800;color:#2871BE;margin:6px 0;"><?php echo count( array_filter( $headers_ok ) ); ?>/<?php echo count($headers_ok); ?></div>
+                <div style="font-size:12px;color:#8A6A55;">headers de segurança ativos</div>
             </div>
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-left:4px solid #9b59b6;border-radius:10px;padding:18px;">
-                <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px;">SSL / HTTPS</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-left:4px solid #9b59b6;border-radius:10px;padding:18px;">
+                <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;">SSL / HTTPS</div>
                 <div style="font-size:36px;font-weight:800;color:<?php echo is_ssl() ? '#1DB954' : '#e74c3c'; ?>;margin:6px 0;"><?php echo is_ssl() ? '✓' : '✗'; ?></div>
-                <div style="font-size:12px;color:#555;"><?php echo is_ssl() ? 'Certificado ativo (Cloudflare)' : 'HTTPS não detectado'; ?></div>
+                <div style="font-size:12px;color:#8A6A55;"><?php echo is_ssl() ? 'Certificado ativo (Cloudflare)' : 'HTTPS não detectado'; ?></div>
             </div>
 
         </div>
@@ -248,15 +248,15 @@ class CV_Seguranca {
         <!-- GRÁFICO 7 DIAS + TIMELINE 24H -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:12px;padding:20px;">
-                <div style="color:#D4A017;font-size:13px;font-weight:700;margin-bottom:16px;">📊 Ataques — Últimos 7 Dias</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:12px;padding:20px;">
+                <div style="color:#7B3A22;font-size:13px;font-weight:700;margin-bottom:16px;">📊 Ataques — Últimos 7 Dias</div>
                 <div style="position:relative;height:180px;">
                     <canvas id="cv-seg-chart7"></canvas>
                 </div>
             </div>
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:12px;padding:20px;">
-                <div style="color:#e74c3c;font-size:13px;font-weight:700;margin-bottom:16px;">⏱️ Timeline 24h — Por Hora</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:12px;padding:20px;">
+                <div style="color:#D62C1A;font-size:13px;font-weight:700;margin-bottom:16px;">⏱️ Timeline 24h — Por Hora</div>
                 <div style="position:relative;height:180px;">
                     <canvas id="cv-seg-timeline"></canvas>
                 </div>
@@ -268,13 +268,13 @@ class CV_Seguranca {
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
 
             <!-- Top IPs -->
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:12px;overflow:hidden;">
-                <div style="padding:16px 20px;border-bottom:1px solid #2a2a4a;display:flex;align-items:center;justify-content:space-between;">
-                    <div style="color:#e74c3c;font-size:13px;font-weight:700;">🌐 Top IPs Atacantes (7 dias)</div>
-                    <div style="font-size:11px;color:#555;"><?php echo count($d['top_ips']); ?> IPs únicos</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:12px;overflow:hidden;">
+                <div style="padding:16px 20px;border-bottom:1px solid #EADBC6;display:flex;align-items:center;justify-content:space-between;">
+                    <div style="color:#D62C1A;font-size:13px;font-weight:700;">🌐 Top IPs Atacantes (7 dias)</div>
+                    <div style="font-size:11px;color:#8A6A55;"><?php echo count($d['top_ips']); ?> IPs únicos</div>
                 </div>
                 <?php if ( empty( $d['top_ips'] ) ) : ?>
-                <div style="padding:30px;text-align:center;color:#555;font-size:13px;">✅ Nenhum ataque registrado nos últimos 7 dias</div>
+                <div style="padding:30px;text-align:center;color:#8A6A55;font-size:13px;">✅ Nenhum ataque registrado nos últimos 7 dias</div>
                 <?php else : ?>
                 <?php $max_ip = max( array_column( (array)$d['top_ips'], 'total' ) ); $max_ip = max(1,$max_ip); ?>
                 <?php foreach ( $d['top_ips'] as $row ) :
@@ -285,43 +285,43 @@ class CV_Seguranca {
                     }
                     $short_ip = strlen($row->ip_address) > 18 ? substr($row->ip_address,0,15).'...' : $row->ip_address;
                 ?>
-                <div style="padding:12px 20px;border-bottom:1px solid #1d1d35;">
+                <div style="padding:12px 20px;border-bottom:1px solid #EADBC6;">
                     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
                         <div style="display:flex;align-items:center;gap:8px;">
-                            <code style="color:#e74c3c;font-size:12px;background:#e74c3c11;padding:2px 6px;border-radius:4px;"><?php echo esc_html( $row->ip_address ); ?></code>
+                            <code style="color:#D62C1A;font-size:12px;background:#e74c3c11;padding:2px 6px;border-radius:4px;"><?php echo esc_html( $row->ip_address ); ?></code>
                             <?php if ( $active_now ) : ?>
-                            <span style="background:#e74c3c22;color:#e74c3c;border:1px solid #e74c3c44;border-radius:10px;padding:1px 7px;font-size:10px;font-weight:700;">BLOQUEADO</span>
+                            <span style="background:#e74c3c22;color:#D62C1A;border:1px solid #e74c3c44;border-radius:10px;padding:1px 7px;font-size:10px;font-weight:700;">BLOQUEADO</span>
                             <?php elseif ( (int)$row->bloqueios > 0 ) : ?>
-                            <span style="background:#e67e2222;color:#e67e22;border:1px solid #e67e2244;border-radius:10px;padding:1px 7px;font-size:10px;font-weight:700;">BLOQ. ANTES</span>
+                            <span style="background:#e67e2222;color:#AD5C14;border:1px solid #e67e2244;border-radius:10px;padding:1px 7px;font-size:10px;font-weight:700;">BLOQ. ANTES</span>
                             <?php endif; ?>
                         </div>
                         <div style="display:flex;align-items:center;gap:8px;">
-                            <span style="color:#e74c3c;font-size:13px;font-weight:700;"><?php echo (int)$row->total; ?> ataques</span>
+                            <span style="color:#D62C1A;font-size:13px;font-weight:700;"><?php echo (int)$row->total; ?> ataques</span>
                             <?php if ( $active_now ) : ?>
                             <button onclick="cvUnblock('<?php echo esc_js($row->ip_address); ?>', this)"
                                     data-nonce="<?php echo $nonce; ?>"
-                                    style="background:#1DB95422;border:1px solid #1DB95444;color:#1DB954;border-radius:6px;padding:3px 9px;font-size:11px;cursor:pointer;font-weight:700;">
+                                    style="background:#1DB95422;border:1px solid #1DB95444;color:#137B38;border-radius:6px;padding:3px 9px;font-size:11px;cursor:pointer;font-weight:700;">
                                 🔓 Desbloquear
                             </button>
                             <?php endif; ?>
                         </div>
                     </div>
-                    <div style="background:#111;border-radius:4px;height:4px;overflow:clip;">
+                    <div style="background:#FBF6EE;border-radius:4px;height:4px;overflow:clip;">
                         <div style="height:100%;width:<?php echo $pct; ?>%;background:#e74c3c;border-radius:4px;"></div>
                     </div>
-                    <div style="font-size:10px;color:#444;margin-top:3px;">Último: <?php echo esc_html( date('d/m H:i', strtotime($row->last_seen)) ); ?></div>
+                    <div style="font-size:10px;color:#8A6A55;margin-top:3px;">Último: <?php echo esc_html( date('d/m H:i', strtotime($row->last_seen)) ); ?></div>
                 </div>
                 <?php endforeach; ?>
                 <?php endif; ?>
             </div>
 
             <!-- Top Alvos -->
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:12px;overflow:hidden;">
-                <div style="padding:16px 20px;border-bottom:1px solid #2a2a4a;">
-                    <div style="color:#e67e22;font-size:13px;font-weight:700;">🎯 Usuários Mais Visados (7 dias)</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:12px;overflow:hidden;">
+                <div style="padding:16px 20px;border-bottom:1px solid #EADBC6;">
+                    <div style="color:#AD5C14;font-size:13px;font-weight:700;">🎯 Usuários Mais Visados (7 dias)</div>
                 </div>
                 <?php if ( empty( $d['top_targets'] ) ) : ?>
-                <div style="padding:30px;text-align:center;color:#555;font-size:13px;">✅ Nenhum alvo registrado</div>
+                <div style="padding:30px;text-align:center;color:#8A6A55;font-size:13px;">✅ Nenhum alvo registrado</div>
                 <?php else : ?>
                 <?php $max_t = max( array_column( (array)$d['top_targets'], 'total' ) ); $max_t = max(1,$max_t); ?>
                 <?php foreach ( $d['top_targets'] as $row ) :
@@ -330,12 +330,12 @@ class CV_Seguranca {
                     preg_match( '/usuário "([^"]*)"/', $row->description, $m );
                     $target_name = ! empty($m[1]) ? $m[1] : '(desconhecido)';
                 ?>
-                <div style="padding:12px 20px;border-bottom:1px solid #1d1d35;">
+                <div style="padding:12px 20px;border-bottom:1px solid #EADBC6;">
                     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
-                        <code style="color:#e67e22;font-size:12px;background:#e67e2211;padding:2px 8px;border-radius:4px;"><?php echo esc_html( $target_name ); ?></code>
-                        <span style="color:#e67e22;font-size:13px;font-weight:700;"><?php echo (int)$row->total; ?>×</span>
+                        <code style="color:#AD5C14;font-size:12px;background:#e67e2211;padding:2px 8px;border-radius:4px;"><?php echo esc_html( $target_name ); ?></code>
+                        <span style="color:#AD5C14;font-size:13px;font-weight:700;"><?php echo (int)$row->total; ?>×</span>
                     </div>
-                    <div style="background:#111;border-radius:4px;height:4px;overflow:clip;">
+                    <div style="background:#FBF6EE;border-radius:4px;height:4px;overflow:clip;">
                         <div style="height:100%;width:<?php echo $pct; ?>%;background:#e67e22;border-radius:4px;"></div>
                     </div>
                 </div>
@@ -349,12 +349,12 @@ class CV_Seguranca {
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
 
             <!-- Feed recente -->
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:12px;overflow:hidden;">
-                <div style="padding:16px 20px;border-bottom:1px solid #2a2a4a;">
-                    <div style="color:#4a90d9;font-size:13px;font-weight:700;">📋 Atividade Recente de Autenticação</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:12px;overflow:hidden;">
+                <div style="padding:16px 20px;border-bottom:1px solid #EADBC6;">
+                    <div style="color:#2871BE;font-size:13px;font-weight:700;">📋 Atividade Recente de Autenticação</div>
                 </div>
                 <?php if ( empty( $d['recent'] ) ) : ?>
-                <div style="padding:30px;text-align:center;color:#555;font-size:13px;">Nenhuma atividade registrada</div>
+                <div style="padding:30px;text-align:center;color:#8A6A55;font-size:13px;">Nenhuma atividade registrada</div>
                 <?php else : ?>
                 <?php foreach ( $d['recent'] as $ev ) :
                     $is_fail = $ev->action === 'login_failed';
@@ -364,25 +364,25 @@ class CV_Seguranca {
                     $ei = $is_ok ? '✅' : ( $is_blk ? '🚫' : '⚠️' );
                     $el = $is_ok ? 'Login OK' : ( $is_blk ? 'Bloqueado' : 'Falha' );
                 ?>
-                <div style="padding:10px 20px;border-bottom:1px solid #1d1d35;display:flex;align-items:center;gap:10px;">
+                <div style="padding:10px 20px;border-bottom:1px solid #EADBC6;display:flex;align-items:center;gap:10px;">
                     <span style="font-size:16px;"><?php echo $ei; ?></span>
                     <div style="flex:1;min-width:0;">
                         <div style="display:flex;align-items:center;gap:8px;">
                             <span style="background:<?php echo $ec; ?>22;color:<?php echo $ec; ?>;border-radius:10px;padding:1px 8px;font-size:10px;font-weight:700;"><?php echo $el; ?></span>
-                            <code style="color:#888;font-size:11px;"><?php echo esc_html( $ev->ip_address ); ?></code>
+                            <code style="color:#8A6A55;font-size:11px;"><?php echo esc_html( $ev->ip_address ); ?></code>
                         </div>
-                        <div style="color:#555;font-size:11px;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?php echo esc_html( $ev->description ); ?></div>
+                        <div style="color:#8A6A55;font-size:11px;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?php echo esc_html( $ev->description ); ?></div>
                     </div>
-                    <div style="color:#444;font-size:10px;white-space:nowrap;"><?php echo esc_html( date('d/m H:i', strtotime($ev->created_at)) ); ?></div>
+                    <div style="color:#8A6A55;font-size:10px;white-space:nowrap;"><?php echo esc_html( date('d/m H:i', strtotime($ev->created_at)) ); ?></div>
                 </div>
                 <?php endforeach; ?>
                 <?php endif; ?>
             </div>
 
             <!-- Checklist de Headers + Hardening -->
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:12px;overflow:hidden;">
-                <div style="padding:16px 20px;border-bottom:1px solid #2a2a4a;">
-                    <div style="color:#9b59b6;font-size:13px;font-weight:700;">🛡️ Checklist de Hardening</div>
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:12px;overflow:hidden;">
+                <div style="padding:16px 20px;border-bottom:1px solid #EADBC6;">
+                    <div style="color:#9752B3;font-size:13px;font-weight:700;">🛡️ Checklist de Hardening</div>
                 </div>
                 <div style="padding:16px 20px;">
                 <?php
@@ -404,9 +404,9 @@ class CV_Seguranca {
                     $c = $ch['ok'] ? '#1DB954' : '#e74c3c';
                     $i = $ch['ok'] ? '✅' : '❌';
                 ?>
-                <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #1d1d35;">
+                <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #EADBC6;">
                     <span style="font-size:14px;"><?php echo $i; ?></span>
-                    <span style="color:<?php echo $ch['ok'] ? '#c0c0c0' : '#888'; ?>;font-size:13px;"><?php echo esc_html($ch['label']); ?></span>
+                    <span style="color:<?php echo $ch['ok'] ? '#C9A27E' : '#C9A27E'; ?>;font-size:13px;"><?php echo esc_html($ch['label']); ?></span>
                 </div>
                 <?php endforeach; ?>
                 </div>
@@ -417,15 +417,15 @@ class CV_Seguranca {
         <!-- IPs ATIVAMENTE BLOQUEADOS AGORA -->
         <?php if ( ! empty( $d['active_blocks'] ) ) : ?>
         <div style="background:#e74c3c11;border:1px solid #e74c3c44;border-radius:12px;padding:20px;margin-bottom:20px;">
-            <div style="color:#e74c3c;font-size:14px;font-weight:700;margin-bottom:12px;">🚨 IPs com Bloqueio Ativo Agora (últimos 10min)</div>
+            <div style="color:#D62C1A;font-size:14px;font-weight:700;margin-bottom:12px;">🚨 IPs com Bloqueio Ativo Agora (últimos 10min)</div>
             <div style="display:flex;flex-wrap:wrap;gap:8px;">
                 <?php foreach ( $d['active_blocks'] as $ab ) : ?>
                 <div style="background:#e74c3c22;border:1px solid #e74c3c44;border-radius:8px;padding:8px 14px;display:flex;align-items:center;gap:10px;">
-                    <code style="color:#e74c3c;font-size:13px;"><?php echo esc_html($ab->ip_address); ?></code>
-                    <span style="color:#888;font-size:11px;"><?php echo (int)$ab->hits; ?> hits</span>
+                    <code style="color:#D62C1A;font-size:13px;"><?php echo esc_html($ab->ip_address); ?></code>
+                    <span style="color:#8A6A55;font-size:11px;"><?php echo (int)$ab->hits; ?> hits</span>
                     <button onclick="cvUnblock('<?php echo esc_js($ab->ip_address); ?>', this)"
                             data-nonce="<?php echo $nonce; ?>"
-                            style="background:#1DB95422;border:1px solid #1DB95444;color:#1DB954;border-radius:6px;padding:3px 9px;font-size:11px;cursor:pointer;font-weight:700;">
+                            style="background:#1DB95422;border:1px solid #1DB95444;color:#137B38;border-radius:6px;padding:3px 9px;font-size:11px;cursor:pointer;font-weight:700;">
                         🔓 Liberar
                     </button>
                 </div>
@@ -435,9 +435,9 @@ class CV_Seguranca {
         <?php endif; ?>
 
         <!-- Nota informativa -->
-        <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:10px;padding:16px 20px;margin-bottom:16px;">
-            <div style="color:#666;font-size:12px;line-height:1.7;">
-                ℹ️ <strong style="color:#888;">Sobre os dados:</strong> As tentativas de login são registradas pela camada de segurança do plugin na tabela <code style="color:#9b59b6;">cv_action_logs</code>.
+        <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:10px;padding:16px 20px;margin-bottom:16px;">
+            <div style="color:#8A6A55;font-size:12px;line-height:1.7;">
+                ℹ️ <strong style="color:#8A6A55;">Sobre os dados:</strong> As tentativas de login são registradas pela camada de segurança do plugin na tabela <code style="color:#9752B3;">cv_action_logs</code>.
                 O bloqueio ativo é via WordPress Transient com janela deslizante de 10 minutos após 5 falhas.
                 O desloqueio manual libera o transient mas não apaga o log histórico.
             </div>
@@ -453,15 +453,15 @@ class CV_Seguranca {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { display: true, labels: { color:'#888', font:{size:11}, boxWidth:10 } },
+                    legend: { display: true, labels: { color:'#C9A27E', font:{size:11}, boxWidth:10 } },
                     tooltip: {
-                        backgroundColor:'#1e1e1e', borderColor:'#333', borderWidth:1,
-                        titleColor:'#D4A017', bodyColor:'#aaa'
+                        backgroundColor:'#FFFFFF', borderColor:'#F3E6D3', borderWidth:1,
+                        titleColor:'#B8700C', bodyColor:'#C9A27E'
                     }
                 },
                 scales: {
-                    x: { grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'#444',font:{size:10},maxTicksLimit:8} },
-                    y: { grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'#444',font:{size:10},precision:0}, beginAtZero:true }
+                    x: { grid:{color:'rgba(123,58,34,0.04)'}, ticks:{color:'#F3E6D3',font:{size:10},maxTicksLimit:8} },
+                    y: { grid:{color:'rgba(123,58,34,0.04)'}, ticks:{color:'#F3E6D3',font:{size:10},precision:0}, beginAtZero:true }
                 }
             };
 

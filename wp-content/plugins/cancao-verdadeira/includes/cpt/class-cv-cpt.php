@@ -44,7 +44,10 @@ class CV_CPT {
             'has_archive'        => 'musicas',
             'hierarchical'       => false,
             'menu_position'      => null,
-            'supports'           => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'comments' ),
+            // Sem 'editor': a letra (post_content) é editada só pelo metabox
+            // "Letra da Música" (CV_Metaboxes::render_letra). Com os dois, havia
+            // dois campos name="content" na tela e só o último era salvo.
+            'supports'           => array( 'title', 'thumbnail', 'custom-fields', 'comments' ),
             'show_in_rest'       => false, // usamos REST própria
             'taxonomies'         => array( 'cv_genre', 'cv_subcategory', 'post_tag' ),
         );

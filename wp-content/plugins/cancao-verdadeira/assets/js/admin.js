@@ -47,12 +47,12 @@
                     $msg.text('✅ ' + res.data.message + ' — ' + res.data.time).show();
                     setTimeout(function () { location.reload(); }, 1500);
                 } else {
-                    $msg.css({ background: '#2e1a1a', borderColor: '#6a2d2d', color: '#ce7f7f' })
+                    $msg.css({ background: '#F4EBEB', borderColor: '#6a2d2d', color: '#ce7f7f' })
                         .text('❌ Erro: ' + (res.data && res.data.message)).show();
                 }
             },
             error: function () {
-                $msg.css({ background: '#2e1a1a', borderColor: '#6a2d2d', color: '#ce7f7f' })
+                $msg.css({ background: '#F4EBEB', borderColor: '#6a2d2d', color: '#ce7f7f' })
                     .text('❌ Erro de conexão.').show();
             },
             complete: function () {

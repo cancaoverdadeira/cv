@@ -86,13 +86,13 @@ get_header();
                     <div class="cv-notif-full-item <?php echo $is_read ? '' : 'cv-notif-unread'; ?>"
                          data-id="<?php echo esc_attr($notif_id); ?>"
                          style="display:flex;align-items:flex-start;gap:14px;padding:16px;
-                                background:<?php echo $is_read ? 'var(--cv-bg-card)' : 'rgba(212,160,23,.04)'; ?>;
-                                border:1px solid <?php echo $is_read ? 'var(--cv-border-subtle)' : 'rgba(212,160,23,.2)'; ?>;
+                                background:<?php echo $is_read ? 'var(--cv-bg-card)' : 'rgba(242,165,26,0.05)'; ?>;
+                                border:1px solid <?php echo $is_read ? 'var(--cv-border-subtle)' : 'rgba(242,165,26,0.26)'; ?>;
                                 border-radius:var(--cv-radius);transition:all .2s">
 
                         <!-- Ícone -->
                         <div style="width:44px;height:44px;border-radius:50%;
-                                    background:rgba(255,255,255,.06);
+                                    background:rgba(123,58,34,0.07);
                                     display:flex;align-items:center;justify-content:center;
                                     font-size:20px;flex-shrink:0">
                             <?php echo esc_html($icon); ?>
@@ -114,7 +114,7 @@ get_header();
                                 <?php echo esc_html($time); ?>
                                 <?php if (!$is_read) : ?>
                                 <span style="display:inline-block;width:6px;height:6px;
-                                             border-radius:50%;background:var(--cv-gold);
+                                             border-radius:50%;background:var(--cv-accent);
                                              margin-left:8px;vertical-align:middle"></span>
                                 <span style="color:var(--cv-gold);font-weight:700">Nova</span>
                                 <?php endif; ?>

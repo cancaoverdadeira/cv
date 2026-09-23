@@ -77,7 +77,7 @@ get_header();
     border-left:3px solid var(--cv-gold);
     padding:12px 20px;
     margin:20px 0;
-    background:rgba(212,160,23,.05);
+    background:rgba(242,165,26,0.07);
     border-radius:0 var(--cv-radius-sm) var(--cv-radius-sm) 0;
     color:var(--cv-text-muted);
     font-style:italic;

@@ -28,7 +28,7 @@ get_header();
         <?php get_template_part('template-parts/topbar'); ?>
 
         <!-- Cabeçalho -->
-        <div style="background:linear-gradient(135deg,#1a1200 0%,#1e1e1e 100%);
+        <div style="background:linear-gradient(135deg,#F8F3E7 0%,#FFFFFF 100%);
                     padding:40px 36px 28px;border-bottom:1px solid var(--cv-border-subtle)">
             <h1 style="font-family:var(--font-display);font-size:36px;font-weight:700;margin:0 0 8px">
                 🏆 <span style="color:var(--cv-gold)">Ranking</span> de Músicas

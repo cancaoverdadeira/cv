@@ -278,7 +278,7 @@ function cv_child_autocomplete() {
 // ── PWA: manifest e meta tags ─────────────────────────────────────
 add_action( 'wp_head', 'cv_child_pwa_tags', 1 );
 function cv_child_pwa_tags() { ?>
-<meta name="theme-color" content="#D4A017">
+<meta name="theme-color" content="#B8700C">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">

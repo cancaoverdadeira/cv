@@ -28,17 +28,20 @@ class CV_Admin {
     // ── Helper: botão voltar ao Dashboard ───────────────────────
     public static function btn_voltar() {
         $url = admin_url('admin.php?page=cancao-verdadeira');
-        $gold_bg  = 'rgba(212,160,23,.12)';
-        $gold_hov = 'rgba(212,160,23,.22)';
+        $bg  = '#F3E6D3';
+        $hov = '#EADBC6';
+        // width/align-self: evita que o botão estique quando o container é flex/grid.
+        // A seta usa entidade HTML: "\u2190" em string PHP de aspas simples
+        // aparecia literalmente na tela.
         return '<a href="' . esc_url($url) . '" style="'
-            . 'display:inline-flex;align-items:center;gap:6px;'
-            . 'background:' . $gold_bg . ';border:1px solid rgba(212,160,23,.3);'
-            . 'color:#D4A017;padding:7px 14px;border-radius:8px;text-decoration:none;'
-            . 'font-size:12px;font-weight:600;margin-bottom:20px;'
+            . 'display:inline-flex;align-items:center;gap:6px;width:max-content;align-self:flex-start;'
+            . 'background:' . $bg . ';border:1px solid #C9A27E;'
+            . 'color:#7B3A22;padding:7px 14px;border-radius:8px;text-decoration:none;'
+            . 'font-size:13px;font-weight:600;line-height:1.2;margin-bottom:20px;box-shadow:none;'
             . 'transition:background .2s" '
-            . 'onmouseover="this.style.background=&quot;' . $gold_hov . '&quot;" '
-            . 'onmouseout="this.style.background=&quot;' . $gold_bg . '&quot;">'
-            . '\u2190 Dashboard</a>';
+            . 'onmouseover="this.style.background=&quot;' . $hov . '&quot;" '
+            . 'onmouseout="this.style.background=&quot;' . $bg . '&quot;">'
+            . '&larr; Dashboard</a>';
     }
 
     public static function dark_mode_nova_musica() {
@@ -57,39 +60,39 @@ class CV_Admin {
         ?>
         <style id="cv-nova-musica-dark">
         /* Dark mode para tela Nova Música / Editar Música */
-        body.wp-admin { background: #111 !important; }
-        #wpwrap, #wpcontent, #wpbody, #wpbody-content { background: #111 !important; }
-        #post-body, #post-body-content { background: #111 !important; }
+        body.wp-admin { background: #FBF6EE !important; }
+        #wpwrap, #wpcontent, #wpbody, #wpbody-content { background: #FBF6EE !important; }
+        #post-body, #post-body-content { background: #FBF6EE !important; }
 
         /* Título */
         #titlediv #title {
-            background: #1a1a1a !important;
-            border-color: #2a2a2a !important;
-            color: #F5F0E0 !important;
+            background: #FFFFFF !important;
+            border-color: #EADBC6 !important;
+            color: #3B2418 !important;
             border-radius: 8px !important;
             font-size: 20px !important;
             padding: 10px 14px !important;
         }
-        #titlediv #title:focus { border-color: #D4A017 !important; outline: none !important; }
-        #titlediv #title-prompt-text { color: #555 !important; }
-        #titlediv { background: #1a1a1a !important; border: 1px solid #2a2a2a !important; border-radius: 8px !important; padding: 12px !important; margin-bottom: 16px !important; }
+        #titlediv #title:focus { border-color: #C9A27E !important; outline: none !important; }
+        #titlediv #title-prompt-text { color: #8A6A55 !important; }
+        #titlediv { background: #FFFFFF !important; border: 1px solid #EADBC6 !important; border-radius: 8px !important; padding: 12px !important; margin-bottom: 16px !important; }
 
         /* Metaboxes */
         .postbox {
-            background: #1a1a1a !important;
-            border: 1px solid #2a2a2a !important;
+            background: #FFFFFF !important;
+            border: 1px solid #EADBC6 !important;
             border-radius: 8px !important;
-            color: #e0e0e0 !important;
+            color: #3B2418 !important;
         }
         .postbox .postbox-header {
-            background: #1e1e1e !important;
-            border-bottom: 1px solid #2a2a2a !important;
+            background: #FFFFFF !important;
+            border-bottom: 1px solid #EADBC6 !important;
             border-radius: 8px 8px 0 0 !important;
         }
         .postbox .postbox-header h2,
-        .postbox .postbox-header .hndle { color: #D4A017 !important; font-size: 13px !important; }
-        .postbox .inside { color: #e0e0e0 !important; }
-        .postbox .handlediv button { color: #555 !important; }
+        .postbox .postbox-header .hndle { color: #7B3A22 !important; font-size: 13px !important; }
+        .postbox .inside { color: #3B2418 !important; }
+        .postbox .handlediv button { color: #8A6A55 !important; }
         .postbox .handlediv button:focus { box-shadow: none !important; }
 
         /* Campos dentro dos metaboxes */
@@ -98,57 +101,57 @@ class CV_Admin {
         .postbox input[type="number"],
         .postbox select,
         .postbox textarea {
-            background: #111 !important;
-            border: 1px solid #333 !important;
-            color: #e0e0e0 !important;
+            background: #FBF6EE !important;
+            border: 1px solid #EADBC6 !important;
+            color: #3B2418 !important;
             border-radius: 6px !important;
             padding: 7px 10px !important;
         }
         .postbox input:focus, .postbox select:focus, .postbox textarea:focus {
-            border-color: #D4A017 !important;
+            border-color: #C9A27E !important;
             outline: none !important;
         }
-        .postbox label { color: #aaa !important; font-size: 12px !important; }
+        .postbox label { color: #6B4C3B !important; font-size: 12px !important; }
 
         /* Sidebar (publish, taxonomias) */
-        #side-sortables .postbox { background: #1a1a1a !important; }
+        #side-sortables .postbox { background: #FFFFFF !important; }
         #submitdiv #publishing-action .button-primary {
-            background: #D4A017 !important;
-            border-color: #D4A017 !important;
-            color: #000 !important;
+            background: #F2A51A !important;
+            border-color: #C9A27E !important;
+            color: #3B2418 !important;
             font-weight: 700 !important;
             border-radius: 6px !important;
         }
-        #submitdiv { background: #1a1a1a !important; }
-        #submitdiv .misc-pub-section { border-color: #2a2a2a !important; color: #aaa !important; }
-        #submitdiv #save-action .button { background: #222 !important; border-color: #333 !important; color: #aaa !important; border-radius: 6px !important; }
+        #submitdiv { background: #FFFFFF !important; }
+        #submitdiv .misc-pub-section { border-color: #EADBC6 !important; color: #6B4C3B !important; }
+        #submitdiv #save-action .button { background: #F8F0E4 !important; border-color: #EADBC6 !important; color: #6B4C3B !important; border-radius: 6px !important; }
 
         /* Editor TinyMCE wrapper */
-        #wp-content-editor-tools { background: #1a1a1a !important; border-color: #2a2a2a !important; border-radius: 8px 8px 0 0 !important; }
-        #wp-content-wrap { border-color: #2a2a2a !important; border-radius: 8px !important; }
-        .mce-panel, .mce-toolbar { background: #1e1e1e !important; border-color: #2a2a2a !important; }
+        #wp-content-editor-tools { background: #FFFFFF !important; border-color: #EADBC6 !important; border-radius: 8px 8px 0 0 !important; }
+        #wp-content-wrap { border-color: #EADBC6 !important; border-radius: 8px !important; }
+        .mce-panel, .mce-toolbar { background: #FFFFFF !important; border-color: #EADBC6 !important; }
         .mce-btn { background: transparent !important; border-color: transparent !important; }
-        .mce-btn:hover { background: #2a2a2a !important; }
-        .mce-ico { color: #aaa !important; }
+        .mce-btn:hover { background: #F8F0E4 !important; }
+        .mce-ico { color: #6B4C3B !important; }
 
         /* Taxonomia checkboxes */
-        .categorydiv, .tagsdiv { background: #1a1a1a !important; }
-        .categorydiv .tabs-panel, .tagsdiv .tagchecklist { background: #111 !important; border-color: #2a2a2a !important; }
-        .categorydiv label, .tagsdiv label { color: #ccc !important; }
-        .categorydiv input[type="checkbox"], .tagsdiv input[type="checkbox"] { accent-color: #D4A017; }
+        .categorydiv, .tagsdiv { background: #FFFFFF !important; }
+        .categorydiv .tabs-panel, .tagsdiv .tagchecklist { background: #FBF6EE !important; border-color: #EADBC6 !important; }
+        .categorydiv label, .tagsdiv label { color: #3B2418 !important; }
+        .categorydiv input[type="checkbox"], .tagsdiv input[type="checkbox"] { accent-color: #B8700C; }
 
         /* Permalink */
-        #edit-slug-box { background: #1a1a1a !important; border-color: #2a2a2a !important; border-radius: 6px !important; padding: 8px 12px !important; }
-        #editable-post-name { background: #111 !important; color: #D4A017 !important; border: 1px solid #333 !important; border-radius: 4px !important; }
-        #view-post-btn a { color: #aaa !important; }
-        .edit-slug-buttons .button { background: #222 !important; border-color: #333 !important; color: #aaa !important; }
+        #edit-slug-box { background: #FFFFFF !important; border-color: #EADBC6 !important; border-radius: 6px !important; padding: 8px 12px !important; }
+        #editable-post-name { background: #FBF6EE !important; color: #7B3A22 !important; border: 1px solid #EADBC6 !important; border-radius: 4px !important; }
+        #view-post-btn a { color: #6B4C3B !important; }
+        .edit-slug-buttons .button { background: #F8F0E4 !important; border-color: #EADBC6 !important; color: #6B4C3B !important; }
 
         /* Imagem destacada */
-        #postimagediv .inside { color: #aaa !important; }
-        #postimagediv a { color: #D4A017 !important; }
+        #postimagediv .inside { color: #6B4C3B !important; }
+        #postimagediv a { color: #7B3A22 !important; }
 
         /* Notices e avisos */
-        .notice { border-radius: 6px !important; border-left-color: #D4A017 !important; }
+        .notice { border-radius: 6px !important; border-left-color: #C9A27E !important; }
         </style>
         <?php
     }

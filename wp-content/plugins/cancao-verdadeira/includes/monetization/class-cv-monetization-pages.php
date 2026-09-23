@@ -122,11 +122,11 @@ class CV_Monetization_Pages {
                     <button id="cv-banner-cancelar" class="cv-btn cv-btn-outline">Cancelar</button>
                 </div>
 
-                <div class="cv-section" style="margin-top:20px;padding:14px;background:#1e1e1e;border-radius:8px;font-size:13px;color:#888">
-                    <strong style="color:#D4A017">Como usar os banners no site:</strong><br>
-                    <code style="color:#C8B98A">[cv_banner posicao="home_topo"]</code> — Banner da home (automático)<br>
-                    <code style="color:#C8B98A">[cv_banner posicao="meio_pagina" leia_mais="sim"]</code> — Meio de página interna com botão fechar<br>
-                    <code style="color:#C8B98A">[cv_banner posicao="rodape_pagina"]</code> — Rodapé de página interna
+                <div class="cv-section" style="margin-top:20px;padding:14px;background:#FFFFFF;border-radius:8px;font-size:13px;color:#8A6A55">
+                    <strong style="color:#7B3A22">Como usar os banners no site:</strong><br>
+                    <code style="color:#6B4C3B">[cv_banner posicao="home_topo"]</code> — Banner da home (automático)<br>
+                    <code style="color:#6B4C3B">[cv_banner posicao="meio_pagina" leia_mais="sim"]</code> — Meio de página interna com botão fechar<br>
+                    <code style="color:#6B4C3B">[cv_banner posicao="rodape_pagina"]</code> — Rodapé de página interna
                 </div>
             </div>
 
@@ -152,23 +152,23 @@ class CV_Monetization_Pages {
                     <tr id="cv-banner-row-<?php echo esc_attr( $b->id ); ?>">
                         <td>
                             <img src="<?php echo esc_url( $b->imagem_url ); ?>"
-                                 style="width:72px;height:40px;object-fit:cover;border-radius:4px;background:#2a2a2a"
+                                 style="width:72px;height:40px;object-fit:cover;border-radius:4px;background:#F8F0E4"
                                  alt="<?php echo esc_attr( $b->titulo ); ?>" />
                         </td>
                         <td>
                             <strong style="color:var(--cv-text)"><?php echo esc_html( $b->titulo ); ?></strong><br>
-                            <small style="color:#555;font-size:11px"><?php echo esc_url( $b->url_destino ); ?></small>
+                            <small style="color:#8A6A55;font-size:11px"><?php echo esc_url( $b->url_destino ); ?></small>
                         </td>
-                        <td style="font-size:12px;color:#888"><?php echo esc_html( $posicoes[ $b->posicao ] ?? $b->posicao ); ?></td>
-                        <td style="text-align:center;font-weight:700;color:#D4A017"><?php echo number_format( $b->cliques ); ?></td>
+                        <td style="font-size:12px;color:#8A6A55"><?php echo esc_html( $posicoes[ $b->posicao ] ?? $b->posicao ); ?></td>
+                        <td style="text-align:center;font-weight:700;color:#7B3A22"><?php echo number_format( $b->cliques ); ?></td>
                         <td style="text-align:center">
                             <?php if ( $b->ativo ) : ?>
-                                <span style="color:#27ae60;font-size:18px" title="Ativo">●</span>
+                                <span style="color:#1C7C44;font-size:18px" title="Ativo">●</span>
                             <?php else : ?>
-                                <span style="color:#444;font-size:18px" title="Inativo">○</span>
+                                <span style="color:#8A6A55;font-size:18px" title="Inativo">○</span>
                             <?php endif; ?>
                         </td>
-                        <td style="font-size:12px;color:#666">
+                        <td style="font-size:12px;color:#8A6A55">
                             <?php
                             if ( $b->data_inicio || $b->data_fim ) {
                                 echo esc_html( $b->data_inicio ? date( 'd/m/Y', strtotime( $b->data_inicio ) ) : '—' );
@@ -186,7 +186,7 @@ class CV_Monetization_Pages {
                                         style="padding:4px 10px;font-size:11px">✏ Editar</button>
                                 <button class="cv-btn cv-banner-excluir"
                                         data-id="<?php echo esc_attr( $b->id ); ?>"
-                                        style="padding:4px 10px;font-size:11px;background:rgba(192,57,43,.15);color:#e74c3c;border:1px solid rgba(192,57,43,.3)">🗑</button>
+                                        style="padding:4px 10px;font-size:11px;background:rgba(192,57,43,.15);color:#D62C1A;border:1px solid rgba(192,57,43,.3)">🗑</button>
                             </div>
                         </td>
                     </tr>
@@ -202,7 +202,7 @@ class CV_Monetization_Pages {
             var nonce = '<?php echo esc_js( wp_create_nonce( 'cv_admin_nonce' ) ); ?>';
             var ajax  = '<?php echo esc_js( admin_url( 'admin-ajax.php' ) ); ?>';
 
-            function msg(t, ok){ var $m=$('#cv-banner-msg'); $m.text(t).css({background:ok?'#1a2e1a':'#2e1a1a',border:'1px solid '+(ok?'#2d6a2d':'#6a2d2d'),color:ok?'#7fce7f':'#ce7f7f'}).show(); setTimeout(function(){$m.fadeOut();},3000); }
+            function msg(t, ok){ var $m=$('#cv-banner-msg'); $m.text(t).css({background:ok?'#EBF4EB':'#F4EBEB',border:'1px solid '+(ok?'#2d6a2d':'#6a2d2d'),color:ok?'#7fce7f':'#ce7f7f'}).show(); setTimeout(function(){$m.fadeOut();},3000); }
 
             $('#cv-banner-novo-btn').on('click',function(){ $('#cv-banner-id').val(0); $('#cv-banner-form input,#cv-banner-form select').val(''); $('#cv-b-ativo').val('1'); $('#cv-b-posicao').val('meio_pagina'); $('#cv-b-imagem-preview').hide(); $('#cv-banner-form').slideToggle(180); });
             $('#cv-banner-cancelar').on('click',function(){ $('#cv-banner-form').slideUp(180); });
@@ -356,17 +356,17 @@ class CV_Monetization_Pages {
                     <button id="cv-prod-cancelar" class="cv-btn cv-btn-outline">Cancelar</button>
                 </div>
 
-                <div class="cv-section" style="margin-top:20px;padding:14px;background:#1e1e1e;border-radius:8px;font-size:13px;color:#888">
-                    <strong style="color:#D4A017">Shortcode da loja:</strong><br>
-                    <code style="color:#C8B98A">[cv_loja]</code> — exibe todos os produtos<br>
-                    <code style="color:#C8B98A">[cv_loja categoria="ebook" titulo="Nossos E-books"]</code><br>
-                    <code style="color:#C8B98A">[cv_loja categoria="fisico" colunas="2"]</code>
+                <div class="cv-section" style="margin-top:20px;padding:14px;background:#FFFFFF;border-radius:8px;font-size:13px;color:#8A6A55">
+                    <strong style="color:#7B3A22">Shortcode da loja:</strong><br>
+                    <code style="color:#6B4C3B">[cv_loja]</code> — exibe todos os produtos<br>
+                    <code style="color:#6B4C3B">[cv_loja categoria="ebook" titulo="Nossos E-books"]</code><br>
+                    <code style="color:#6B4C3B">[cv_loja categoria="fisico" colunas="2"]</code>
                 </div>
             </div>
 
             <div class="cv-section">
                 <?php if ( empty( $produtos ) ) : ?>
-                <p class="cv-empty" style="font-size:13px;color:#aaa;padding:12px 0">Nenhum produto cadastrado ainda. Use o formulário acima para adicionar o primeiro.</p>
+                <p class="cv-empty" style="font-size:13px;color:#6B4C3B;padding:12px 0">Nenhum produto cadastrado ainda. Use o formulário acima para adicionar o primeiro.</p>
                 <?php else : ?>
                 <table class="cv-table">
                     <thead><tr><th style="width:70px">Img</th><th>Nome</th><th>Categoria</th><th>Preço</th><th style="text-align:center">Ativo</th><th style="text-align:center">Ações</th></tr></thead>
@@ -377,29 +377,29 @@ class CV_Monetization_Pages {
                             <?php if ( $p->imagem_url ) : ?>
                             <img src="<?php echo esc_url( $p->imagem_url ); ?>" style="width:56px;height:56px;object-fit:cover;border-radius:4px" alt="" />
                             <?php else : ?>
-                            <div style="width:56px;height:56px;background:#1e1e1e;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:22px">🎁</div>
+                            <div style="width:56px;height:56px;background:#FFFFFF;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:22px">🎁</div>
                             <?php endif; ?>
                         </td>
                         <td>
                             <strong style="color:var(--cv-text)"><?php echo esc_html( $p->nome ); ?></strong>
                             <?php if ( $p->badge ) : ?>
-                            <span style="background:rgba(212,160,23,.15);color:#D4A017;font-size:10px;padding:1px 7px;border-radius:20px;margin-left:6px"><?php echo esc_html( $p->badge ); ?></span>
+                            <span style="background:rgba(242,165,26,0.2);color:#7B3A22;font-size:10px;padding:1px 7px;border-radius:20px;margin-left:6px"><?php echo esc_html( $p->badge ); ?></span>
                             <?php endif; ?>
                         </td>
-                        <td style="color:#888;font-size:13px"><?php echo esc_html( $categorias[ $p->categoria ] ?? $p->categoria ); ?></td>
-                        <td style="color:#D4A017;font-weight:700">R$ <?php echo number_format( (float) $p->preco, 2, ',', '.' ); ?></td>
-                        <td style="text-align:center"><?php echo $p->ativo ? '<span style="color:#27ae60">●</span>' : '<span style="color:#444">○</span>'; ?></td>
+                        <td style="color:#8A6A55;font-size:13px"><?php echo esc_html( $categorias[ $p->categoria ] ?? $p->categoria ); ?></td>
+                        <td style="color:#7B3A22;font-weight:700">R$ <?php echo number_format( (float) $p->preco, 2, ',', '.' ); ?></td>
+                        <td style="text-align:center"><?php echo $p->ativo ? '<span style="color:#1C7C44">●</span>' : '<span style="color:#8A6A55">○</span>'; ?></td>
                         <td style="text-align:center">
                             <div style="display:flex;gap:6px;justify-content:center">
                                 <button class="cv-btn cv-btn-outline cv-prod-editar" data-prod='<?php echo esc_attr( json_encode( $p ) ); ?>' style="padding:4px 10px;font-size:11px">✏</button>
-                                <button class="cv-btn cv-prod-excluir" data-id="<?php echo esc_attr( $p->id ); ?>" style="padding:4px 10px;font-size:11px;background:rgba(192,57,43,.15);color:#e74c3c;border:1px solid rgba(192,57,43,.3)">🗑</button>
+                                <button class="cv-btn cv-prod-excluir" data-id="<?php echo esc_attr( $p->id ); ?>" style="padding:4px 10px;font-size:11px;background:rgba(192,57,43,.15);color:#D62C1A;border:1px solid rgba(192,57,43,.3)">🗑</button>
                             </div>
                         </td>
                         <td style="text-align:right">
                             <?php if ( 'agendado' === $s->status ) : ?>
                             <button class="cv-btn cv-btn-sm cv-sort-anunciar-btn"
                                     data-id="<?php echo esc_attr($s->id); ?>"
-                                    style="background:#D4A017;color:#1a1a1a;font-size:11px;padding:5px 12px;border:none;border-radius:4px;cursor:pointer;font-weight:700">
+                                    style="background:#F2A51A;color:#3B2418;font-size:11px;padding:5px 12px;border:none;border-radius:4px;cursor:pointer;font-weight:700">
                                 📧 Anunciar
                             </button>
                             <?php endif; ?>
@@ -432,7 +432,7 @@ class CV_Monetization_Pages {
                     }
                 }).fail(function(){ msg('Erro de conexao.', false); $btn.prop('disabled',false).text('📧 Anunciar'); });
             });
-            function msg(t,ok){var $m=$('#cv-prod-msg');$m.text(t).css({background:ok?'#1a2e1a':'#2e1a1a',border:'1px solid '+(ok?'#2d6a2d':'#6a2d2d'),color:ok?'#7fce7f':'#ce7f7f'}).show();setTimeout(function(){$m.fadeOut();},3000);}
+            function msg(t,ok){var $m=$('#cv-prod-msg');$m.text(t).css({background:ok?'#EBF4EB':'#F4EBEB',border:'1px solid '+(ok?'#2d6a2d':'#6a2d2d'),color:ok?'#7fce7f':'#ce7f7f'}).show();setTimeout(function(){$m.fadeOut();},3000);}
             $('#cv-prod-novo-btn').on('click',function(){$('#cv-prod-id').val(0);$('#cv-prod-form input,#cv-prod-form textarea,#cv-prod-form select').val('');$('#cv-p-ativo').val('1');$('#cv-p-ordem').val('0');$('#cv-p-imagem-preview').hide();$('#cv-prod-form').slideToggle(180);});
             $('#cv-prod-cancelar').on('click',function(){$('#cv-prod-form').slideUp(180);});
             $(document).on('click','.cv-media-pick-prod',function(){var frame=wp.media({title:'Selecionar imagem',button:{text:'Usar'},multiple:false,library:{type:'image'}});frame.on('select',function(){var a=frame.state().get('selection').first().toJSON();$('#cv-p-imagem').val(a.url);$('#cv-p-imagem-preview').attr('src',a.url).show();});frame.open();});
@@ -459,7 +459,7 @@ class CV_Monetization_Pages {
                 <h1>🎰 Sorteios</h1>
                 <p class="cv-admin-subtitle">
                     <?php echo count( $sorteios ); ?> sorteio(s) •
-                    <strong style="color:#D4A017"><?php echo $total_subs; ?></strong> assinantes elegíveis
+                    <strong style="color:#7B3A22"><?php echo $total_subs; ?></strong> assinantes elegíveis
                 </p>
                 <button id="cv-sort-novo-btn" class="cv-btn cv-btn-primary" style="margin-left:auto">+ Novo Sorteio</button>
             </div>
@@ -493,8 +493,8 @@ class CV_Monetization_Pages {
                         </div>
                     </div>
                 </div>
-                <p style="font-size:13px;color:#888;margin-top:12px">
-                    ℹ O sorteio será realizado automaticamente na data/hora definida. O vencedor será escolhido aleatoriamente entre os <strong style="color:#D4A017"><?php echo $total_subs; ?></strong> assinantes e receberá um e-mail automático.
+                <p style="font-size:13px;color:#8A6A55;margin-top:12px">
+                    ℹ O sorteio será realizado automaticamente na data/hora definida. O vencedor será escolhido aleatoriamente entre os <strong style="color:#7B3A22"><?php echo $total_subs; ?></strong> assinantes e receberá um e-mail automático.
                 </p>
                 <div style="display:flex;gap:10px;margin-top:16px">
                     <button id="cv-sort-salvar" class="cv-btn cv-btn-primary">🎰 Agendar Sorteio</button>
@@ -504,10 +504,10 @@ class CV_Monetization_Pages {
 
             <div class="cv-section">
                 <?php if ( empty( $sorteios ) ) : ?>
-                <p class="cv-empty" style="font-size:13px;color:#aaa;padding:12px 0">Nenhum sorteio cadastrado ainda. Use o formulário acima para criar o primeiro.</p>
+                <p class="cv-empty" style="font-size:13px;color:#6B4C3B;padding:12px 0">Nenhum sorteio cadastrado ainda. Use o formulário acima para criar o primeiro.</p>
                 <?php else :
                 $status_labels = array(
-                    'agendado'          => array( '⏳ Agendado',   '#D4A017' ),
+                    'agendado'          => array( '⏳ Agendado',   '#B8700C' ),
                     'realizado'         => array( '✅ Realizado',  '#27ae60' ),
                     'sem_participantes' => array( '⚠ Sem participantes', '#e74c3c' ),
                 );
@@ -518,29 +518,29 @@ class CV_Monetization_Pages {
                     </thead>
                     <tbody>
                     <?php foreach ( $sorteios as $s ) :
-                        $sl = $status_labels[ $s->status ] ?? array( $s->status, '#888' );
+                        $sl = $status_labels[ $s->status ] ?? array( $s->status, '#C9A27E' );
                     ?>
                     <tr>
                         <td><strong style="color:var(--cv-text)"><?php echo esc_html( $s->titulo ); ?></strong></td>
-                        <td style="color:#C8B98A;font-size:13px"><?php echo esc_html( $s->premio ); ?></td>
-                        <td style="font-size:12px;color:#888"><?php echo esc_html( date( 'd/m/Y H:i', strtotime( $s->data_sorteio ) ) ); ?></td>
+                        <td style="color:#6B4C3B;font-size:13px"><?php echo esc_html( $s->premio ); ?></td>
+                        <td style="font-size:12px;color:#8A6A55"><?php echo esc_html( date( 'd/m/Y H:i', strtotime( $s->data_sorteio ) ) ); ?></td>
                         <td style="text-align:center">
                             <span style="color:<?php echo esc_attr( $sl[1] ); ?>;font-size:13px;font-weight:700"><?php echo esc_html( $sl[0] ); ?></span>
                         </td>
                         <td style="font-size:13px">
                             <?php if ( $s->vencedor_email ) : ?>
-                                <strong style="color:#D4A017"><?php echo esc_html( $s->vencedor_nome ); ?></strong><br>
-                                <small style="color:#666"><?php echo esc_html( $s->vencedor_email ); ?></small>
+                                <strong style="color:#7B3A22"><?php echo esc_html( $s->vencedor_nome ); ?></strong><br>
+                                <small style="color:#8A6A55"><?php echo esc_html( $s->vencedor_email ); ?></small>
                             <?php else : ?>
-                                <span style="color:#444">—</span>
+                                <span style="color:#8A6A55">—</span>
                             <?php endif; ?>
                         </td>
-                        <td style="text-align:center;color:#888;font-size:13px"><?php echo $s->total_participantes ? number_format( $s->total_participantes ) : '—'; ?></td>
+                        <td style="text-align:center;color:#8A6A55;font-size:13px"><?php echo $s->total_participantes ? number_format( $s->total_participantes ) : '—'; ?></td>
                         <td style="text-align:right">
                             <?php if ( 'agendado' === $s->status ) : ?>
                             <button class="cv-btn cv-btn-sm cv-sort-anunciar-btn"
                                     data-id="<?php echo esc_attr($s->id); ?>"
-                                    style="background:#D4A017;color:#1a1a1a;font-size:11px;padding:5px 12px;border:none;border-radius:4px;cursor:pointer;font-weight:700">
+                                    style="background:#F2A51A;color:#3B2418;font-size:11px;padding:5px 12px;border:none;border-radius:4px;cursor:pointer;font-weight:700">
                                 📧 Anunciar
                             </button>
                             <?php endif; ?>
@@ -573,7 +573,7 @@ class CV_Monetization_Pages {
                     }
                 }).fail(function(){ msg('Erro de conexao.', false); $btn.prop('disabled',false).text('📧 Anunciar'); });
             });
-            function msg(t,ok){var $m=$('#cv-sort-msg');$m.text(t).css({background:ok?'#1a2e1a':'#2e1a1a',border:'1px solid '+(ok?'#2d6a2d':'#6a2d2d'),color:ok?'#7fce7f':'#ce7f7f'}).show();setTimeout(function(){$m.fadeOut();},3500);}
+            function msg(t,ok){var $m=$('#cv-sort-msg');$m.text(t).css({background:ok?'#EBF4EB':'#F4EBEB',border:'1px solid '+(ok?'#2d6a2d':'#6a2d2d'),color:ok?'#7fce7f':'#ce7f7f'}).show();setTimeout(function(){$m.fadeOut();},3500);}
             $('#cv-sort-novo-btn').on('click',function(){$('#cv-sort-id').val(0);$('#cv-sort-form input,#cv-sort-form textarea').val('');$('#cv-sort-form').slideToggle(180);});
             $('#cv-sort-cancelar').on('click',function(){$('#cv-sort-form').slideUp(180);});
             $(document).on('click','.cv-media-pick-sort',function(){var frame=wp.media({title:'Selecionar imagem',button:{text:'Usar'},multiple:false});frame.on('select',function(){$('#cv-s-imagem').val(frame.state().get('selection').first().toJSON().url);});frame.open();});
@@ -680,12 +680,12 @@ class CV_Monetization_Pages {
                 <?php else : ?>
                 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px">
                     <?php foreach ( $brindes as $b ) : ?>
-                    <div style="background:#1e1e1e;border:1px solid <?php echo $b->status==='esgotado' ? '#333' : '#2a2a2a'; ?>;border-radius:10px;padding:16px;opacity:<?php echo $b->status==='esgotado' ? '0.5' : '1'; ?>">
+                    <div style="background:#FFFFFF;border:1px solid <?php echo $b->status==='esgotado' ? '#F3E6D3' : '#F8F0E4'; ?>;border-radius:10px;padding:16px;opacity:<?php echo $b->status==='esgotado' ? '0.5' : '1'; ?>">
                         <?php if ( $b->imagem_url ) : ?>
                         <img src="<?php echo esc_url( $b->imagem_url ); ?>" style="width:100%;height:100px;object-fit:cover;border-radius:6px;margin-bottom:10px" alt="" />
                         <?php endif; ?>
                         <div style="font-weight:700;color:var(--cv-text);margin-bottom:4px"><?php echo esc_html( $b->titulo ); ?></div>
-                        <div style="font-size:12px;color:#888;margin-bottom:8px"><?php echo esc_html( $b->descricao ?: '—' ); ?></div>
+                        <div style="font-size:12px;color:#8A6A55;margin-bottom:8px"><?php echo esc_html( $b->descricao ?: '—' ); ?></div>
                         <div style="display:flex;justify-content:space-between;align-items:center">
                             <span style="font-size:13px;color:<?php echo $b->quantidade > 0 ? '#27ae60' : '#e74c3c'; ?>;font-weight:700">
                                 <?php echo $b->status === 'esgotado' ? '⚠ Esgotado' : $b->quantidade . ' disponível(eis)'; ?>
@@ -706,10 +706,10 @@ class CV_Monetization_Pages {
                     <tbody>
                     <?php foreach ( $entregas as $e ) : ?>
                     <tr>
-                        <td style="font-size:12px;color:#666"><?php echo esc_html( date( 'd/m/Y H:i', strtotime( $e->enviado_em ) ) ); ?></td>
-                        <td style="color:#C8B98A"><?php echo esc_html( $e->brinde_titulo ); ?></td>
+                        <td style="font-size:12px;color:#8A6A55"><?php echo esc_html( date( 'd/m/Y H:i', strtotime( $e->enviado_em ) ) ); ?></td>
+                        <td style="color:#6B4C3B"><?php echo esc_html( $e->brinde_titulo ); ?></td>
                         <td><?php echo esc_html( $e->nome ?: '—' ); ?></td>
-                        <td style="color:#888;font-size:13px"><?php echo esc_html( $e->email ); ?></td>
+                        <td style="color:#8A6A55;font-size:13px"><?php echo esc_html( $e->email ); ?></td>
                     </tr>
                     <?php endforeach; ?>
                     </tbody>
@@ -721,7 +721,7 @@ class CV_Monetization_Pages {
         jQuery(function($){
             var nonce='<?php echo esc_js(wp_create_nonce('cv_admin_nonce'));?>';
             var ajax='<?php echo esc_js(admin_url('admin-ajax.php'));?>';
-            function msg(t,ok){var $m=$('#cv-brinde-msg');$m.text(t).css({background:ok?'#1a2e1a':'#2e1a1a',border:'1px solid '+(ok?'#2d6a2d':'#6a2d2d'),color:ok?'#7fce7f':'#ce7f7f'}).show();setTimeout(function(){$m.fadeOut();},4000);}
+            function msg(t,ok){var $m=$('#cv-brinde-msg');$m.text(t).css({background:ok?'#EBF4EB':'#F4EBEB',border:'1px solid '+(ok?'#2d6a2d':'#6a2d2d'),color:ok?'#7fce7f':'#ce7f7f'}).show();setTimeout(function(){$m.fadeOut();},4000);}
             $('#cv-brinde-novo-btn').on('click',function(){$('#cv-br-id').val(0);$('#cv-brinde-form input,#cv-brinde-form textarea').val('');$('#cv-br-qtd').val('1');$('#cv-brinde-form').slideToggle(180);});
             $('#cv-brinde-cancelar').on('click',function(){$('#cv-brinde-form').slideUp(180);});
             $(document).on('click','.cv-media-pick-br',function(){var frame=wp.media({title:'Selecionar imagem',button:{text:'Usar'},multiple:false});frame.on('select',function(){$('#cv-br-imagem').val(frame.state().get('selection').first().toJSON().url);});frame.open();});

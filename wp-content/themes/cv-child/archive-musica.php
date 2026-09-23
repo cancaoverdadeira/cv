@@ -93,7 +93,7 @@ get_header();
         <?php get_template_part('template-parts/topbar'); ?>
 
         <!-- Cabeçalho do catálogo -->
-        <div style="background:linear-gradient(180deg,#1e1e1e 0%,var(--cv-bg) 100%);
+        <div style="background:linear-gradient(180deg,#FFFFFF 0%,var(--cv-bg) 100%);
                     padding:40px 36px 28px;border-bottom:1px solid var(--cv-border-subtle)">
 
             <h1 style="font-family:var(--font-display);font-size:32px;font-weight:700;margin:0 0 6px">
@@ -152,8 +152,8 @@ get_header();
                 <a href="<?php echo esc_url($url_o); ?>"
                    style="font-size:12px;font-weight:700;padding:5px 12px;border-radius:50px;text-decoration:none;
                           transition:all .2s;
-                          background:<?php echo $ativo ? 'var(--cv-gold)' : 'rgba(255,255,255,.06)'; ?>;
-                          color:<?php echo $ativo ? '#1a1a1a' : 'var(--cv-text-muted)'; ?>;
+                          background:<?php echo $ativo ? 'var(--cv-gold)' : 'rgba(123,58,34,0.07)'; ?>;
+                          color:<?php echo $ativo ? '#FFFFFF' : 'var(--cv-text-muted)'; ?>;
                           border:1px solid <?php echo $ativo ? 'var(--cv-gold)' : 'var(--cv-border)'; ?>">
                     <?php echo esc_html($label); ?>
                 </a>
@@ -190,7 +190,7 @@ get_header();
                           width:38px;height:38px;border-radius:50%;font-size:13px;font-weight:700;
                           text-decoration:none;transition:all .2s;
                           background:<?php echo $ativo ? 'var(--cv-gold)' : 'var(--cv-bg-card)'; ?>;
-                          color:<?php echo $ativo ? '#1a1a1a' : 'var(--cv-text-muted)'; ?>;
+                          color:<?php echo $ativo ? '#FFFFFF' : 'var(--cv-text-muted)'; ?>;
                           border:1px solid <?php echo $ativo ? 'var(--cv-gold)' : 'var(--cv-border)'; ?>">
                     <?php echo $i; ?>
                 </a>

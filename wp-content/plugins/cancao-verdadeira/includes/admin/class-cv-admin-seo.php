@@ -309,26 +309,26 @@ class CV_Admin_SEO {
         ?>
         <div id="cv-seo-exec" class="cv-admin-wrap">
         <style>
-        body.wp-admin { background:#0f0f1a !important; }
-        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#0f0f1a !important; }
+        body.wp-admin { background:#FBF6EE !important; }
+        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#FBF6EE !important; }
         /* Dark mode sobre as classes existentes do SEO */
-        #cv-seo-exec .cv-admin-header { background:#1a1a2e; border:1px solid #2a2a4a; border-radius:12px; padding:18px 22px; margin-bottom:20px; }
-        #cv-seo-exec h1 { color:#fff !important; }
-        #cv-seo-exec .cv-admin-subtitle { color:#888 !important; }
+        #cv-seo-exec .cv-admin-header { background:#F8F0E4; border:1px solid #EADBC6; border-radius:12px; padding:18px 22px; margin-bottom:20px; }
+        #cv-seo-exec h1 { color:#3B2418 !important; }
+        #cv-seo-exec .cv-admin-subtitle { color:#8A6A55 !important; }
         #cv-seo-exec .cv-kpi-grid { background:transparent !important; }
-        #cv-seo-exec .cv-kpi-card { background:#1a1a2e !important; border:1px solid #2a2a4a !important; border-radius:12px !important; }
+        #cv-seo-exec .cv-kpi-card { background:#F8F0E4 !important; border:1px solid #EADBC6 !important; border-radius:12px !important; }
         #cv-seo-exec .cv-kpi-card.cv-kpi-highlight { border-color:#1DB954 !important; }
-        #cv-seo-exec .cv-kpi-value { color:#D4A017 !important; }
-        #cv-seo-exec .cv-kpi-label { color:#888 !important; }
-        #cv-seo-exec .cv-section { background:#1a1a2e !important; border:1px solid #2a2a4a !important; border-radius:12px !important; }
-        #cv-seo-exec .cv-section-title { color:#D4A017 !important; border-color:#2a2a4a !important; }
-        #cv-seo-exec .cv-table { background:#1a1a2e !important; }
-        #cv-seo-exec .cv-table th { background:#16213e !important; color:#888 !important; border-color:#2a2a4a !important; }
-        #cv-seo-exec .cv-table td { border-color:#2a2a4a !important; color:#e0e0e0 !important; }
-        #cv-seo-exec .cv-table tr:hover td { background:rgba(255,255,255,.03) !important; }
-        #cv-seo-exec .cv-btn-outline { background:rgba(212,160,23,.1) !important; border-color:rgba(212,160,23,.3) !important; color:#D4A017 !important; border-radius:8px !important; }
-        #cv-seo-exec .cv-btn-primary { background:#D4A017 !important; color:#000 !important; border-radius:8px !important; }
-        #cv-seo-exec .cv-input { background:rgba(255,255,255,.04) !important; border-color:#2a2a4a !important; color:#e0e0e0 !important; }
+        #cv-seo-exec .cv-kpi-value { color:#7B3A22 !important; }
+        #cv-seo-exec .cv-kpi-label { color:#8A6A55 !important; }
+        #cv-seo-exec .cv-section { background:#F8F0E4 !important; border:1px solid #EADBC6 !important; border-radius:12px !important; }
+        #cv-seo-exec .cv-section-title { color:#7B3A22 !important; border-color:#EADBC6 !important; }
+        #cv-seo-exec .cv-table { background:#F8F0E4 !important; }
+        #cv-seo-exec .cv-table th { background:#F8F0E4 !important; color:#8A6A55 !important; border-color:#EADBC6 !important; }
+        #cv-seo-exec .cv-table td { border-color:#EADBC6 !important; color:#3B2418 !important; }
+        #cv-seo-exec .cv-table tr:hover td { background:rgba(123,58,34,0.03) !important; }
+        #cv-seo-exec .cv-btn-outline { background:rgba(242,165,26,0.13) !important; border-color:rgba(201,162,126,0.6) !important; color:#7B3A22 !important; border-radius:8px !important; }
+        #cv-seo-exec .cv-btn-primary { background:#F2A51A !important; color:#3B2418 !important; border-radius:8px !important; }
+        #cv-seo-exec .cv-input { background:rgba(123,58,34,0.04) !important; border-color:#EADBC6 !important; color:#3B2418 !important; }
         #cv-seo-exec .cv-badge { border-radius:6px !important; }
         </style>
 
@@ -376,21 +376,21 @@ class CV_Admin_SEO {
                 <div class="cv-section" style="margin:0">
                     <h2 class="cv-section-title">🛡 Checklist de Saúde SEO</h2>
                     <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-                        <div style="flex:1;background:#111;border-radius:20px;height:8px;overflow:hidden">
-                            <div style="width:<?php echo $ck_pct; ?>%;height:100%;background:<?php echo $ck_pct>=80?'#27ae60':($ck_pct>=60?'#D4A017':'#e74c3c'); ?>;border-radius:20px;transition:width 1s"></div>
+                        <div style="flex:1;background:#FBF6EE;border-radius:20px;height:8px;overflow:hidden">
+                            <div style="width:<?php echo $ck_pct; ?>%;height:100%;background:<?php echo $ck_pct>=80?'#27ae60':($ck_pct>=60?'#B8700C':'#e74c3c'); ?>;border-radius:20px;transition:width 1s"></div>
                         </div>
-                        <span style="font-size:13px;font-weight:700;color:<?php echo $ck_pct>=80?'#27ae60':($ck_pct>=60?'#D4A017':'#e74c3c'); ?>"><?php echo $ok_count; ?>/<?php echo $total_ck; ?></span>
+                        <span style="font-size:13px;font-weight:700;color:<?php echo $ck_pct>=80?'#27ae60':($ck_pct>=60?'#B8700C':'#e74c3c'); ?>"><?php echo $ok_count; ?>/<?php echo $total_ck; ?></span>
                     </div>
                     <?php foreach ( $checklist as $item ) : ?>
-                    <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+                    <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(123,58,34,0.12)">
                         <span style="font-size:18px;flex-shrink:0;margin-top:1px"><?php echo $item['ok'] ? '✅' : '❌'; ?></span>
                         <div style="flex:1;min-width:0">
-                            <div style="font-size:13px;font-weight:<?php echo $item['ok'] ? '400' : '600'; ?>;color:<?php echo $item['ok'] ? '#C8B98A' : '#F5F0E0'; ?>">
+                            <div style="font-size:13px;font-weight:<?php echo $item['ok'] ? '400' : '600'; ?>;color:<?php echo $item['ok'] ? '#C9A27E' : '#3B2418'; ?>">
                                 <?php echo esc_html( $item['label'] ); ?>
                             </div>
-                            <div style="font-size:11px;color:#555;margin-top:2px"><?php echo esc_html( $item['desc'] ); ?></div>
+                            <div style="font-size:11px;color:#8A6A55;margin-top:2px"><?php echo esc_html( $item['desc'] ); ?></div>
                             <?php if ( ! $item['ok'] && $item['acao'] ) : ?>
-                            <div style="font-size:11px;color:#D4A017;margin-top:4px">→ <?php echo esc_html( $item['acao'] ); ?></div>
+                            <div style="font-size:11px;color:#7B3A22;margin-top:4px">→ <?php echo esc_html( $item['acao'] ); ?></div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -402,13 +402,13 @@ class CV_Admin_SEO {
                     <div class="cv-section" style="margin:0">
                         <h2 class="cv-section-title">📚 Cobertura do Catálogo</h2>
                         <div id="cv-coverage-bars">
-                            <div style="text-align:center;padding:20px;color:#555">Carregando...</div>
+                            <div style="text-align:center;padding:20px;color:#8A6A55">Carregando...</div>
                         </div>
                     </div>
                     <div class="cv-section" style="margin:0">
                         <h2 class="cv-section-title">🔍 Potencial Orgânico por Gênero</h2>
                         <div id="cv-keyword-potential">
-                            <div style="text-align:center;padding:20px;color:#555">Carregando...</div>
+                            <div style="text-align:center;padding:20px;color:#8A6A55">Carregando...</div>
                         </div>
                     </div>
                 </div>
@@ -432,7 +432,7 @@ class CV_Admin_SEO {
                     </div>
                 </div>
                 <div id="cv-seo-table-wrap">
-                    <div style="text-align:center;padding:40px;color:#555">
+                    <div style="text-align:center;padding:40px;color:#8A6A55">
                         <div style="font-size:28px;animation:cv-spin 1s linear infinite;display:inline-block">⏳</div>
                         <p style="margin-top:10px;font-size:13px">Analisando músicas...</p>
                     </div>
@@ -445,10 +445,10 @@ class CV_Admin_SEO {
         .cv-seo-bar-row { margin-bottom:14px; }
         .cv-seo-bar-label {
             display:flex;justify-content:space-between;
-            font-size:12px;color:#C8B98A;margin-bottom:5px;
+            font-size:12px;color:#6B4C3B;margin-bottom:5px;
         }
         .cv-seo-bar-track {
-            background:#111;border-radius:20px;height:10px;overflow:hidden;
+            background:#FBF6EE;border-radius:20px;height:10px;overflow:hidden;
         }
         .cv-seo-bar-fill {
             height:100%;border-radius:20px;
@@ -458,10 +458,10 @@ class CV_Admin_SEO {
             display:inline-block;padding:3px 10px;border-radius:20px;
             font-size:11px;font-weight:700;
         }
-        .cv-score-otimo  { background:rgba(39,174,96,.15);color:#27ae60; }
-        .cv-score-bom    { background:rgba(212,160,23,.15);color:#D4A017; }
-        .cv-score-regular{ background:rgba(243,156,18,.15);color:#f39c12; }
-        .cv-score-fraco  { background:rgba(231,76,60,.15);color:#e74c3c; }
+        .cv-score-otimo  { background:rgba(39,174,96,.15);color:#1C7C44; }
+        .cv-score-bom    { background:rgba(242,165,26,0.2);color:#7B3A22; }
+        .cv-score-regular{ background:rgba(242,165,26,0.2);color:#7B3A22; }
+        .cv-score-fraco  { background:rgba(231,76,60,.15);color:#D62C1A; }
         .cv-seo-dot { display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:2px; }
         @keyframes cv-spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
         @media(max-width:900px){
@@ -485,7 +485,7 @@ class CV_Admin_SEO {
 
                     var bars = [
                         { label:'Letra completa',  val:d.com_letra,   color:'#27ae60' },
-                        { label:'URL YouTube',     val:d.com_youtube, color:'#D4A017' },
+                        { label:'URL YouTube',     val:d.com_youtube, color:'#B8700C' },
                         { label:'Capa (imagem)',   val:d.com_capa,    color:'#3498db' },
                         { label:'Artista definido',val:d.com_artista, color:'#9b59b6' },
                         { label:'Gênero definido', val:d.com_genero,  color:'#e67e22' },
@@ -522,12 +522,12 @@ class CV_Admin_SEO {
                 var html = '<table class="cv-table" style="font-size:12px">'
                          + '<thead><tr><th>Gênero / Termo</th><th style="text-align:right">Vol./mês</th><th>Dificuldade</th><th>Oportunidade</th></tr></thead><tbody>';
                 $.each(kwData, function(i, r){
-                    var cor = r.dificuldade === 'Baixa' ? '#27ae60' : r.dificuldade === 'Média' ? '#D4A017' : '#e74c3c';
+                    var cor = r.dificuldade === 'Baixa' ? '#27ae60' : r.dificuldade === 'Média' ? '#B8700C' : '#e74c3c';
                     html += '<tr>'
                           + '<td style="font-weight:600">' + r.genero + '</td>'
-                          + '<td style="text-align:right;color:#D4A017;font-weight:700">' + r.volume + '</td>'
+                          + '<td style="text-align:right;color:#7B3A22;font-weight:700">' + r.volume + '</td>'
                           + '<td><span style="color:' + cor + ';font-weight:700">' + r.dificuldade + '</span></td>'
-                          + '<td style="color:#888;font-size:11px">' + r.oportunidade + '</td>'
+                          + '<td style="color:#8A6A55;font-size:11px">' + r.oportunidade + '</td>'
                           + '</tr>';
                 });
                 html += '</tbody></table>';
@@ -537,7 +537,7 @@ class CV_Admin_SEO {
             // ── Score SEO das músicas ────────────────────────────
             function loadMusicScores() {
                 $('#cv-seo-table-wrap').html(
-                    '<div style="text-align:center;padding:40px;color:#555">'
+                    '<div style="text-align:center;padding:40px;color:#8A6A55">'
                     + '<div style="font-size:28px;animation:cv-spin 1s linear infinite;display:inline-block">⏳</div>'
                     + '<p style="margin-top:10px;font-size:13px">Analisando músicas...</p></div>'
                 );
@@ -567,12 +567,12 @@ class CV_Admin_SEO {
             }
 
             function dotIcon(ok) {
-                return '<span class="cv-seo-dot" style="background:' + (ok ? '#27ae60' : '#444') + '"></span>';
+                return '<span class="cv-seo-dot" style="background:' + (ok ? '#27ae60' : '#F3E6D3') + '"></span>';
             }
 
             function renderTable(list) {
                 if (!list.length) {
-                    $('#cv-seo-table-wrap').html('<div style="text-align:center;padding:40px;color:#555">Nenhuma música encontrada.</div>');
+                    $('#cv-seo-table-wrap').html('<div style="text-align:center;padding:40px;color:#8A6A55">Nenhuma música encontrada.</div>');
                     return;
                 }
                 var html = '<div style="overflow-x:auto"><table class="cv-table" style="min-width:640px">'
@@ -589,9 +589,9 @@ class CV_Admin_SEO {
                     var cls = scoreClass(m.score);
                     html += '<tr>'
                           + '<td style="font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'
-                          + '<a href="' + m.url + '" target="_blank" style="color:#C8B98A;text-decoration:none" title="' + m.titulo + '">' + m.titulo + '</a></td>'
-                          + '<td style="font-size:12px;color:#888">' + (m.genero || '—') + '</td>'
-                          + '<td style="font-size:12px;color:#888">' + (m.artista || '—') + '</td>'
+                          + '<a href="' + m.url + '" target="_blank" style="color:#6B4C3B;text-decoration:none" title="' + m.titulo + '">' + m.titulo + '</a></td>'
+                          + '<td style="font-size:12px;color:#8A6A55">' + (m.genero || '—') + '</td>'
+                          + '<td style="font-size:12px;color:#8A6A55">' + (m.artista || '—') + '</td>'
                           + '<td style="text-align:center">' + dotIcon(m.detail.letra) + '</td>'
                           + '<td style="text-align:center">' + dotIcon(m.detail.youtube) + '</td>'
                           + '<td style="text-align:center">' + dotIcon(m.detail.capa) + '</td>'

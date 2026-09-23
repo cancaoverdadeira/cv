@@ -345,11 +345,11 @@ class CV_Extras {
         ?>
         <div class="cv-section" style="margin-top:0">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
-                <h2 style="font-size:16px;font-weight:700;color:#F5F0E0;margin:0">
+                <h2 style="font-size:16px;font-weight:700;color:#3B2418;margin:0">
                     📊 Plays — últimos 14 dias
                 </h2>
-                <span style="font-size:13px;color:#888">
-                    Total: <strong style="color:#D4A017"><?php echo number_format( $total_periodo ); ?></strong> plays
+                <span style="font-size:13px;color:#8A6A55">
+                    Total: <strong style="color:#7B3A22"><?php echo number_format( $total_periodo ); ?></strong> plays
                 </span>
             </div>
 
@@ -363,7 +363,7 @@ class CV_Extras {
                         $barH    = $pico > 0 ? (int) round( ( $val / $pico ) * 100 ) : 0;
                         $barY    = 110 - $barH;
                         $isToday = ( $i === 13 );
-                        $color   = $isToday ? '#FFD700' : '#D4A017';
+                        $color   = $isToday ? '#B8700C' : '#B8700C';
                         $opacity = $val > 0 ? '1' : '0.3';
                         $label   = $labels[ $i ];
                     ?>
@@ -384,7 +384,7 @@ class CV_Extras {
                               y="<?php echo max( $barY - 4, 12 ); ?>"
                               text-anchor="middle"
                               font-size="9"
-                              fill="#888">
+                              fill="#C9A27E">
                             <?php echo $val >= 1000 ? round( $val / 1000, 1 ) . 'k' : $val; ?>
                         </text>
                         <?php endif; ?>
@@ -394,7 +394,7 @@ class CV_Extras {
                               y="130"
                               text-anchor="middle"
                               font-size="9"
-                              fill="<?php echo $isToday ? '#D4A017' : '#555'; ?>"
+                              fill="<?php echo $isToday ? '#B8700C' : '#F3E6D3'; ?>"
                               font-weight="<?php echo $isToday ? '700' : '400'; ?>">
                             <?php echo esc_html( $label ); ?>
                         </text>
@@ -403,22 +403,22 @@ class CV_Extras {
 
                     <!-- Linha de base -->
                     <line x1="0" y1="111" x2="<?php echo 14 * 48; ?>" y2="111"
-                          stroke="#2a2a2a" stroke-width="1"/>
+                          stroke="#EADBC6" stroke-width="1"/>
                 </svg>
             </div>
 
             <!-- Legenda -->
-            <div style="display:flex;gap:16px;margin-top:8px;font-size:11px;color:#555">
+            <div style="display:flex;gap:16px;margin-top:8px;font-size:11px;color:#8A6A55">
                 <span>
-                    <span style="display:inline-block;width:10px;height:10px;background:#FFD700;border-radius:2px;margin-right:4px;vertical-align:middle"></span>
+                    <span style="display:inline-block;width:10px;height:10px;background:#F2A51A;border-radius:2px;margin-right:4px;vertical-align:middle"></span>
                     Hoje
                 </span>
                 <span>
-                    <span style="display:inline-block;width:10px;height:10px;background:#D4A017;border-radius:2px;margin-right:4px;vertical-align:middle"></span>
+                    <span style="display:inline-block;width:10px;height:10px;background:#F2A51A;border-radius:2px;margin-right:4px;vertical-align:middle"></span>
                     Dias anteriores
                 </span>
                 <span style="margin-left:auto">
-                    Pico: <strong style="color:#D4A017"><?php echo number_format( $pico ); ?></strong> plays
+                    Pico: <strong style="color:#7B3A22"><?php echo number_format( $pico ); ?></strong> plays
                 </span>
             </div>
         </div>

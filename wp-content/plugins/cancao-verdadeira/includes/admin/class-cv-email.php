@@ -92,7 +92,7 @@ class CV_Email {
             <?php if ( ! $api_key ) : ?>
             <div class="cv-notice cv-notice-warning" style="margin-bottom:24px">
                 ⚠️ A chave de API do MailerLite não está configurada.
-                <a href="<?php echo admin_url('admin.php?page=cv-settings'); ?>" style="color:#D4A017">
+                <a href="<?php echo admin_url('admin.php?page=cv-settings'); ?>" style="color:#7B3A22">
                     Configure em Configurações →
                 </a>
             </div>
@@ -101,10 +101,10 @@ class CV_Email {
             <!-- Grupos / Listas -->
             <div class="cv-section">
                 <h2 class="cv-section-title">📋 Grupos / Listas no MailerLite</h2>
-                <p style="color:#888;font-size:13px;margin-bottom:16px">
+                <p style="color:#8A6A55;font-size:13px;margin-bottom:16px">
                     Para cada tipo de e-mail você pode usar um grupo diferente do MailerLite (ex: "Assinantes Gerais", "Usuários Registrados").
                     Se deixar em branco, usa o grupo padrão configurado em Configurações.
-                    <strong style="color:#D4A017"> Grupo padrão atual: <?php echo $group_padrao ?: 'não configurado'; ?></strong>
+                    <strong style="color:#7B3A22"> Grupo padrão atual: <?php echo $group_padrao ?: 'não configurado'; ?></strong>
                 </p>
 
                 <?php if ( $api_key ) : ?>
@@ -117,17 +117,17 @@ class CV_Email {
                     <?php foreach ( self::TIPOS as $key => $cfg ) :
                         $grupo_val = get_option( $cfg['option'], '' );
                     ?>
-                    <div style="background:#1a1a1a;border-radius:8px;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center">
+                    <div style="background:#FFFFFF;border-radius:8px;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center">
                         <div>
-                            <p style="color:#F5F0E0;font-weight:700;margin-bottom:4px;font-size:14px">
+                            <p style="color:#3B2418;font-weight:700;margin-bottom:4px;font-size:14px">
                                 <?php echo esc_html( $cfg['label'] ); ?>
                             </p>
-                            <p style="color:#666;font-size:12px;margin:0">
+                            <p style="color:#8A6A55;font-size:12px;margin:0">
                                 <?php echo self::descricao_tipo( $key ); ?>
                             </p>
                         </div>
                         <div>
-                            <label style="display:block;color:#C8B98A;font-size:12px;margin-bottom:4px">ID do grupo (ou deixe vazio para usar o padrão)</label>
+                            <label style="display:block;color:#6B4C3B;font-size:12px;margin-bottom:4px">ID do grupo (ou deixe vazio para usar o padrão)</label>
                             <?php if ( ! empty( $grupos ) ) : ?>
                             <select name="<?php echo esc_attr($cfg['option']); ?>"
                                     class="cv-input cv-email-group-select"
@@ -162,10 +162,10 @@ class CV_Email {
             <!-- Automações -->
             <div class="cv-section">
                 <h2 class="cv-section-title">⚡ Automações Ativas</h2>
-                <p style="color:#888;font-size:13px;margin-bottom:20px">
+                <p style="color:#8A6A55;font-size:13px;margin-bottom:20px">
                     Controle quais e-mails automáticos estão ativos.
                     Os disparos usam a API do MailerLite para adicionar assinantes a grupos
-                    e acionar automações que você configura <strong style="color:#D4A017">dentro do próprio MailerLite</strong>.
+                    e acionar automações que você configura <strong style="color:#7B3A22">dentro do próprio MailerLite</strong>.
                 </p>
 
                 <div style="display:grid;gap:12px">
@@ -201,17 +201,17 @@ class CV_Email {
                             ? true
                             : (bool) get_option( $a['option'] ?? '', 0 );
                     ?>
-                    <div style="background:#1a1a1a;border-radius:8px;padding:16px;display:flex;align-items:center;gap:16px">
+                    <div style="background:#FFFFFF;border-radius:8px;padding:16px;display:flex;align-items:center;gap:16px">
                         <div style="flex:1">
-                            <p style="color:#F5F0E0;font-weight:700;margin-bottom:4px">
+                            <p style="color:#3B2418;font-weight:700;margin-bottom:4px">
                                 <?php echo $a['titulo']; ?>
                                 <?php if ( ! empty($a['sempre']) ) : ?>
-                                    <span style="background:#1a3a1a;color:#5cb85c;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:8px">SEMPRE ATIVO</span>
+                                    <span style="background:#EAF6EA;color:#388038;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:8px">SEMPRE ATIVO</span>
                                 <?php elseif ( ! empty($a['manual']) ) : ?>
-                                    <span style="background:#1a2a3a;color:#3a9bd5;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:8px">MANUAL</span>
+                                    <span style="background:#F8F0E4;color:#2374A5;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:8px">MANUAL</span>
                                 <?php endif; ?>
                             </p>
-                            <p style="color:#666;font-size:12px;margin:0"><?php echo $a['desc']; ?></p>
+                            <p style="color:#8A6A55;font-size:12px;margin:0"><?php echo $a['desc']; ?></p>
                         </div>
                         <?php if ( empty($a['sempre']) && empty($a['manual']) ) : ?>
                         <label style="position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0">
@@ -219,7 +219,7 @@ class CV_Email {
                                    data-option="<?php echo esc_attr( $a['option'] ); ?>"
                                    <?php checked( $ativo ); ?>
                                    style="opacity:0;width:0;height:0" />
-                            <span style="position:absolute;cursor:pointer;inset:0;background:<?php echo $ativo ? '#D4A017' : '#333'; ?>;border-radius:24px;transition:.3s"></span>
+                            <span style="position:absolute;cursor:pointer;inset:0;background:<?php echo $ativo ? '#B8700C' : '#F3E6D3'; ?>;border-radius:24px;transition:.3s"></span>
                             <span style="position:absolute;content:'';height:18px;width:18px;left:<?php echo $ativo ? '22px' : '3px'; ?>;bottom:3px;background:white;border-radius:50%;transition:.3s"></span>
                         </label>
                         <?php endif; ?>
@@ -237,16 +237,16 @@ class CV_Email {
             <!-- Como funciona -->
             <div class="cv-section">
                 <h2 class="cv-section-title">📖 Como configurar no MailerLite</h2>
-                <div style="background:#1a1a1a;border-radius:8px;padding:20px;color:#C8B98A;font-size:13px;line-height:1.8">
-                    <p style="color:#D4A017;font-weight:700;margin-bottom:12px">Passo a passo recomendado:</p>
-                    <ol style="padding-left:20px;color:#888">
-                        <li style="margin-bottom:8px">No MailerLite, crie um <strong style="color:#C8B98A">Grupo</strong> para cada tipo (ex: "Boas-vindas CV", "Nova Música CV")</li>
-                        <li style="margin-bottom:8px">Copie o <strong style="color:#C8B98A">ID de cada grupo</strong> e cole nos campos acima</li>
-                        <li style="margin-bottom:8px">No MailerLite, crie uma <strong style="color:#C8B98A">Automação</strong> com gatilho "Assinante entra em grupo"</li>
+                <div style="background:#FFFFFF;border-radius:8px;padding:20px;color:#6B4C3B;font-size:13px;line-height:1.8">
+                    <p style="color:#7B3A22;font-weight:700;margin-bottom:12px">Passo a passo recomendado:</p>
+                    <ol style="padding-left:20px;color:#8A6A55">
+                        <li style="margin-bottom:8px">No MailerLite, crie um <strong style="color:#6B4C3B">Grupo</strong> para cada tipo (ex: "Boas-vindas CV", "Nova Música CV")</li>
+                        <li style="margin-bottom:8px">Copie o <strong style="color:#6B4C3B">ID de cada grupo</strong> e cole nos campos acima</li>
+                        <li style="margin-bottom:8px">No MailerLite, crie uma <strong style="color:#6B4C3B">Automação</strong> com gatilho "Assinante entra em grupo"</li>
                         <li style="margin-bottom:8px">Desenhe o e-mail no editor visual do MailerLite com as variáveis <code>{{ subscriber.name }}</code></li>
-                        <li style="margin-bottom:8px">Quando um usuário se cadastrar ou uma música for publicada, o plugin <strong style="color:#C8B98A">adiciona o assinante ao grupo</strong> — o MailerLite dispara o e-mail automaticamente</li>
+                        <li style="margin-bottom:8px">Quando um usuário se cadastrar ou uma música for publicada, o plugin <strong style="color:#6B4C3B">adiciona o assinante ao grupo</strong> — o MailerLite dispara o e-mail automaticamente</li>
                     </ol>
-                    <p style="color:#555;font-size:12px;margin-top:12px">
+                    <p style="color:#8A6A55;font-size:12px;margin-top:12px">
                         💡 Dica: Você pode usar os campos personalizados do MailerLite como <code>{{ subscriber.fields.music_title }}</code> para incluir o título da música no e-mail de nova publicação.
                     </p>
                 </div>

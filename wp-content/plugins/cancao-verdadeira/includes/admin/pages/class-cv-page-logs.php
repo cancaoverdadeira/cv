@@ -36,10 +36,10 @@ class CV_Page_Logs {
 
         $action_map = array(
             'music_published' => array('icon' => '🎵', 'label' => 'Música publicada',   'color' => '#1DB954'),
-            'music_saved'     => array('icon' => '✏️',  'label' => 'Música salva',       'color' => '#D4A017'),
+            'music_saved'     => array('icon' => '✏️',  'label' => 'Música salva',       'color' => '#B8700C'),
             'music_deleted'   => array('icon' => '🗑️',  'label' => 'Música excluída',    'color' => '#e74c3c'),
             'admin_login'     => array('icon' => '🔐',  'label' => 'Login admin',        'color' => '#3498db'),
-            'admin_logout'    => array('icon' => '↩️',   'label' => 'Logout admin',       'color' => '#95a5a6'),
+            'admin_logout'    => array('icon' => '↩️',   'label' => 'Logout admin',       'color' => '#C9A27E'),
             'playlist_created'=> array('icon' => '📋',  'label' => 'Playlist criada',    'color' => '#9b59b6'),
             'cache_cleared'   => array('icon' => '🗑️',  'label' => 'Cache limpo',        'color' => '#e67e22'),
             'ranking_recalc'  => array('icon' => '🔄',  'label' => 'Ranking recalculado','color' => '#1DB954'),
@@ -47,17 +47,17 @@ class CV_Page_Logs {
         ?>
         <div class="wrap" id="cv-logs-executive">
         <style>
-        body.wp-admin { background:#0f0f1a !important; }
-        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#0f0f1a !important; }
+        body.wp-admin { background:#FBF6EE !important; }
+        #wpwrap,#wpcontent,#wpbody,#wpbody-content { background:#FBF6EE !important; }
         #cv-logs-executive {
-            --gold:#D4A017; --bg:#0f0f1a; --card:#1a1a2e; --bord:#2a2a4a;
-            --text:#e0e0e0; --muted:#888; --green:#1DB954;
+            --gold:#B8700C; --bg:#FFFFFF; --card:#F8F0E4; --bord:#F3E6D3;
+            --text:#3B2418; --muted:#C9A27E; --green:#1DB954;
             color:var(--text); font-family:'Segoe UI',system-ui,sans-serif;
             padding-bottom:40px;
         }
         #cv-logs-executive * { box-sizing:border-box; }
         .cv-log-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
-        .cv-log-title { font-size:24px; font-weight:700; color:#fff; margin:0; }
+        .cv-log-title { font-size:24px; font-weight:700; color:#3B2418; margin:0; }
         .cv-log-title span { color:var(--gold); }
         .cv-log-kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:14px; margin-bottom:24px; }
         .cv-log-kpi { background:var(--card); border:1px solid var(--bord); border-radius:12px; padding:16px 14px; text-align:center; position:relative; overflow:hidden; }
@@ -66,7 +66,7 @@ class CV_Page_Logs {
         .cv-log-kpi-label { font-size:11px; color:var(--muted); margin-top:5px; text-transform:uppercase; letter-spacing:.4px; }
         /* Chart de atividade */
         .cv-log-chart-box { background:var(--card); border:1px solid var(--bord); border-radius:14px; padding:20px; margin-bottom:24px; }
-        .cv-log-chart-title { font-size:13px; font-weight:700; color:#fff; margin:0 0 14px; }
+        .cv-log-chart-title { font-size:13px; font-weight:700; color:#3B2418; margin:0 0 14px; }
         .cv-log-chart-title span { color:var(--muted); font-weight:400; font-size:11px; }
         .cv-log-bars { display:flex; align-items:flex-end; gap:3px; height:60px; }
         .cv-log-bar { flex:1; border-radius:3px 3px 0 0; background:var(--gold); opacity:.4; transition:opacity .2s; min-height:2px; }
@@ -75,7 +75,7 @@ class CV_Page_Logs {
         /* Filtros */
         .cv-log-filters { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
         .cv-log-filter-btn { padding:6px 14px; border-radius:20px; border:1px solid var(--bord); background:transparent; color:var(--muted); font-size:12px; cursor:pointer; transition:all .2s; font-family:inherit; }
-        .cv-log-filter-btn.active, .cv-log-filter-btn:hover { border-color:var(--gold); color:var(--gold); background:rgba(212,160,23,.08); }
+        .cv-log-filter-btn.active, .cv-log-filter-btn:hover { border-color:var(--gold); color:var(--gold); background:rgba(242,165,26,0.1); }
         /* Timeline */
         .cv-log-timeline { position:relative; }
         .cv-log-timeline::before { content:''; position:absolute; left:20px; top:0; bottom:0; width:2px; background:var(--bord); }
@@ -85,13 +85,13 @@ class CV_Page_Logs {
         .cv-log-dot-circle { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; border:2px solid var(--bord); background:var(--card); z-index:1; position:relative; }
         .cv-log-dot-line { flex:1; width:2px; background:transparent; }
         .cv-log-body { flex:1; background:var(--card); border:1px solid var(--bord); border-radius:10px; padding:12px 14px; transition:border-color .2s; }
-        .cv-log-body:hover { border-color:rgba(212,160,23,.3); }
+        .cv-log-body:hover { border-color:rgba(201,162,126,0.6); }
         .cv-log-body-top { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-        .cv-log-label { font-size:13px; font-weight:600; color:#fff; }
+        .cv-log-label { font-size:13px; font-weight:600; color:#3B2418; }
         .cv-log-badge { font-size:10px; padding:2px 8px; border-radius:10px; font-weight:600; }
         .cv-log-user { font-size:11px; color:var(--gold); margin-left:auto; }
         .cv-log-desc { font-size:12px; color:var(--muted); margin-top:5px; }
-        .cv-log-meta { display:flex; gap:12px; margin-top:6px; font-size:10px; color:#555; }
+        .cv-log-meta { display:flex; gap:12px; margin-top:6px; font-size:10px; color:#8A6A55; }
         .cv-log-empty { text-align:center; padding:60px; color:var(--muted); }
         /* Categorias ocultas */
         .cv-log-entry[data-cat].hidden { display:none; }
@@ -159,14 +159,14 @@ class CV_Page_Logs {
         <?php if ( empty($logs) ) : ?>
         <div class="cv-log-empty">
             <div style="font-size:48px;margin-bottom:12px">📋</div>
-            <div style="font-size:16px;color:#e0e0e0;margin-bottom:6px">Nenhum log registrado ainda</div>
+            <div style="font-size:16px;color:#3B2418;margin-bottom:6px">Nenhum log registrado ainda</div>
             <div style="font-size:13px">As ações serão registradas automaticamente conforme você usa o painel.</div>
         </div>
         <?php else : ?>
         <div class="cv-log-timeline" id="cv-log-timeline">
         <?php foreach ($logs as $log):
             $action = isset($log->action) ? $log->action : 'other';
-            $map    = isset($action_map[$action]) ? $action_map[$action] : array('icon'=>'⚙️','label'=>$action,'color'=>'#888');
+            $map    = isset($action_map[$action]) ? $action_map[$action] : array('icon'=>'⚙️','label'=>$action,'color'=>'#C9A27E');
             $icon   = $map['icon']; $label = $map['label']; $cor = $map['color'];
             // Categoria para filtro
             if ( strpos($action,'music') !== false ) { $cat = 'music'; }

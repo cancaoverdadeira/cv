@@ -106,8 +106,8 @@ class CV_Page_Dashboard {
 
         /* ── Hero ── */
         .cv-dash-hero {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a1f00 60%, #1a1500 100%);
-            border: 1px solid #3a2f00;
+            background: linear-gradient(135deg, #FFFFFF 0%, #F8F4E7 60%, #F8F5E7 100%);
+            border: 1px solid #E0D7AE;
             border-radius: 16px;
             padding: 24px 32px;
             margin-bottom: 24px;
@@ -120,13 +120,13 @@ class CV_Page_Dashboard {
             height: 56px;
             object-fit: contain;
             border-radius: 10px;
-            background: rgba(212,160,23,0.08);
+            background: rgba(242,165,26,0.1);
             padding: 6px;
         }
-        .cv-dash-hero-text h1 { color: #D4A017; font-size: 20px; margin: 0 0 2px 0; font-weight: 800; }
-        .cv-dash-hero-text p  { color: #666; font-size: 12px; margin: 0; }
-        .cv-dash-hero-time    { margin-left: auto; text-align: right; color: #444; font-size: 12px; }
-        .cv-dash-hero-time strong { color: #D4A017; display: block; font-size: 18px; }
+        .cv-dash-hero-text h1 { color: #7B3A22; font-size: 20px; margin: 0 0 2px 0; font-weight: 800; }
+        .cv-dash-hero-text p  { color: #8A6A55; font-size: 12px; margin: 0; }
+        .cv-dash-hero-time    { margin-left: auto; text-align: right; color: #8A6A55; font-size: 12px; }
+        .cv-dash-hero-time strong { color: #7B3A22; display: block; font-size: 18px; }
 
         /* ── KPIs ── */
         .cv-kpi-grid-v2 {
@@ -139,15 +139,15 @@ class CV_Page_Dashboard {
         @media (max-width:700px)  { .cv-kpi-grid-v2 { grid-template-columns: 1fr 1fr; } }
 
         .cv-kpi2 {
-            background: #1a1a1a;
-            border: 1px solid #252525;
+            background: #FFFFFF;
+            border: 1px solid #EADBC6;
             border-radius: 12px;
             padding: 20px 18px 16px;
             position: relative;
             overflow: hidden;
             transition: border-color .2s, transform .2s;
         }
-        .cv-kpi2:hover { border-color: #3a3a3a; transform: translateY(-2px); }
+        .cv-kpi2:hover { border-color: #EADBC6; transform: translateY(-2px); }
         .cv-kpi2::after {
             content: "";
             position: absolute;
@@ -155,7 +155,7 @@ class CV_Page_Dashboard {
             height: 3px;
             border-radius: 0 0 12px 12px;
         }
-        .cv-kpi2.k-musicas::after  { background: linear-gradient(90deg,#D4A017,#FFD700); }
+        .cv-kpi2.k-musicas::after  { background: linear-gradient(90deg,#F2A51A,#F2A51A); }
         .cv-kpi2.k-users::after    { background: linear-gradient(90deg,#4a90d9,#5aa8f0); }
         .cv-kpi2.k-plays::after    { background: linear-gradient(90deg,#1db954,#22d460); }
         .cv-kpi2.k-favs::after     { background: linear-gradient(90deg,#e74c3c,#ff6b6b); }
@@ -165,12 +165,12 @@ class CV_Page_Dashboard {
         .cv-kpi2-value {
             font-size: 32px;
             font-weight: 800;
-            color: #f0f0f0;
+            color: #3B2418;
             line-height: 1;
             margin-bottom: 4px;
             font-variant-numeric: tabular-nums;
         }
-        .cv-kpi2-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .5px; }
+        .cv-kpi2-label { font-size: 11px; color: #8A6A55; text-transform: uppercase; letter-spacing: .5px; }
         .cv-kpi2-badge {
             position: absolute;
             top: 14px; right: 14px;
@@ -179,9 +179,9 @@ class CV_Page_Dashboard {
             padding: 2px 7px;
             border-radius: 20px;
         }
-        .cv-badge-up   { background: rgba(29,185,84,.15); color: #1db954; }
-        .cv-badge-down { background: rgba(231,76,60,.15);  color: #e74c3c; }
-        .cv-badge-neu  { background: rgba(255,255,255,.06); color: #555; }
+        .cv-badge-up   { background: rgba(29,185,84,.15); color: #137B38; }
+        .cv-badge-down { background: rgba(231,76,60,.15);  color: #D62C1A; }
+        .cv-badge-neu  { background: rgba(123,58,34,0.07); color: #8A6A55; }
 
         /* ── Linha central: gráfico + top5 ── */
         .cv-dash-mid {
@@ -194,8 +194,8 @@ class CV_Page_Dashboard {
         @media (max-width:900px) { .cv-dash-mid { grid-template-columns: 1fr; } }
 
         .cv-dash-panel {
-            background: #1a1a1a;
-            border: 1px solid #252525;
+            background: #FFFFFF;
+            border: 1px solid #EADBC6;
             border-radius: 12px;
             padding: 20px 22px;
             max-height: 280px;
@@ -203,13 +203,13 @@ class CV_Page_Dashboard {
         }
         .cv-dash-panel h3 {
             font-size: 13px;
-            color: #888;
+            color: #8A6A55;
             text-transform: uppercase;
             letter-spacing: .6px;
             margin: 0 0 16px 0;
             font-weight: 600;
         }
-        .cv-dash-panel h3 strong { color: #D4A017; }
+        .cv-dash-panel h3 strong { color: #7B3A22; }
         #cv-plays-chart { width: 100%; height: 140px; max-height: 140px; }
 
         /* Top 5 */
@@ -224,8 +224,8 @@ class CV_Page_Dashboard {
             width: 22px;
             height: 22px;
             border-radius: 50%;
-            background: rgba(212,160,23,.12);
-            color: #D4A017;
+            background: rgba(242,165,26,0.16);
+            color: #7B3A22;
             font-size: 11px;
             font-weight: 800;
             display: flex;
@@ -233,13 +233,13 @@ class CV_Page_Dashboard {
             justify-content: center;
             flex-shrink: 0;
         }
-        .cv-top5-pos.gold   { background: rgba(212,160,23,.25); color: #FFD700; }
-        .cv-top5-pos.silver { background: rgba(180,180,180,.15); color: #bbb; }
-        .cv-top5-pos.bronze { background: rgba(180,100,40,.15); color: #cd7f32; }
+        .cv-top5-pos.gold   { background: rgba(242,165,26,0.33); color: #7B3A22; }
+        .cv-top5-pos.silver { background: rgba(123,58,34,0.17); color: #6B4C3B; }
+        .cv-top5-pos.bronze { background: rgba(180,100,40,.15); color: #9C6126; }
         .cv-top5-info { flex: 1; min-width: 0; }
         .cv-top5-title {
             font-size: 12px;
-            color: #ddd;
+            color: #3B2418;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -247,17 +247,17 @@ class CV_Page_Dashboard {
         }
         .cv-top5-bar-bg {
             height: 4px;
-            background: #222;
+            background: #F8F0E4;
             border-radius: 4px;
             overflow: hidden;
         }
         .cv-top5-bar-fill {
             height: 100%;
             border-radius: 4px;
-            background: linear-gradient(90deg,#D4A017,#FFD700);
+            background: linear-gradient(90deg,#F2A51A,#F2A51A);
             transition: width .6s ease;
         }
-        .cv-top5-plays { font-size: 11px; color: #D4A017; font-weight: 700; white-space: nowrap; }
+        .cv-top5-plays { font-size: 11px; color: #7B3A22; font-weight: 700; white-space: nowrap; }
 
         /* ── Linha inferior: feed + metas + status ── */
         .cv-dash-bot {
@@ -274,7 +274,7 @@ class CV_Page_Dashboard {
             align-items: center;
             gap: 10px;
             padding: 8px 0;
-            border-bottom: 1px solid #1e1e1e;
+            border-bottom: 1px solid #EADBC6;
             font-size: 12px;
         }
         .cv-feed-item:last-child { border-bottom: none; }
@@ -287,24 +287,24 @@ class CV_Page_Dashboard {
         }
         .cv-feed-icon.play { background: rgba(29,185,84,.12); }
         .cv-feed-icon.user { background: rgba(74,144,217,.12); }
-        .cv-feed-text { flex: 1; color: #aaa; line-height: 1.4; }
-        .cv-feed-text strong { color: #ddd; }
-        .cv-feed-time { color: #444; font-size: 10px; white-space: nowrap; }
+        .cv-feed-text { flex: 1; color: #6B4C3B; line-height: 1.4; }
+        .cv-feed-text strong { color: #3B2418; }
+        .cv-feed-time { color: #8A6A55; font-size: 10px; white-space: nowrap; }
 
         /* Metas */
         .cv-meta-item { margin-bottom: 18px; }
         .cv-meta-item:last-child { margin-bottom: 0; }
         .cv-meta-header { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12px; }
-        .cv-meta-name { color: #888; }
-        .cv-meta-pct  { color: #D4A017; font-weight: 700; }
-        .cv-meta-bar-bg { height: 6px; background: #222; border-radius: 6px; overflow: hidden; }
+        .cv-meta-name { color: #8A6A55; }
+        .cv-meta-pct  { color: #7B3A22; font-weight: 700; }
+        .cv-meta-bar-bg { height: 6px; background: #F8F0E4; border-radius: 6px; overflow: hidden; }
         .cv-meta-bar-fill {
             height: 100%;
             border-radius: 6px;
-            background: linear-gradient(90deg,#D4A017,#FFD700);
+            background: linear-gradient(90deg,#F2A51A,#F2A51A);
             transition: width .8s ease;
         }
-        .cv-meta-sub { font-size: 11px; color: #444; margin-top: 4px; }
+        .cv-meta-sub { font-size: 11px; color: #8A6A55; margin-top: 4px; }
 
         /* Status */
         .cv-status-item {
@@ -312,9 +312,9 @@ class CV_Page_Dashboard {
             align-items: center;
             justify-content: space-between;
             padding: 9px 0;
-            border-bottom: 1px solid #1e1e1e;
+            border-bottom: 1px solid #EADBC6;
             font-size: 12px;
-            color: #888;
+            color: #8A6A55;
         }
         .cv-status-item:last-child { border-bottom: none; }
         .cv-status-dot {
@@ -325,9 +325,9 @@ class CV_Page_Dashboard {
             flex-shrink: 0;
         }
         .dot-ok  { background: #1db954; box-shadow: 0 0 6px rgba(29,185,84,.5); }
-        .dot-warn{ background: #D4A017; box-shadow: 0 0 6px rgba(212,160,23,.5); }
-        .dot-off { background: #333; }
-        .cv-status-val { color: #555; font-size: 11px; }
+        .dot-warn{ background: #F2A51A; box-shadow: 0 0 6px rgba(242,165,26,0.65); }
+        .dot-off { background: #F3E6D3; }
+        .cv-status-val { color: #8A6A55; font-size: 11px; }
 
         /* Ações rápidas */
         .cv-quick-v2 {
@@ -335,7 +335,7 @@ class CV_Page_Dashboard {
             gap: 10px;
             flex-wrap: wrap;
             padding: 18px 0 4px;
-            border-top: 1px solid #1e1e1e;
+            border-top: 1px solid #EADBC6;
         }
         .cv-quick-v2 .cv-btn { font-size: 12px; padding: 8px 16px; }
         </style>
@@ -404,35 +404,35 @@ class CV_Page_Dashboard {
         <!-- KPIs Editoriais — v2.23.0 -->
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px;">
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
                 <div style="font-size:24px;">📝</div>
                 <div>
                     <div style="font-size:20px;font-weight:800;color:<?php echo $sem_letra > 0 ? '#e74c3c' : '#1DB954'; ?>;"><?php echo $sem_letra; ?></div>
-                    <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.5px;">Sem Letra</div>
+                    <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.5px;">Sem Letra</div>
                 </div>
             </div>
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
                 <div style="font-size:24px;">▶️</div>
                 <div>
                     <div style="font-size:20px;font-weight:800;color:<?php echo $sem_yt > 0 ? '#e74c3c' : '#1DB954'; ?>;"><?php echo $sem_yt; ?></div>
-                    <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.5px;">Sem YouTube</div>
+                    <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.5px;">Sem YouTube</div>
                 </div>
             </div>
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
                 <div style="font-size:24px;">🖼️</div>
                 <div>
                     <div style="font-size:20px;font-weight:800;color:<?php echo $sem_capa > 0 ? '#e67e22' : '#1DB954'; ?>;"><?php echo $sem_capa; ?></div>
-                    <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.5px;">Sem Capa</div>
+                    <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.5px;">Sem Capa</div>
                 </div>
             </div>
 
-            <div style="background:#1a1a2e;border:1px solid #2a2a4a;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
+            <div style="background:#F8F0E4;border:1px solid #EADBC6;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;">
                 <div style="font-size:24px;">🧠</div>
                 <div>
                     <div style="font-size:20px;font-weight:800;color:<?php echo $score_editorial >= 85 ? '#1DB954' : ( $score_editorial >= 60 ? '#e67e22' : '#e74c3c' ); ?>;"><?php echo $score_editorial; ?>%</div>
-                    <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.5px;">Completude</div>
+                    <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.5px;">Completude</div>
                 </div>
             </div>
 
@@ -440,8 +440,8 @@ class CV_Page_Dashboard {
                style="background:#D4A01711;border:1px solid #D4A01744;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;text-decoration:none;">
                 <div style="font-size:24px;">🔍</div>
                 <div>
-                    <div style="font-size:13px;font-weight:700;color:#D4A017;">Ver Oportunidades</div>
-                    <div style="font-size:11px;color:#666;">Inteligência Editorial</div>
+                    <div style="font-size:13px;font-weight:700;color:#7B3A22;">Ver Oportunidades</div>
+                    <div style="font-size:11px;color:#8A6A55;">Inteligência Editorial</div>
                 </div>
             </a>
 
@@ -452,7 +452,7 @@ class CV_Page_Dashboard {
 
             <div class="cv-dash-panel">
                 <h3>📈 Plays diários — <strong>últimos 30 dias</strong>
-                    <span style="float:right;color:#1db954;font-size:12px;text-transform:none;letter-spacing:0">
+                    <span style="float:right;color:#137B38;font-size:12px;text-transform:none;letter-spacing:0">
                         <?php echo number_format( $plays_7d ); ?> esta semana
                     </span>
                 </h3>
@@ -462,7 +462,7 @@ class CV_Page_Dashboard {
             <div class="cv-dash-panel">
                 <h3>🏆 Top 5 Mais Tocadas</h3>
                 <?php if ( empty( $top5 ) ) : ?>
-                    <p style="color:#444;font-size:13px">Nenhuma música rankeada ainda.</p>
+                    <p style="color:#8A6A55;font-size:13px">Nenhuma música rankeada ainda.</p>
                 <?php else : ?>
                     <?php
                     $pos_classes = array( 'gold', 'silver', 'bronze', '', '' );
@@ -506,7 +506,7 @@ class CV_Page_Dashboard {
                 </div>
                 <?php endforeach; ?>
                 <?php if ( empty( $recent_plays ) && empty( $recent_users ) ) : ?>
-                    <p style="color:#444;font-size:12px">Nenhuma atividade recente.</p>
+                    <p style="color:#8A6A55;font-size:12px">Nenhuma atividade recente.</p>
                 <?php endif; ?>
             </div>
 
@@ -584,20 +584,20 @@ class CV_Page_Dashboard {
         <div id="cv-action-message" style="display:none;padding:10px 16px;border-radius:6px;margin-bottom:16px;font-size:13px"></div>
         <style>
         .cv-action-hub { margin-top:24px; }
-        .cv-action-hub-title { font-size:11px;font-weight:700;color:#444;text-transform:uppercase;letter-spacing:1px;margin:0 0 12px 0; }
-        .cv-action-group { background:#1a1a1a;border:1px solid #252525;border-radius:12px;padding:18px 20px;margin-bottom:16px; }
-        .cv-action-group-label { font-size:10px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:6px; }
-        .cv-action-group-label span { display:inline-block;width:20px;height:1px;background:#333; }
+        .cv-action-hub-title { font-size:11px;font-weight:700;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin:0 0 12px 0; }
+        .cv-action-group { background:#FFFFFF;border:1px solid #EADBC6;border-radius:12px;padding:18px 20px;margin-bottom:16px; }
+        .cv-action-group-label { font-size:10px;font-weight:700;color:#8A6A55;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:6px; }
+        .cv-action-group-label span { display:inline-block;width:20px;height:1px;background:#F3E6D3; }
         .cv-action-btns { display:flex;flex-wrap:wrap;gap:10px; }
         .cv-ab { display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid transparent;text-decoration:none;transition:all .18s;white-space:nowrap; }
         .cv-ab:hover { transform:translateY(-1px);filter:brightness(1.1); }
-        .cv-ab-primary   { background:#1DB954;border-color:#1DB954;color:#fff; }
-        .cv-ab-gold      { background:#D4A01722;border-color:#D4A017;color:#D4A017; }
-        .cv-ab-blue      { background:#4a90d922;border-color:#4a90d9;color:#4a90d9; }
-        .cv-ab-purple    { background:#9b59b622;border-color:#9b59b6;color:#9b59b6; }
-        .cv-ab-red       { background:#e74c3c22;border-color:#e74c3c;color:#e74c3c; }
-        .cv-ab-gray      { background:#2a2a2a;border-color:#333;color:#aaa; }
-        .cv-ab-orange    { background:#e67e2222;border-color:#e67e22;color:#e67e22; }
+        .cv-ab-primary   { background:#1DB954;border-color:#1DB954;color:#3B2418; }
+        .cv-ab-gold      { background:#D4A01722;border-color:#C9A27E;color:#7B3A22; }
+        .cv-ab-blue      { background:#4a90d922;border-color:#4a90d9;color:#2871BE; }
+        .cv-ab-purple    { background:#9b59b622;border-color:#9b59b6;color:#9752B3; }
+        .cv-ab-red       { background:#e74c3c22;border-color:#e74c3c;color:#D62C1A; }
+        .cv-ab-gray      { background:#F8F0E4;border-color:#EADBC6;color:#6B4C3B; }
+        .cv-ab-orange    { background:#e67e2222;border-color:#e67e22;color:#AD5C14; }
         </style>
 
         <div class="cv-action-hub">
@@ -660,7 +660,7 @@ class CV_Page_Dashboard {
         <div class="cv-action-group">
             <div class="cv-action-group-label"><span></span>⚙️ Sistema <span></span></div>
             <div class="cv-action-btns">
-                <button id="cv-btn-recalculate" class="cv-ab" style="background:#1DB95422;border-color:#1DB954;color:#1DB954;border:1px solid #1DB954">🔄 Recalcular Ranking</button>
+                <button id="cv-btn-recalculate" class="cv-ab" style="background:#1DB95422;border-color:#1DB954;color:#137B38;border:1px solid #1DB954">🔄 Recalcular Ranking</button>
                 <button id="cv-btn-clear-cache" class="cv-ab cv-ab-gray">🗑 Limpar Cache</button>
                 <button id="cv-btn-recreate-pages" class="cv-ab cv-ab-gray" onclick="return confirm('⚠️ ATENÇÃO: Recriar páginas pode sobrescrever conteúdo personalizado. Confirma?')">📄 Recriar Páginas</button>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-appearance')); ?>" class="cv-ab cv-ab-gray">🎨 Aparência</a>
@@ -701,12 +701,12 @@ class CV_Page_Dashboard {
                         datasets: [{
                             label: 'Plays',
                             data:  <?php echo json_encode( $chart_values ); ?>,
-                            borderColor: '#D4A017',
-                            backgroundColor: 'rgba(212,160,23,0.08)',
+                            borderColor: '#B8700C',
+                            backgroundColor: 'rgba(242,165,26,0.1)',
                             borderWidth: 2,
                             pointRadius: 2,
                             pointHoverRadius: 5,
-                            pointBackgroundColor: '#D4A017',
+                            pointBackgroundColor: '#B8700C',
                             fill: true,
                             tension: 0.4,
                         }]
@@ -718,11 +718,11 @@ class CV_Page_Dashboard {
                         plugins: {
                             legend: { display: false },
                             tooltip: {
-                                backgroundColor: '#1e1e1e',
-                                borderColor: '#333',
+                                backgroundColor: '#FFFFFF',
+                                borderColor: '#F3E6D3',
                                 borderWidth: 1,
-                                titleColor: '#D4A017',
-                                bodyColor: '#aaa',
+                                titleColor: '#B8700C',
+                                bodyColor: '#C9A27E',
                                 callbacks: {
                                     label: function(c){ return ' ' + c.parsed.y + ' plays'; }
                                 }
@@ -730,12 +730,12 @@ class CV_Page_Dashboard {
                         },
                         scales: {
                             x: {
-                                grid: { color: 'rgba(255,255,255,0.04)' },
-                                ticks: { color: '#444', font: { size: 10 }, maxTicksLimit: 10 }
+                                grid: { color: 'rgba(123,58,34,0.04)' },
+                                ticks: { color: '#F3E6D3', font: { size: 10 }, maxTicksLimit: 10 }
                             },
                             y: {
-                                grid: { color: 'rgba(255,255,255,0.04)' },
-                                ticks: { color: '#444', font: { size: 10 }, precision: 0 },
+                                grid: { color: 'rgba(123,58,34,0.04)' },
+                                ticks: { color: '#F3E6D3', font: { size: 10 }, precision: 0 },
                                 beginAtZero: true
                             }
                         }
