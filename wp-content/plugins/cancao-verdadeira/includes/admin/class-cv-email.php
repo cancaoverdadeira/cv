@@ -493,16 +493,16 @@ class CV_Email {
 
         update_post_meta( $post_id, '_cv_email_nova_musica_sent', current_time('mysql') );
 
-        $artista    = get_post_meta( $post_id, '_cv_artista', true );
-        $compositor = get_post_meta( $post_id, '_cv_compositor', true );
+        $artista    = get_post_meta( $post_id, CV_Fields::ARTISTA, true );
+        $compositor = get_post_meta( $post_id, CV_Fields::COMPOSITOR, true );
         $cover      = get_the_post_thumbnail_url( $post_id, 'large' );
         $url        = get_permalink( $post_id );
 
         // Fallback da capa: thumbnail YouTube
         if ( ! $cover ) {
-            $yt = get_post_meta( $post_id, '_cv_youtube_url', true );
+            $yt = get_post_meta( $post_id, CV_Fields::YOUTUBE_URL, true );
             if ( $yt ) {
-                preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $yt, $m );
+                $m = CV_Fields::youtube_match( $yt );
                 if ( ! empty($m[1]) ) { $cover = 'https://img.youtube.com/vi/' . $m[1] . '/maxresdefault.jpg'; }
             }
         }

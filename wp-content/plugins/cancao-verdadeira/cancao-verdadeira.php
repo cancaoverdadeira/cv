@@ -21,12 +21,20 @@
 // de banner sem redirecionamento aberto.
 // v2.29.0 — Distribuição (CV_Distribuicao): checklist, status, ficha para a
 // distribuidora e links "Ouça também em" na página da música.
+// v2.30.0 — Refatoração fase 1–3: calibração e cv-limpeza apagados; eventos
+// cv_play_registered/cv_favorite_changed/cv_music_rated/cv_lyric_commented
+// disparados antes da resposta (conquistas e cache de recomendações funcionam).
+// v2.31.0 — Refatoração fase 4: CV_Fields::youtube_id/youtube_match/cover_url
+// (regra única, aceita /shorts/ e /live/); 167 nomes de meta viraram constantes;
+// corrigidos metas inexistentes (_cv_plays, _cv_capa_url, _cv_sentimentos).
+// v2.32.0 — Refatoração fase 5: estilos públicos em cv-public-componentes.css;
+// Chart.js 1× no <head>, só nas 6 telas com gráfico.
 
 /**
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.29.0
+ * Version:     2.32.0
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -35,7 +43,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.29.0' );
+define( 'CV_VERSION',        '2.32.0' );
 define( 'CV_DB_VERSION',     '8' );       // v2.15.0: tabelas cv_sentimentos + cv_musica_sentimentos + cv_calibracao_log
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
@@ -638,7 +646,7 @@ function cv_rest_musicas( $request ) {
             'url'   => get_permalink( $post->ID ),
             'cover' => get_the_post_thumbnail_url( $post->ID, 'cv-cover' )
                        ?: CV_PLUGIN_URL . 'assets/img/default-cover.svg',
-            'plays' => (int) get_post_meta( $post->ID, '_cv_plays_total', true ),
+            'plays' => (int) get_post_meta( $post->ID, CV_Fields::PLAYS_TOTAL, true ),
         );
     }
 

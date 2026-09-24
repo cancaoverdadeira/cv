@@ -156,6 +156,5 @@ get_header();
     </main>
 </div>
 
-<?php get_template_part( 'template-parts/blog-styles' ); // paginação .cv-blog-pages ?>
 
 <?php get_footer(); ?>

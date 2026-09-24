@@ -12,7 +12,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_CHILD_VERSION', '15.7.0' );
+define( 'CV_CHILD_VERSION', '15.9.0' );
 define( 'CV_CHILD_DIR',     get_stylesheet_directory() );
 define( 'CV_CHILD_URL',     get_stylesheet_directory_uri() );
 
@@ -77,6 +77,8 @@ function cv_child_enqueue() {
 
     // Ajustes visuais (player escuro, logo do menu) — fora dos CSS protegidos
     wp_enqueue_style( 'cv-ajustes', CV_CHILD_URL . '/assets/css/cv-ajustes.css', array('cv-child-style'), CV_CHILD_VERSION );
+    // Estilos das páginas (antes em blocos <style> nos templates — v15.9.0)
+    wp_enqueue_style( 'cv-paginas', CV_CHILD_URL . '/assets/css/cv-paginas.css', array('cv-ajustes'), CV_CHILD_VERSION );
 
     // JS do tema filho
     wp_enqueue_script(
@@ -174,19 +176,18 @@ function cv_cover_url( $post_id = 0, $size = 'cv-card' ) {
     if ( ! $post_id ) { $post_id = get_the_ID(); }
     $url = get_the_post_thumbnail_url( $post_id, $size );
     if ( $url ) { return $url; }
-    // Fallback: thumbnail YouTube
-    $yt = get_post_meta( $post_id, '_cv_youtube_url', true );
-    if ( $yt ) {
-        preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $yt, $m );
-        if ( ! empty($m[1]) ) { return 'https://img.youtube.com/vi/' . $m[1] . '/mqdefault.jpg'; }
-    }
+    // Fallback: thumbnail YouTube (regra única do plugin, com fallback local)
+    $thumb = cv_youtube_id( get_post_meta( $post_id, '_cv_youtube_url', true ) );
+    if ( $thumb ) { return 'https://img.youtube.com/vi/' . $thumb . '/mqdefault.jpg'; }
     return CV_CHILD_URL . '/assets/img/default-cover.svg';
 }
 
+// v15.8.0: usa a regra única do plugin (CV_Fields::youtube_id); a cópia
+// local só roda se o plugin estiver desativado.
 function cv_youtube_id( $url ) {
-    if ( empty($url) ) { return ''; }
-    preg_match( '/(?:v=|\/embed\/|\.be\/|\/shorts\/)([a-zA-Z0-9_-]{11})/', $url, $m );
-    return $m[1] ?? '';
+    if ( class_exists( 'CV_Fields' ) ) { return CV_Fields::youtube_id( $url ); }
+    if ( empty($url) || ! is_string($url) ) { return ''; }
+    return preg_match( '~(?:[?&]v=|/embed/|youtu\.be/|/shorts/|/live/)([A-Za-z0-9_-]{11})~', $url, $m ) ? $m[1] : '';
 }
 
 // ── Compatibilidade com plugin cv-public-js ───────────────────────

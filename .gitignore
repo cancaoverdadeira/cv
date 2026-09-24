@@ -12,8 +12,6 @@
 /wp-content/plugins/*
 !/wp-content/plugins/cancao-verdadeira/
 !/wp-content/plugins/cancao-verdadeira/**
-!/wp-content/plugins/cv-limpeza/
-!/wp-content/plugins/cv-limpeza/**
 
 # Código próprio: tema filho customizado
 !/wp-content/themes/

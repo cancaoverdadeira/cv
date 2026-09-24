@@ -2,8 +2,9 @@
 // cancao-verdadeira/includes/admin/class-cv-admin-menu.php
 // Projeto : Canção Verdadeira — Plataforma de letras musicais sertanejas
 // Módulo  : Menu Administrativo (v2.15.0)
-// Funções : Registra menu principal e submenus. Inclui Calibração de Métricas
-//           (exclusivo admin ID 3) e Sentimentos.
+// Funções : Registra menu principal e submenus (Sentimentos, SEO, etc.).
+// 24/09/2026: arquivo da antiga Calibração de Métricas apagado (substituída
+//           pelo modo lançamento, CV_Launch).
 // v2.26.0 : removida a página "Gêneros" (cv-generos) — o site é todo sertanejo.
 // Segurança: Operadores nunca veem o menu do WP — apenas este painel.
 // Autor   : Canção Verdadeira | Gerado: 2026-06-26

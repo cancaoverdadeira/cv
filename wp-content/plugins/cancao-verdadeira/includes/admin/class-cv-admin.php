@@ -184,13 +184,20 @@ class CV_Admin {
             'nonce'   => wp_create_nonce( 'cv_admin_nonce' ),
         ) );
 
-        wp_enqueue_script(
+        // Chart.js: um único carregamento, no <head> (os gráficos das telas usam
+        // `new Chart` logo no HTML), e só nas telas que têm gráfico. v2.32.0 —
+        // antes vinha no rodapé de todas as telas e de novo, via <script>, em 4 delas.
+        wp_register_script(
             'chartjs',
             'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js',
             array(),
             '4.4.0',
-            true
+            false
         );
+        $telas_com_grafico = array( 'cancao-verdadeira', 'cv-analytics', 'cv-sentimentos', 'cv-users', 'cv-subscribers', 'cv-seguranca' );
+        if ( in_array( sanitize_key( $_GET['page'] ?? '' ), $telas_com_grafico, true ) ) {
+            wp_enqueue_script( 'chartjs' );
+        }
     }
 
     public static function register_settings() {

@@ -83,7 +83,7 @@ class CV_Launch {
             'posts_per_page' => absint( $limit ),
             'fields'         => 'ids',
             'meta_query'     => array(
-                'destaque' => array( 'key' => '_cv_destaque', 'value' => '1' ),
+                'destaque' => array( 'key' => CV_Fields::DESTAQUE, 'value' => '1' ),
                 'ordem'    => array( 'key' => self::ORDER_KEY, 'type' => 'NUMERIC', 'compare' => 'EXISTS' ),
             ),
             'orderby'        => array( 'ordem' => 'ASC', 'date' => 'DESC' ),
@@ -96,7 +96,7 @@ class CV_Launch {
                 'posts_per_page' => absint( $limit ) - count( $ids ),
                 'fields'         => 'ids',
                 'post__not_in'   => $ids ? $ids : array( 0 ),
-                'meta_query'     => array( array( 'key' => '_cv_destaque', 'value' => '1' ) ),
+                'meta_query'     => array( array( 'key' => CV_Fields::DESTAQUE, 'value' => '1' ) ),
             ) ) );
         }
 
@@ -107,8 +107,8 @@ class CV_Launch {
                 'post_title'  => get_the_title( $id ),
                 'post_name'   => get_post_field( 'post_name', $id ),
                 'position'    => $i + 1,
-                'plays_total' => (int) get_post_meta( $id, '_cv_plays_total', true ),
-                'favorites'   => (int) get_post_meta( $id, '_cv_favorites', true ),
+                'plays_total' => (int) get_post_meta( $id, CV_Fields::PLAYS_TOTAL, true ),
+                'favorites'   => (int) get_post_meta( $id, CV_Fields::FAVORITES, true ),
                 'score'       => 0,
             );
         }

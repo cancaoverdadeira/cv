@@ -65,7 +65,7 @@ get_header();
             <?php else : ?>
 
             <!-- Layout grid: lista de playlists + músicas -->
-            <div style="display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:start">
+            <div class="cv-pl-layout" style="display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:start">
 
                 <!-- Lista de playlists -->
                 <div>
@@ -147,19 +147,6 @@ get_header();
     </main>
 </div>
 
-<style>
-.cv-pl-item:hover { border-color: var(--cv-border) !important; background: var(--cv-bg-elevated) !important; }
-.cv-pl-item.active { border-color: var(--cv-gold) !important; background: rgba(242,165,26,0.08) !important; }
-.cv-pl-track {
-    display:flex; align-items:center; gap:12px; padding:10px 0;
-    border-bottom:1px solid var(--cv-border-subtle); cursor:pointer;
-}
-.cv-pl-track:last-child { border-bottom:none; }
-.cv-pl-track:hover { background:rgba(123,58,34,0.03); }
-@media(max-width:768px){
-    div[style*="grid-template-columns:280px"] { grid-template-columns:1fr !important; }
-}
-</style>
 
 <script>
 jQuery(function($){

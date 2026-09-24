@@ -105,6 +105,5 @@ get_header();
 
 </div>
 
-<?php get_template_part( 'template-parts/blog-styles' ); ?>
 
 <?php get_footer(); ?>

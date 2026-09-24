@@ -67,6 +67,9 @@ class CV_Lyric_Comments {
             wp_send_json_error( array( 'message' => 'Erro ao salvar. Tente novamente.' ) );
         }
 
+        // v2.30.0: evento para as conquistas (antes da resposta).
+        do_action( 'cv_lyric_commented', $music_id, $user_id, (int) $wpdb->insert_id );
+
         $user   = get_userdata( $user_id );
         $avatar = get_avatar_url( $user_id, array( 'size' => 40 ) );
 

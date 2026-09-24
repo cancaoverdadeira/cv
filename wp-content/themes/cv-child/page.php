@@ -62,32 +62,5 @@ get_header();
 
 </div>
 
-<style>
-/* Estilos do conteúdo genérico de página */
-.cv-page-content h2 { font-family:var(--font-display); color:var(--cv-gold); margin:28px 0 12px; font-size:22px; }
-.cv-page-content h3 { font-family:var(--font-display); color:var(--cv-text); margin:20px 0 10px; font-size:18px; }
-.cv-page-content p  { color:var(--cv-text-muted); margin-bottom:16px; }
-.cv-page-content a  { color:var(--cv-gold); }
-.cv-page-content a:hover { color:var(--cv-gold-bright); }
-.cv-page-content ul, .cv-page-content ol { color:var(--cv-text-muted); padding-left:20px; margin-bottom:16px; }
-.cv-page-content li { margin-bottom:6px; }
-.cv-page-content strong { color:var(--cv-text); }
-.cv-page-content hr { border:none; border-top:1px solid var(--cv-border-subtle); margin:28px 0; }
-.cv-page-content blockquote {
-    border-left:3px solid var(--cv-gold);
-    padding:12px 20px;
-    margin:20px 0;
-    background:rgba(242,165,26,0.07);
-    border-radius:0 var(--cv-radius-sm) var(--cv-radius-sm) 0;
-    color:var(--cv-text-muted);
-    font-style:italic;
-    font-family:var(--font-body);
-}
-/* Centraliza formulários de auth */
-.cv-page-content .cv-auth-box,
-.cv-page-content .cv-profile-box {
-    margin: 0 auto;
-}
-</style>
 
 <?php get_footer(); ?>

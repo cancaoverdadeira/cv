@@ -39,9 +39,9 @@ class CV_User_Area {
             if ( ! $post || 'publish' !== $post->post_status ) { continue; }
             $cover = get_the_post_thumbnail_url( $id, 'cv-cover' );
             if ( ! $cover ) {
-                $yt = get_post_meta( $id, '_cv_youtube_url', true );
+                $yt = get_post_meta( $id, CV_Fields::YOUTUBE_URL, true );
                 if ( $yt ) {
-                    preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $yt, $m );
+                    $m = CV_Fields::youtube_match( $yt );
                     if ( ! empty( $m[1] ) ) { $cover = 'https://img.youtube.com/vi/' . $m[1] . '/mqdefault.jpg'; }
                 }
             }
@@ -50,7 +50,7 @@ class CV_User_Area {
                 'title'   => $post->post_title,
                 'url'     => get_permalink( $id ),
                 'cover'   => $cover ?: CV_PLUGIN_URL . 'assets/img/default-cover.svg',
-                'artista' => get_post_meta( $id, '_cv_artista', true ),
+                'artista' => get_post_meta( $id, CV_Fields::ARTISTA, true ),
                 'played'  => $item['played'] ?? 0,
             );
         }
@@ -72,9 +72,9 @@ class CV_User_Area {
         foreach ( $posts as $post ) {
             $cover = get_the_post_thumbnail_url( $post->ID, 'cv-cover' );
             if ( ! $cover ) {
-                $yt = get_post_meta( $post->ID, '_cv_youtube_url', true );
+                $yt = get_post_meta( $post->ID, CV_Fields::YOUTUBE_URL, true );
                 if ( $yt ) {
-                    preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $yt, $m );
+                    $m = CV_Fields::youtube_match( $yt );
                     if ( ! empty( $m[1] ) ) { $cover = 'https://img.youtube.com/vi/' . $m[1] . '/mqdefault.jpg'; }
                 }
             }
@@ -83,8 +83,8 @@ class CV_User_Area {
                 'title'   => $post->post_title,
                 'url'     => get_permalink( $post->ID ),
                 'cover'   => $cover ?: CV_PLUGIN_URL . 'assets/img/default-cover.svg',
-                'artista' => get_post_meta( $post->ID, '_cv_artista', true ),
-                'plays'   => (int) get_post_meta( $post->ID, '_cv_plays_total', true ),
+                'artista' => get_post_meta( $post->ID, CV_Fields::ARTISTA, true ),
+                'plays'   => (int) get_post_meta( $post->ID, CV_Fields::PLAYS_TOTAL, true ),
             );
         }
         wp_send_json_success( array( 'favorites' => $result ) );
@@ -118,9 +118,9 @@ class CV_User_Area {
             if ( $first ) {
                 $cover = get_the_post_thumbnail_url( (int) $first, 'cv-cover' );
                 if ( ! $cover ) {
-                    $yt = get_post_meta( (int) $first, '_cv_youtube_url', true );
+                    $yt = get_post_meta( (int) $first, CV_Fields::YOUTUBE_URL, true );
                     if ( $yt ) {
-                        preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $yt, $m );
+                        $m = CV_Fields::youtube_match( $yt );
                         if ( ! empty( $m[1] ) ) { $cover = 'https://img.youtube.com/vi/' . $m[1] . '/mqdefault.jpg'; }
                     }
                 }

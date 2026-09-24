@@ -51,14 +51,13 @@ class CV_Features {
 
         $results = array();
         foreach ( $posts as $post ) {
-            $artista = get_post_meta( $post->ID, '_cv_artista',     true );
-            $yt_url  = get_post_meta( $post->ID, '_cv_youtube_url', true );
+            $artista = get_post_meta( $post->ID, CV_Fields::ARTISTA,     true );
+            $yt_url  = get_post_meta( $post->ID, CV_Fields::YOUTUBE_URL, true );
 
             // Capa: thumbnail > YouTube > vazio
             $cover = get_the_post_thumbnail_url( $post->ID, 'cv-cover' );
             if ( ! $cover && $yt_url ) {
-                preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $yt_url, $m );
-                $yt_id = $m[1] ?? '';
+                $yt_id = CV_Fields::youtube_id( $yt_url );
                 $cover = $yt_id ? "https://img.youtube.com/vi/{$yt_id}/default.jpg" : '';
             }
 
@@ -157,87 +156,6 @@ class CV_Features {
             </a>
         </div>
 
-        <style>
-        .cv-whatsapp-float {
-            position: fixed;
-            bottom: calc(var(--cv-player-h, 80px) + 20px);
-            right: 24px;
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 8px;
-        }
-        .cv-whatsapp-tooltip {
-            background: rgba(59,36,24,0.45);
-            border: 1px solid rgba(123,58,34,0.13);
-            border-radius: 8px;
-            color: #3B2418;
-            font-size: 12px;
-            font-weight: 600;
-            padding: 6px 12px;
-            white-space: nowrap;
-            opacity: 0;
-            transform: translateX(8px);
-            transition: opacity .2s ease, transform .2s ease;
-            pointer-events: none;
-        }
-        .cv-whatsapp-float:hover .cv-whatsapp-tooltip {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        .cv-whatsapp-btn {
-            width: 54px;
-            height: 54px;
-            border-radius: 50%;
-            background: #25D366;
-            color: #3B2418;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            box-shadow: 0 4px 16px rgba(37,211,102,.4);
-            transition: transform .2s ease, box-shadow .2s ease;
-            position: relative;
-        }
-        .cv-whatsapp-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 24px rgba(37,211,102,.5);
-            color: #3B2418;
-        }
-        /* Anel de pulso */
-        .cv-whatsapp-btn::before {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            border: 2px solid #25D366;
-            opacity: 0;
-            animation: cv-wa-pulse 2s ease-out infinite;
-        }
-        .cv-whatsapp-btn::after {
-            content: '';
-            position: absolute;
-            inset: -8px;
-            border-radius: 50%;
-            border: 2px solid #25D366;
-            opacity: 0;
-            animation: cv-wa-pulse 2s ease-out infinite .4s;
-        }
-        @keyframes cv-wa-pulse {
-            0%   { transform: scale(.9); opacity: .6; }
-            100% { transform: scale(1.4); opacity: 0; }
-        }
-        /* Pausa no hover para não distrair quando o usuário interage */
-        .cv-whatsapp-btn:hover::before,
-        .cv-whatsapp-btn:hover::after {
-            animation-play-state: paused;
-        }
-        @media (max-width: 480px) {
-            .cv-whatsapp-float { right: 14px; bottom: calc(var(--cv-player-h, 80px) + 14px); }
-            .cv-whatsapp-tooltip { display: none; }
-        }
-        </style>
 
         <?php if ( $pulso_delay > 0 ) : ?>
         <script>

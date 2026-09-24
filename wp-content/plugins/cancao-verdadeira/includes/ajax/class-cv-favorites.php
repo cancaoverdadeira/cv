@@ -70,7 +70,10 @@ class CV_Favorites {
             "SELECT COUNT(*) FROM {$wpdb->prefix}cv_favorites WHERE music_id = %d",
             $music_id
         ) );
-        update_post_meta( $music_id, '_cv_favorites', $count );
+        update_post_meta( $music_id, CV_Fields::FAVORITES, $count );
+
+        // v2.30.0: evento para conquistas e cache de recomendações (antes da resposta).
+        do_action( 'cv_favorite_changed', $music_id, $user_id, $action );
 
         wp_send_json_success( array(
             'action'    => $action,

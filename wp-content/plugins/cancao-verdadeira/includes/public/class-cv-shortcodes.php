@@ -67,7 +67,7 @@ class CV_Shortcodes {
             'posts_per_page' => $limite,
             'meta_query'     => array(
                 array(
-                    'key'     => '_cv_ativo',
+                    'key'     => CV_Fields::ATIVO,
                     'value'   => '1',
                     'compare' => '=',
                 ),
@@ -77,7 +77,7 @@ class CV_Shortcodes {
         // Filtro de destaque
         if ( $destaque ) {
             $args['meta_query'][] = array(
-                'key'     => '_cv_destaque',
+                'key'     => CV_Fields::DESTAQUE,
                 'value'   => '1',
                 'compare' => '=',
             );
@@ -124,20 +124,19 @@ class CV_Shortcodes {
                 <?php while ( $query->have_posts() ) : $query->the_post(); ?>
                     <?php
                     $music_id    = get_the_ID();
-                    $youtube_url = get_post_meta( $music_id, '_cv_youtube_url', true );
-                    $compositor  = get_post_meta( $music_id, '_cv_compositor',  true );
-                    $artista     = get_post_meta( $music_id, '_cv_artista',     true );
-                    $plays       = (int) get_post_meta( $music_id, '_cv_plays_total', true );
-                    $favoritos   = (int) get_post_meta( $music_id, '_cv_favorites',   true );
-                    $avg         = (float) get_post_meta( $music_id, '_cv_avg_rating', true );
+                    $youtube_url = get_post_meta( $music_id, CV_Fields::YOUTUBE_URL, true );
+                    $compositor  = get_post_meta( $music_id, CV_Fields::COMPOSITOR,  true );
+                    $artista     = get_post_meta( $music_id, CV_Fields::ARTISTA,     true );
+                    $plays       = (int) get_post_meta( $music_id, CV_Fields::PLAYS_TOTAL, true );
+                    $favoritos   = (int) get_post_meta( $music_id, CV_Fields::FAVORITES,   true );
+                    $avg         = (float) get_post_meta( $music_id, CV_Fields::AVG_RATING, true );
                     $is_fav      = $user_id ? CV_Favorites::is_favorite( $user_id, $music_id ) : false;
                     $posicao     = CV_Ranking::get_position( $music_id );
 
                     // Capa: tenta thumbnail, depois YouTube, depois padrão
                     $cover = get_the_post_thumbnail_url( $music_id, 'cv-cover' );
                     if ( ! $cover && $youtube_url ) {
-                        preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $youtube_url, $m );
-                        $yt_id = isset( $m[1] ) ? $m[1] : '';
+                        $yt_id = CV_Fields::youtube_id( $youtube_url );
                         $cover = $yt_id ? 'https://img.youtube.com/vi/' . $yt_id . '/mqdefault.jpg' : '';
                     }
                     if ( ! $cover ) {
@@ -475,18 +474,18 @@ class CV_Shortcodes {
             return '<p class="cv-sem-musicas">ID de música inválido.</p>';
         }
 
-        $youtube_url = get_post_meta( $music_id, '_cv_youtube_url', true );
-        $compositor  = get_post_meta( $music_id, '_cv_compositor',  true );
-        $artista     = get_post_meta( $music_id, '_cv_artista',     true );
-        $plays       = (int) get_post_meta( $music_id, '_cv_plays_total', true );
-        $favoritos   = (int) get_post_meta( $music_id, '_cv_favorites',   true );
-        $avg         = (float) get_post_meta( $music_id, '_cv_avg_rating', true );
+        $youtube_url = get_post_meta( $music_id, CV_Fields::YOUTUBE_URL, true );
+        $compositor  = get_post_meta( $music_id, CV_Fields::COMPOSITOR,  true );
+        $artista     = get_post_meta( $music_id, CV_Fields::ARTISTA,     true );
+        $plays       = (int) get_post_meta( $music_id, CV_Fields::PLAYS_TOTAL, true );
+        $favoritos   = (int) get_post_meta( $music_id, CV_Fields::FAVORITES,   true );
+        $avg         = (float) get_post_meta( $music_id, CV_Fields::AVG_RATING, true );
         $user_id     = get_current_user_id();
         $is_fav      = $user_id ? CV_Favorites::is_favorite( $user_id, $music_id ) : false;
 
         $cover = get_the_post_thumbnail_url( $music_id, 'cv-cover' );
         if ( ! $cover && $youtube_url ) {
-            preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $youtube_url, $m );
+            $m = CV_Fields::youtube_match( $youtube_url );
             if ( ! empty( $m[1] ) ) {
                 $cover = 'https://img.youtube.com/vi/' . $m[1] . '/mqdefault.jpg';
             }

@@ -13,11 +13,9 @@ class CV_Page_Ranking {
 
         // Tenta carregar do cache; se vazio, dispara recálculo automático e busca fallback
         $ranking = $wpdb->get_results(
-            "SELECT rc.*, p.post_title, p.post_name,
-                    pm.meta_value AS capa
+            "SELECT rc.*, p.post_title, p.post_name
              FROM {$wpdb->prefix}cv_ranking_cache rc
              INNER JOIN {$wpdb->posts} p ON p.ID = rc.music_id
-             LEFT JOIN {$wpdb->postmeta} pm ON pm.post_id = rc.music_id AND pm.meta_key = '_cv_capa_url'
              WHERE p.post_status = 'publish'
              ORDER BY rc.position ASC LIMIT 50"
         );
@@ -28,12 +26,10 @@ class CV_Page_Ranking {
                 CV_Ranking::recalculate();
                 // Tenta novamente após recálculo
                 $ranking = $wpdb->get_results(
-                    "SELECT rc.*, p.post_title, p.post_name,
-                            pm.meta_value AS capa
+                    "SELECT rc.*, p.post_title, p.post_name
                      FROM {$wpdb->prefix}cv_ranking_cache rc
                      INNER JOIN {$wpdb->posts} p ON p.ID = rc.music_id
-                     LEFT JOIN {$wpdb->postmeta} pm ON pm.post_id = rc.music_id AND pm.meta_key = '_cv_capa_url'
-                     WHERE p.post_status = 'publish'
+                             WHERE p.post_status = 'publish'
                      ORDER BY rc.position ASC LIMIT 50"
                 );
             }
@@ -50,18 +46,22 @@ class CV_Page_Ranking {
                          CAST(COALESCE(pm_favs.meta_value,'0') AS UNSIGNED) AS favorites,
                          CAST(COALESCE(pm_avg.meta_value,'0') AS DECIMAL(4,2)) AS avg_rating,
                          CAST(COALESCE(pm_plays.meta_value,'0') AS DECIMAL(10,2)) AS score,
-                         0 AS position_change,
-                         pm_capa.meta_value AS capa
+                         0 AS position_change
                      FROM {$wpdb->posts} p
-                     LEFT JOIN {$wpdb->postmeta} pm_plays ON pm_plays.post_id = p.ID AND pm_plays.meta_key = '_cv_plays'
+                     LEFT JOIN {$wpdb->postmeta} pm_plays ON pm_plays.post_id = p.ID AND pm_plays.meta_key = '_cv_plays_total'
                      LEFT JOIN {$wpdb->postmeta} pm_favs  ON pm_favs.post_id  = p.ID AND pm_favs.meta_key  = '_cv_favorites'
                      LEFT JOIN {$wpdb->postmeta} pm_avg   ON pm_avg.post_id   = p.ID AND pm_avg.meta_key   = '_cv_avg_rating'
-                     LEFT JOIN {$wpdb->postmeta} pm_capa  ON pm_capa.post_id  = p.ID AND pm_capa.meta_key  = '_cv_capa_url'
                      WHERE p.post_type = 'musica' AND p.post_status = 'publish'
                      ORDER BY plays_total DESC
                      LIMIT 50"
                 );
             }
+        }
+
+        // v2.31.0: capa pela regra única (imagem destacada → YouTube). Antes vinha
+        // do meta _cv_capa_url, que nunca é gravado — o ranking ficava sem capas.
+        foreach ( (array) $ranking as $row ) {
+            $row->capa = CV_Fields::cover_url( (int) $row->music_id, 'thumbnail' );
         }
 
         $ranking_7d = $wpdb->get_results(

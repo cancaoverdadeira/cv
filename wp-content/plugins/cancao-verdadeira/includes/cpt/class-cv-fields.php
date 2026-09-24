@@ -9,7 +9,9 @@
 // SEO     : sync_excerpt() é o "SEO automático" compartilhado entre música e
 //           post do blog: a Descrição vira o resumo, que o Rank Math usa como
 //           meta description (%excerpt%).
-// Gerado  : 2026-09-23 | Atualizado: 2026-09-23 (v2.25.0, blog)
+// Mídia   : youtube_id()/youtube_match()/cover_url() — a regra do ID do
+//           YouTube estava copiada em 21 lugares (a maioria sem /shorts/).
+// Gerado  : 2026-09-23 | Atualizado: 2026-09-24 (v2.31.0, refatoração fase 4)
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -96,6 +98,38 @@ class CV_Fields {
         // Grava direto para não disparar save_post de novo (evita laço).
         $wpdb->update( $wpdb->posts, array( 'post_excerpt' => $descricao ), array( 'ID' => $post_id ) );
         clean_post_cache( $post_id );
+    }
+
+    // ── YouTube e capa (fonte única) ────────────────────────────────
+
+    // Regex única: watch?v=, embed/, youtu.be/, shorts/ e live/.
+    const YOUTUBE_REGEX = '~(?:[?&]v=|/embed/|youtu\.be/|/shorts/|/live/)([A-Za-z0-9_-]{11})~';
+
+    // ID de 11 caracteres do vídeo, ou '' se o link não for do YouTube.
+    public static function youtube_id( $url ) {
+        if ( ! is_string( $url ) || '' === $url ) { return ''; }
+        return preg_match( self::YOUTUBE_REGEX, $url, $m ) ? $m[1] : '';
+    }
+
+    // Troca direta do antigo preg_match(...): devolve array( 0 => ..., 1 => id )
+    // quando acha, ou array() — mantém os isset($m[1]) / $m[1] ?? '' existentes.
+    public static function youtube_match( $url ) {
+        $id = self::youtube_id( $url );
+        return '' === $id ? array() : array( 0 => $id, 1 => $id );
+    }
+
+    // Miniatura do YouTube (qualidade: default | mqdefault | hqdefault | maxresdefault).
+    public static function youtube_thumb( $url, $qualidade = 'mqdefault' ) {
+        $id = self::youtube_id( $url );
+        return $id ? 'https://img.youtube.com/vi/' . $id . '/' . $qualidade . '.jpg' : '';
+    }
+
+    // Capa da música: imagem destacada → miniatura do YouTube → '' (quem chama
+    // decide o padrão, ex.: default-cover.svg).
+    public static function cover_url( $post_id, $size = 'medium', $qualidade = 'mqdefault' ) {
+        $url = get_the_post_thumbnail_url( $post_id, $size );
+        if ( $url ) { return $url; }
+        return self::youtube_thumb( (string) get_post_meta( $post_id, self::YOUTUBE_URL, true ), $qualidade );
     }
 
     // Texto da letra, sem HTML.

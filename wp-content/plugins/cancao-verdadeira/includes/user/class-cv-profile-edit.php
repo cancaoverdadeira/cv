@@ -108,36 +108,6 @@ class CV_Profile_Edit {
 
         </div>
 
-        <style>
-        .cv-profile-box { max-width:560px; }
-        .cv-profile-avatar-section { text-align:center; margin-bottom:28px; }
-        .cv-profile-avatar { width:100px; height:100px; border-radius:50%; border:3px solid #C9A27E; object-fit:cover; }
-        .cv-profile-avatar-hint { color:#8A6A55; font-size:12px; margin-top:8px; }
-        .cv-profile-section { background:#F8F0E4; border-radius:10px; padding:24px; margin-bottom:20px; }
-        .cv-profile-section-title { color:#3B2418; font-family:'Oswald',sans-serif; font-size:16px; margin:0 0 16px; }
-        .cv-profile-hint { color:#8A6A55; font-size:13px; margin:-10px 0 14px; }
-        .cv-profile-field { margin-bottom:14px; }
-        .cv-profile-field label { display:block; color:#6B4C3B; font-size:13px; font-weight:600; margin-bottom:5px; }
-        .cv-profile-field input[type="text"],
-        .cv-profile-field input[type="email"],
-        .cv-profile-field input[type="password"],
-        .cv-profile-field select { width:100%; padding:10px 12px; background:#FFFFFF; border:1px solid #EADBC6; border-radius:6px; color:#3B2418; font-size:14px; box-sizing:border-box; }
-        .cv-profile-field input:focus,
-        .cv-profile-field select:focus { border-color:#C9A27E; outline:none; }
-        .cv-profile-msg { padding:10px 14px; border-radius:6px; font-size:13px; margin-bottom:14px; }
-        .cv-profile-msg.success { background:#EAF6EA; color:#388038; border:1px solid #2d6a2d; }
-        .cv-profile-msg.error   { background:#F6EAEA; color:#D62C1A; border:1px solid #6a2d2d; }
-        .cv-profile-danger { border:1px solid #DCB2B2; }
-        .cv-btn { display:inline-block; padding:10px 20px; border-radius:6px; border:none; font-size:14px; font-weight:700; cursor:pointer; transition:all .2s; }
-        .cv-btn-primary   { background:#F2A51A; color:#3B2418; }
-        .cv-btn-primary:hover { background:#F2A51A; }
-        .cv-btn-secondary { background:#F3E6D3; color:#3B2418; }
-        .cv-btn-secondary:hover { background:#F3E6D3; }
-        .cv-btn-danger    { background:#e74c3c; color:#3B2418; width:100%; text-align:center; }
-        .cv-btn-danger:hover { background:#c0392b; }
-        .cv-btn-outline-danger { background:transparent; color:#D62C1A; border:1px solid #e74c3c; }
-        .cv-btn-outline-danger:hover { background:#F6EAEA; }
-        </style>
 
         <script>
         (function($){

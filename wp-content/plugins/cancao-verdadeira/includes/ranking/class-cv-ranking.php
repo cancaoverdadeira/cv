@@ -29,7 +29,7 @@ class CV_Ranking {
             'fields'         => 'ids',
             'meta_query'     => array(
                 array(
-                    'key'     => '_cv_ativo',
+                    'key'     => CV_Fields::ATIVO,
                     'value'   => '1',
                     'compare' => '=',
                 ),
@@ -105,11 +105,11 @@ class CV_Ranking {
                    + ( $plays_7d    * 0.05 );
 
             // Atualiza post_meta para acesso rápido nos templates (sem query ao ranking_cache)
-            update_post_meta( $music_id, '_cv_plays_total', $plays_total );
+            update_post_meta( $music_id, CV_Fields::PLAYS_TOTAL, $plays_total );
             update_post_meta( $music_id, '_cv_plays_7d',    $plays_7d );
-            update_post_meta( $music_id, '_cv_favorites',   $favorites );
-            update_post_meta( $music_id, '_cv_avg_rating',  round( $avg_rating, 2 ) );
-            update_post_meta( $music_id, '_cv_score',       round( $score, 4 ) );
+            update_post_meta( $music_id, CV_Fields::FAVORITES,   $favorites );
+            update_post_meta( $music_id, CV_Fields::AVG_RATING,  round( $avg_rating, 2 ) );
+            update_post_meta( $music_id, CV_Fields::SCORE,       round( $score, 4 ) );
 
             $rows[ $music_id ] = array(
                 'music_id'     => $music_id,
@@ -210,7 +210,7 @@ class CV_Ranking {
             'order'          => 'DESC',
             'meta_query'     => array(
                 array(
-                    'key'     => '_cv_ativo',
+                    'key'     => CV_Fields::ATIVO,
                     'value'   => '1',
                     'compare' => '=',
                 ),
@@ -223,9 +223,9 @@ class CV_Ranking {
                 'music_id'     => $post->ID,
                 'post_title'   => $post->post_title,
                 'post_name'    => $post->post_name,
-                'plays_total'  => (int) get_post_meta( $post->ID, '_cv_plays_total', true ),
-                'score'        => (float) get_post_meta( $post->ID, '_cv_score', true ),
-                'favorites'    => (int) get_post_meta( $post->ID, '_cv_favorites', true ),
+                'plays_total'  => (int) get_post_meta( $post->ID, CV_Fields::PLAYS_TOTAL, true ),
+                'score'        => (float) get_post_meta( $post->ID, CV_Fields::SCORE, true ),
+                'favorites'    => (int) get_post_meta( $post->ID, CV_Fields::FAVORITES, true ),
                 'position'     => 0,
                 'position_prev'=> 0,
             );
@@ -255,7 +255,7 @@ class CV_Ranking {
             'meta_key'       => CV_Fields::FAVORITES,
             'orderby'        => array( 'meta_value_num' => 'DESC', 'date' => 'DESC' ),
             'meta_query'     => array(
-                array( 'key' => '_cv_ativo',           'value' => '1', 'compare' => '=' ),
+                array( 'key' => CV_Fields::ATIVO,           'value' => '1', 'compare' => '=' ),
                 array( 'key' => CV_Fields::FAVORITES,  'value' => 0,   'compare' => '>', 'type' => 'NUMERIC' ),
             ),
         ) );
@@ -266,9 +266,9 @@ class CV_Ranking {
                 'music_id'     => $post->ID,
                 'post_title'   => $post->post_title,
                 'post_name'    => $post->post_name,
-                'plays_total'  => (int) get_post_meta( $post->ID, '_cv_plays_total', true ),
-                'score'        => (float) get_post_meta( $post->ID, '_cv_score', true ),
-                'favorites'    => (int) get_post_meta( $post->ID, '_cv_favorites', true ),
+                'plays_total'  => (int) get_post_meta( $post->ID, CV_Fields::PLAYS_TOTAL, true ),
+                'score'        => (float) get_post_meta( $post->ID, CV_Fields::SCORE, true ),
+                'favorites'    => (int) get_post_meta( $post->ID, CV_Fields::FAVORITES, true ),
                 'position'     => 0,
                 'position_prev'=> 0,
             );
@@ -389,13 +389,13 @@ class CV_Ranking {
             if ( ! $id ) { continue; }
 
             $cover      = get_the_post_thumbnail_url( $id, 'medium' );
-            $youtube    = get_post_meta( $id, '_cv_youtube_url', true );
-            $compositor = get_post_meta( $id, '_cv_compositor',  true );
-            $artista    = get_post_meta( $id, '_cv_artista',     true );
+            $youtube    = get_post_meta( $id, CV_Fields::YOUTUBE_URL, true );
+            $compositor = get_post_meta( $id, CV_Fields::COMPOSITOR,  true );
+            $artista    = get_post_meta( $id, CV_Fields::ARTISTA,     true );
 
             // Fallback da capa: thumbnail do YouTube
             if ( ! $cover && $youtube ) {
-                preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $youtube, $m );
+                $m = CV_Fields::youtube_match( $youtube );
                 if ( ! empty( $m[1] ) ) {
                     $cover = 'https://img.youtube.com/vi/' . $m[1] . '/mqdefault.jpg';
                 }
@@ -417,10 +417,9 @@ class CV_Ranking {
             $row->artista    = $artista;
             $row->youtube_id = '';
             if ( $youtube ) {
-                preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $youtube, $m );
-                $row->youtube_id = $m[1] ?? '';
+                $row->youtube_id = CV_Fields::youtube_id( $youtube );
             }
-            $row->audio_url = get_post_meta( $id, '_cv_audio_url', true ) ?: '';
+            $row->audio_url = get_post_meta( $id, CV_Fields::AUDIO_URL, true ) ?: '';
             $row->trend = $trend;
 
             $enriched[] = $row;

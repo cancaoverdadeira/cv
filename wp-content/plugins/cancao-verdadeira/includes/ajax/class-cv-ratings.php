@@ -65,7 +65,10 @@ class CV_Ratings {
 
         // Atualiza media no post_meta para acesso rapido
         $avg = self::get_average( $music_id );
-        update_post_meta( $music_id, '_cv_avg_rating', $avg );
+        update_post_meta( $music_id, CV_Fields::AVG_RATING, $avg );
+
+        // v2.30.0: evento para as conquistas (antes da resposta).
+        do_action( 'cv_music_rated', $music_id, $user_id, $rating );
 
         wp_send_json_success( array(
             'avg'        => round( $avg, 1 ),

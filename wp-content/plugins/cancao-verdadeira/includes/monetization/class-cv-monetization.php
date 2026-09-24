@@ -209,7 +209,7 @@ class CV_Monetization {
         if ( '' === $banner ) { return ''; }
 
         // Parágrafo: a descrição da música, se houver; senão o texto padrão.
-        $paragrafo = trim( (string) get_post_meta( $music_id, '_cv_descricao', true ) );
+        $paragrafo = trim( (string) get_post_meta( $music_id, CV_Fields::DESCRICAO, true ) );
         if ( '' === $paragrafo ) { $paragrafo = $cfg['paragrafo']; }
 
         return '<aside class="cv-pub-apos-letra" aria-label="Publicidade">'

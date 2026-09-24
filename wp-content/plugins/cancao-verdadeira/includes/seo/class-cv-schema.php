@@ -28,7 +28,7 @@ class CV_Schema {
     // Sem imagem destacada, usa a capa do vídeo do YouTube.
     public static function rm_youtube_image( $image ) {
         if ( ! is_singular( 'musica' ) || $image->has_images() ) { return; }
-        $yt_id = self::yt_id( get_post_meta( get_queried_object_id(), '_cv_youtube_url', true ) );
+        $yt_id = self::yt_id( get_post_meta( get_queried_object_id(), CV_Fields::YOUTUBE_URL, true ) );
         if ( $yt_id ) {
             $image->add_image_by_url( 'https://img.youtube.com/vi/' . $yt_id . '/maxresdefault.jpg' );
         }
@@ -51,11 +51,11 @@ class CV_Schema {
 
         $title      = get_the_title( $post );
         $url        = get_permalink( $post );
-        $compositor = get_post_meta( $post->ID, '_cv_compositor',  true );
-        $artista    = get_post_meta( $post->ID, '_cv_artista',     true );
-        $album      = get_post_meta( $post->ID, '_cv_album',       true );
-        $ano        = get_post_meta( $post->ID, '_cv_ano',         true );
-        $youtube    = get_post_meta( $post->ID, '_cv_youtube_url', true );
+        $compositor = get_post_meta( $post->ID, CV_Fields::COMPOSITOR,  true );
+        $artista    = get_post_meta( $post->ID, CV_Fields::ARTISTA,     true );
+        $album      = get_post_meta( $post->ID, CV_Fields::ALBUM,       true );
+        $ano        = get_post_meta( $post->ID, CV_Fields::ANO,         true );
+        $youtube    = get_post_meta( $post->ID, CV_Fields::YOUTUBE_URL, true );
         $cover      = get_the_post_thumbnail_url( $post->ID, 'large' );
         $excerpt    = get_the_excerpt( $post );
         $yt_id      = self::yt_id( $youtube );
@@ -169,8 +169,8 @@ class CV_Schema {
         $title    = get_the_title( $post );
         $url      = get_permalink( $post );
         $excerpt  = get_the_excerpt( $post ) ?: 'Letra de ' . $title . ' no Canção Verdadeira.';
-        $artista  = get_post_meta( $post->ID, '_cv_artista', true );
-        $youtube  = get_post_meta( $post->ID, '_cv_youtube_url', true );
+        $artista  = get_post_meta( $post->ID, CV_Fields::ARTISTA, true );
+        $youtube  = get_post_meta( $post->ID, CV_Fields::YOUTUBE_URL, true );
         $yt_id    = self::yt_id( $youtube );
         $cover    = get_the_post_thumbnail_url( $post->ID, 'large' );
 
@@ -217,8 +217,7 @@ class CV_Schema {
 
     private static function yt_id( $url ) {
         if ( empty( $url ) ) { return ''; }
-        preg_match( '/(?:v=|\/embed\/|\.be\/|\/shorts\/)([a-zA-Z0-9_-]{11})/', $url, $m );
-        return $m[1] ?? '';
+        return CV_Fields::youtube_id( $url );
     }
 }
 

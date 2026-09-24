@@ -388,27 +388,6 @@ jQuery(function($){
 });
 </script>
 
-<?php get_template_part('template-parts/blog-styles'); ?>
 
-<style>
-/* Hero da marca e cards "Em breve": em assets/css/cv-ajustes.css (v15.5.0),
-   compartilhados com a página 404. */
-
-/* Botão hero pulsante — chama atenção para o play */
-.cv-hero-pulse {
-    animation: cv-hero-pulse 2s ease-in-out infinite;
-    background: var(--cv-accent) !important;
-    box-shadow: 0 0 0 0 rgba(242,165,26,0.91);
-}
-@keyframes cv-hero-pulse {
-    0%   { box-shadow: 0 0 0 0 rgba(242,165,26,0.91); }
-    50%  { box-shadow: 0 0 0 14px rgba(242,165,26,0); transform: translateY(-1px) scale(1.03); }
-    100% { box-shadow: 0 0 0 0 rgba(242,165,26,0); }
-}
-.cv-pulse-active {
-    font-size: 17px;
-    padding: 16px 36px;
-}
-</style>
 
 <?php get_footer(); ?>

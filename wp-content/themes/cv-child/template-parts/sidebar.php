@@ -197,10 +197,6 @@ if ( $is_logged ) {
 </div>
 <?php endif; ?>
 
-<style>
-/* Estilos específicos da sidebar — complementam cv-layout.css */
-.cv-search-trigger { cursor: pointer; }
-</style>
 
 <?php // O botão "Buscar" abre/fecha o campo via assets/js/cv-theme.js. Havia uma
 // segunda cópia deste script aqui: os dois alternavam juntos e o campo abria e

@@ -33,7 +33,7 @@ class CV_Page_Dashboard {
         $sem_letra = 0; $sem_yt = 0; $sem_capa = 0;
         foreach ( $pub_ids as $pid ) {
             if ( ! CV_Fields::has_letra( $pid ) )                          $sem_letra++;
-            if ( empty( get_post_meta( $pid, '_cv_youtube_url', true ) ) ) $sem_yt++;
+            if ( empty( get_post_meta( $pid, CV_Fields::YOUTUBE_URL, true ) ) ) $sem_yt++;
             if ( ! has_post_thumbnail( $pid ) )                            $sem_capa++;
         }
         $score_editorial = $total_pub > 0 ? max( 0, round( 100 - ( ( $sem_letra * 30 + $sem_yt * 25 + $sem_capa * 15 ) / max(1,$total_pub) ) ) ) : 100;
@@ -675,7 +675,6 @@ class CV_Page_Dashboard {
         </div><!-- .cv-action-hub -->
 
         <!-- Chart.js + animações -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
         <script>
         (function(){
             // Animação dos KPI values

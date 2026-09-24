@@ -163,33 +163,6 @@ class CV_MVP {
             </span>
         </div>
 
-        <style>
-        .cv-share-wrap { display:flex; align-items:center; flex-wrap:wrap; gap:10px; }
-        .cv-share-label { font-size:13px; color:var(--cv-text-muted,#8A6A55); font-weight:600; }
-        .cv-share-buttons { display:flex; flex-wrap:wrap; gap:8px; }
-        .cv-share-btn {
-            display:     inline-flex;
-            align-items: center;
-            gap:         6px;
-            border-radius: 8px;
-            border:      1px solid color-mix(in srgb, var(--share-color) 40%, transparent);
-            background:  color-mix(in srgb, var(--share-color) 10%, transparent);
-            color:       var(--share-color);
-            font-size:   13px;
-            font-weight: 600;
-            padding:     6px 14px;
-            text-decoration: none;
-            transition:  background .2s, transform .1s;
-            cursor:      pointer;
-        }
-        .cv-share-btn:hover {
-            background:  color-mix(in srgb, var(--share-color) 20%, transparent);
-            color:       var(--share-color);
-            transform:   translateY(-1px);
-        }
-        .cv-share-icones .cv-share-btn { padding:8px 10px; border-radius:50%; width:38px; height:38px; justify-content:center; }
-        .cv-share-icon { font-size:16px; line-height:1; }
-        </style>
 
         <script>
         document.querySelectorAll('.cv-share-copy').forEach(function(btn){
@@ -261,20 +234,19 @@ class CV_MVP {
             return new WP_Error( 'not_found', 'Música não encontrada.', array( 'status' => 404 ) );
         }
 
-        $ativo = get_post_meta( $id, '_cv_ativo', true );
+        $ativo = get_post_meta( $id, CV_Fields::ATIVO, true );
         if ( '1' !== $ativo ) {
             return new WP_Error( 'inactive', 'Música inativa.', array( 'status' => 403 ) );
         }
 
-        $youtube_url = get_post_meta( $id, '_cv_youtube_url', true );
+        $youtube_url = get_post_meta( $id, CV_Fields::YOUTUBE_URL, true );
         $tags        = wp_get_post_terms( $id, 'post_tag',       array( 'fields' => 'names' ) );
         $ranking     = class_exists( 'CV_Ranking' ) ? CV_Ranking::get_position( $id ) : 0;
 
         // YouTube ID
         $yt_id = '';
         if ( $youtube_url ) {
-            preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $youtube_url, $m );
-            $yt_id = $m[1] ?? '';
+            $yt_id = CV_Fields::youtube_id( $youtube_url );
         }
 
         $cover = get_the_post_thumbnail_url( $id, 'cv-cover' );
@@ -288,21 +260,21 @@ class CV_MVP {
             'slug'        => $post->post_name,
             'url'         => get_permalink( $id ),
             'letra'       => apply_filters( 'the_content', $post->post_content ),
-            'descricao'   => get_post_meta( $id, '_cv_descricao',  true ),
-            'compositor'  => get_post_meta( $id, '_cv_compositor', true ),
-            'artista'     => get_post_meta( $id, '_cv_artista',    true ),
-            'album'       => get_post_meta( $id, '_cv_album',      true ),
-            'ano'         => get_post_meta( $id, '_cv_ano',        true ),
+            'descricao'   => get_post_meta( $id, CV_Fields::DESCRICAO,  true ),
+            'compositor'  => get_post_meta( $id, CV_Fields::COMPOSITOR, true ),
+            'artista'     => get_post_meta( $id, CV_Fields::ARTISTA,    true ),
+            'album'       => get_post_meta( $id, CV_Fields::ALBUM,      true ),
+            'ano'         => get_post_meta( $id, CV_Fields::ANO,        true ),
             'youtube_url' => $youtube_url,
             'youtube_id'  => $yt_id,
             'cover'       => $cover ?: CV_PLUGIN_URL . 'assets/img/default-cover.svg',
             'tags'        => ! is_wp_error( $tags ) ? $tags : array(),
-            'destaque'    => get_post_meta( $id, '_cv_destaque',     true ) === '1',
-            'plays_total' => (int) get_post_meta( $id, '_cv_plays_total', true ),
+            'destaque'    => get_post_meta( $id, CV_Fields::DESTAQUE,     true ) === '1',
+            'plays_total' => (int) get_post_meta( $id, CV_Fields::PLAYS_TOTAL, true ),
             'plays_7d'    => (int) get_post_meta( $id, '_cv_plays_7d',   true ),
-            'favorites'   => (int) get_post_meta( $id, '_cv_favorites',  true ),
-            'avg_rating'  => (float) get_post_meta( $id, '_cv_avg_rating', true ),
-            'score'       => (float) get_post_meta( $id, '_cv_score',     true ),
+            'favorites'   => (int) get_post_meta( $id, CV_Fields::FAVORITES,  true ),
+            'avg_rating'  => (float) get_post_meta( $id, CV_Fields::AVG_RATING, true ),
+            'score'       => (float) get_post_meta( $id, CV_Fields::SCORE,     true ),
             'ranking_pos' => (int) $ranking,
             'published'   => $post->post_date,
         );
@@ -326,11 +298,10 @@ class CV_MVP {
 
         $result = array();
         foreach ( $query->posts as $post ) {
-            $yt_url = get_post_meta( $post->ID, '_cv_youtube_url', true );
+            $yt_url = get_post_meta( $post->ID, CV_Fields::YOUTUBE_URL, true );
             $cover  = get_the_post_thumbnail_url( $post->ID, 'cv-cover' );
             if ( ! $cover && $yt_url ) {
-                preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $yt_url, $m );
-                $yt_id = $m[1] ?? '';
+                $yt_id = CV_Fields::youtube_id( $yt_url );
                 $cover = $yt_id ? "https://img.youtube.com/vi/{$yt_id}/mqdefault.jpg" : '';
             }
 
@@ -339,10 +310,10 @@ class CV_MVP {
                 'title'      => $post->post_title,
                 'slug'       => $post->post_name,
                 'url'        => get_permalink( $post->ID ),
-                'artista'    => get_post_meta( $post->ID, '_cv_artista', true ),
-                'compositor' => get_post_meta( $post->ID, '_cv_compositor', true ),
+                'artista'    => get_post_meta( $post->ID, CV_Fields::ARTISTA, true ),
+                'compositor' => get_post_meta( $post->ID, CV_Fields::COMPOSITOR, true ),
                 'cover'      => $cover ?: CV_PLUGIN_URL . 'assets/img/default-cover.svg',
-                'plays'      => (int) get_post_meta( $post->ID, '_cv_plays_total', true ),
+                'plays'      => (int) get_post_meta( $post->ID, CV_Fields::PLAYS_TOTAL, true ),
             );
         }
 
@@ -391,8 +362,8 @@ class CV_MVP {
             array( '%d', '%d', '%s', '%s' )
         );
 
-        $total = (int) get_post_meta( $music_id, '_cv_plays_total', true );
-        update_post_meta( $music_id, '_cv_plays_total', $total + 1 );
+        $total = (int) get_post_meta( $music_id, CV_Fields::PLAYS_TOTAL, true );
+        update_post_meta( $music_id, CV_Fields::PLAYS_TOTAL, $total + 1 );
 
         return array( 'registered' => true, 'plays' => $total + 1 );
     }
@@ -471,11 +442,10 @@ class CV_MVP {
      * Retorna null se a música não tiver URL do YouTube (não pode ser tocada).
      */
     private static function format_track( $music_id ) {
-        $youtube_url = get_post_meta( $music_id, '_cv_youtube_url', true );
+        $youtube_url = get_post_meta( $music_id, CV_Fields::YOUTUBE_URL, true );
         if ( ! $youtube_url ) { return null; }
 
-        preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $youtube_url, $m );
-        $yt_id = $m[1] ?? '';
+        $yt_id = CV_Fields::youtube_id( $youtube_url );
         if ( ! $yt_id ) { return null; }
 
         $cover = get_the_post_thumbnail_url( $music_id, 'cv-cover' );
@@ -487,8 +457,8 @@ class CV_MVP {
             'musicId'    => (int) $music_id,
             'youtubeId'  => $yt_id,
             'title'      => get_the_title( $music_id ),
-            'artist'     => get_post_meta( $music_id, '_cv_artista',    true )
-                         ?: get_post_meta( $music_id, '_cv_compositor', true ),
+            'artist'     => get_post_meta( $music_id, CV_Fields::ARTISTA,    true )
+                         ?: get_post_meta( $music_id, CV_Fields::COMPOSITOR, true ),
             'cover'      => $cover,
             'url'        => get_permalink( $music_id ),
         );
@@ -531,10 +501,10 @@ function cv_rest_user_favorites( $request ) {
     $posts   = class_exists('CV_Favorites') ? CV_Favorites::get_user_favorites( $user_id, $limit ) : array();
     $result  = array();
     foreach ( $posts as $post ) {
-        $yt    = get_post_meta( $post->ID, '_cv_youtube_url', true );
+        $yt    = get_post_meta( $post->ID, CV_Fields::YOUTUBE_URL, true );
         $cover = get_the_post_thumbnail_url( $post->ID, 'cv-cover' );
         if ( ! $cover && $yt ) {
-            preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $yt, $m );
+            $m = CV_Fields::youtube_match( $yt );
             if ( ! empty($m[1]) ) { $cover = 'https://img.youtube.com/vi/' . $m[1] . '/mqdefault.jpg'; }
         }
         $result[] = array(
@@ -542,8 +512,8 @@ function cv_rest_user_favorites( $request ) {
             'title'   => $post->post_title,
             'url'     => get_permalink( $post->ID ),
             'cover'   => $cover ?: CV_PLUGIN_URL . 'assets/img/default-cover.svg',
-            'artista' => get_post_meta( $post->ID, '_cv_artista', true ),
-            'plays'   => (int) get_post_meta( $post->ID, '_cv_plays_total', true ),
+            'artista' => get_post_meta( $post->ID, CV_Fields::ARTISTA, true ),
+            'plays'   => (int) get_post_meta( $post->ID, CV_Fields::PLAYS_TOTAL, true ),
         );
     }
     return rest_ensure_response( $result );

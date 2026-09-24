@@ -282,7 +282,6 @@ class CV_Page_Users {
             <?php endif;?>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
         <script>
         (function(){
             document.querySelectorAll('.cv-usr-kpi-val[data-target]').forEach(function(el){

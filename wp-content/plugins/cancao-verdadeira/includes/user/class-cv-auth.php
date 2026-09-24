@@ -136,42 +136,6 @@ class CV_Auth {
             </div>
         </div>
 
-        <style>
-        .cv-auth-box { max-width:420px; margin:0 auto; background:#F8F0E4; border-radius:12px; padding:36px 32px; box-shadow:0 8px 32px rgba(123,58,34,0.12); }
-        .cv-auth-header { text-align:center; margin-bottom:28px; }
-        .cv-auth-icon { font-size:36px; display:block; margin-bottom:10px; }
-        .cv-auth-title { color:#3B2418; font-family:'Oswald',sans-serif; font-size:22px; margin:0 0 6px; }
-        .cv-auth-subtitle { color:#8A6A55; font-size:14px; margin:0; }
-        .cv-auth-field { margin-bottom:18px; }
-        .cv-auth-field label { display:block; color:#6B4C3B; font-size:13px; font-weight:600; margin-bottom:6px; }
-        .cv-auth-field input[type="email"],
-        .cv-auth-field input[type="text"],
-        .cv-auth-field input[type="password"] { width:100%; padding:11px 14px; background:#FFFFFF; border:1px solid #EADBC6; border-radius:7px; color:#3B2418; font-size:15px; box-sizing:border-box; transition:border-color .2s; }
-        .cv-auth-field input:focus { border-color:#C9A27E; outline:none; box-shadow:0 0 0 2px rgba(242,165,26,0.2); }
-        .cv-auth-password-wrap { position:relative; }
-        .cv-auth-password-wrap input { padding-right:44px; }
-        .cv-auth-eye { position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:16px; padding:4px; color:#8A6A55; }
-        .cv-auth-remember { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; font-size:13px; color:#6B4C3B; }
-        .cv-auth-remember label { display:flex; align-items:center; gap:6px; cursor:pointer; }
-        .cv-auth-link { color:#7B3A22; text-decoration:none; }
-        .cv-auth-link:hover { color:#7B3A22; text-decoration:underline; }
-        .cv-btn { display:inline-block; padding:12px 24px; border-radius:7px; border:none; font-size:15px; font-weight:700; cursor:pointer; transition:all .2s; }
-        .cv-btn-primary { background:#F2A51A; color:#3B2418; }
-        .cv-btn-primary:hover { background:#F2A51A; }
-        .cv-btn-full { width:100%; text-align:center; }
-        .cv-auth-divider { text-align:center; color:#8A6A55; margin:18px 0; font-size:13px; position:relative; }
-        .cv-auth-divider::before, .cv-auth-divider::after { content:''; position:absolute; top:50%; width:42%; height:1px; background:#F3E6D3; }
-        .cv-auth-divider::before { left:0; } .cv-auth-divider::after { right:0; }
-        .cv-auth-switch { text-align:center; color:#8A6A55; font-size:14px; margin:0; }
-        .cv-auth-msg { padding:12px 16px; border-radius:7px; font-size:14px; margin-bottom:18px; }
-        .cv-auth-msg.success { background:#EAF6EA; color:#388038; border:1px solid #2d6a2d; }
-        .cv-auth-msg.error   { background:#F6EAEA; color:#D62C1A; border:1px solid #6a2d2d; }
-        .cv-auth-terms { font-size:12px; color:#8A6A55; margin-top:14px; text-align:center; }
-        .cv-auth-strength { height:4px; border-radius:2px; margin-top:6px; transition:all .3s; background:#F3E6D3; }
-        .cv-auth-strength.weak   { background:#e74c3c; width:33%; }
-        .cv-auth-strength.medium { background:#F2A51A; width:66%; }
-        .cv-auth-strength.strong { background:#27ae60; width:100%; }
-        </style>
 
         <script>
         (function($){

@@ -57,15 +57,9 @@ class CV_Editorial {
             'priority'=> 1,
         );
 
-        // 2. Sem capa
-        $args = $base_args;
-        $args['meta_query'] = array(
-            'relation' => 'OR',
-            array( 'key' => '_cv_capa_id', 'compare' => 'NOT EXISTS' ),
-            array( 'key' => '_cv_capa_id', 'value' => '', 'compare' => '=' ),
-        );
-        $ids2 = get_posts( $args );
-        // Também verifica thumbnail padrão do WP
+        // 2. Sem capa (imagem destacada). v2.31.0: o filtro antigo usava o meta
+        // _cv_capa_id, que nunca é gravado — agora olha direto a imagem destacada.
+        $ids2 = get_posts( $base_args );
         $no_thumb = array();
         foreach ( $ids2 as $id ) {
             if ( ! has_post_thumbnail( $id ) ) $no_thumb[] = $id;
@@ -83,8 +77,8 @@ class CV_Editorial {
         $args = $base_args;
         $args['meta_query'] = array(
             'relation' => 'OR',
-            array( 'key' => '_cv_youtube_url', 'compare' => 'NOT EXISTS' ),
-            array( 'key' => '_cv_youtube_url', 'value' => '', 'compare' => '=' ),
+            array( 'key' => CV_Fields::YOUTUBE_URL, 'compare' => 'NOT EXISTS' ),
+            array( 'key' => CV_Fields::YOUTUBE_URL, 'value' => '', 'compare' => '=' ),
         );
         $ids = get_posts( $args );
         $gaps['sem_youtube'] = array(
@@ -100,8 +94,8 @@ class CV_Editorial {
         $args = $base_args;
         $args['meta_query'] = array(
             'relation' => 'OR',
-            array( 'key' => '_cv_artista', 'compare' => 'NOT EXISTS' ),
-            array( 'key' => '_cv_artista', 'value' => '', 'compare' => '=' ),
+            array( 'key' => CV_Fields::ARTISTA, 'compare' => 'NOT EXISTS' ),
+            array( 'key' => CV_Fields::ARTISTA, 'value' => '', 'compare' => '=' ),
         );
         $ids = get_posts( $args );
         $gaps['sem_artista'] = array(
@@ -117,8 +111,8 @@ class CV_Editorial {
         $args = $base_args;
         $args['meta_query'] = array(
             'relation' => 'OR',
-            array( 'key' => '_cv_compositor', 'compare' => 'NOT EXISTS' ),
-            array( 'key' => '_cv_compositor', 'value' => '', 'compare' => '=' ),
+            array( 'key' => CV_Fields::COMPOSITOR, 'compare' => 'NOT EXISTS' ),
+            array( 'key' => CV_Fields::COMPOSITOR, 'value' => '', 'compare' => '=' ),
         );
         $ids = get_posts( $args );
         $gaps['sem_compositor'] = array(
@@ -130,14 +124,12 @@ class CV_Editorial {
             'priority'=> 2,
         );
 
-        // 6. Sem sentimento
-        $args = $base_args;
-        $args['meta_query'] = array(
-            'relation' => 'OR',
-            array( 'key' => '_cv_sentimentos', 'compare' => 'NOT EXISTS' ),
-            array( 'key' => '_cv_sentimentos', 'value' => '', 'compare' => '=' ),
-            array( 'key' => '_cv_sentimentos', 'value' => 'a:0:{}', 'compare' => '=' ),
-        );
+        // 6. Sem sentimento. v2.31.0: os sentimentos ficam na tabela
+        // cv_musica_sentimentos (não num meta _cv_sentimentos, que nunca existiu);
+        // antes TODAS as músicas contavam como "sem sentimento".
+        $com_sent = $wpdb->get_col( "SELECT DISTINCT musica_id FROM {$wpdb->prefix}cv_musica_sentimentos" );
+        $args     = $base_args;
+        if ( $com_sent ) { $args['post__not_in'] = array_map( 'intval', $com_sent ); }
         $ids = get_posts( $args );
         $gaps['sem_sentimento'] = array(
             'label'   => 'Sem Sentimento',
@@ -152,8 +144,8 @@ class CV_Editorial {
         $args = $base_args;
         $args['meta_query'] = array(
             'relation' => 'OR',
-            array( 'key' => '_cv_descricao', 'compare' => 'NOT EXISTS' ),
-            array( 'key' => '_cv_descricao', 'value' => '', 'compare' => '=' ),
+            array( 'key' => CV_Fields::DESCRICAO, 'compare' => 'NOT EXISTS' ),
+            array( 'key' => CV_Fields::DESCRICAO, 'value' => '', 'compare' => '=' ),
         );
         $ids_meta = get_posts( $args );
         $ids_no_excerpt = array();

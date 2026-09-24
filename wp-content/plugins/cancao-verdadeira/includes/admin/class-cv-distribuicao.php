@@ -80,9 +80,9 @@ class CV_Distribuicao {
             'links'         => (array) get_post_meta( $post_id, self::PREFIX . 'links', true ),
         );
         // Padrões vindos da ficha da música
-        if ( '' === $d['interprete'] )   { $d['interprete']   = get_post_meta( $post_id, '_cv_artista', true ) ?: 'Canção Verdadeira'; }
+        if ( '' === $d['interprete'] )   { $d['interprete']   = get_post_meta( $post_id, CV_Fields::ARTISTA, true ) ?: 'Canção Verdadeira'; }
         if ( '' === $d['compositores'] ) {
-            $c = get_post_meta( $post_id, '_cv_compositor', true );
+            $c = get_post_meta( $post_id, CV_Fields::COMPOSITOR, true );
             $d['compositores'] = $c ? $c . ' — 100%' : '';
         }
         return $d;
@@ -282,8 +282,8 @@ class CV_Distribuicao {
         $l[]   = 'Distribuidora ........: ' . ( $d['distribuidora'] ? $dists[ $d['distribuidora'] ] : '(escolher)' );
         $l[]   = 'ISRC .................: ' . ( $d['isrc'] ?: '(a distribuidora gera)' );
         $l[]   = 'UPC ..................: ' . ( $d['upc'] ?: '(a distribuidora gera)' );
-        $l[]   = 'Álbum ................: ' . ( get_post_meta( $id, '_cv_album', true ) ?: 'Single' );
-        $l[]   = 'Ano ..................: ' . ( get_post_meta( $id, '_cv_ano', true ) ?: wp_date( 'Y' ) );
+        $l[]   = 'Álbum ................: ' . ( get_post_meta( $id, CV_Fields::ALBUM, true ) ?: 'Single' );
+        $l[]   = 'Ano ..................: ' . ( get_post_meta( $id, CV_Fields::ANO, true ) ?: wp_date( 'Y' ) );
         $l[]   = '';
         $l[]   = 'ARQUIVOS';
         $l[]   = 'Áudio WAV ............: ' . ( $d['wav'] ?: '(faltando)' );

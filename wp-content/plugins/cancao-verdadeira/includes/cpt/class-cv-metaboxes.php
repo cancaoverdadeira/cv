@@ -151,8 +151,8 @@ class CV_Metaboxes {
     // ── Player & Áudio ───────────────────────────────────────────
     public static function render_player( $post ) {
         wp_nonce_field( 'cv_save_music_data', 'cv_music_nonce' );
-        $youtube_url = get_post_meta( $post->ID, '_cv_youtube_url', true );
-        $audio_url   = get_post_meta( $post->ID, '_cv_audio_url',   true );
+        $youtube_url = get_post_meta( $post->ID, CV_Fields::YOUTUBE_URL, true );
+        $audio_url   = get_post_meta( $post->ID, CV_Fields::AUDIO_URL,   true );
         ?>
         <div class="cv-dark-field" style="margin-bottom:14px">
             <label for="cv_youtube_url">URL do YouTube <span style="color:#D62C1A">*</span></label>
@@ -205,7 +205,7 @@ class CV_Metaboxes {
             if ($('#cv_audio_url').val()) { $('#cv_audio_source').attr('src',$('#cv_audio_url').val()); $('#cv_audio_preview').show(); }
 
             // Preview YouTube
-            function ytId(url){ var m=url.match(/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/); return m?m[1]:null; }
+            function ytId(url){ var m=url.match(/(?:[?&]v=|\/embed\/|youtu\.be\/|\/shorts\/|\/live\/)([A-Za-z0-9_-]{11})/); return m?m[1]:null; } // mesma regra de CV_Fields::YOUTUBE_REGEX
             function checkYt(){
                 var val=$('#cv_youtube_url').val().trim();
                 if(!val){$('#cv-yt-error,#cv-yt-preview').hide();return;}
@@ -222,11 +222,11 @@ class CV_Metaboxes {
 
     // ── Informações ───────────────────────────────────────────────
     public static function render_info( $post ) {
-        $compositor = get_post_meta( $post->ID, '_cv_compositor', true );
-        $artista    = get_post_meta( $post->ID, '_cv_artista',    true );
-        $album      = get_post_meta( $post->ID, '_cv_album',      true );
-        $ano        = get_post_meta( $post->ID, '_cv_ano',        true );
-        $descricao  = get_post_meta( $post->ID, '_cv_descricao',  true );
+        $compositor = get_post_meta( $post->ID, CV_Fields::COMPOSITOR, true );
+        $artista    = get_post_meta( $post->ID, CV_Fields::ARTISTA,    true );
+        $album      = get_post_meta( $post->ID, CV_Fields::ALBUM,      true );
+        $ano        = get_post_meta( $post->ID, CV_Fields::ANO,        true );
+        $descricao  = get_post_meta( $post->ID, CV_Fields::DESCRICAO,  true );
         if ( empty($descricao) && ! empty($post->post_excerpt) ) { $descricao = $post->post_excerpt; }
         ?>
         <div class="cv-dark-grid-2" style="margin-bottom:14px">
@@ -297,9 +297,9 @@ class CV_Metaboxes {
 
     // ── Configurações laterais ────────────────────────────────────
     public static function render_config( $post ) {
-        $ativo_meta = get_post_meta( $post->ID, '_cv_ativo',    true );
+        $ativo_meta = get_post_meta( $post->ID, CV_Fields::ATIVO,    true );
         $ativo      = ( '' === $ativo_meta ) ? '1' : $ativo_meta;
-        $destaque   = get_post_meta( $post->ID, '_cv_destaque', true );
+        $destaque   = get_post_meta( $post->ID, CV_Fields::DESTAQUE, true );
         ?>
         <div class="cv-toggle-wrap">
             <input type="checkbox" id="cv_ativo" name="cv_ativo" value="1" <?php checked($ativo,'1'); ?> />
@@ -312,7 +312,7 @@ class CV_Metaboxes {
         <div class="cv-field" style="margin-top:8px">
             <label for="cv_selecao_ordem" style="font-size:12px">Ordem na "Seleção da Canção Verdadeira"</label>
             <input type="number" min="1" id="cv_selecao_ordem" name="cv_selecao_ordem" style="width:80px"
-                   value="<?php echo esc_attr( get_post_meta( $post->ID, '_cv_selecao_ordem', true ) ); ?>" />
+                   value="<?php echo esc_attr( get_post_meta( $post->ID, CV_Fields::SELECAO_ORDEM, true ) ); ?>" />
             <p class="cv-hint" style="margin:4px 0 0">Vale para músicas em destaque enquanto o ranking real não tem audiência suficiente. 1 aparece primeiro.</p>
         </div>
         <?php
@@ -320,8 +320,8 @@ class CV_Metaboxes {
 
     // ── Calendário de estreia ─────────────────────────────────────
     public static function render_estreia( $post ) {
-        $estreia_date = get_post_meta( $post->ID, '_cv_estreia_date', true );
-        $estreia_time = get_post_meta( $post->ID, '_cv_estreia_time', true );
+        $estreia_date = get_post_meta( $post->ID, CV_Fields::ESTREIA_DATE, true );
+        $estreia_time = get_post_meta( $post->ID, CV_Fields::ESTREIA_TIME, true );
         if ( ! $estreia_time ) { $estreia_time = '00:00'; }
 
         // Se post já tem data futura agendada, mostra ela
@@ -369,8 +369,8 @@ class CV_Metaboxes {
 
     // ── Estatísticas ──────────────────────────────────────────────
     public static function render_stats( $post ) {
-        $plays_total = (int)   get_post_meta( $post->ID, '_cv_plays_total', true );
-        $avg_rating  = (float) get_post_meta( $post->ID, '_cv_avg_rating',  true );
+        $plays_total = (int)   get_post_meta( $post->ID, CV_Fields::PLAYS_TOTAL, true );
+        $avg_rating  = (float) get_post_meta( $post->ID, CV_Fields::AVG_RATING,  true );
         $favorites   = self::count_favorites( $post->ID );
         $score       = self::get_score( $post->ID );
         $position    = self::get_position( $post->ID );
@@ -430,11 +430,11 @@ class CV_Metaboxes {
             set_transient('cv_metabox_error_'.$post_id, 'URL do YouTube inválida. O campo foi salvo vazio.', 60);
             $youtube_url = '';
         }
-        update_post_meta( $post_id, '_cv_youtube_url', $youtube_url );
+        update_post_meta( $post_id, CV_Fields::YOUTUBE_URL, $youtube_url );
 
         // Áudio
         $audio_url = isset($_POST['cv_audio_url']) ? esc_url_raw(trim($_POST['cv_audio_url'])) : '';
-        update_post_meta( $post_id, '_cv_audio_url', $audio_url );
+        update_post_meta( $post_id, CV_Fields::AUDIO_URL, $audio_url );
 
         // Campos texto
         $fields = array(
@@ -455,17 +455,17 @@ class CV_Metaboxes {
         }
 
         // Checkboxes
-        update_post_meta($post_id, '_cv_ativo',    isset($_POST['cv_ativo'])    ? '1' : '0');
-        update_post_meta($post_id, '_cv_destaque', isset($_POST['cv_destaque']) ? '1' : '0');
+        update_post_meta($post_id, CV_Fields::ATIVO,    isset($_POST['cv_ativo'])    ? '1' : '0');
+        update_post_meta($post_id, CV_Fields::DESTAQUE, isset($_POST['cv_destaque']) ? '1' : '0');
         $ordem = isset($_POST['cv_selecao_ordem']) ? absint($_POST['cv_selecao_ordem']) : 0;
-        if ( $ordem ) { update_post_meta($post_id, '_cv_selecao_ordem', $ordem); }
-        else          { delete_post_meta($post_id, '_cv_selecao_ordem'); }
+        if ( $ordem ) { update_post_meta($post_id, CV_Fields::SELECAO_ORDEM, $ordem); }
+        else          { delete_post_meta($post_id, CV_Fields::SELECAO_ORDEM); }
 
         // Calendário de estreia
         $estreia_date = isset($_POST['cv_estreia_date']) ? sanitize_text_field($_POST['cv_estreia_date']) : '';
         $estreia_time = isset($_POST['cv_estreia_time']) ? sanitize_text_field($_POST['cv_estreia_time']) : '00:00';
-        update_post_meta($post_id, '_cv_estreia_date', $estreia_date);
-        update_post_meta($post_id, '_cv_estreia_time', $estreia_time);
+        update_post_meta($post_id, CV_Fields::ESTREIA_DATE, $estreia_date);
+        update_post_meta($post_id, CV_Fields::ESTREIA_TIME, $estreia_time);
 
         // Agendar publicação se data futura
         if ( $estreia_date && strtotime($estreia_date.' '.$estreia_time) > time() ) {
@@ -483,8 +483,8 @@ class CV_Metaboxes {
 
         // SEO automático — gera title e description a partir dos dados
         $titulo    = get_the_title($post_id);
-        $descricao = get_post_meta($post_id, '_cv_descricao', true);
-        $artista   = get_post_meta($post_id, '_cv_artista',   true);
+        $descricao = get_post_meta($post_id, CV_Fields::DESCRICAO, true);
+        $artista   = get_post_meta($post_id, CV_Fields::ARTISTA,   true);
 
         $seo_title = $titulo . ( $artista ? ' — ' . $artista : '' ) . ' | Canção Verdadeira';
         $seo_desc  = $descricao ?: ( $titulo . ( $artista ? ' interpretada por ' . $artista : '' ) . '. Letra completa no Canção Verdadeira.' );

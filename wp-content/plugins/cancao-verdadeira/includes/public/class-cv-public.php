@@ -20,6 +20,9 @@ class CV_Public {
         // Antes rodava junto do enqueue_assets (10) e registrava cv-theme-js
         // vazio, fazendo o WordPress ignorar o cv-theme.js real do tema.
         add_action( 'wp_enqueue_scripts', array( __CLASS__, 'fallback_theme_js' ), 25 );
+        // v2.32.0: estilos dos componentes (WhatsApp, compartilhar, login, perfil)
+        // num arquivo próprio, carregado depois do tema.
+        add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_componentes' ), 30 );
     }
 
     public static function register_image_sizes() {
@@ -76,7 +79,7 @@ class CV_Public {
             'playSeconds'       => (int) CV_PLAY_SECONDS,
             'currentMusicId'    => $current_music_id,
             'currentYoutubeUrl' => $current_music_id
-                ? get_post_meta( $current_music_id, '_cv_youtube_url', true )
+                ? get_post_meta( $current_music_id, CV_Fields::YOUTUBE_URL, true )
                 : '',
             'isLoggedIn'    => is_user_logged_in(),
             'loginUrl'      => $login_url,
@@ -100,6 +103,11 @@ class CV_Public {
         $data = apply_filters( 'cv_public_js_data', $data );
 
         wp_localize_script( 'cv-public-js', 'cvPublic', $data );
+    }
+
+    public static function enqueue_componentes() {
+        $deps = wp_style_is( 'cv-paginas', 'registered' ) ? array( 'cv-paginas' ) : array( 'cv-public-style' );
+        wp_enqueue_style( 'cv-public-componentes', CV_PLUGIN_URL . 'assets/css/cv-public-componentes.css', $deps, CV_VERSION );
     }
 
     // Sem o tema filho, cria um cv-theme-js vazio para quem depende dele.

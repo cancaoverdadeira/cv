@@ -80,7 +80,7 @@ class CV_Search {
 
     // Música marcada como inativa (_cv_ativo = 0) não aparece na busca.
     public static function hide_inactive( $ok, $post_id ) {
-        if ( $ok && 'musica' === get_post_type( $post_id ) && '0' === get_post_meta( $post_id, '_cv_ativo', true ) ) {
+        if ( $ok && 'musica' === get_post_type( $post_id ) && '0' === get_post_meta( $post_id, CV_Fields::ATIVO, true ) ) {
             return false;
         }
         return $ok;
@@ -112,8 +112,8 @@ class CV_Search {
         if ( 'musica' === $a['post_type'] ) {
             $q['meta_query'] = array(
                 'relation' => 'OR',
-                array( 'key' => '_cv_ativo', 'compare' => 'NOT EXISTS' ),
-                array( 'key' => '_cv_ativo', 'value' => '0', 'compare' => '!=' ),
+                array( 'key' => CV_Fields::ATIVO, 'compare' => 'NOT EXISTS' ),
+                array( 'key' => CV_Fields::ATIVO, 'value' => '0', 'compare' => '!=' ),
             );
         }
 

@@ -47,13 +47,17 @@ class CV_Plays {
         );
 
         // Atualiza contador em post_meta (acesso rápido nos templates)
-        $total = (int) get_post_meta( $music_id, '_cv_plays_total', true );
-        update_post_meta( $music_id, '_cv_plays_total', $total + 1 );
+        $total = (int) get_post_meta( $music_id, CV_Fields::PLAYS_TOTAL, true );
+        update_post_meta( $music_id, CV_Fields::PLAYS_TOTAL, $total + 1 );
 
         // Salva histórico no usuário logado
         if ( $user_id ) {
             self::save_user_history( $user_id, $music_id );
         }
+
+        // v2.30.0: avisa conquistas e cache de recomendações ANTES de responder
+        // (wp_send_json encerra a requisição; ganchos depois dele nunca rodavam).
+        do_action( 'cv_play_registered', $music_id, $user_id );
 
         wp_send_json_success( array(
             'plays' => $total + 1,

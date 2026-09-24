@@ -42,7 +42,7 @@ class CV_Youtube_Import {
             'post_type'      => 'musica',
             'posts_per_page' => 1,
             'meta_query'     => array(
-                array( 'key' => '_cv_youtube_url', 'value' => $url, 'compare' => '=' ),
+                array( 'key' => CV_Fields::YOUTUBE_URL, 'value' => $url, 'compare' => '=' ),
             ),
         ) );
 
@@ -63,9 +63,9 @@ class CV_Youtube_Import {
         }
 
         // Preenche metaboxes automaticamente
-        update_post_meta( $post_id, '_cv_youtube_url', $url );
-        update_post_meta( $post_id, '_cv_ativo',       '0' ); // inativo ate ter letra
-        update_post_meta( $post_id, '_cv_destaque',    '0' );
+        update_post_meta( $post_id, CV_Fields::YOUTUBE_URL, $url );
+        update_post_meta( $post_id, CV_Fields::ATIVO,       '0' ); // inativo ate ter letra
+        update_post_meta( $post_id, CV_Fields::DESTAQUE,    '0' );
 
         // Importa a thumbnail do YouTube como featured image
         if ( $thumb ) {

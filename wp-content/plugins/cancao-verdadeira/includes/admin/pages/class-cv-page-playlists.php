@@ -29,7 +29,7 @@ class CV_Page_Playlists {
             'orderby'        => 'title',
             'order'          => 'ASC',
             'meta_query'     => array(
-                array( 'key' => '_cv_ativo', 'value' => '1', 'compare' => '=' ),
+                array( 'key' => CV_Fields::ATIVO, 'value' => '1', 'compare' => '=' ),
             ),
         ) );
         ?>

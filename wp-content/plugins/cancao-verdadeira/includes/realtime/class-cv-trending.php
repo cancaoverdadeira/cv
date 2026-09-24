@@ -57,8 +57,8 @@ class CV_Trending {
         $result = array();
         foreach ( $rows as $row ) {
             $cover   = get_the_post_thumbnail_url( $row->music_id, 'cv-cover' );
-            $yt_url  = get_post_meta( $row->music_id, '_cv_youtube_url', true );
-            $artista = get_post_meta( $row->music_id, '_cv_artista', true );
+            $yt_url  = get_post_meta( $row->music_id, CV_Fields::YOUTUBE_URL, true );
+            $artista = get_post_meta( $row->music_id, CV_Fields::ARTISTA, true );
 
             if ( ! $cover && $yt_url ) {
                 $vid   = self::yt_id( $yt_url );
@@ -105,8 +105,7 @@ class CV_Trending {
     }
 
     private static function yt_id( $url ) {
-        preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $url, $m );
-        return $m[1] ?? '';
+        return CV_Fields::youtube_id( $url );
     }
 }
 

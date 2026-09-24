@@ -460,7 +460,7 @@ class CV_Admin_Exports {
         );
         if ( $status_filter !== '' ) {
             $args['meta_query'] = array( array(
-                'key'     => '_cv_ativo',
+                'key'     => CV_Fields::ATIVO,
                 'value'   => $status_filter,
                 'compare' => '=',
             ) );
@@ -476,19 +476,19 @@ class CV_Admin_Exports {
             'Status','Tem YouTube','Tem MP3','Data Publicação'
         ), ';' );
         foreach ( $musicas as $m ) {
-            $ativo       = get_post_meta( $m->ID, '_cv_ativo',       true );
-            $youtube     = get_post_meta( $m->ID, '_cv_youtube_url', true );
-            $mp3         = get_post_meta( $m->ID, '_cv_audio_url',   true );
+            $ativo       = get_post_meta( $m->ID, CV_Fields::ATIVO,       true );
+            $youtube     = get_post_meta( $m->ID, CV_Fields::YOUTUBE_URL, true );
+            $mp3         = get_post_meta( $m->ID, CV_Fields::AUDIO_URL,   true );
             fputcsv( $out, array(
                 $m->ID,
                 $m->post_title,
-                get_post_meta( $m->ID, '_cv_artista',    true ),
-                get_post_meta( $m->ID, '_cv_compositor', true ),
-                get_post_meta( $m->ID, '_cv_album', true ),
-                get_post_meta( $m->ID, '_cv_ano',   true ),
-                intval( get_post_meta( $m->ID, '_cv_plays_total', true ) ),
-                intval( get_post_meta( $m->ID, '_cv_favorites',  true ) ),
-                round( floatval( get_post_meta( $m->ID, '_cv_avg_rating', true ) ), 2 ),
+                get_post_meta( $m->ID, CV_Fields::ARTISTA,    true ),
+                get_post_meta( $m->ID, CV_Fields::COMPOSITOR, true ),
+                get_post_meta( $m->ID, CV_Fields::ALBUM, true ),
+                get_post_meta( $m->ID, CV_Fields::ANO,   true ),
+                intval( get_post_meta( $m->ID, CV_Fields::PLAYS_TOTAL, true ) ),
+                intval( get_post_meta( $m->ID, CV_Fields::FAVORITES,  true ) ),
+                round( floatval( get_post_meta( $m->ID, CV_Fields::AVG_RATING, true ) ), 2 ),
                 ( $ativo == '1' || $ativo === '' ) ? 'Ativa' : 'Inativa',
                 ! empty( $youtube ) ? 'Sim' : 'Não',
                 ! empty( $mp3 )     ? 'Sim' : 'Não',

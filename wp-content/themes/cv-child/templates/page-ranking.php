@@ -138,12 +138,6 @@ get_header();
     </main>
 </div>
 
-<style>
-.cv-dash-tabs { display:flex; gap:4px; border-bottom:1px solid var(--cv-border-subtle); flex-wrap:wrap; }
-.cv-dash-tab { background:none; border:none; color:var(--cv-text-muted); font-size:14px; font-weight:600; padding:12px 20px; cursor:pointer; border-bottom:2px solid transparent; transition:all .2s; white-space:nowrap; }
-.cv-dash-tab:hover { color:var(--cv-text); }
-.cv-dash-tab.active { color:var(--cv-gold); border-bottom-color:var(--cv-gold); }
-</style>
 
 <script>
 jQuery(function($){

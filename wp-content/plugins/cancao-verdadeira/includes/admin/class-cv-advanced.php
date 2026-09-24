@@ -78,7 +78,7 @@ class CV_Advanced {
                 'posts_per_page' => -1,
                 'fields'         => 'ids',
                 'meta_query'     => array(
-                    array( 'key' => '_cv_ativo', 'value' => '1', 'compare' => '=' ),
+                    array( 'key' => CV_Fields::ATIVO, 'value' => '1', 'compare' => '=' ),
                 ),
             ) );
             if ( empty( $posts ) ) { return; }
@@ -178,9 +178,9 @@ class CV_Advanced {
         foreach ( $results as $i => $row ) {
             $id      = (int) $row->music_id;
             $cover   = get_the_post_thumbnail_url( $id, 'cv-cover' );
-            $yt_url  = get_post_meta( $id, '_cv_youtube_url', true );
+            $yt_url  = get_post_meta( $id, CV_Fields::YOUTUBE_URL, true );
             if ( ! $cover && $yt_url ) {
-                preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $yt_url, $m );
+                $m = CV_Fields::youtube_match( $yt_url );
                 $cover = isset( $m[1] ) ? "https://img.youtube.com/vi/{$m[1]}/mqdefault.jpg" : '';
             }
 
@@ -195,8 +195,8 @@ class CV_Advanced {
                 'post_name'    => $row->post_name,
                 'url'          => get_permalink( $id ),
                 'cover'        => $cover ?: CV_PLUGIN_URL . 'assets/img/default-cover.svg',
-                'artista'      => get_post_meta( $id, '_cv_artista',    true ),
-                'compositor'   => get_post_meta( $id, '_cv_compositor', true ),
+                'artista'      => get_post_meta( $id, CV_Fields::ARTISTA,    true ),
+                'compositor'   => get_post_meta( $id, CV_Fields::COMPOSITOR, true ),
                 'plays_period' => (int) ( $row->$col ?? 0 ),
                 'plays_total'  => (int) $row->plays_total,
                 'score'        => (float) $row->score,
@@ -559,11 +559,11 @@ class CV_Advanced {
             'post_type'      => 'musica',
             'post_status'    => 'publish',
             'posts_per_page' => $limit * 2, // busca mais para filtrar
-            'meta_key'       => '_cv_score',
+            'meta_key'       => CV_Fields::SCORE,
             'orderby'        => 'meta_value_num',
             'order'          => 'DESC',
             'meta_query'     => array(
-                array( 'key' => '_cv_ativo', 'value' => '1', 'compare' => '=' ),
+                array( 'key' => CV_Fields::ATIVO, 'value' => '1', 'compare' => '=' ),
             ),
         );
 
@@ -575,10 +575,10 @@ class CV_Advanced {
         $result = array();
 
         foreach ( array_slice( $posts, 0, $limit ) as $post ) {
-            $yt_url  = get_post_meta( $post->ID, '_cv_youtube_url', true );
+            $yt_url  = get_post_meta( $post->ID, CV_Fields::YOUTUBE_URL, true );
             $cover   = get_the_post_thumbnail_url( $post->ID, 'cv-cover' );
             if ( ! $cover && $yt_url ) {
-                preg_match( '/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $yt_url, $m );
+                $m = CV_Fields::youtube_match( $yt_url );
                 $cover = isset( $m[1] ) ? "https://img.youtube.com/vi/{$m[1]}/mqdefault.jpg" : '';
             }
 
@@ -587,9 +587,9 @@ class CV_Advanced {
                 'title'     => $post->post_title,
                 'url'       => get_permalink( $post->ID ),
                 'cover'     => $cover ?: CV_PLUGIN_URL . 'assets/img/default-cover.svg',
-                'artista'   => get_post_meta( $post->ID, '_cv_artista', true ),
-                'score'     => (float) get_post_meta( $post->ID, '_cv_score', true ),
-                'plays'     => (int) get_post_meta( $post->ID, '_cv_plays_total', true ),
+                'artista'   => get_post_meta( $post->ID, CV_Fields::ARTISTA, true ),
+                'score'     => (float) get_post_meta( $post->ID, CV_Fields::SCORE, true ),
+                'plays'     => (int) get_post_meta( $post->ID, CV_Fields::PLAYS_TOTAL, true ),
                 'youtube_url' => $yt_url,
             );
         }

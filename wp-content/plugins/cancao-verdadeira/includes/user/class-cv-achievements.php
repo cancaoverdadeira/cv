@@ -6,6 +6,7 @@
 // automaticamente ao atingir marcos de plays, favoritos, playlists
 // e avaliacoes. Armazena em user_meta _cv_achievements.
 // Exibe badge visual no perfil publico e no dashboard do usuario.
+// v2.30.0: conquistas passam a ser de fato concedidas (ver init()).
 // v2.26.0: "Puro Sertanejo" agora vale para quem ouviu 20 musicas diferentes
 // (antes exigia ouvir todos os generos, que foram removidos do site).
 
@@ -31,14 +32,13 @@ class CV_Achievements {
     );
 
     public static function init() {
-        // Verifica conquistas apos cada play
-        add_action( 'wp_ajax_cv_register_play', array( __CLASS__, 'check_after_play' ), 20 );
-        // Verifica apos favoritar
-        add_action( 'wp_ajax_cv_toggle_favorite', array( __CLASS__, 'check_after_favorite' ), 20 );
-        // Verifica apos avaliar
-        add_action( 'wp_ajax_cv_rate_music', array( __CLASS__, 'check_after_rating' ), 20 );
-        // Verifica apos comentar
-        add_action( 'wp_ajax_cv_save_lyric_comment', array( __CLASS__, 'check_after_comment' ), 20 );
+        // v2.30.0: escuta os eventos disparados pelos handlers ANTES da resposta.
+        // Antes ficava em wp_ajax_* prioridade 20, que nunca rodava porque o
+        // handler principal (prioridade 10) encerra a requisição com wp_send_json.
+        add_action( 'cv_play_registered', array( __CLASS__, 'check_after_play' ) );
+        add_action( 'cv_favorite_changed', array( __CLASS__, 'check_after_favorite' ) );
+        add_action( 'cv_music_rated', array( __CLASS__, 'check_after_rating' ) );
+        add_action( 'cv_lyric_commented', array( __CLASS__, 'check_after_comment' ) );
 
         // Endpoint para buscar conquistas do usuario
         add_action( 'wp_ajax_cv_get_achievements', array( __CLASS__, 'get_achievements' ) );

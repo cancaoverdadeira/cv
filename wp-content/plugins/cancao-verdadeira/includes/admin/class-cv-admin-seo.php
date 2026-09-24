@@ -49,7 +49,7 @@ class CV_Admin_SEO {
             $detail['capa'] = false;
         }
 
-        $yt = get_post_meta( $post_id, '_cv_youtube_url', true );
+        $yt = get_post_meta( $post_id, CV_Fields::YOUTUBE_URL, true );
         if ( $yt ) {
             $score += 20;
             $detail['youtube'] = true;
@@ -65,7 +65,7 @@ class CV_Admin_SEO {
             $detail['descricao'] = false;
         }
 
-        $artista = get_post_meta( $post_id, '_cv_artista', true );
+        $artista = get_post_meta( $post_id, CV_Fields::ARTISTA, true );
         if ( $artista ) {
             $score += 10;
             $detail['artista'] = true;
@@ -98,7 +98,7 @@ class CV_Admin_SEO {
         foreach ( $posts as $p ) {
             $r       = self::calc_score( $p->ID );
             $score   = $r['score'];
-            $artista = get_post_meta( $p->ID, '_cv_artista', true );
+            $artista = get_post_meta( $p->ID, CV_Fields::ARTISTA, true );
 
             if ( $score >= 90 )      { $dist['otimo']++; }
             elseif ( $score >= 70 )  { $dist['bom']++; }
