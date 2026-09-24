@@ -5,6 +5,7 @@
 // estrelas, botões de compartilhar e "Adicionar à playlist".
 // Chamado por single-musica.php com get_template_part( ..., null, $args ).
 // v15.10.0: separado do single-musica.php (refatoração, fase 6).
+// v15.13.0: botões de compartilhar oficiais (cor da marca + ícone CV_Icones).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -111,27 +112,27 @@ $share_links  = isset( $args['share_links'] ) ? $args['share_links'] : array();
                         <div style="display:flex;flex-direction:column;gap:8px">
                             <a href="<?php echo esc_url($share_links['whatsapp']); ?>"
                                target="_blank" rel="noopener"
-                               class="cv-share-btn" style="--share-color:#25D366">
-                                💬 WhatsApp
+                               class="cv-share-btn cv-share-oficial" style="--share-color:#25D366">
+                                <?php echo class_exists('CV_Icones') ? CV_Icones::svg('whatsapp', 18, '#FFFFFF') : ''; ?> WhatsApp
                             </a>
                             <a href="<?php echo esc_url($share_links['facebook']); ?>"
                                target="_blank" rel="noopener"
-                               class="cv-share-btn" style="--share-color:#1877F2">
-                                📘 Facebook
+                               class="cv-share-btn cv-share-oficial" style="--share-color:#0866FF">
+                                <?php echo class_exists('CV_Icones') ? CV_Icones::svg('facebook', 18, '#FFFFFF') : ''; ?> Facebook
                             </a>
                             <a href="<?php echo esc_url($share_links['twitter']); ?>"
                                target="_blank" rel="noopener"
-                               class="cv-share-btn" style="--share-color:#FBF6EE">
-                                ✕ Twitter/X
+                               class="cv-share-btn cv-share-oficial" style="--share-color:#000000">
+                                <?php echo class_exists('CV_Icones') ? CV_Icones::svg('twitter', 18, '#FFFFFF') : ''; ?> X (Twitter)
                             </a>
                             <a href="<?php echo esc_url($share_links['telegram']); ?>"
                                target="_blank" rel="noopener"
-                               class="cv-share-btn" style="--share-color:#2CA5E0">
-                                ✈ Telegram
+                               class="cv-share-btn cv-share-oficial" style="--share-color:#26A5E4">
+                                <?php echo class_exists('CV_Icones') ? CV_Icones::svg('telegram', 18, '#FFFFFF') : ''; ?> Telegram
                             </a>
                             <button id="cv-copy-link-btn"
                                     class="cv-share-btn"
-                                    style="--share-color:#F3E6D3;border:none;cursor:pointer;
+                                    style="--share-color:#7B3A22;border:none;cursor:pointer;
                                            width:100%;text-align:left"
                                     data-url="<?php echo esc_attr(get_permalink()); ?>">
                                 🔗 Copiar link

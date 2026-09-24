@@ -10,6 +10,7 @@
    4) Busca avançada, resultados e página 404 — v15.5.0.
    5) v15.11.0: resultados da busca lateral com fundo sólido; rótulos e
       botões dos formulários (Ultimate Member) visíveis e nas cores da marca.
+   6) v15.13.0: botões oficiais das redes sociais (cor da marca + ícone branco).
 ═══════════════════════════════════════════════════════════════ */
 
 /* ── 1. Player escuro ──────────────────────────────────────────
@@ -321,3 +322,17 @@ body legend { color: var(--cv-text); }
 .um a.um-link-alt,
 .um .um-account-side li a.current,
 .um .um-account-side li a:hover { color: var(--cv-gold) !important; }
+
+/* v15.13.0 — Botões oficiais das redes sociais (ícones Simple Icons, CC0):
+   fundo na cor da marca, ícone e texto brancos. */
+.cv-share-btn.cv-share-oficial {
+    background: var(--share-color);
+    color: #FFFFFF;
+    border-color: transparent;
+}
+.cv-share-btn.cv-share-oficial:hover {
+    background: var(--share-color);
+    color: #FFFFFF;
+    filter: brightness(.9);
+}
+.cv-icone { flex-shrink: 0; vertical-align: middle; }

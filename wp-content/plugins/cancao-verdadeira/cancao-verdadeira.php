@@ -49,12 +49,17 @@
 // a lista real de tabelas.
 // v2.42.0 (24/09/2026) — Tela "🗂 Gerenciar músicas" (CV_Page_Musicas): todos os
 // dados de cada música, excluir uma a uma e reimportar do YouTube na mesma tela.
+// v2.43.0 (24/09/2026) — Grupo "📰 Blog" no Dashboard (novo post, posts, rascunhos,
+// ver no site) e "← Dashboard" também nas telas de post.
+// v2.44.0 (24/09/2026) — Ícones oficiais das redes (CV_Icones, Simple Icons CC0) nos
+// links e botões de compartilhar; avisos de nova música e sorteio viram CAMPANHAS do
+// MailerLite (rascunho por padrão e sempre no site local; ou envio na hora).
 
 /**
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.42.0
+ * Version:     2.44.0
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -63,7 +68,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.42.0' );
+define( 'CV_VERSION',        '2.44.0' );
 define( 'CV_DB_VERSION',     '8' );       // v2.15.0: tabelas cv_sentimentos + cv_musica_sentimentos + cv_calibracao_log
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
@@ -74,6 +79,7 @@ define( 'CV_PLAY_SECONDS',   30 );
 $cv_includes = array(
     // CPT, taxonomias e metaboxes
     'includes/cpt/class-cv-fields.php',
+    'includes/public/class-cv-icones.php',     // v2.44.0: ícones oficiais das redes (Simple Icons, CC0)
     'includes/public/class-cv-launch.php',     // modo lançamento (contadores mínimos e seleção da casa)        // nomes centrais dos campos da música
     'includes/cpt/class-cv-cpt.php',
     'includes/cpt/class-cv-sem-generos.php',   // v2.26.0: gêneros removidos; redireciona /genero/ e /estilo/

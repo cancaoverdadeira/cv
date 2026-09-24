@@ -93,36 +93,36 @@ class CV_MVP {
             'whatsapp' => array(
                 'href'  => 'https://api.whatsapp.com/send?text=' . $titulo_enc . $url_enc,
                 'label' => 'WhatsApp',
-                'icon'  => '💬',
+                'icon'  => 'whatsapp',
                 'color' => '#25D366',
-                'class' => 'cv-share-wa',
+                'class' => 'cv-share-wa cv-share-oficial',
             ),
             'facebook' => array(
                 'href'  => 'https://www.facebook.com/sharer/sharer.php?u=' . $url_enc,
                 'label' => 'Facebook',
-                'icon'  => 'f',
-                'color' => '#1877F2',
-                'class' => 'cv-share-fb',
+                'icon'  => 'facebook',
+                'color' => '#0866FF',
+                'class' => 'cv-share-fb cv-share-oficial',
             ),
             'twitter' => array(
                 'href'  => 'https://twitter.com/intent/tweet?text=' . $titulo_enc . '&url=' . $url_enc,
-                'label' => 'Twitter/X',
-                'icon'  => '𝕏',
-                'color' => '#FBF6EE',
-                'class' => 'cv-share-tw',
+                'label' => 'X (Twitter)',
+                'icon'  => 'twitter',
+                'color' => '#000000',
+                'class' => 'cv-share-tw cv-share-oficial',
             ),
             'telegram' => array(
                 'href'  => 'https://t.me/share/url?url=' . $url_enc . '&text=' . $titulo_enc,
                 'label' => 'Telegram',
-                'icon'  => '✈',
-                'color' => '#229ED9',
-                'class' => 'cv-share-tg',
+                'icon'  => 'telegram',
+                'color' => '#26A5E4',
+                'class' => 'cv-share-tg cv-share-oficial',
             ),
             'copiar' => array(
                 'href'  => '#',
                 'label' => 'Copiar link',
                 'icon'  => '🔗',
-                'color' => '#F3E6D3',
+                'color' => '#7B3A22', // v2.44.0: era bege claro (texto quase invisível)
                 'class' => 'cv-share-copy',
                 'data'  => 'data-url="' . esc_attr( $url ) . '"',
             ),
@@ -150,7 +150,12 @@ class CV_MVP {
                    <?php echo $data; ?>
                    title="<?php echo esc_attr( $r['label'] ); ?>"
                    aria-label="Compartilhar no <?php echo esc_attr( $r['label'] ); ?>">
-                    <span class="cv-share-icon"><?php echo $r['icon']; ?></span>
+                    <span class="cv-share-icon"><?php
+                        // v2.44.0: ícone oficial (CV_Icones); "Copiar link" continua 🔗
+                        echo ( class_exists( 'CV_Icones' ) && CV_Icones::existe( $r['icon'] ) )
+                            ? CV_Icones::svg( $r['icon'], 16, '#FFFFFF' )
+                            : $r['icon'];
+                    ?></span>
                     <?php if ( ! $is_icones ) : ?>
                         <span class="cv-share-text"><?php echo esc_html( $r['label'] ); ?></span>
                     <?php endif; ?>

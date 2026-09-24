@@ -8,6 +8,7 @@
 // Página de contato com formulário nativo WordPress (wp_mail) e
 // links para redes sociais configuradas no plugin CV_Social.
 // Sem dependência do Gravity Forms — funciona com o WordPress puro.
+// v15.13.0: redes sociais com o ícone oficial na cor da marca (icon_cor).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -76,9 +77,9 @@ get_header();
                           background:rgba(123,58,34,0.06);border:1px solid var(--cv-border);
                           border-radius:var(--cv-radius-full);color:var(--cv-text);
                           font-size:13px;font-weight:600;text-decoration:none;transition:all .2s"
-                   onmouseover="this.style.background='<?php echo esc_attr($r['color']); ?>';this.style.borderColor='transparent'"
-                   onmouseout="this.style.background='rgba(123,58,34,0.06)';this.style.borderColor='var(--cv-border)'">
-                    <?php echo $r['icon']; ?> <?php echo esc_html($r['label']); ?>
+                   onmouseover="this.style.background='rgba(123,58,34,0.12)'"
+                   onmouseout="this.style.background='rgba(123,58,34,0.06)'">
+                    <?php echo isset($r['icon_cor']) ? $r['icon_cor'] : $r['icon']; ?> <?php echo esc_html($r['label']); ?>
                 </a>
                 <?php endforeach; ?>
             </div>

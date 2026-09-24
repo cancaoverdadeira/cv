@@ -6,6 +6,7 @@
 // URLs de Instagram, YouTube, Facebook, TikTok, Twitter/X e WhatsApp.
 // Os links ficam disponíveis via get_option() para uso no tema filho.
 // Também injeta os ícones sociais no rodapé via hook cv_social_links.
+// v2.44.0: ícones oficiais das marcas (CV_Icones, Simple Icons CC0) no lugar dos emojis.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -75,7 +76,7 @@ class CV_Social {
                     ?>
                     <div class="cv-form-group">
                         <label class="cv-form-label">
-                            <span style="font-size:18px;margin-right:8px"><?php echo $rede['icon']; ?></span>
+                            <span style="display:inline-flex;vertical-align:middle;margin-right:8px"><?php echo class_exists( 'CV_Icones' ) ? CV_Icones::svg( $key, 18 ) : $rede['icon']; ?></span>
                             <strong><?php echo esc_html( $rede['label'] ); ?></strong>
                         </label>
                         <div style="position:relative">
@@ -235,23 +236,24 @@ class CV_Social {
         foreach ( $redes as $key => $rede ) {
             $url = get_option( 'cv_social_' . $key, '' );
             if ( ! $url ) { continue; }
+            $rede['color'] = self::cor( $key, $rede['color'] );
 
             if ( 'icones' === $estilo ) {
                 $html .= '<a href="' . esc_url( $url ) . '" target="_blank" rel="noopener noreferrer"'
                        . ' title="' . esc_attr( $rede['label'] ) . '"'
                        . ' style="display:inline-flex;align-items:center;justify-content:center;'
                        . 'width:40px;height:40px;border-radius:50%;background:' . esc_attr( $rede['color'] ) . ';'
-                       . 'color:#3B2418;font-size:18px;text-decoration:none;transition:opacity .2s"'
+                       . 'color:#FFFFFF;font-size:18px;text-decoration:none;transition:opacity .2s"'
                        . ' onmouseover="this.style.opacity=.8" onmouseout="this.style.opacity=1">'
-                       . $rede['icon'] . '</a>';
+                       . self::icone( $key, 20 ) . '</a>';
             } else {
                 $html .= '<a href="' . esc_url( $url ) . '" target="_blank" rel="noopener noreferrer"'
                        . ' style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;'
                        . 'border-radius:50px;background:' . esc_attr( $rede['color'] ) . ';'
-                       . 'color:#3B2418;font-size:13px;font-weight:700;text-decoration:none;'
+                       . 'color:#FFFFFF;font-size:13px;font-weight:700;text-decoration:none;'
                        . 'transition:opacity .2s"'
                        . ' onmouseover="this.style.opacity=.8" onmouseout="this.style.opacity=1">'
-                       . '<span>' . $rede['icon'] . '</span>'
+                       . '<span style="display:inline-flex">' . self::icone( $key, 16 ) . '</span>'
                        . '<span>' . esc_html( $rede['label'] ) . '</span>'
                        . '</a>';
             }
@@ -282,7 +284,14 @@ class CV_Social {
         foreach ( self::REDES as $key => $rede ) {
             $url = get_option( 'cv_social_' . $key, '' );
             if ( $url ) {
-                $result[ $key ] = array_merge( $rede, array( 'url' => $url ) );
+                // v2.44.0: 'icon' = ícone oficial branco (para fundo na cor da marca);
+                // 'icon_cor' = ícone na cor da marca (para fundo claro).
+                $result[ $key ] = array_merge( $rede, array(
+                    'url'      => $url,
+                    'color'    => self::cor( $key, $rede['color'] ),
+                    'icon'     => self::icone( $key, 18 ),
+                    'icon_cor' => class_exists( 'CV_Icones' ) ? CV_Icones::svg( $key, 18 ) : $rede['icon'],
+                ) );
             }
         }
         return $result;
@@ -304,6 +313,19 @@ class CV_Social {
         return '<div class="cv-social-links cv-social-' . esc_attr( $atts['estilo'] ) . '" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">'
              . self::render_links( $atts['estilo'], $filtro )
              . '</div>';
+    }
+
+    // v2.44.0: ícone oficial (Simple Icons) em branco; sem CV_Icones, volta ao emoji.
+    private static function icone( $key, $tamanho ) {
+        if ( class_exists( 'CV_Icones' ) && CV_Icones::existe( $key ) ) {
+            return CV_Icones::svg( $key, $tamanho, '#FFFFFF' );
+        }
+        return isset( self::REDES[ $key ] ) ? self::REDES[ $key ]['icon'] : '';
+    }
+
+    // Cor oficial da marca (CV_Icones); se não houver, a cor antiga.
+    private static function cor( $key, $padrao ) {
+        return ( class_exists( 'CV_Icones' ) && CV_Icones::cor( $key ) ) ? CV_Icones::cor( $key ) : $padrao;
     }
 }
 

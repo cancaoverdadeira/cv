@@ -7,6 +7,9 @@
 // de favoritos (semanal) e anúncio de sorteio. Funciona com grupo único
 // ou múltiplos grupos quando configurados. Todos os disparos são
 // assíncronos (blocking:false) — não travam o WordPress se ML cair.
+// v2.44.0: "nova música" e "sorteio" viraram CAMPANHAS do MailerLite (antes o
+// e-mail do admin entrava no grupo para acionar a automação, o que só funcionava
+// na 1ª vez). Modo rascunho (padrão; obrigatório no site local) ou envio na hora.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -39,6 +42,9 @@ class CV_Email {
 
         // 2. Nova música: ao publicar
         add_action( 'publish_musica', array( __CLASS__, 'trigger_nova_musica' ), 20, 2 );
+        // v2.44.0: a campanha é criada em segundo plano (não atrasa o "Publicar")
+        add_action( 'cv_email_campanha_nova_musica', array( __CLASS__, 'enviar_nova_musica' ) );
+        add_action( 'wp_ajax_cv_email_save_campanha', array( __CLASS__, 'ajax_save_campanha' ) );
 
         // 3. Resumo de favoritos: via WP-Cron semanal
         add_action( 'cv_cron_favoritos_digest', array( __CLASS__, 'trigger_favoritos_digest' ) );
@@ -159,13 +165,51 @@ class CV_Email {
                 </button>
             </div>
 
+            <!-- v2.44.0: como saem os avisos de nova música e sorteio -->
+            <?php
+            $modo_salvo = get_option( 'cv_email_campanha_modo', 'rascunho' );
+            $modo_real  = self::campanha_modo();
+            $ultimo     = get_option( 'cv_email_ultimo_disparo', array() );
+            ?>
+            <div class="cv-section">
+                <h2 class="cv-section-title">✉️ Avisos de nova música e de sorteio</h2>
+                <p style="color:#8A6A55;font-size:13px;margin-bottom:14px">
+                    Quando uma música é publicada (ou um sorteio é anunciado), o site cria uma <strong style="color:#7B3A22">campanha no MailerLite</strong>
+                    para o grupo escolhido acima, com capa, texto e botão para o site.
+                </p>
+                <?php if ( 'rascunho' === $modo_real && 'enviar' === $modo_salvo ) : ?>
+                <div class="cv-notice cv-notice-warning" style="margin-bottom:14px">
+                    🏠 Este é o site <strong>local</strong>: aqui a campanha é sempre criada como <strong>rascunho</strong>, para nunca enviar aos assinantes reais sem querer.
+                </div>
+                <?php endif; ?>
+                <div style="display:grid;gap:10px;max-width:640px">
+                    <label style="display:flex;gap:10px;align-items:flex-start;color:#3B2418">
+                        <input type="radio" name="cv-campanha-modo" value="rascunho" <?php checked( $modo_salvo, 'rascunho' ); ?> style="margin-top:4px">
+                        <span><strong>Criar como rascunho</strong> (recomendado) — você revisa no MailerLite e clica em Enviar.</span>
+                    </label>
+                    <label style="display:flex;gap:10px;align-items:flex-start;color:#3B2418">
+                        <input type="radio" name="cv-campanha-modo" value="enviar" <?php checked( $modo_salvo, 'enviar' ); ?> style="margin-top:4px">
+                        <span><strong>Enviar na hora</strong> — a campanha sai assim que a música é publicada.</span>
+                    </label>
+                    <label style="display:block;color:#6B4C3B;font-size:12px;margin-top:6px">Remetente (precisa estar <strong>verificado</strong> no MailerLite)</label>
+                    <input type="email" id="cv-campanha-remetente" class="cv-input" value="<?php echo esc_attr( get_option( 'cv_email_remetente', '' ) ); ?>" placeholder="<?php echo esc_attr( self::remetente() ); ?>">
+                </div>
+                <button id="cv-campanha-save" class="cv-btn cv-btn-primary" style="margin-top:14px">💾 Salvar</button>
+                <?php if ( ! empty( $ultimo['quando'] ) ) : ?>
+                <p style="margin-top:14px;font-size:13px;color:<?php echo ! empty( $ultimo['ok'] ) ? '#1f6b35' : '#9b2c2c'; ?>">
+                    Último disparo (<?php echo esc_html( date_i18n( 'd/m/Y H:i', strtotime( $ultimo['quando'] ) ) . ' — ' . $ultimo['tipo'] ); ?>):
+                    <?php echo esc_html( $ultimo['msg'] ); ?>
+                </p>
+                <?php endif; ?>
+            </div>
+
             <!-- Automações -->
             <div class="cv-section">
                 <h2 class="cv-section-title">⚡ Automações Ativas</h2>
                 <p style="color:#8A6A55;font-size:13px;margin-bottom:20px">
-                    Controle quais e-mails automáticos estão ativos.
-                    Os disparos usam a API do MailerLite para adicionar assinantes a grupos
-                    e acionar automações que você configura <strong style="color:#7B3A22">dentro do próprio MailerLite</strong>.
+                    Controle quais e-mails automáticos estão ativos. Boas-vindas usa uma
+                    <strong style="color:#7B3A22">automação do MailerLite</strong> (a pessoa entra no grupo e recebe);
+                    nova música e sorteio viram <strong style="color:#7B3A22">campanhas</strong> (veja o quadro acima).
                 </p>
 
                 <div style="display:grid;gap:12px">
@@ -242,9 +286,10 @@ class CV_Email {
                     <ol style="padding-left:20px;color:#8A6A55">
                         <li style="margin-bottom:8px">No MailerLite, crie um <strong style="color:#6B4C3B">Grupo</strong> para cada tipo (ex: "Boas-vindas CV", "Nova Música CV")</li>
                         <li style="margin-bottom:8px">Copie o <strong style="color:#6B4C3B">ID de cada grupo</strong> e cole nos campos acima</li>
-                        <li style="margin-bottom:8px">No MailerLite, crie uma <strong style="color:#6B4C3B">Automação</strong> com gatilho "Assinante entra em grupo"</li>
-                        <li style="margin-bottom:8px">Desenhe o e-mail no editor visual do MailerLite com as variáveis <code>{{ subscriber.name }}</code></li>
-                        <li style="margin-bottom:8px">Quando um usuário se cadastrar ou uma música for publicada, o plugin <strong style="color:#6B4C3B">adiciona o assinante ao grupo</strong> — o MailerLite dispara o e-mail automaticamente</li>
+                        <li style="margin-bottom:8px"><strong style="color:#6B4C3B">Boas-vindas:</strong> no MailerLite, crie uma Automação com gatilho "Assinante entra em grupo" (o grupo de boas-vindas) e desenhe o e-mail</li>
+                        <li style="margin-bottom:8px"><strong style="color:#6B4C3B">Nova música e sorteio:</strong> não precisa de automação. O site cria a campanha para o grupo escolhido (todos os assinantes desse grupo recebem)</li>
+                        <li style="margin-bottom:8px">Verifique no MailerLite o e-mail do <strong style="color:#6B4C3B">remetente</strong> (Configurações da conta → Domínios/Remetentes)</li>
+                        <li style="margin-bottom:8px">Teste primeiro com um <strong style="color:#6B4C3B">grupo de teste</strong> que tenha só o seu e-mail</li>
                     </ol>
                     <p style="color:#8A6A55;font-size:12px;margin-top:12px">
                         💡 Dica: Você pode usar os campos personalizados do MailerLite como <code>{{ subscriber.fields.music_title }}</code> para incluir o título da música no e-mail de nova publicação.
@@ -294,6 +339,18 @@ class CV_Email {
                     payload[$(this).data('key')] = $(this).val();
                 });
                 $.post(cvAdmin.ajaxUrl, payload, function(res){
+                    var tipo = res.success ? 'cv-notice-success' : 'cv-notice-error';
+                    $('#cv-email-msg').removeClass('cv-notice-success cv-notice-error').addClass('cv-notice '+tipo).text(res.data.message).show();
+                });
+            });
+
+            // v2.44.0: modo das campanhas e remetente
+            $('#cv-campanha-save').on('click', function(){
+                $.post(cvAdmin.ajaxUrl, {
+                    action: 'cv_email_save_campanha', nonce: nonce,
+                    modo: $('input[name="cv-campanha-modo"]:checked').val(),
+                    remetente: $('#cv-campanha-remetente').val()
+                }, function(res){
                     var tipo = res.success ? 'cv-notice-success' : 'cv-notice-error';
                     $('#cv-email-msg').removeClass('cv-notice-success cv-notice-error').addClass('cv-notice '+tipo).text(res.data.message).show();
                 });
@@ -422,21 +479,23 @@ class CV_Email {
             wp_send_json_error( array('message' => 'Sorteio não encontrado.') );
         }
 
-        $result = self::disparar_para_grupo(
+        $corpo = '<p style="font-size:22px;font-weight:bold;color:#7B3A22;margin:0 0 10px">' . esc_html( $sorteio->titulo ) . '</p>'
+               . '<p>🎁 Prêmio: <strong>' . esc_html( $sorteio->premio ) . '</strong></p>'
+               . ( $sorteio->descricao ? '<p>' . nl2br( esc_html( $sorteio->descricao ) ) . '</p>' : '' )
+               . '<p>📅 Sorteio em <strong>' . esc_html( date_i18n( 'd/m/Y', strtotime( $sorteio->data_sorteio ) ) ) . '</strong>. Todos os assinantes participam!</p>';
+
+        $result = self::criar_campanha(
             'sorteio',
-            array(
-                'sorteio_titulo'    => $sorteio->titulo,
-                'sorteio_premio'    => $sorteio->premio,
-                'sorteio_descricao' => $sorteio->descricao,
-                'sorteio_data'      => date('d/m/Y', strtotime($sorteio->data_sorteio)),
-            )
+            'Sorteio: ' . $sorteio->titulo,
+            '🎁 Sorteio: ' . $sorteio->titulo,
+            self::html_email( 'Tem sorteio chegando!', $corpo, home_url( '/' ), 'Visitar o site' )
         );
 
         if ( is_wp_error( $result ) ) {
             wp_send_json_error( array('message' => 'Erro ao anunciar: ' . $result->get_error_message()) );
         }
 
-        wp_send_json_success( array('message' => '✓ Sorteio anunciado para os assinantes!') );
+        wp_send_json_success( array( 'message' => '✓ ' . $result['mensagem'] ) );
     }
 
     // ── TRIGGERS AUTOMÁTICOS ──────────────────────────────────────
@@ -481,7 +540,7 @@ class CV_Email {
 
     /**
      * Trigger 2: Nova música publicada.
-     * Adiciona um "evento" ao grupo de nova música para acionar automação.
+     * v2.44.0: agenda a criação da campanha (enviar_nova_musica) para daqui a 10 s.
      */
     public static function trigger_nova_musica( $post_id, $post ) {
         if ( ! get_option( 'cv_email_ativo_nova_musica', 1 ) ) { return; }
@@ -493,26 +552,35 @@ class CV_Email {
 
         update_post_meta( $post_id, '_cv_email_nova_musica_sent', current_time('mysql') );
 
-        $artista    = get_post_meta( $post_id, CV_Fields::ARTISTA, true );
-        $compositor = get_post_meta( $post_id, CV_Fields::COMPOSITOR, true );
-        $cover      = get_the_post_thumbnail_url( $post_id, 'large' );
-        $url        = get_permalink( $post_id );
+        // Sem grupo configurado não há para quem avisar (nada é enviado).
+        if ( ! self::grupo_do_tipo( 'nova_musica' ) || ! get_option( 'cv_mailerlite_api_key', '' ) ) { return; }
 
-        // Fallback da capa: thumbnail YouTube
-        if ( ! $cover ) {
-            $yt = get_post_meta( $post_id, CV_Fields::YOUTUBE_URL, true );
-            if ( $yt ) {
-                $m = CV_Fields::youtube_match( $yt );
-                if ( ! empty($m[1]) ) { $cover = 'https://img.youtube.com/vi/' . $m[1] . '/maxresdefault.jpg'; }
-            }
-        }
+        wp_schedule_single_event( time() + 10, 'cv_email_campanha_nova_musica', array( (int) $post_id ) );
+    }
 
-        self::disparar_para_grupo( 'nova_musica', array(
-            'music_title'     => $post->post_title,
-            'music_url'       => $url,
-            'music_artista'   => $artista ?: $compositor,
-            'music_cover_url' => $cover ?: '',
-        ) );
+    /**
+     * v2.44.0 (WP-Cron): cria a campanha "nova música" no MailerLite para o grupo.
+     */
+    public static function enviar_nova_musica( $post_id ) {
+        $post = get_post( (int) $post_id );
+        if ( ! $post || 'publish' !== $post->post_status ) { return; }
+
+        $artista = get_post_meta( $post->ID, CV_Fields::ARTISTA, true ) ?: get_post_meta( $post->ID, CV_Fields::COMPOSITOR, true );
+        $capa    = CV_Fields::cover_url( $post->ID, 'large', 'maxresdefault' );
+        $url     = get_permalink( $post->ID );
+        $titulo  = wp_strip_all_tags( html_entity_decode( get_the_title( $post->ID ), ENT_QUOTES, 'UTF-8' ) );
+
+        $corpo = '<p>Acabou de chegar uma música nova no ' . esc_html( get_bloginfo( 'name' ) ) . ':</p>'
+               . '<p style="font-size:22px;font-weight:bold;color:#7B3A22;margin:10px 0">' . esc_html( $titulo ) . '</p>'
+               . ( $artista ? '<p style="color:#6B4C3B">' . esc_html( $artista ) . '</p>' : '' )
+               . '<p>Ouça, leia a letra completa e, se gostar, compartilhe com quem você ama. 💛</p>';
+
+        self::criar_campanha(
+            'nova_musica',
+            'Nova música: ' . $titulo,
+            '🎵 Nova música: ' . $titulo,
+            self::html_email( 'Música nova no ar!', $corpo, $url, 'Ouvir e ler a letra', $capa )
+        );
     }
 
     /**
@@ -582,56 +650,142 @@ class CV_Email {
 
     // ── HELPER: dispara para o grupo do tipo ─────────────────────
 
+    // ── CAMPANHAS (v2.44.0) ───────────────────────────────────────
+
+    // Grupo do tipo; se vazio, o grupo padrão.
+    private static function grupo_do_tipo( $tipo ) {
+        $cfg = self::TIPOS[ $tipo ] ?? null;
+        $g   = $cfg ? get_option( $cfg['option'], '' ) : '';
+        return $g ?: get_option( 'cv_mailerlite_group_id', '' );
+    }
+
+    // 'rascunho' ou 'enviar'. No site local (LocalWP) é SEMPRE rascunho:
+    // a chave do MailerLite é a real e os assinantes também.
+    public static function campanha_modo() {
+        if ( in_array( wp_get_environment_type(), array( 'local', 'development' ), true ) ) { return 'rascunho'; }
+        return 'enviar' === get_option( 'cv_email_campanha_modo', 'rascunho' ) ? 'enviar' : 'rascunho';
+    }
+
+    // Remetente: precisa ser um e-mail VERIFICADO no MailerLite.
+    public static function remetente() {
+        $r = get_option( 'cv_email_remetente', '' );
+        if ( ! $r && function_exists( 'UM' ) ) { $r = UM()->options()->get( 'mail_from_addr' ); }
+        return is_email( $r ) ? $r : get_option( 'admin_email' );
+    }
+
+    private static function ml_post( $caminho, $corpo, $api_key ) {
+        return wp_remote_post( 'https://connect.mailerlite.com/api/' . $caminho, array(
+            'headers' => array(
+                'Content-Type'  => 'application/json',
+                'Authorization' => 'Bearer ' . $api_key,
+                'Accept'        => 'application/json',
+            ),
+            'body'    => wp_json_encode( $corpo ),
+            'timeout' => 20,
+        ) );
+    }
+
     /**
-     * Adiciona um assinante ao grupo do tipo especificado no MailerLite,
-     * acionando a automação configurada naquele grupo.
-     *
-     * @param string $tipo    Chave do tipo (boas_vindas, nova_musica, etc.)
-     * @param array  $campos  Campos extras para passar ao MailerLite
-     * @return true|WP_Error
+     * Cria uma campanha no MailerLite para o grupo do tipo. Modo "rascunho":
+     * fica em Campanhas → Rascunhos para revisar e enviar. Modo "enviar": envia
+     * na hora. Se o plano do MailerLite não aceitar o HTML pela API, cria o
+     * rascunho sem conteúdo (monte o e-mail no editor do MailerLite).
+     * @return array|WP_Error  array( 'id', 'modo', 'mensagem' )
      */
-    private static function disparar_para_grupo( $tipo, $campos = array() ) {
-        $api_key  = get_option( 'cv_mailerlite_api_key', '' );
-        $cfg      = self::TIPOS[ $tipo ] ?? null;
-        $group_id = $cfg ? get_option( $cfg['option'], '' ) : '';
-        $group_id = $group_id ?: get_option( 'cv_mailerlite_group_id', '' );
-
-        if ( ! $api_key || ! $group_id ) {
-            return new WP_Error( 'ml_config', 'API key ou grupo não configurados.' );
+    public static function criar_campanha( $tipo, $nome, $assunto, $html ) {
+        $api_key = get_option( 'cv_mailerlite_api_key', '' );
+        $grupo   = self::grupo_do_tipo( $tipo );
+        if ( ! $api_key || ! $grupo ) {
+            return self::registrar( $tipo, new WP_Error( 'ml_config', 'Chave do MailerLite ou grupo não configurados.' ) );
         }
 
-        // Para disparos de "evento" (nova música, sorteio), usa um e-mail
-        // sentinel que representa o disparo da campanha no grupo.
-        // O MailerLite aciona a automação quando qualquer assinante é adicionado ao grupo.
-        // O administrador deve criar a automação "Quando entrar no grupo X → Enviar e-mail".
-        $email_admin = get_option( 'admin_email' );
-
-        $body = array(
-            'email'  => $email_admin,
-            'fields' => $campos,
-            'groups' => array( $group_id ),
-            'status' => 'active',
+        $modo  = self::campanha_modo();
+        $email = array(
+            'subject'   => $assunto,
+            'from_name' => get_bloginfo( 'name' ),
+            'from'      => self::remetente(),
+            'content'   => $html,
+        );
+        $corpo = array(
+            'name'   => $nome . ' — ' . date_i18n( 'd/m/Y H:i' ),
+            'type'   => 'regular',
+            'emails' => array( $email ),
+            'groups' => array( (string) $grupo ),
         );
 
-        $response = wp_remote_post(
-            'https://connect.mailerlite.com/api/subscribers',
-            array(
-                'headers' => array(
-                    'Content-Type'  => 'application/json',
-                    'Authorization' => 'Bearer ' . $api_key,
-                    'Accept'        => 'application/json',
-                ),
-                'body'    => wp_json_encode( $body ),
-                'timeout'  => 8,
-                'blocking' => false,
-            )
-        );
+        $r      = self::ml_post( 'campaigns', $corpo, $api_key );
+        $sem_html = false;
+        $codigo = is_wp_error( $r ) ? 0 : (int) wp_remote_retrieve_response_code( $r );
+        if ( $codigo >= 400 && false !== stripos( wp_remote_retrieve_body( $r ), 'content' ) ) {
+            unset( $corpo['emails'][0]['content'] ); // plano sem HTML pela API
+            $r        = self::ml_post( 'campaigns', $corpo, $api_key );
+            $codigo   = is_wp_error( $r ) ? 0 : (int) wp_remote_retrieve_response_code( $r );
+            $sem_html = true;
+        }
+        if ( is_wp_error( $r ) ) { return self::registrar( $tipo, $r ); }
+        $d = json_decode( wp_remote_retrieve_body( $r ), true );
+        if ( $codigo < 200 || $codigo >= 300 || empty( $d['data']['id'] ) ) {
+            $erro = isset( $d['message'] ) ? $d['message'] : 'resposta ' . $codigo;
+            return self::registrar( $tipo, new WP_Error( 'ml_campanha', 'MailerLite recusou a campanha: ' . $erro ) );
+        }
+        $id = $d['data']['id'];
 
-        if ( is_wp_error( $response ) ) {
-            return $response;
+        if ( 'enviar' === $modo && ! $sem_html ) {
+            $s = self::ml_post( 'campaigns/' . rawurlencode( $id ) . '/schedule', array( 'delivery' => 'instant' ), $api_key );
+            $c = is_wp_error( $s ) ? 0 : (int) wp_remote_retrieve_response_code( $s );
+            if ( $c < 200 || $c >= 300 ) {
+                return self::registrar( $tipo, array( 'id' => $id, 'modo' => 'rascunho',
+                    'mensagem' => 'Campanha criada, mas o envio automático falhou. Ela está nos rascunhos do MailerLite: revise e envie por lá.' ) );
+            }
+            return self::registrar( $tipo, array( 'id' => $id, 'modo' => 'enviar', 'mensagem' => 'Campanha enviada para o grupo no MailerLite.' ) );
         }
 
-        return true;
+        $msg = $sem_html
+            ? 'Rascunho criado no MailerLite SEM o texto (o seu plano não aceita HTML pela API): abra em Campanhas → Rascunhos, monte o e-mail e envie.'
+            : 'Rascunho criado no MailerLite: abra em Campanhas → Rascunhos, revise e clique em Enviar.';
+        return self::registrar( $tipo, array( 'id' => $id, 'modo' => 'rascunho', 'mensagem' => $msg ) );
+    }
+
+    // Guarda o último resultado (aparece na tela de e-mails) e devolve o próprio resultado.
+    private static function registrar( $tipo, $resultado ) {
+        $ok  = ! is_wp_error( $resultado );
+        $msg = $ok ? $resultado['mensagem'] : $resultado->get_error_message();
+        update_option( 'cv_email_ultimo_disparo', array(
+            'quando' => current_time( 'mysql' ),
+            'tipo'   => $tipo,
+            'ok'     => $ok,
+            'msg'    => $msg,
+        ), false );
+        if ( class_exists( 'CV_Advanced' ) && method_exists( 'CV_Advanced', 'log' ) ) {
+            CV_Advanced::log( 'email_campanha', ( $ok ? '' : 'ERRO: ' ) . $tipo . ' — ' . $msg, 'email', 0 );
+        }
+        return $resultado;
+    }
+
+    // HTML simples do e-mail (letra grande, cores da marca).
+    public static function html_email( $titulo, $corpo, $botao_url, $botao_txt, $imagem = '' ) {
+        return '<div style="background:#FBF6EE;padding:30px 12px;font-family:Georgia,serif">'
+             . '<div style="max-width:560px;margin:0 auto;background:#FFFFFF;border-radius:10px;overflow:hidden;border:1px solid #EADBC6">'
+             . '<div style="background:#7B3A22;color:#FBF6EE;text-align:center;padding:22px;font-size:26px;font-weight:bold">' . esc_html( get_bloginfo( 'name' ) ) . '</div>'
+             . ( $imagem ? '<img src="' . esc_url( $imagem ) . '" alt="" style="display:block;width:100%;height:auto">' : '' )
+             . '<div style="padding:26px 30px;color:#3B2418;font-size:18px;line-height:1.6">'
+             . '<p style="font-size:22px;font-weight:bold;margin:0 0 14px;color:#7B3A22">' . esc_html( $titulo ) . '</p>' . $corpo . '</div>'
+             . '<div style="text-align:center;padding:0 30px 30px"><a href="' . esc_url( $botao_url ) . '" style="display:inline-block;background:#F2A51A;color:#3B2418;font-size:18px;font-weight:bold;padding:14px 32px;border-radius:8px;text-decoration:none">' . esc_html( $botao_txt ) . '</a></div>'
+             . '<div style="background:#F3E6D3;padding:16px 30px;color:#6B4C3B;font-size:14px;text-align:center">'
+             . 'Você recebe este e-mail porque se inscreveu no ' . esc_html( get_bloginfo( 'name' ) ) . '. '
+             . '<a href="{$unsubscribe}" style="color:#7B3A22">Cancelar inscrição</a></div>'
+             . '</div></div>';
+    }
+
+    public static function ajax_save_campanha() {
+        check_ajax_referer( 'cv_admin_nonce', 'nonce' );
+        if ( ! current_user_can( 'manage_options' ) ) { wp_send_json_error( array( 'message' => 'Sem permissão.' ) ); }
+        $modo = 'enviar' === ( $_POST['modo'] ?? '' ) ? 'enviar' : 'rascunho';
+        $rem  = sanitize_email( wp_unslash( $_POST['remetente'] ?? '' ) );
+        if ( $rem && ! is_email( $rem ) ) { wp_send_json_error( array( 'message' => 'E-mail do remetente inválido.' ) ); }
+        update_option( 'cv_email_campanha_modo', $modo );
+        update_option( 'cv_email_remetente', $rem );
+        wp_send_json_success( array( 'message' => '✓ Salvo.' ) );
     }
 
     // ── UTILITÁRIO ────────────────────────────────────────────────
@@ -639,9 +793,9 @@ class CV_Email {
     private static function descricao_tipo( $key ) {
         $descs = array(
             'boas_vindas' => 'Acionado quando um novo usuário se cadastra no site',
-            'nova_musica' => 'Acionado quando uma nova música é publicada',
+            'nova_musica' => 'Campanha criada quando uma música é publicada (grupo = quem recebe)',
             'favoritos'   => 'Acionado semanalmente com resumo dos favoritos',
-            'sorteio'     => 'Acionado manualmente ao anunciar um sorteio',
+            'sorteio'     => 'Campanha criada ao clicar em "Anunciar" num sorteio (grupo = quem recebe)',
         );
         return $descs[ $key ] ?? '';
     }

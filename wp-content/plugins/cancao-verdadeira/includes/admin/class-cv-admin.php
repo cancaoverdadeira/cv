@@ -69,7 +69,8 @@ class CV_Admin {
         global $pagenow, $typenow;
         $page   = sanitize_key( $_GET['page'] ?? '' );
         $tela_cv = ( '' !== $page && 0 === strpos( $page, 'cv-' ) );
-        $musica  = in_array( $pagenow, array( 'edit.php', 'post-new.php', 'post.php' ), true ) && 'musica' === $typenow;
+        // v2.43.0: também nas telas de post do blog (o Dashboard tem o grupo "📰 Blog")
+        $musica  = in_array( $pagenow, array( 'edit.php', 'post-new.php', 'post.php' ), true ) && in_array( $typenow, array( 'musica', 'post' ), true );
         if ( ! $tela_cv && ! $musica ) { return; }
         echo '<div class="cv-voltar-topo" style="margin:14px 20px 0 2px">' . self::btn_voltar() . '</div>';
     }

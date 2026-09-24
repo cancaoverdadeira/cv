@@ -8,6 +8,7 @@
 // Dados do usuário são buscados diretamente aqui (sem AJAX).
 // v15.4.0: removida a lista de gêneros (o site é todo sertanejo).
 // v15.5.1: removido o script duplicado do botão "Buscar" (campo não abria).
+// v15.12.0: link "📰 Blog" no menu (endereço /blog/).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -84,6 +85,12 @@ if ( $is_logged ) {
         <a href="<?php echo esc_url( home_url('/buscar-musicas/') ); ?>"
            class="cv-nav-link <?php echo is_page('buscar-musicas') ? 'active' : ''; ?>">
             <span class="nav-icon">🔍</span> Buscar
+        </a>
+
+        <?php // v15.12.0: link do Blog (categoria "Blog", endereço /blog/) ?>
+        <a href="<?php echo esc_url( home_url('/blog/') ); ?>"
+           class="cv-nav-link <?php echo ( is_category('blog') || ( is_singular('post') && in_category('blog') ) ) ? 'active' : ''; ?>">
+            <span class="nav-icon">📰</span> Blog
         </a>
 
         <?php if ( $is_logged ) : ?>

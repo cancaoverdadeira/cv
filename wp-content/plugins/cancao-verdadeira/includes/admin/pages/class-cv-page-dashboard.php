@@ -392,6 +392,17 @@ class CV_Page_Dashboard {
         </div>
 
         <!-- Audiência -->
+        <!-- Blog (v2.43.0) -->
+        <div class="cv-action-group">
+            <div class="cv-action-group-label"><span></span>📰 Blog <span></span></div>
+            <div class="cv-action-btns">
+                <a href="<?php echo esc_url(admin_url('post-new.php')); ?>" class="cv-ab cv-ab-gold">+ Novo post do blog</a>
+                <a href="<?php echo esc_url(admin_url('edit.php')); ?>" class="cv-ab cv-ab-blue">📰 Posts do blog</a>
+                <a href="<?php echo esc_url(admin_url('edit.php?post_status=draft')); ?>" class="cv-ab cv-ab-orange">📝 Rascunhos do blog</a>
+                <a href="<?php echo esc_url(home_url('/blog/')); ?>" class="cv-ab cv-ab-gray" target="_blank" rel="noopener">👁 Ver o blog no site</a>
+            </div>
+        </div>
+
         <div class="cv-action-group">
             <div class="cv-action-group-label"><span></span>👥 Audiência <span></span></div>
             <div class="cv-action-btns">
