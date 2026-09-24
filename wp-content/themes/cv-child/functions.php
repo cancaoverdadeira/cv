@@ -12,7 +12,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_CHILD_VERSION', '15.9.0' );
+define( 'CV_CHILD_VERSION', '15.10.0' );
 define( 'CV_CHILD_DIR',     get_stylesheet_directory() );
 define( 'CV_CHILD_URL',     get_stylesheet_directory_uri() );
 
@@ -101,6 +101,22 @@ function cv_child_enqueue() {
         CV_CHILD_VERSION,
         true
     );
+
+    // JS da página da música (v15.10.0: antes era um <script> em linha no
+    // single-musica.php). Precisa de cvPublic (plugin) e recebe cvMusica.
+    if ( is_singular( 'musica' ) ) {
+        wp_enqueue_script(
+            'cv-musica-js',
+            CV_CHILD_URL . '/assets/js/cv-musica.js',
+            array( 'jquery', 'cv-public-js' ),
+            CV_CHILD_VERSION,
+            true
+        );
+        wp_localize_script( 'cv-musica-js', 'cvMusica', array(
+            'musicId' => (int) get_queried_object_id(),
+            'playMs'  => ( defined( 'CV_PLAY_SECONDS' ) ? (int) CV_PLAY_SECONDS : 30 ) * 1000,
+        ) );
+    }
 
     // Dados do tema para o JS
     $login_page     = get_page_by_path( 'login' );
