@@ -33,12 +33,13 @@
 // v2.34.0 — Refatoração fase 6: CSS e JS do painel de Sentimentos em arquivos próprios.
 // v2.35.0 — Refatoração fase 6: CSS e JS do Dashboard em arquivos próprios.
 // v2.36.0 — Refatoração fase 6: telas de Banners, Loja, Sorteios e Brindes em views/ + JS próprio.
+// v2.37.0 — Refatoração fase 6: CV_Advanced dividido em 5 traits (includes/admin/advanced/).
 
 /**
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.36.0
+ * Version:     2.37.0
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -47,7 +48,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.36.0' );
+define( 'CV_VERSION',        '2.37.0' );
 define( 'CV_DB_VERSION',     '8' );       // v2.15.0: tabelas cv_sentimentos + cv_musica_sentimentos + cv_calibracao_log
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
