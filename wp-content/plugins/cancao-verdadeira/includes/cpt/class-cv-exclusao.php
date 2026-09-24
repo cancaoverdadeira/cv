@@ -3,8 +3,8 @@
 // Criado em: 24/09/2026 (plugin v2.39.0)
 // Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
 // Exclusão completa ("eliminação física") de uma música. Quando uma música é
-// apagada DE VEZ (esvaziar lixeira, "Excluir permanentemente", botão Excluir da
-// Publicação Acelerada), o WordPress só apaga o post, os metas e os termos.
+// apagada DE VEZ (esvaziar lixeira, "Excluir permanentemente"), o WordPress só
+// apaga o post, os metas e os termos.
 // Este módulo apaga também tudo o que fica nas tabelas próprias (plays, favoritos,
 // notas, playlists, ranking, comentários de trecho, sentimentos, logs antigos),
 // a capa importada do YouTube e os caches de ranking/SEO/gráficos.

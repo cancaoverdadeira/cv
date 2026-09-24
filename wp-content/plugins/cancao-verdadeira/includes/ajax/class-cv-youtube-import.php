@@ -9,6 +9,7 @@
 // video (aceita watch?v=, youtu.be, shorts, embed, live) e olha TODOS os
 // status (publicada, rascunho, pendente, agendada, privada e lixeira).
 // Antes so via as publicadas e duplicava as musicas em rascunho.
+// v2.42.0: criar_musica() e titulo_do_youtube() publicos (tela Gerenciar musicas).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -68,26 +69,9 @@ class CV_Youtube_Import {
             ) );
         }
 
-        // Cria o post
-        $post_id = wp_insert_post( array(
-            'post_title'   => $title,
-            'post_type'    => 'musica',
-            'post_status'  => 'draft', // rascunho ate ter letra e compositor
-            'post_content' => '',
-        ) );
-
+        $post_id = self::criar_musica( $url, $title, $vid, $thumb );
         if ( is_wp_error( $post_id ) ) {
             wp_send_json_error( array( 'message' => $post_id->get_error_message() ) );
-        }
-
-        // Preenche metaboxes automaticamente
-        update_post_meta( $post_id, CV_Fields::YOUTUBE_URL, $url );
-        update_post_meta( $post_id, CV_Fields::ATIVO,       '0' ); // inativo ate ter letra
-        update_post_meta( $post_id, CV_Fields::DESTAQUE,    '0' );
-
-        // Importa a thumbnail do YouTube como featured image
-        if ( $thumb ) {
-            self::set_thumbnail_from_url( $post_id, $thumb, $vid );
         }
 
         wp_send_json_success( array(
@@ -96,6 +80,48 @@ class CV_Youtube_Import {
             'title'    => $title,
             'edit_url' => admin_url( 'post.php?post=' . $post_id . '&action=edit' ),
         ) );
+    }
+
+    /**
+     * Cria a musica em rascunho a partir de um video do YouTube (titulo, link
+     * e capa). Usada pela importacao e pelo "Excluir e reimportar" da tela
+     * Gerenciar musicas (v2.42.0). Devolve o ID do post ou WP_Error.
+     */
+    public static function criar_musica( $url, $title, $vid, $thumb = '' ) {
+        $post_id = wp_insert_post( array(
+            'post_title'   => $title,
+            'post_type'    => 'musica',
+            'post_status'  => 'draft', // rascunho ate ter letra e compositor
+            'post_content' => '',
+        ), true );
+
+        if ( is_wp_error( $post_id ) ) {
+            return $post_id;
+        }
+
+        // Preenche metaboxes automaticamente
+        update_post_meta( $post_id, CV_Fields::YOUTUBE_URL, $url );
+        update_post_meta( $post_id, CV_Fields::ATIVO,       '0' ); // inativo ate ter letra
+        update_post_meta( $post_id, CV_Fields::DESTAQUE,    '0' );
+
+        // Importa a thumbnail do YouTube como featured image
+        self::set_thumbnail_from_url( $post_id, $thumb ? $thumb : "https://img.youtube.com/vi/{$vid}/hqdefault.jpg", $vid );
+
+        return $post_id;
+    }
+
+    /**
+     * Titulo atual do video no YouTube, pelo oEmbed publico (sem chave de API).
+     * Devolve '' se o YouTube nao responder.
+     */
+    public static function titulo_do_youtube( $video_id ) {
+        $r = wp_remote_get( add_query_arg( array(
+            'url'    => 'https://www.youtube.com/watch?v=' . rawurlencode( $video_id ),
+            'format' => 'json',
+        ), 'https://www.youtube.com/oembed' ), array( 'timeout' => 10 ) );
+        if ( is_wp_error( $r ) || 200 !== (int) wp_remote_retrieve_response_code( $r ) ) { return ''; }
+        $d = json_decode( wp_remote_retrieve_body( $r ), true );
+        return isset( $d['title'] ) ? sanitize_text_field( $d['title'] ) : '';
     }
 
     /**

@@ -8,6 +8,8 @@
    2) Logo da marca maior e centralizado no topo do menu lateral.
    3) Hero da marca e cards "Em breve" (home e 404) — v15.5.0.
    4) Busca avançada, resultados e página 404 — v15.5.0.
+   5) v15.11.0: resultados da busca lateral com fundo sólido; rótulos e
+      botões dos formulários (Ultimate Member) visíveis e nas cores da marca.
 ═══════════════════════════════════════════════════════════════ */
 
 /* ── 1. Player escuro ──────────────────────────────────────────
@@ -247,3 +249,75 @@
 .cv-dist-apple   { background: #FA2D48; }
 .cv-dist-youtube { background: #FF0000; }
 .cv-dist-amazon  { background: #1E90C8; }
+
+/* ═══════════════════════════════════════════════════════════════
+   v15.11.0 (24/09/2026) — correções do 1º teste do Eduardo
+═══════════════════════════════════════════════════════════════ */
+
+/* Busca rápida do menu lateral: a caixa de resultados herdava os tons
+   "branco transparente" da barra marrom e ficava sem fundo sobre a página.
+   Aqui ela volta a ser um cartão sólido, com as cores do tema claro. */
+.cv-sidebar .cv-autocomplete-list {
+    --cv-text:          #3B2418;
+    --cv-text-muted:    #7B3A22;
+    --cv-text-dim:      #8A6A55;
+    --cv-gold:          #7B3A22;
+    --cv-bg-card:       #FFFFFF;
+    --cv-border:        #EADBC6;
+    --cv-border-subtle: #F3E6D3;
+    background: #FFFFFF;
+    color: #3B2418;
+    border: 1px solid #C9A27E;
+    box-shadow: 0 10px 30px rgba(59, 36, 24, .35);
+    min-width: 100%;
+    z-index: 1000;
+}
+.cv-sidebar .cv-autocomplete-item:hover,
+.cv-sidebar .cv-autocomplete-item.active { background: #FBF6EE; }
+
+/* Rótulos de formulário: o Astra pinta label/legend com --ast-global-color-2,
+   que no tema claro aponta para o branco dos cartões. Resultado: rótulos
+   invisíveis em Entrar, Criar conta e Minha conta. */
+body label,
+body legend { color: var(--cv-text); }
+
+/* Ultimate Member (Entrar, Criar conta, Minha conta, Perfil) nas cores da marca */
+.um .um-field-label,
+.um .um-field-label label { color: var(--cv-text) !important; font-weight: 600; }
+.um .um-field-checkbox-option,
+.um .um-field-radio-option { color: var(--cv-text) !important; }
+.um input[type="text"],
+.um input[type="email"],
+.um input[type="password"],
+.um input[type="search"],
+.um textarea,
+.um select {
+    background: #FFFFFF !important;
+    color: var(--cv-text) !important;
+    border: 1px solid var(--cv-border) !important;
+    border-radius: var(--cv-radius-sm) !important;
+}
+.um input:focus,
+.um textarea:focus { border-color: var(--cv-gold) !important; }
+.um .um-button,
+.um input[type="submit"].um-button,
+.um a.um-button {
+    background: var(--cv-accent) !important;
+    color: #3B2418 !important;
+    border: none !important;
+    border-radius: var(--cv-radius-sm) !important;
+    font-weight: 700 !important;
+}
+.um .um-button:hover,
+.um input[type="submit"].um-button:hover,
+.um a.um-button:hover { background: #E0960F !important; }
+.um .um-button.um-alt,
+.um input[type="submit"].um-button.um-alt,
+.um a.um-button.um-alt {
+    background: var(--cv-bg-elevated) !important;
+    color: var(--cv-gold) !important;
+    border: 1px solid var(--cv-border) !important;
+}
+.um a.um-link-alt,
+.um .um-account-side li a.current,
+.um .um-account-side li a:hover { color: var(--cv-gold) !important; }

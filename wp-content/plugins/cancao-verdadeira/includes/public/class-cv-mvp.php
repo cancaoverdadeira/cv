@@ -405,6 +405,16 @@ class CV_MVP {
 
         global $wpdb;
 
+        // v2.40.0: playlist privada só abre para o dono (antes qualquer
+        // visitante com o nonce público lia as músicas de qualquer playlist).
+        $dona = $wpdb->get_row( $wpdb->prepare(
+            "SELECT user_id, is_public FROM {$wpdb->prefix}cv_playlists WHERE id = %d",
+            $playlist_id
+        ) );
+        if ( ! $dona || ( ! (int) $dona->is_public && (int) $dona->user_id !== get_current_user_id() ) ) {
+            wp_send_json_error( array( 'message' => 'Playlist não encontrada.' ) );
+        }
+
         $items = $wpdb->get_results( $wpdb->prepare(
             "SELECT pi.music_id, pi.sort_order
              FROM {$wpdb->prefix}cv_playlist_items pi
@@ -439,23 +449,23 @@ class CV_MVP {
 
     /**
      * Formata uma música para o formato esperado pelo player global do tema.
-     * Retorna null se a música não tiver URL do YouTube (não pode ser tocada).
+     * Retorna null se a música não tiver nem YouTube nem MP3 (não pode ser tocada).
+     * v2.40.0: inclui audioUrl (MP3) e aceita música só com MP3.
      */
     private static function format_track( $music_id ) {
-        $youtube_url = get_post_meta( $music_id, CV_Fields::YOUTUBE_URL, true );
-        if ( ! $youtube_url ) { return null; }
-
-        $yt_id = CV_Fields::youtube_id( $youtube_url );
-        if ( ! $yt_id ) { return null; }
+        $yt_id = CV_Fields::youtube_id( (string) get_post_meta( $music_id, CV_Fields::YOUTUBE_URL, true ) );
+        $audio = esc_url_raw( (string) get_post_meta( $music_id, CV_Fields::AUDIO_URL, true ) );
+        if ( ! $yt_id && ! $audio ) { return null; }
 
         $cover = get_the_post_thumbnail_url( $music_id, 'cv-cover' );
-        if ( ! $cover ) {
+        if ( ! $cover && $yt_id ) {
             $cover = "https://img.youtube.com/vi/{$yt_id}/mqdefault.jpg";
         }
 
         return array(
             'musicId'    => (int) $music_id,
             'youtubeId'  => $yt_id,
+            'audioUrl'   => $audio,
             'title'      => get_the_title( $music_id ),
             'artist'     => get_post_meta( $music_id, CV_Fields::ARTISTA,    true )
                          ?: get_post_meta( $music_id, CV_Fields::COMPOSITOR, true ),

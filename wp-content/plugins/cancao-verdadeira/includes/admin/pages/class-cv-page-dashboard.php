@@ -380,14 +380,13 @@ class CV_Page_Dashboard {
         <div class="cv-action-group">
             <div class="cv-action-group-label"><span></span>🎵 Músicas <span></span></div>
             <div class="cv-action-btns">
+                <a href="<?php echo esc_url(admin_url('admin.php?page=cv-musicas')); ?>" class="cv-ab cv-ab-gold">🗂 Gerenciar músicas</a>
                 <a href="<?php echo esc_url(admin_url('edit.php?post_type=musica')); ?>" class="cv-ab cv-ab-blue">🎵 Ver Músicas</a>
                 <a href="<?php echo esc_url(admin_url('edit.php?post_type=musica&post_status=draft')); ?>" class="cv-ab cv-ab-orange">📝 Rascunhos</a>
-                <a href="<?php echo esc_url(admin_url('admin.php?page=cv-publicacao-rapida')); ?>" class="cv-ab cv-ab-gold">⚡ Publicação Acelerada</a>
                 <a href="<?php echo esc_url(admin_url('post-new.php?post_type=musica')); ?>" class="cv-ab cv-ab-gray">+ Nova Música</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-youtube-import')); ?>" class="cv-ab cv-ab-red">▶ Importar YouTube</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-distribuicao')); ?>" class="cv-ab cv-ab-green">🚀 Distribuição</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-sentimentos')); ?>" class="cv-ab cv-ab-purple">🎭 Sentimentos</a>
-                <a href="<?php echo esc_url(admin_url('admin.php?page=cv-sentimentos-crud')); ?>" class="cv-ab cv-ab-gray">⚙️ Gerenciar Sentimentos</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-playlists')); ?>" class="cv-ab cv-ab-blue">📋 Playlists</a>
             </div>
         </div>
@@ -435,7 +434,6 @@ class CV_Page_Dashboard {
             <div class="cv-action-btns">
                 <button id="cv-btn-recalculate" class="cv-ab" style="background:#1DB95422;border-color:#1DB954;color:#137B38;border:1px solid #1DB954">🔄 Recalcular Ranking</button>
                 <button id="cv-btn-clear-cache" class="cv-ab cv-ab-gray">🗑 Limpar Cache</button>
-                <button id="cv-btn-recreate-pages" class="cv-ab cv-ab-gray" onclick="return confirm('⚠️ ATENÇÃO: Recriar páginas pode sobrescrever conteúdo personalizado. Confirma?')">📄 Recriar Páginas</button>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-appearance')); ?>" class="cv-ab cv-ab-gray">🎨 Aparência</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-settings')); ?>" class="cv-ab cv-ab-gray">⚙️ Configurações</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-roles')); ?>" class="cv-ab cv-ab-red">🔐 Permissões</a>

@@ -31,6 +31,8 @@ class CV_Admin_Menu {
         // Todas as funções secundárias estão no Dashboard → Central de Ações
         add_submenu_page( 'cancao-verdadeira', 'Dashboard',       'Dashboard',
             'manage_options', 'cancao-verdadeira',      array( 'CV_Page_Dashboard', 'render' ) );
+        add_submenu_page( 'cancao-verdadeira', 'Gerenciar músicas', '🗂 Músicas',
+            'manage_options', 'cv-musicas',             array( 'CV_Page_Musicas', 'render' ) );
         add_submenu_page( 'cancao-verdadeira', 'Ranking',         '🏆 Ranking',
             'manage_options', 'cv-ranking',             array( 'CV_Page_Ranking', 'render' ) );
         add_submenu_page( 'cancao-verdadeira', 'Email Marketing', '📨 Email Marketing',
@@ -52,8 +54,6 @@ class CV_Admin_Menu {
             'manage_options', 'cv-seo',                array( 'CV_Admin_SEO', 'page_seo' ) );
         add_submenu_page( null, 'Importar YouTube',   'Importar YouTube',
             'manage_options', 'cv-youtube-import',     array( 'CV_Page_Youtube_Import', 'render' ) );
-        add_submenu_page( null, 'Publicação Rápida',  'Publicação Rápida',
-            'manage_options', 'cv-publicacao-rapida',  array( 'CV_Publicacao_Rapida', 'render_page' ) );
         add_submenu_page( null, 'Sentimentos',        'Sentimentos',
             'manage_options', 'cv-sentimentos',        array( 'CV_Admin_Sentimentos', 'render_page' ) );
         add_submenu_page( null, 'Status do Sistema',     'Status do Sistema',
@@ -64,8 +64,8 @@ class CV_Admin_Menu {
             'manage_options', 'cv-editorial',          array( 'CV_Editorial',     'render' ) );
         add_submenu_page( null, 'Segurança Avançada',    'Segurança Avançada',
             'manage_options', 'cv-seguranca',          array( 'CV_Seguranca',     'render' ) );
-        add_submenu_page( null, 'Gerenciar Sentimentos', 'Gerenciar Sentimentos',
-            'manage_options', 'cv-sentimentos-crud',   array( 'CV_Sentimentos', 'render_admin_page' ) );
+        // v2.41.0: "Gerenciar Sentimentos" virou a aba Gerenciar da tela Sentimentos;
+        // o endereço antigo é redirecionado em CV_Admin::registrar_antigos().
         add_submenu_page( null, 'Playlists',          'Playlists',
             'manage_options', 'cv-playlists',          array( 'CV_Page_Playlists', 'render' ) );
         add_submenu_page( null, 'Usuários',           'Usuários',

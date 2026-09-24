@@ -6,6 +6,7 @@
 //           filtro público por sentimento, badges nos cards, slug rewrite
 // Regras  : sentimentos são OPCIONAIS no cadastro de música
 // Autor   : Canção Verdadeira | Gerado: 2026-06-26
+// v2.41.0 : a página de cadastro virou a aba "Gerenciar" de admin.php?page=cv-sentimentos
 // Depende : tabelas cv_sentimentos + cv_musica_sentimentos (DB_VERSION 8)
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -26,7 +27,8 @@ class CV_Sentimentos {
     public static function init() {
         add_action( 'add_meta_boxes',                           array( __CLASS__, 'register_metabox' ) );
         add_action( 'save_post_musica',                         array( __CLASS__, 'save_metabox' ) );
-        add_action( 'admin_menu',                               array( __CLASS__, 'admin_menu' ) );
+        // v2.41.0: a tela fica em CV_Admin_Sentimentos (aba "Gerenciar"); o antigo
+        // admin_menu registrava a mesma página cv-sentimentos numa pasta que não existe.
         add_action( 'admin_post_cv_save_sentimento',            array( __CLASS__, 'handle_save' ) );
         add_action( 'admin_post_cv_delete_sentimento',          array( __CLASS__, 'handle_delete' ) );
         add_action( 'wp_ajax_cv_musicas_por_sentimento',        array( __CLASS__, 'ajax_musicas' ) );
@@ -141,10 +143,6 @@ class CV_Sentimentos {
     }
 
     // ── Admin ─────────────────────────────────────────────────────
-    public static function admin_menu() {
-        add_submenu_page( 'cv-dashboard', 'Sentimentos', '🎭 Sentimentos', 'manage_options', 'cv-sentimentos', array( __CLASS__, 'render_admin_page' ) );
-    }
-
     public static function render_admin_page() {
         global $wpdb;
         $todos   = self::get_all();
@@ -154,7 +152,6 @@ class CV_Sentimentos {
         }
 
         echo '<div class="wrap cv-admin-sentimentos">';
-        echo '<h1 class="wp-heading-inline">🎭 Sentimentos</h1>';
         echo '<hr class="wp-header-end">';
 
         if ( isset( $_GET['msg'] ) ) {
@@ -173,7 +170,7 @@ class CV_Sentimentos {
             $total      = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}cv_musica_sentimentos WHERE sentimento_id = %d", $s->id ) );
             $musicas_txt = $total . ' música' . ( $total !== 1 ? 's' : '' );
             $cor_safe   = esc_attr( $s->cor );
-            $edit_url   = esc_url( admin_url( 'admin.php?page=cv-sentimentos&action=edit&id=' . (int)$s->id ) );
+            $edit_url   = esc_url( admin_url( 'admin.php?page=cv-sentimentos&aba=gerenciar&action=edit&id=' . (int)$s->id ) );
             $delete_url = esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=cv_delete_sentimento&id=' . (int)$s->id ), 'cv_delete_sentimento_' . (int)$s->id ) );
             echo '<tr>';
             echo '<td style="font-size:20px;text-align:center">' . esc_html( $s->icone ) . '</td>';
@@ -196,7 +193,7 @@ class CV_Sentimentos {
 
         // Formulário
         $form_action = esc_url( admin_url('admin-post.php') );
-        $cancel_url  = esc_url( admin_url('admin.php?page=cv-sentimentos') );
+        $cancel_url  = esc_url( admin_url('admin.php?page=cv-sentimentos&aba=gerenciar') );
         $ed_id       = $editing ? (int) $editing->id : 0;
         $ed_nome     = $editing ? esc_attr( $editing->nome )     : '';
         $ed_icone    = $editing ? esc_attr( $editing->icone )    : '🎵';
@@ -240,7 +237,7 @@ class CV_Sentimentos {
         global $wpdb;
         $table = $wpdb->prefix . 'cv_sentimentos';
         $nome  = sanitize_text_field( wp_unslash( $_POST['nome'] ?? '' ) );
-        if ( empty($nome) ) { wp_redirect( admin_url('admin.php?page=cv-sentimentos&msg=error') ); exit; }
+        if ( empty($nome) ) { wp_redirect( admin_url('admin.php?page=cv-sentimentos&aba=gerenciar&msg=error') ); exit; }
         $data = array(
             'nome'      => $nome,
             'slug'      => sanitize_title( $nome ),
@@ -256,7 +253,7 @@ class CV_Sentimentos {
         } else {
             $wpdb->insert( $table, $data, $fmt );
         }
-        wp_redirect( admin_url('admin.php?page=cv-sentimentos&msg=saved') );
+        wp_redirect( admin_url('admin.php?page=cv-sentimentos&aba=gerenciar&msg=saved') );
         exit;
     }
 
@@ -267,7 +264,7 @@ class CV_Sentimentos {
         global $wpdb;
         $wpdb->delete( $wpdb->prefix . 'cv_sentimentos',        array( 'id' => $id ), array('%d') );
         $wpdb->delete( $wpdb->prefix . 'cv_musica_sentimentos', array( 'sentimento_id' => $id ), array('%d') );
-        wp_redirect( admin_url('admin.php?page=cv-sentimentos&msg=deleted') );
+        wp_redirect( admin_url('admin.php?page=cv-sentimentos&aba=gerenciar&msg=deleted') );
         exit;
     }
 

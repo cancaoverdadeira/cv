@@ -16,19 +16,19 @@ class CV_Achievements {
 
     // Definicao de todas as conquistas disponiveis
     const BADGES = array(
-        'first_play'    => array( 'icon' => '🎵', 'name' => 'Primeira Escuta',  'desc' => 'Ouviu a primeira musica',          'color' => '#3498db' ),
-        'plays_10'      => array( 'icon' => '🎧', 'name' => 'Ouvinte',           'desc' => '10 musicas ouvidas',               'color' => '#27ae60' ),
-        'plays_50'      => array( 'icon' => '🎼', 'name' => 'Melomano',          'desc' => '50 musicas ouvidas',               'color' => '#8e44ad' ),
-        'plays_100'     => array( 'icon' => '🏅', 'name' => 'Fanatico',          'desc' => '100 musicas ouvidas',              'color' => '#B8700C' ),
-        'plays_500'     => array( 'icon' => '👑', 'name' => 'Lenda do Sertao',  'desc' => '500 musicas ouvidas',              'color' => '#e74c3c' ),
-        'first_fav'     => array( 'icon' => '❤',  'name' => 'Coracao Aberto',   'desc' => 'Favoritou a primeira musica',      'color' => '#e91e63' ),
-        'favs_10'       => array( 'icon' => '💝', 'name' => 'Colecionador',      'desc' => '10 musicas favoritadas',           'color' => '#c0392b' ),
-        'favs_50'       => array( 'icon' => '💖', 'name' => 'Apaixonado',        'desc' => '50 musicas favoritadas',           'color' => '#e74c3c' ),
+        'first_play'    => array( 'icon' => '🎵', 'name' => 'Primeira Escuta',  'desc' => 'Ouviu a primeira música',          'color' => '#3498db' ),
+        'plays_10'      => array( 'icon' => '🎧', 'name' => 'Ouvinte',           'desc' => '10 músicas ouvidas',               'color' => '#27ae60' ),
+        'plays_50'      => array( 'icon' => '🎼', 'name' => 'Melômano',          'desc' => '50 músicas ouvidas',               'color' => '#8e44ad' ),
+        'plays_100'     => array( 'icon' => '🏅', 'name' => 'Fanático',          'desc' => '100 músicas ouvidas',              'color' => '#B8700C' ),
+        'plays_500'     => array( 'icon' => '👑', 'name' => 'Lenda do Sertão',  'desc' => '500 músicas ouvidas',              'color' => '#e74c3c' ),
+        'first_fav'     => array( 'icon' => '❤',  'name' => 'Coração Aberto',   'desc' => 'Favoritou a primeira música',      'color' => '#e91e63' ),
+        'favs_10'       => array( 'icon' => '💝', 'name' => 'Colecionador',      'desc' => '10 músicas favoritadas',           'color' => '#c0392b' ),
+        'favs_50'       => array( 'icon' => '💖', 'name' => 'Apaixonado',        'desc' => '50 músicas favoritadas',           'color' => '#e74c3c' ),
         'first_playlist'=> array( 'icon' => '📋', 'name' => 'Criador',          'desc' => 'Criou a primeira playlist',        'color' => '#2980b9' ),
-        'playlists_5'   => array( 'icon' => '🎛', 'name' => 'DJ do Sertao',     'desc' => '5 playlists criadas',              'color' => '#1abc9c' ),
-        'first_rating'  => array( 'icon' => '⭐', 'name' => 'Critico Musical',  'desc' => 'Deu a primeira avaliacao',         'color' => '#B8700C' ),
+        'playlists_5'   => array( 'icon' => '🎛', 'name' => 'DJ do Sertão',     'desc' => '5 playlists criadas',              'color' => '#1abc9c' ),
+        'first_rating'  => array( 'icon' => '⭐', 'name' => 'Crítico Musical',  'desc' => 'Deu a primeira avaliação',         'color' => '#B8700C' ),
         'first_comment' => array( 'icon' => '💬', 'name' => 'Comentarista',     'desc' => 'Comentou em um trecho de letra',   'color' => '#16a085' ),
-        'raiz'          => array( 'icon' => '🪗', 'name' => 'Puro Sertanejo',   'desc' => 'Ouviu 20 musicas diferentes',      'color' => '#8B4513' ),
+        'raiz'          => array( 'icon' => '🪗', 'name' => 'Puro Sertanejo',   'desc' => 'Ouviu 20 músicas diferentes',      'color' => '#8B4513' ),
     );
 
     public static function init() {

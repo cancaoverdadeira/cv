@@ -8,6 +8,7 @@
 //           top sentimentos por engajamento, heat map de combinações.
 // Visual  : Dark mode Spotify-style, Chart.js 4.4, animações CSS
 // v2.34.0 : CSS e JS em assets/css|js/admin-sentimentos.*
+// v2.41.0 : tela única com abas Painel | Gerenciar (a tela cv-sentimentos-crud saiu)
 // Autor   : Canção Verdadeira | Gerado: 2026-06-27
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -181,18 +182,32 @@ class CV_Admin_Sentimentos {
 
     // ── Render do Painel ──────────────────────────────────────────
 
+    /**
+     * v2.41.0: tela única de Sentimentos com duas abas. "Painel" é este painel
+     * executivo; "Gerenciar" é o cadastro (criar, editar, remover), que antes
+     * era outra tela (cv-sentimentos-crud) e cujo link "Editar" nem funcionava.
+     */
     public static function render_page() {
+        $aba = sanitize_key( $_GET['aba'] ?? '' );
+        if ( 'gerenciar' === $aba ) {
+            echo '<div class="wrap">';
+            self::abas( 'gerenciar' );
+            echo '</div>';
+            CV_Sentimentos::render_admin_page();
+            return;
+        }
         $stats = self::get_stats();
         $sentimentos = $stats['sentimentos'];
         $nonce = wp_create_nonce('cv_admin_nonce');
         ?>
         <div class="wrap" id="cv-sentimentos-dashboard">
         <?php echo CV_Admin::btn_voltar(); ?>
+        <?php self::abas( 'painel' ); ?>
 
         <div class="cv-sent-header-bar">
             <h1 class="cv-sent-title">🎭 <span>Sentimentos</span> — Painel Executivo</h1>
             <div class="cv-sent-actions">
-                <a href="<?php echo esc_url( admin_url('admin.php?page=cv-sentimentos-crud') ); ?>"
+                <a href="<?php echo esc_url( admin_url('admin.php?page=cv-sentimentos&aba=gerenciar') ); ?>"
                    class="cv-sent-btn-manage">⚙️ Gerenciar Sentimentos</a>
             </div>
         </div>
@@ -344,7 +359,7 @@ class CV_Admin_Sentimentos {
             <div style="font-size:48px;margin-bottom:12px">🎭</div>
             <div style="font-size:16px;color:#3B2418;margin-bottom:8px">Nenhum sentimento cadastrado</div>
             <div style="font-size:13px;color:var(--cv-muted);margin-bottom:20px">Crie sentimentos e associe às músicas para ver o painel.</div>
-            <a href="<?php echo esc_url( admin_url('admin.php?page=cv-sentimentos-crud') ); ?>"
+            <a href="<?php echo esc_url( admin_url('admin.php?page=cv-sentimentos&aba=gerenciar') ); ?>"
                class="cv-sent-btn-manage">➕ Criar primeiro sentimento</a>
         </div>
         <?php endif; ?>
@@ -359,6 +374,15 @@ class CV_Admin_Sentimentos {
             'ajaxUrl' => admin_url( 'admin-ajax.php' ),
             'stats'   => $sentimentos,
         ) ) . ';', 'before' );
+    }
+
+    // Abas da tela única de Sentimentos (v2.41.0)
+    private static function abas( $ativa ) {
+        $base = admin_url( 'admin.php?page=cv-sentimentos' );
+        echo '<h2 class="nav-tab-wrapper" style="margin:6px 0 18px">';
+        echo '<a href="' . esc_url( $base ) . '" class="nav-tab' . ( 'painel' === $ativa ? ' nav-tab-active' : '' ) . '">📊 Painel</a>';
+        echo '<a href="' . esc_url( $base . '&aba=gerenciar' ) . '" class="nav-tab' . ( 'gerenciar' === $ativa ? ' nav-tab-active' : '' ) . '">⚙️ Gerenciar (criar, editar, remover)</a>';
+        echo '</h2>';
     }
 }
 

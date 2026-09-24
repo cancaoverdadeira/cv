@@ -21,7 +21,7 @@ $assinantes= $wpdb->get_results( "SELECT email, name FROM {$wpdb->prefix}cv_subs
     <div id="cv-brinde-msg" class="cv-action-message" style="display:none"></div>
 
     <!-- Cadastrar brinde -->
-    <div id="cv-brinde-form" class="cv-section" style="display:none">
+    <div id="cv-brinde-form" class="cv-section" style="<?php echo empty( $brindes ) ? '' : 'display:none'; ?>"><?php // v2.41.0: sem brindes, formulário aberto ?>
         <h2 class="cv-section-title">Cadastrar Brinde</h2>
         <input type="hidden" id="cv-br-id" value="0" />
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:760px">
@@ -89,7 +89,7 @@ $assinantes= $wpdb->get_results( "SELECT email, name FROM {$wpdb->prefix}cv_subs
     <div class="cv-section">
         <h2 class="cv-section-title">Brindes cadastrados</h2>
         <?php if ( empty( $brindes ) ) : ?>
-        <p class="cv-empty">Nenhum brinde cadastrado ainda.</p>
+        <p class="cv-empty" style="font-size:13px;color:#6B4C3B;padding:12px 0">Nenhum brinde cadastrado ainda. Preencha o formulário acima para cadastrar o primeiro.</p>
         <?php else : ?>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px">
             <?php foreach ( $brindes as $b ) : ?>

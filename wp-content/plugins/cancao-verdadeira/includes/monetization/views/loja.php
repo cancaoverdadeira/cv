@@ -19,7 +19,8 @@ $categorias = array( 'ebook' => '📖 E-book', 'fisico' => '🎁 Físico (caneca
     </div>
     <div id="cv-prod-msg" class="cv-action-message" style="display:none"></div>
 
-    <div id="cv-prod-form" class="cv-section" style="display:none">
+    <?php // v2.41.0: sem produtos, o formulário já vem aberto (antes a tela parecia vazia) ?>
+    <div id="cv-prod-form" class="cv-section" style="<?php echo empty( $produtos ) ? '' : 'display:none'; ?>">
         <h2 class="cv-section-title">Cadastrar / Editar Produto</h2>
         <input type="hidden" id="cv-prod-id" value="0" />
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:900px">
@@ -105,12 +106,13 @@ $categorias = array( 'ebook' => '📖 E-book', 'fisico' => '🎁 Físico (caneca
     </div>
 
     <div class="cv-section">
-        <?php if ( empty( $produtos ) ) : ?>
-        <p class="cv-empty" style="font-size:13px;color:#6B4C3B;padding:12px 0">Nenhum produto cadastrado ainda. Use o formulário acima para adicionar o primeiro.</p>
-        <?php else : ?>
+        <h2 class="cv-section-title">Produtos cadastrados</h2>
         <table class="cv-table">
             <thead><tr><th style="width:70px">Img</th><th>Nome</th><th>Categoria</th><th>Preço</th><th style="text-align:center">Ativo</th><th style="text-align:center">Ações</th></tr></thead>
             <tbody>
+            <?php if ( empty( $produtos ) ) : ?>
+            <tr><td colspan="6" style="text-align:center;padding:24px;color:#6B4C3B">Nenhum produto cadastrado ainda. Preencha o formulário acima para adicionar o primeiro.</td></tr>
+            <?php endif; ?>
             <?php foreach ( $produtos as $p ) : ?>
             <tr id="cv-prod-row-<?php echo esc_attr( $p->id ); ?>">
                 <td>
@@ -139,6 +141,5 @@ $categorias = array( 'ebook' => '📖 E-book', 'fisico' => '🎁 Físico (caneca
             <?php endforeach; ?>
             </tbody>
         </table>
-        <?php endif; ?>
     </div>
 </div>

@@ -2,7 +2,8 @@
  * cancao-verdadeira/assets/js/admin-dashboard.js
  * Dashboard do plugin: anima os KPIs, desenha o gráfico de plays dos
  * últimos 30 dias (Chart.js) e liga os botões da Central de Ações
- * (recalcular ranking, limpar cache, recriar páginas) via AJAX.
+ * (recalcular ranking, limpar cache) via AJAX.
+ * v2.41.0: saiu o botão "Recriar Páginas" (rotina de alto risco).
  * Os dados do gráfico vêm de window.cvDash = { labels, values },
  * impressos por CV_Page_Dashboard::render().
  * v2.35.0: saiu do <script> que ficava dentro de render().
@@ -100,13 +101,6 @@ jQuery(function($){
         $.post(ajaxUrl,{ action:'cv_clear_cache', nonce:nonce }, function(r){
             showMsg(r.success ? '✅ Cache limpo!' : '❌ Erro.', r.success);
             $b.prop('disabled',false).text('🗑 Limpar Cache');
-        });
-    });
-    $('#cv-btn-recreate-pages').on('click', function(){
-        var $b = $(this).prop('disabled',true).text('Criando...');
-        $.post(ajaxUrl,{ action:'cv_recreate_pages', nonce:nonce }, function(r){
-            showMsg(r.success ? r.data.message : (r.data.message || 'Erro.'), r.success);
-            $b.prop('disabled',false).text('📄 Recriar Páginas');
         });
     });
 });

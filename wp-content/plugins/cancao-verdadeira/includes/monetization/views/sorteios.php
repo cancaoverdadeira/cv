@@ -22,7 +22,8 @@ $total_subs = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}cv_subs
     </div>
     <div id="cv-sort-msg" class="cv-action-message" style="display:none"></div>
 
-    <div id="cv-sort-form" class="cv-section" style="display:none">
+    <?php // v2.41.0: sem sorteios, o formulário já vem aberto ?>
+    <div id="cv-sort-form" class="cv-section" style="<?php echo empty( $sorteios ) ? '' : 'display:none'; ?>">
         <h2 class="cv-section-title">Agendar Sorteio</h2>
         <input type="hidden" id="cv-sort-id" value="0" />
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:760px">
@@ -60,9 +61,7 @@ $total_subs = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}cv_subs
     </div>
 
     <div class="cv-section">
-        <?php if ( empty( $sorteios ) ) : ?>
-        <p class="cv-empty" style="font-size:13px;color:#6B4C3B;padding:12px 0">Nenhum sorteio cadastrado ainda. Use o formulário acima para criar o primeiro.</p>
-        <?php else :
+        <?php
         $status_labels = array(
             'agendado'          => array( '⏳ Agendado',   '#B8700C' ),
             'realizado'         => array( '✅ Realizado',  '#27ae60' ),
@@ -74,6 +73,9 @@ $total_subs = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}cv_subs
                 <tr><th>Título</th><th>Prêmio</th><th>Data</th><th style="text-align:center">Status</th><th>Vencedor</th><th style="text-align:center">Participantes</th></tr>
             </thead>
             <tbody>
+            <?php if ( empty( $sorteios ) ) : ?>
+            <tr><td colspan="6" style="text-align:center;padding:24px;color:#6B4C3B">Nenhum sorteio cadastrado ainda. Preencha o formulário acima para criar o primeiro.</td></tr>
+            <?php endif; ?>
             <?php foreach ( $sorteios as $s ) :
                 $sl = $status_labels[ $s->status ] ?? array( $s->status, '#C9A27E' );
             ?>
@@ -106,6 +108,5 @@ $total_subs = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}cv_subs
             <?php endforeach; ?>
             </tbody>
         </table>
-        <?php endif; ?>
     </div>
 </div>

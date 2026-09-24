@@ -382,7 +382,7 @@ class CV_Page_Youtube_Import {
                             html += '<div style="margin-top:8px;font-weight:400;font-size:12px;color:#7B3A22;max-height:140px;overflow:auto">⚠️ '
                                   + avisos.map(escHtml).join('<br>⚠️ ') + '</div>';
                         }
-                        html += '<a href="<?php echo esc_js( admin_url("admin.php?page=cv-publicacao-rapida") ); ?>" style="color:var(--gold);margin-top:8px;display:inline-block;font-size:12px">⚡ Ir para Publicação Acelerada →</a>'
+                        html += '<a href="<?php echo esc_js( admin_url("admin.php?page=cv-musicas") ); ?>" style="color:var(--gold);margin-top:8px;display:inline-block;font-size:12px">🗂 Ir para Gerenciar músicas →</a>'
                               + '</div>';
                         $('#cv-yt-done').html(html).show();
                         $('#cv-yt-import-selected').prop('disabled', false);

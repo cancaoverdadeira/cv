@@ -5,6 +5,7 @@
 // Classe base do painel administrativo: carrega assets do admin,
 // registra opções e expõe funções auxiliares usadas pelas páginas admin.
 // v1.9.2 — inclui ajax_delete_subscriber corretamente dentro da classe.
+// v2.41.0 — botão "← Dashboard" automático no topo das telas (voltar_automatico).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -23,10 +24,60 @@ class CV_Admin {
         add_action( 'wp_ajax_cv_admin_reset_password',      array( __CLASS__, 'ajax_reset_password' ) );
         add_action( 'wp_ajax_cv_admin_delete_user',         array( __CLASS__, 'ajax_delete_user' ) );
         add_action( 'wp_ajax_cv_admin_delete_subscriber',   array( __CLASS__, 'ajax_delete_subscriber' ) );
+        // v2.41.0: "← Dashboard" automático em todas as telas do plugin e de música
+        add_action( 'all_admin_notices',     array( __CLASS__, 'voltar_automatico' ) );
+        add_action( 'admin_menu',            array( __CLASS__, 'registrar_antigos' ) );
+    }
+
+    // v2.41.0: endereços de telas que mudaram de lugar continuam funcionando.
+    // A tela antiga fica registrada (oculta) só para o WordPress não dar 403;
+    // no gancho load-* (antes de qualquer HTML) ela redireciona para o lugar novo.
+    private static $antigos = array(
+        'cv-sentimentos-crud'  => 'admin.php?page=cv-sentimentos&aba=gerenciar',
+        'cv-publicacao-rapida' => 'edit.php?post_type=musica&post_status=draft',
+    );
+
+    public static function registrar_antigos() {
+        foreach ( self::$antigos as $slug => $destino ) {
+            $hook = add_submenu_page( null, 'Redirecionando', 'Redirecionando', 'manage_options', $slug, '__return_null' );
+            if ( $hook ) {
+                add_action( 'load-' . $hook, array( __CLASS__, 'redirecionar_antigo' ) );
+            }
+        }
+    }
+
+    public static function redirecionar_antigo() {
+        $page = sanitize_key( $_GET['page'] ?? '' );
+        if ( isset( self::$antigos[ $page ] ) ) {
+            wp_safe_redirect( admin_url( self::$antigos[ $page ] ) );
+            exit;
+        }
+    }
+
+    private static $voltar_impresso = false;
+
+    /**
+     * v2.41.0: imprime o botão "← Dashboard" no topo de todas as telas do
+     * plugin (admin.php?page=cv-*) e das telas de música (lista, nova, editar).
+     * Várias telas não tinham o botão (Gerenciar Sentimentos, Redes Sociais,
+     * Templates de E-mail, Inteligência, Banco de Dados, Loja, Sorteios...).
+     * Como roda antes da tela, a chamada da própria tela a btn_voltar() passa
+     * a devolver '' e o botão nunca sai duplicado.
+     */
+    public static function voltar_automatico() {
+        if ( ! current_user_can( 'manage_options' ) ) { return; }
+        global $pagenow, $typenow;
+        $page   = sanitize_key( $_GET['page'] ?? '' );
+        $tela_cv = ( '' !== $page && 0 === strpos( $page, 'cv-' ) );
+        $musica  = in_array( $pagenow, array( 'edit.php', 'post-new.php', 'post.php' ), true ) && 'musica' === $typenow;
+        if ( ! $tela_cv && ! $musica ) { return; }
+        echo '<div class="cv-voltar-topo" style="margin:14px 20px 0 2px">' . self::btn_voltar() . '</div>';
     }
 
     // ── Helper: botão voltar ao Dashboard ───────────────────────
     public static function btn_voltar() {
+        if ( self::$voltar_impresso ) { return ''; } // já saiu no topo (voltar_automatico)
+        self::$voltar_impresso = true;
         $url = admin_url('admin.php?page=cancao-verdadeira');
         $bg  = '#F3E6D3';
         $hov = '#EADBC6';

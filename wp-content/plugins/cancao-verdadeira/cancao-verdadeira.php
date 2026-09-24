@@ -38,12 +38,23 @@
 // v2.39.0 (24/09/2026) — Exclusão completa de música (CV_Exclusao): ao apagar de vez,
 // limpa as tabelas cv_*, logs antigos, a capa importada e os caches. Importação do
 // YouTube não duplica mais músicas em rascunho/lixeira (compara o ID do vídeo).
+// v2.40.0 (24/09/2026) — Correções do 1º teste (fase 1, site público): playlist toca
+// (fila com YouTube ou MP3, botão "▶ Tocar" na Minha Área e no perfil; playlist
+// privada só para o dono); Ultimate Member em português (CV_UM_Traducao); acentos
+// das conquistas; newsletter sempre com cópia local em cv_subscribers.
+// v2.41.0 (24/09/2026) — Correções do 1º teste (fase 2, painel): "← Dashboard" em
+// todas as telas; saíram a Publicação Acelerada e o botão "Recriar Páginas";
+// Sentimentos numa tela só (abas Painel | Gerenciar, "Editar" volta a funcionar);
+// Loja/Sorteios/Brindes com formulário aberto quando vazios; Banco de Dados com
+// a lista real de tabelas.
+// v2.42.0 (24/09/2026) — Tela "🗂 Gerenciar músicas" (CV_Page_Musicas): todos os
+// dados de cada música, excluir uma a uma e reimportar do YouTube na mesma tela.
 
 /**
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.39.0
+ * Version:     2.42.0
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -52,7 +63,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.39.0' );
+define( 'CV_VERSION',        '2.42.0' );
 define( 'CV_DB_VERSION',     '8' );       // v2.15.0: tabelas cv_sentimentos + cv_musica_sentimentos + cv_calibracao_log
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
@@ -88,6 +99,7 @@ $cv_includes = array(
     'includes/user/class-cv-notifications.php',
     'includes/user/class-cv-public-profile.php',
     'includes/user/class-cv-um-integration.php',
+    'includes/user/class-cv-um-traducao.php',    // v2.40.0: textos do Ultimate Member em português
     'includes/user/class-cv-achievements.php',
     // Segurança complementar
     'includes/security/class-cv-security.php',
@@ -102,6 +114,7 @@ $cv_includes = array(
     'includes/admin/class-cv-admin-seo.php',
     // Páginas do painel administrativo — uma classe por página (v2.24.4)
     'includes/admin/pages/class-cv-page-dashboard.php',
+    'includes/admin/pages/class-cv-page-musicas.php',   // v2.42.0: Gerenciar músicas (dados, excluir, reimportar)
     'includes/admin/pages/class-cv-page-ranking.php',
     'includes/admin/pages/class-cv-page-subscribers.php',
     'includes/admin/pages/class-cv-page-appearance.php',
@@ -139,8 +152,6 @@ $cv_includes = array(
     'includes/admin/class-cv-distribuicao.php',  // v2.29.0: preparo e acompanhamento do envio às plataformas
     // Segurança Avançada — painel executivo (v2.24.0)
     'includes/admin/class-cv-seguranca.php',
-    // Publicação Acelerada de Músicas (v2.16.0)
-    'includes/admin/class-cv-publicacao-rapida.php',
     // Calibração de Métricas desativada em 23/09/2026 (gerava métricas
     // fictícias); substituída por includes/public/class-cv-launch.php.
 );
@@ -531,9 +542,9 @@ function cv_create_pages() {
     }
 }
 
-// Recria paginas via AJAX - para quem ja tinha o plugin instalado
-// Disponivel em: Cancao Verdadeira > Dashboard > botao "Recriar Paginas"
-add_action( 'wp_ajax_cv_recreate_pages', 'cv_ajax_recreate_pages' );
+// v2.41.0: o botão "Recriar Páginas" e o AJAX cv_recreate_pages foram removidos
+// (rotina de alto risco, suspeita nos incidentes de 29/07 e da v2.9.2). A criação
+// de páginas faltantes continua só na ativação do plugin (cv_activate).
 // Salva grupos de email
 add_action( 'wp_ajax_cv_email_save_groups', 'cv_ajax_email_save_groups' );
 function cv_ajax_email_save_groups() {
@@ -557,16 +568,6 @@ function cv_ajax_email_toggle() {
     if ( ! in_array($option, $allowed, true) ) { wp_send_json_error(); }
     update_option( $option, $valor );
     wp_send_json_success( array('message'=>$valor ? 'Ativado!' : 'Desativado!') );
-}
-
-function cv_ajax_recreate_pages() {
-    check_ajax_referer( 'cv_admin_nonce', 'nonce' );
-    if ( ! current_user_can( 'manage_options' ) ) {
-        wp_send_json_error( array( 'message' => 'Sem permissao.' ) );
-    }
-    cv_create_pages();
-    flush_rewrite_rules();
-    wp_send_json_success( array( 'message' => 'Paginas criadas/verificadas com sucesso!' ) );
 }
 
 // ── WP-Cron: agendamento do recálculo de ranking ─────────────────

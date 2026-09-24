@@ -4,7 +4,8 @@
    UI principal do tema filho: sidebar mobile, parallax do hero,
    autocomplete de busca, toasts de feedback e helpers globais.
    O parallax usa requestAnimationFrame para suavidade máxima e
-   IntersectionObserver para parar quando o hero sai da tela (performance). */
+   IntersectionObserver para parar quando o hero sai da tela (performance).
+   v15.11.0: botão ".cv-pl-tocar" toca uma playlist inteira de qualquer página. */
 
 (function($) {
     'use strict';
@@ -385,6 +386,33 @@
     };
 
     // ═══════════════════════════════════════════════════════════════
+    // 8. PLAYLIST — botão "▶ Tocar" em qualquer página (v15.11.0)
+    // <button class="cv-pl-tocar" data-playlist="ID">. Busca a fila em
+    // cv_get_playlist_queue (YouTube ou MP3) e manda para o player global.
+    // ═══════════════════════════════════════════════════════════════
+    var PlaylistPlay = {
+        init: function() {
+            $(document).on('click', '.cv-pl-tocar', function(e) {
+                e.preventDefault();
+                var id = parseInt($(this).data('playlist'), 10);
+                if (!id || !window.cvPublic || !window.CV_Player) { return; }
+                $.post(cvPublic.ajaxUrl, {
+                    action: 'cv_get_playlist_queue',
+                    nonce: cvPublic.nonces.playlist,
+                    playlist_id: id
+                }, function(res) {
+                    var fila = (res && res.success && res.data && res.data.queue) ? res.data.queue : [];
+                    if (fila.length) {
+                        CV_Player.playQueue(fila);
+                    } else {
+                        Toast.show('Esta playlist ainda não tem músicas para tocar.', 'info');
+                    }
+                });
+            });
+        }
+    };
+
+    // ═══════════════════════════════════════════════════════════════
     // INICIALIZAÇÃO
     // ═══════════════════════════════════════════════════════════════
 
@@ -395,6 +423,7 @@
         ActiveNav.init();
         Favorites.init();
         Cards.init();
+        PlaylistPlay.init();
     });
 
     // API pública — outros scripts podem usar

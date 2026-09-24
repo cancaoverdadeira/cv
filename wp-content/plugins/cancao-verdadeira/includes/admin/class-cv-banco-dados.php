@@ -7,6 +7,11 @@
 // Inspirado pela sugestão do Diretor de TI José Amado — painel de maturidade técnica.
 // Acesso: apenas administradores. Nenhuma escrita/alteração no banco.
 // Compatível com PHP 7.2+. Usa $wpdb direto (sem arrow functions, sem tipos).
+// v2.41.0: a lista agora bate com as tabelas reais. Saíram 4 que nunca existiram
+// (cv_user_notifications, cv_achievements, cv_login_attempts, cv_sorteio_entries):
+// notificações e conquistas ficam em user_meta, tentativas de login em transients
+// e os participantes do sorteio são os assinantes. Entraram ratings, comentários,
+// produtos, brindes e entregas, que existiam mas não apareciam.
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -42,16 +47,17 @@ class CV_Banco_Dados {
             $prefix . 'cv_playlists'          => array( 'label' => 'Playlists',            'icon' => '📋', 'desc' => 'Playlists criadas por usuários' ),
             $prefix . 'cv_playlist_items'     => array( 'label' => 'Itens de Playlist',    'icon' => '🎵', 'desc' => 'Músicas dentro das playlists' ),
             $prefix . 'cv_subscribers'        => array( 'label' => 'Assinantes Newsletter','icon' => '📨', 'desc' => 'E-mails cadastrados para newsletter' ),
-            $prefix . 'cv_user_notifications' => array( 'label' => 'Notificações',         'icon' => '🔔', 'desc' => 'Notificações para usuários' ),
-            $prefix . 'cv_achievements'       => array( 'label' => 'Conquistas/Badges',    'icon' => '🏅', 'desc' => 'Badges desbloqueados por usuários' ),
+            $prefix . 'cv_ratings'            => array( 'label' => 'Avaliações',           'icon' => '⭐', 'desc' => 'Notas (estrelas) dadas às músicas' ),
+            $prefix . 'cv_lyric_comments'     => array( 'label' => 'Comentários de trecho','icon' => '💬', 'desc' => 'Comentários em trechos da letra' ),
             $prefix . 'cv_sentimentos'        => array( 'label' => 'Sentimentos',          'icon' => '🎭', 'desc' => 'Categorias de sentimento musical' ),
             $prefix . 'cv_musica_sentimentos' => array( 'label' => 'Música × Sentimento',  'icon' => '🔗', 'desc' => 'Relação N:N música-sentimento' ),
-            $prefix . 'cv_calibracao_log'     => array( 'label' => 'Log de Calibração',    'icon' => '⚖️',  'desc' => 'Auditoria de ajustes de métricas' ),
+            $prefix . 'cv_calibracao_log'     => array( 'label' => 'Log de Calibração',    'icon' => '⚖️',  'desc' => 'Desativada em 23/09/2026 (fica vazia)' ),
             $prefix . 'cv_action_logs'        => array( 'label' => 'Logs de Ação',         'icon' => '📝', 'desc' => 'Ações administrativas e sistema' ),
-            $prefix . 'cv_login_attempts'     => array( 'label' => 'Tentativas de Login',  'icon' => '🔐', 'desc' => 'Rate limiting de autenticação' ),
             $prefix . 'cv_banners'            => array( 'label' => 'Banners',              'icon' => '🖼️',  'desc' => 'Banners de monetização' ),
             $prefix . 'cv_sorteios'           => array( 'label' => 'Sorteios',             'icon' => '🎁', 'desc' => 'Campanhas de sorteio' ),
-            $prefix . 'cv_sorteio_entries'    => array( 'label' => 'Participações',        'icon' => '🎫', 'desc' => 'Participações em sorteios' ),
+            $prefix . 'cv_produtos'           => array( 'label' => 'Loja (produtos)',      'icon' => '🛒', 'desc' => 'Produtos da loja' ),
+            $prefix . 'cv_brindes'            => array( 'label' => 'Brindes',              'icon' => '🎀', 'desc' => 'Brindes cadastrados' ),
+            $prefix . 'cv_brindes_entregas'   => array( 'label' => 'Entregas de brindes',  'icon' => '📦', 'desc' => 'Brindes enviados a assinantes' ),
         );
 
         // Busca informações de tamanho e status via INFORMATION_SCHEMA

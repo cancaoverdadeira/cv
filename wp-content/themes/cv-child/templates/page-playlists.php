@@ -8,6 +8,8 @@
 // Página de playlists do usuário: lista de playlists à esquerda,
 // músicas da playlist selecionada à direita. Integrado ao player global.
 // Redireciona para /login/ se não estiver logado.
+// v15.11.0 (24/09/2026): as músicas vêm de cv_get_playlist_queue e tocam no
+// player (YouTube ou MP3); remover música usa cv_playlist_remove_music.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -178,19 +180,28 @@ jQuery(function($){
         carregarMusicas(id, name);
     });
 
-    // Seleciona a primeira por padrão
-    $('.cv-pl-item:first').trigger('click');
+    // Seleciona a playlist do endereço (?pl=ID, vindo da Minha Área) ou a primeira
+    var plUrl = parseInt(new URLSearchParams(location.search).get('pl'), 10);
+    var $alvo = plUrl ? $('.cv-pl-item[data-id="' + plUrl + '"]') : $();
+    ($alvo.length ? $alvo : $('.cv-pl-item:first')).trigger('click');
+
+    // v15.11.0: busca as músicas em cv_get_playlist_queue (devolve YouTube,
+    // MP3, capa e link de cada música). Antes pedia cv_playlist_list, que
+    // devolve só a lista de playlists: a música aparecia, mas não tocava.
+    function esc(t){ return $('<div>').text(t == null ? '' : String(t)).html(); }
 
     function carregarMusicas(plId, plName) {
         var $content = $('#cv-pl-content');
+        $content.off('click');
         $content.html('<div style="text-align:center;padding:40px;color:var(--cv-text-dim)">⏳ Carregando...</div>');
 
-        $.post(AJAX, { action:'cv_playlist_list', nonce:nonces.playlist, playlist_id:plId }, function(res){
-            if (!res.success || !res.data.items || !res.data.items.length) {
+        $.post(AJAX, { action:'cv_get_playlist_queue', nonce:nonces.playlist, playlist_id:plId }, function(res){
+            var items = (res && res.success && res.data && res.data.queue) ? res.data.queue : [];
+            if (!items.length) {
                 $content.html(
                     '<div style="text-align:center;padding:40px">'
                     + '<div style="font-size:36px;margin-bottom:12px">🎵</div>'
-                    + '<h3 style="color:var(--cv-gold);font-family:var(--font-display)">' + plName + '</h3>'
+                    + '<h3 style="color:var(--cv-gold);font-family:var(--font-display)">' + esc(plName) + '</h3>'
                     + '<p style="color:var(--cv-text-dim)">Nenhuma música nesta playlist.<br>'
                     + 'Adicione músicas clicando em "+" nas páginas de música.</p>'
                     + '</div>'
@@ -198,36 +209,29 @@ jQuery(function($){
                 return;
             }
 
-            var items = res.data.items;
             var html  = '<h3 style="font-family:var(--font-display);font-size:18px;font-weight:700;'
                       + 'margin:0 0 16px;color:var(--cv-text)">'
-                      + '📋 ' + plName
+                      + '📋 ' + esc(plName)
                       + ' <span style="font-size:13px;font-weight:400;color:var(--cv-text-dim)">('
-                      + items.length + ' músicas)</span></h3>';
+                      + items.length + (items.length === 1 ? ' música' : ' músicas') + ')</span></h3>';
 
-            // Botão tocar tudo
             html += '<button class="cv-btn cv-btn-primary cv-btn-sm" id="cv-play-all-pl" '
                   + 'style="margin-bottom:20px">▶ Tocar tudo</button>';
 
             html += '<div id="cv-tracks-list">';
             items.forEach(function(item, i){
-                html += '<div class="cv-pl-track" '
-                      + 'data-music-id="' + item.music_id + '" '
-                      + 'data-youtube-id="' + (item.youtube_id || '') + '" '
-                      + 'data-title="' + item.post_title + '" '
-                      + 'data-cover="' + (item.cover || '') + '">'
+                html += '<div class="cv-pl-track" data-idx="' + i + '" title="Clique para tocar">'
                       + '<span style="color:var(--cv-text-dim);font-size:13px;min-width:24px">' + (i+1) + '</span>'
                       + '<div style="width:40px;height:40px;border-radius:4px;flex-shrink:0;'
-                      + 'background:url(\'' + (item.cover || '') + '\') center/cover,var(--cv-bg-elevated)"></div>'
+                      + 'background:url(\'' + esc(item.cover || '') + '\') center/cover,var(--cv-bg-elevated)"></div>'
                       + '<div style="flex:1;min-width:0">'
                       + '<div style="font-size:14px;font-weight:600;color:var(--cv-text);'
-                      + 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + item.post_title + '</div>'
-                      + '<div style="font-size:12px;color:var(--cv-text-muted)">' + (item.artista || '') + '</div>'
+                      + 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis">▶ ' + esc(item.title) + '</div>'
+                      + '<div style="font-size:12px;color:var(--cv-text-muted)">' + esc(item.artist || '') + '</div>'
                       + '</div>'
-                      + '<a href="' + item.url + '" style="color:var(--cv-text-dim);font-size:12px;'
-                      + 'text-decoration:none;flex-shrink:0" onclick="event.stopPropagation()">↗</a>'
-                      + '<button class="cv-remove-from-pl" data-playlist="' + plId + '" data-music="' + item.music_id + '" '
-                      + 'onclick="event.stopPropagation()" '
+                      + '<a href="' + esc(item.url) + '" style="color:var(--cv-text-dim);font-size:12px;'
+                      + 'text-decoration:none;flex-shrink:0" title="Abrir a página da música">↗</a>'
+                      + '<button class="cv-remove-from-pl" data-music="' + parseInt(item.musicId, 10) + '" '
                       + 'style="background:none;border:none;color:var(--cv-text-dim);cursor:pointer;'
                       + 'font-size:13px;padding:4px" title="Remover da playlist">✕</button>'
                       + '</div>';
@@ -235,33 +239,25 @@ jQuery(function($){
             html += '</div>';
             $content.html(html);
 
-            // Tocar música ao clicar no track
+            // Tocar a partir da música clicada (o resto da playlist segue na fila)
             $content.on('click', '.cv-pl-track', function(e){
-                if ($(e.target).is('button, a')) return;
-                var d = $(this).data();
-                if (d.youtubeId && window.CV_Player) {
-                    CV_Player.playById({ musicId:d.musicId, youtubeId:d.youtubeId, title:d.title, cover:d.cover });
-                }
+                if ($(e.target).closest('button, a').length) return;
+                if (!window.CV_Player) return;
+                var idx = parseInt($(this).data('idx'), 10) || 0;
+                CV_Player.playQueue(items.slice(idx).concat(items.slice(0, idx)));
             });
 
             // Tocar tudo
-            $('#cv-play-all-pl').on('click', function(){
-                if (!window.CV_Player) return;
-                var queue = [];
-                $content.find('.cv-pl-track').each(function(){
-                    var d = $(this).data();
-                    if (d.youtubeId) queue.push({ musicId:d.musicId, youtubeId:d.youtubeId, title:d.title, cover:d.cover });
-                });
-                if (queue.length) CV_Player.playQueue(queue);
+            $content.on('click', '#cv-play-all-pl', function(){
+                if (window.CV_Player) CV_Player.playQueue(items);
             });
 
             // Remover música da playlist
             $content.on('click', '.cv-remove-from-pl', function(){
-                var plId    = $(this).data('playlist');
                 var musicId = $(this).data('music');
                 var $track  = $(this).closest('.cv-pl-track');
-                $.post(AJAX, { action:'cv_playlist_remove', nonce:nonces.playlist, playlist_id:plId, music_id:musicId }, function(res){
-                    if (res.success) { $track.fadeOut(200, function(){ $(this).remove(); }); }
+                $.post(AJAX, { action:'cv_playlist_remove_music', nonce:nonces.playlist, playlist_id:plId, music_id:musicId }, function(res){
+                    if (res && res.success) { $track.fadeOut(200, function(){ $(this).remove(); }); }
                 });
             });
         });

@@ -106,6 +106,10 @@ class CV_UM_Integration {
             echo '<div style="font-size:32px;margin-bottom:8px">📋</div>';
             echo '<div style="font-size:13px;font-weight:700;margin-bottom:4px">' . esc_html( $pl->name ) . '</div>';
             echo '<div style="font-size:11px;color:#8A6A55">' . (int) $pl->count . ' músicas</div>';
+            // v2.40.0: tocar a playlist dali mesmo (handler .cv-pl-tocar no cv-theme.js)
+            if ( (int) $pl->count > 0 ) {
+                echo '<button type="button" class="cv-pl-tocar cv-btn cv-btn-primary cv-btn-sm" style="margin-top:10px" data-playlist="' . (int) $pl->id . '">▶ Tocar</button>';
+            }
             echo '</div>';
         }
         echo '</div>';

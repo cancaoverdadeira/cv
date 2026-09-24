@@ -10,7 +10,7 @@ jQuery(function($){
     var ajax  = (window.cvMon || {}).ajaxUrl || '';
 
     function msg(t,ok){var $m=$('#cv-prod-msg');$m.text(t).css({background:ok?'#EBF4EB':'#F4EBEB',border:'1px solid '+(ok?'#2d6a2d':'#6a2d2d'),color:ok?'#7fce7f':'#ce7f7f'}).show();setTimeout(function(){$m.fadeOut();},3000);}
-    $('#cv-prod-novo-btn').on('click',function(){$('#cv-prod-id').val(0);$('#cv-prod-form input,#cv-prod-form textarea,#cv-prod-form select').val('');$('#cv-p-ativo').val('1');$('#cv-p-ordem').val('0');$('#cv-p-imagem-preview').hide();$('#cv-prod-form').slideToggle(180);});
+    $('#cv-prod-novo-btn').on('click',function(){$('#cv-prod-id').val(0);$('#cv-prod-form input,#cv-prod-form textarea,#cv-prod-form select').val('');$('#cv-p-ativo').val('1');$('#cv-p-ordem').val('0');$('#cv-p-imagem-preview').hide();$('#cv-prod-form').slideDown(180);});
     $('#cv-prod-cancelar').on('click',function(){$('#cv-prod-form').slideUp(180);});
     $(document).on('click','.cv-media-pick-prod',function(){var frame=wp.media({title:'Selecionar imagem',button:{text:'Usar'},multiple:false,library:{type:'image'}});frame.on('select',function(){var a=frame.state().get('selection').first().toJSON();$('#cv-p-imagem').val(a.url);$('#cv-p-imagem-preview').attr('src',a.url).show();});frame.open();});
     $('#cv-p-imagem').on('change',function(){var u=$.trim($(this).val());$('#cv-p-imagem-preview').attr('src',u)[u?'show':'hide']();});

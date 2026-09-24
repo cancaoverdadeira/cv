@@ -8,6 +8,7 @@
 // Dashboard do usuário logado: cabeçalho com avatar e stats, abas de
 // Favoritas, Histórico, Playlists e Conquistas. Redireciona para /login/
 // se não estiver logado. Todos os dados vêm de AJAX do plugin.
+// v15.11.0 (24/09/2026): cartões de playlist com "▶ Tocar" e "Abrir".
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -56,7 +57,7 @@ get_header();
                         </h1>
                         <p style="color:var(--cv-text-muted);font-size:13px;margin:0">
                             <?php echo esc_html($user->user_email); ?> · Membro desde
-                            <?php echo date('M/Y', strtotime($user->user_registered)); ?>
+                            <?php echo esc_html( date_i18n( 'F \\d\\e Y', strtotime( $user->user_registered ) ) ); ?>
                         </p>
                     </div>
 
@@ -264,6 +265,7 @@ jQuery(function($){
     }
 
     // ── Playlists ─────────────────────────────────────────────────
+    var cvPlUrl = <?php echo wp_json_encode( home_url( '/minhas-playlists/' ) ); ?>;
     function loadPlaylists() {
         $.post(AJAX, { action:'cv_get_user_playlists', nonce:nonces.playlist }, function(res){
             var $g = $('#cv-playlists-grid').empty();
@@ -276,11 +278,13 @@ jQuery(function($){
                     '<div style="background:var(--cv-bg-card);border:1px solid var(--cv-border-subtle);'
                     + 'border-radius:var(--cv-radius);padding:16px;text-align:center">'
                     + '<div style="font-size:36px;margin-bottom:10px">📋</div>'
-                    + '<div style="font-weight:700;font-size:14px;margin-bottom:4px;color:var(--cv-text)">' + pl.name + '</div>'
+                    + '<div style="font-weight:700;font-size:14px;margin-bottom:4px;color:var(--cv-text)">' + $('<div>').text(pl.name).html() + '</div>'
                     + '<div style="font-size:12px;color:#8A6A55">' + (pl.total_musicas || pl.count || 0) + ' músicas</div>'
                     + (pl.is_public ? '<div style="font-size:10px;color:var(--cv-gold);margin-top:4px">🌐 Pública</div>' : '')
                     + '<div style="display:flex;gap:8px;justify-content:center;margin-top:12px">'
-                    + '<button class="cv-btn-del-pl cv-btn cv-btn-secondary cv-btn-sm" data-id="' + pl.id + '">🗑 Excluir</button>'
+                    + '<button class="cv-pl-tocar cv-btn cv-btn-primary cv-btn-sm" data-playlist="' + parseInt(pl.id, 10) + '">▶ Tocar</button>'
+                    + '<a class="cv-btn cv-btn-secondary cv-btn-sm" href="' + cvPlUrl + '?pl=' + parseInt(pl.id, 10) + '">Abrir</a>'
+                    + '<button class="cv-btn-del-pl cv-btn cv-btn-secondary cv-btn-sm" data-id="' + pl.id + '" title="Excluir playlist">🗑</button>'
                     + '</div></div>'
                 );
             });
