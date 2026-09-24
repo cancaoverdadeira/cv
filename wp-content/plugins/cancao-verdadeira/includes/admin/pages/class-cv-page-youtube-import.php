@@ -3,6 +3,7 @@
 // Página "Importador YouTube": importação de vídeos do YouTube como rascunhos.
 // Extraído de class-cv-admin-pages.php em 2026-09-12 (refatoração:
 // cada página do admin passou a viver em seu próprio arquivo/classe).
+// v2.39.0 (24/09/2026): avisa quando o vídeo pertence a uma música na lixeira.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -359,7 +360,7 @@ class CV_Page_Youtube_Import {
                 });
                 if (!items.length) { alert('Selecione ao menos um vídeo.'); return; }
                 $(this).prop('disabled', true);
-                var done = 0, imported = 0, skipped = 0, falhas = 0, erros = [], total = items.length;
+                var done = 0, imported = 0, skipped = 0, falhas = 0, erros = [], avisos = [], total = items.length;
                 $('#cv-yt-progress').show();
                 $('#cv-yt-done').hide();
 
@@ -376,6 +377,10 @@ class CV_Page_Youtube_Import {
                         if (falhas) {
                             html += '<div style="margin-top:8px;font-weight:400;font-size:12px;color:#DC1100;max-height:140px;overflow:auto">'
                                   + erros.map(escHtml).join('<br>') + '</div>';
+                        }
+                        if (avisos.length) {
+                            html += '<div style="margin-top:8px;font-weight:400;font-size:12px;color:#7B3A22;max-height:140px;overflow:auto">⚠️ '
+                                  + avisos.map(escHtml).join('<br>⚠️ ') + '</div>';
                         }
                         html += '<a href="<?php echo esc_js( admin_url("admin.php?page=cv-publicacao-rapida") ); ?>" style="color:var(--gold);margin-top:8px;display:inline-block;font-size:12px">⚡ Ir para Publicação Acelerada →</a>'
                               + '</div>';
@@ -400,6 +405,7 @@ class CV_Page_Youtube_Import {
                             if (res && res.success) {
                                 if (res.data.skipped) {
                                     skipped++;
+                                    if (res.data.status === 'trash') { avisos.push(item.title + ': ' + res.data.message); }
                                 } else {
                                     imported++;
                                 }

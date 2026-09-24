@@ -1,15 +1,22 @@
 <?php
 // cancao-verdadeira-plugin/includes/ajax/class-cv-youtube-import.php
-// Gerado em: 2025-06-03 00:00:00
+// Gerado em: 2025-06-03 00:00:00 — revisado em 24/09/2026 (plugin v2.39.0)
 // Projeto: Cancao Verdadeira - Plataforma de letras musicais sertanejas
 // Importador de videos do YouTube via AJAX: recebe dados de um video
 // e cria o CPT musica preenchido com titulo, URL YouTube e capa.
 // A importacao e feita video a video pelo JS do admin (batch controller).
-// Videos ja cadastrados (mesma URL) sao ignorados silenciosamente.
+// Videos ja cadastrados sao ignorados. v2.39.0: a checagem compara o ID do
+// video (aceita watch?v=, youtu.be, shorts, embed, live) e olha TODOS os
+// status (publicada, rascunho, pendente, agendada, privada e lixeira).
+// Antes so via as publicadas e duplicava as musicas em rascunho.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class CV_Youtube_Import {
+
+    // Status em que uma musica ja "existe" para fins de duplicata.
+    // 'any' do WordPress deixa a lixeira de fora, por isso a lista explicita.
+    private static $status_existentes = array( 'publish', 'draft', 'pending', 'future', 'private', 'trash' );
 
     public static function init() {
         add_action( 'wp_ajax_cv_import_youtube_video', array( __CLASS__, 'import_video' ) );
@@ -35,19 +42,30 @@ class CV_Youtube_Import {
         $url   = esc_url_raw( $video['url'] );
         $title = sanitize_text_field( $video['title'] );
         $thumb = esc_url_raw( $video['thumb'] ?? '' );
-        $vid   = sanitize_text_field( $video['id']   ?? '' );
 
-        // Ignora se ja existir musica com esta URL
-        $existing = get_posts( array(
-            'post_type'      => 'musica',
-            'posts_per_page' => 1,
-            'meta_query'     => array(
-                array( 'key' => CV_Fields::YOUTUBE_URL, 'value' => $url, 'compare' => '=' ),
-            ),
-        ) );
+        // O ID do video vem da propria URL (fonte confiavel); o campo 'id'
+        // enviado pelo JS so e usado se a URL nao tiver um ID reconhecivel.
+        $vid = CV_Fields::youtube_id( $url );
+        if ( '' === $vid ) {
+            $vid = sanitize_text_field( $video['id'] ?? '' );
+        }
+        if ( ! preg_match( '/^[A-Za-z0-9_-]{11}$/', $vid ) ) {
+            wp_send_json_error( array( 'message' => 'Link do YouTube sem ID de video valido.' ) );
+        }
 
-        if ( ! empty( $existing ) ) {
-            wp_send_json_success( array( 'skipped' => true, 'title' => $title ) );
+        // Ignora se ja existir musica com este video (qualquer status)
+        $existente = self::find_existing( $vid );
+        if ( $existente ) {
+            wp_send_json_success( array(
+                'skipped'  => true,
+                'title'    => $title,
+                'post_id'  => $existente->ID,
+                'status'   => $existente->post_status,
+                'message'  => 'trash' === $existente->post_status
+                    ? 'Ja existe na lixeira: restaure ou exclua de vez antes de importar.'
+                    : 'Ja cadastrada: "' . $existente->post_title . '".',
+                'edit_url' => admin_url( 'post.php?post=' . $existente->ID . '&action=edit' ),
+            ) );
         }
 
         // Cria o post
@@ -78,6 +96,39 @@ class CV_Youtube_Import {
             'title'    => $title,
             'edit_url' => admin_url( 'post.php?post=' . $post_id . '&action=edit' ),
         ) );
+    }
+
+    /**
+     * Procura uma musica ja cadastrada com o mesmo video do YouTube, em
+     * qualquer status. O LIKE pre-filtra no banco; a confirmacao final e
+     * feita com CV_Fields::youtube_id() para nao aceitar IDs parecidos.
+     *
+     * @return WP_Post|null
+     */
+    public static function find_existing( $video_id ) {
+        global $wpdb;
+        if ( '' === $video_id ) { return null; }
+
+        $status_sql = "'" . implode( "','", array_map( 'esc_sql', self::$status_existentes ) ) . "'";
+        $linhas = $wpdb->get_results( $wpdb->prepare(
+            "SELECT p.ID, pm.meta_value
+               FROM {$wpdb->posts} p
+               JOIN {$wpdb->postmeta} pm ON pm.post_id = p.ID
+              WHERE p.post_type = 'musica'
+                AND p.post_status IN ({$status_sql})
+                AND pm.meta_key = %s
+                AND pm.meta_value LIKE %s
+              ORDER BY p.ID ASC",
+            CV_Fields::YOUTUBE_URL,
+            '%' . $wpdb->esc_like( $video_id ) . '%'
+        ) );
+
+        foreach ( $linhas as $linha ) {
+            if ( CV_Fields::youtube_id( $linha->meta_value ) === $video_id ) {
+                return get_post( (int) $linha->ID );
+            }
+        }
+        return null;
     }
 
     /**

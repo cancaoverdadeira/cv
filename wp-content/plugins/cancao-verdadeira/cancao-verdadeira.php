@@ -35,12 +35,15 @@
 // v2.36.0 — Refatoração fase 6: telas de Banners, Loja, Sorteios e Brindes em views/ + JS próprio.
 // v2.37.0 — Refatoração fase 6: CV_Advanced dividido em 5 traits (includes/admin/advanced/).
 // v2.38.0 — Refatoração fase 6: CV_Monetization dividido em 4 traits (includes/monetization/partes/).
+// v2.39.0 (24/09/2026) — Exclusão completa de música (CV_Exclusao): ao apagar de vez,
+// limpa as tabelas cv_*, logs antigos, a capa importada e os caches. Importação do
+// YouTube não duplica mais músicas em rascunho/lixeira (compara o ID do vídeo).
 
 /**
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.38.0
+ * Version:     2.39.0
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -49,7 +52,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.38.0' );
+define( 'CV_VERSION',        '2.39.0' );
 define( 'CV_DB_VERSION',     '8' );       // v2.15.0: tabelas cv_sentimentos + cv_musica_sentimentos + cv_calibracao_log
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
@@ -64,6 +67,7 @@ $cv_includes = array(
     'includes/cpt/class-cv-cpt.php',
     'includes/cpt/class-cv-sem-generos.php',   // v2.26.0: gêneros removidos; redireciona /genero/ e /estilo/
     'includes/cpt/class-cv-metaboxes.php',
+    'includes/cpt/class-cv-exclusao.php',      // v2.39.0: exclusão completa da música (tabelas cv_*, capa, caches)
     'includes/cpt/class-cv-blog.php',          // v2.25.0: categoria Blog, URLs /blog/ e SEO automático dos posts
     // Ranking e trending
     'includes/ranking/class-cv-ranking.php',
