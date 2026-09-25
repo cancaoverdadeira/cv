@@ -82,6 +82,10 @@ class CV_Admin_Menu {
             'manage_options', 'cv-roles',              array( 'CV_Page_Roles', 'render' ) );
         add_submenu_page( null, 'Loja',               'Loja',
             'manage_options', 'cv-loja',               array( 'CV_Monetization_Pages', 'page_loja' ) );
+        add_submenu_page( null, 'Estoque e Pedidos',  'Estoque e Pedidos',
+            'manage_options', 'cv-estoque',            array( 'CV_Estoque_Admin', 'render' ) );
+        add_submenu_page( null, 'PIX e Parcerias',    'PIX e Parcerias',
+            'manage_options', 'cv-apoio',              array( 'CV_Apoio', 'render' ) );
         add_submenu_page( null, 'Sorteios',           'Sorteios',
             'manage_options', 'cv-sorteios',           array( 'CV_Monetization_Pages', 'page_sorteios' ) );
         add_submenu_page( null, 'Banners',            'Banners',

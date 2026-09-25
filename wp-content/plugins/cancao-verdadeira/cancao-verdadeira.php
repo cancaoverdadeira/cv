@@ -61,12 +61,20 @@
 // v2.46.0 (25/09/2026) — Tela do post organizada (Imagem destacada logo abaixo de
 // Publicar, caixas sem uso fora); exclusão de usuário passa playlists, favoritos,
 // notas e plays para quem herda o conteúdo (CV_Usuario_Exclusao).
+// v2.47.0 (25/09/2026) — Estoque e Pedidos (includes/estoque/): itens E-book, Caneca
+// e Camiseta (estoque por tamanho), entradas/saídas/contagem com histórico, pedidos
+// pela Minha Área (baixam o estoque só quando o admin confirma), alerta por e-mail
+// no estoque mínimo (padrão 10) e Painel com indicadores e análises. Banco v9.
+// v2.48.0 (25/09/2026) — PIX (includes/apoio/): conta PIX no painel (e-mail, telefone
+// ou aleatória) e gerador do código copia e cola (BR Code + CRC16) com QR Code; pedidos
+// só por PIX; rodapé com "Seja nosso parceiro" (propostas em cv_parcerias) e "Seja nosso
+// colaborador" (doação por PIX). Tela "💠 PIX e Parcerias". Banco v10.
 
 /**
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.46.0
+ * Version:     2.48.0
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -75,8 +83,8 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.46.0' );
-define( 'CV_DB_VERSION',     '8' );       // v2.15.0: tabelas cv_sentimentos + cv_musica_sentimentos + cv_calibracao_log
+define( 'CV_VERSION',        '2.48.0' );
+define( 'CV_DB_VERSION',     '10' );      // v2.48.0: cv_parcerias (v2.47.0: estoque e pedidos)
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
 define( 'CV_PLUGIN_FILE',    __FILE__ );
@@ -154,6 +162,14 @@ $cv_includes = array(
     // Monetização
     'includes/monetization/class-cv-monetization.php',
     'includes/monetization/class-cv-monetization-pages.php',
+    // v2.47.0: Estoque e Pedidos (E-book, Caneca, Camiseta; pedidos na Minha Área)
+    // v2.48.0: PIX (gerador do código copia e cola) e "Apoie" do rodapé
+    'includes/apoio/class-cv-pix.php',
+    'includes/apoio/class-cv-apoio.php',
+    'includes/estoque/class-cv-estoque.php',
+    'includes/estoque/class-cv-estoque-analise.php',
+    'includes/estoque/class-cv-estoque-area.php',
+    'includes/estoque/class-cv-estoque-admin.php',
     // Sentimentos (v2.15.0)
     'includes/sentimentos/class-cv-sentimentos.php',
     // Painel Executivo de Sentimentos (v2.16.0)
@@ -430,6 +446,87 @@ function cv_create_tables() {
         ativo TINYINT(1) DEFAULT 1,
         KEY categoria (categoria),
         KEY ativo (ativo)
+    ) $charset;";
+
+    // v2.47.0 (CV_DB_VERSION 9): Estoque e Pedidos (includes/estoque/).
+    // Itens (E-book, Caneca, Camiseta), variações (tamanhos da camiseta; ''
+    // para os demais), movimentos de estoque e pedidos feitos na Minha Área.
+    $sql[] = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}cv_estoque_itens (
+        id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(191) NOT NULL,
+        tipo VARCHAR(20) NOT NULL DEFAULT 'caneca',
+        descricao TEXT,
+        preco DECIMAL(10,2) DEFAULT 0,
+        imagem_url TEXT,
+        controla_estoque TINYINT(1) DEFAULT 1,
+        estoque_minimo INT UNSIGNED DEFAULT 10,
+        ativo TINYINT(1) DEFAULT 1,
+        ordem INT UNSIGNED DEFAULT 0,
+        criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        KEY tipo (tipo),
+        KEY ativo (ativo)
+    ) $charset;";
+
+    $sql[] = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}cv_estoque_variacoes (
+        id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        item_id BIGINT UNSIGNED NOT NULL,
+        variacao VARCHAR(20) NOT NULL DEFAULT '',
+        estoque_atual INT NOT NULL DEFAULT 0,
+        alerta_enviado TINYINT(1) DEFAULT 0,
+        ativo TINYINT(1) DEFAULT 1,
+        UNIQUE KEY item_var (item_id, variacao)
+    ) $charset;";
+
+    $sql[] = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}cv_estoque_mov (
+        id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        item_id BIGINT UNSIGNED NOT NULL,
+        variacao_id BIGINT UNSIGNED NOT NULL,
+        tipo VARCHAR(20) NOT NULL,
+        quantidade INT NOT NULL,
+        saldo_apos INT NOT NULL DEFAULT 0,
+        custo_unit DECIMAL(10,2) DEFAULT 0,
+        motivo VARCHAR(30) DEFAULT '',
+        pedido_id BIGINT UNSIGNED DEFAULT 0,
+        obs VARCHAR(255) DEFAULT '',
+        user_id BIGINT UNSIGNED DEFAULT 0,
+        criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        KEY item_id (item_id),
+        KEY variacao_id (variacao_id),
+        KEY tipo (tipo),
+        KEY criado_em (criado_em)
+    ) $charset;";
+
+    $sql[] = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}cv_pedidos (
+        id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        user_id BIGINT UNSIGNED NOT NULL,
+        item_id BIGINT UNSIGNED NOT NULL,
+        variacao_id BIGINT UNSIGNED NOT NULL,
+        quantidade INT UNSIGNED DEFAULT 1,
+        preco_unit DECIMAL(10,2) DEFAULT 0,
+        status VARCHAR(20) NOT NULL DEFAULT 'pendente',
+        obs VARCHAR(255) DEFAULT '',
+        criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        atualizado_em DATETIME NULL,
+        KEY user_id (user_id),
+        KEY item_id (item_id),
+        KEY status (status),
+        KEY criado_em (criado_em)
+    ) $charset;";
+
+    // v2.48.0 (CV_DB_VERSION 10): propostas do "Seja nosso parceiro" (rodapé).
+    $sql[] = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}cv_parcerias (
+        id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(120) NOT NULL,
+        email VARCHAR(191) NOT NULL,
+        telefone VARCHAR(30) DEFAULT '',
+        tipo VARCHAR(30) NOT NULL DEFAULT 'outro',
+        link VARCHAR(255) DEFAULT '',
+        mensagem TEXT,
+        status VARCHAR(20) NOT NULL DEFAULT 'nova',
+        consentimento_em DATETIME NULL,
+        criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        KEY status (status),
+        KEY criado_em (criado_em)
     ) $charset;";
 
     $sql[] = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}cv_sorteios (

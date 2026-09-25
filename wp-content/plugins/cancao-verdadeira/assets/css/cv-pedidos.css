@@ -1,0 +1,46 @@
+/* cancao-verdadeira/assets/css/cv-pedidos.css
+   Aba "🛍️ Meus Pedidos" da Minha Área (v2.47.0): formulário com o select
+   do item, quantidade e observação, botão "Incluir pedido" ao lado, e a
+   lista de pedidos com a situação e o botão "Excluir" nos pendentes.
+   Usa os tokens do tema (--cv-*), com valores de reserva.
+   v2.48.0: botões "Pagar com PIX"/"Excluir" e a caixa do PIX em largura total. */
+.cv-ped-intro { color: var(--cv-text-muted, #6B4C3B); font-size: 16px; line-height: 1.6; margin: 0 0 18px; }
+.cv-ped-form {
+    display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap;
+    background: var(--cv-bg-card, #FFFFFF); border: 1px solid var(--cv-border, #EADBC6);
+    border-radius: var(--cv-radius, 10px); padding: 18px;
+}
+.cv-ped-campos { display: flex; gap: 12px; flex: 1 1 520px; flex-wrap: wrap; }
+.cv-ped-campo { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 14px; color: var(--cv-text, #3B2418); }
+.cv-ped-campo-item { flex: 2 1 240px; }
+.cv-ped-campo-qtd  { flex: 0 0 110px; }
+.cv-ped-campo-obs  { flex: 2 1 220px; }
+.cv-ped-campo .cv-input { width: 100%; font-size: 16px; min-height: 44px; }
+.cv-ped-botoes { display: flex; flex-direction: column; gap: 8px; }
+.cv-ped-botoes .cv-btn { min-height: 44px; font-size: 16px; white-space: nowrap; }
+.cv-ped-msg { margin-top: 12px; padding: 12px 14px; border-radius: 8px; font-size: 15px; }
+.cv-ped-msg.is-ok   { background: #E3F4E8; color: #1C7C44; border: 1px solid #1C7C44; }
+.cv-ped-msg.is-erro { background: #FBE9E7; color: #C0392B; border: 1px solid #C0392B; }
+.cv-ped-titulo { font-family: var(--font-display, inherit); font-size: 20px; margin: 26px 0 12px; color: var(--cv-text, #3B2418); }
+.cv-ped-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.cv-ped-linha {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    background: var(--cv-bg-card, #FFFFFF); border: 1px solid var(--cv-border, #EADBC6);
+    border-left: 4px solid var(--cv-accent, #F2A51A); border-radius: var(--cv-radius, 10px); padding: 14px 16px;
+}
+.cv-ped-confirmado { border-left-color: #1C7C44; }
+.cv-ped-entregue   { border-left-color: #2871BE; }
+.cv-ped-cancelado  { border-left-color: #C9A27E; opacity: .7; }
+.cv-ped-info { flex: 1 1 260px; display: flex; flex-direction: column; gap: 3px; }
+.cv-ped-info strong { font-size: 16px; color: var(--cv-text, #3B2418); }
+.cv-ped-meta { font-size: 14px; color: var(--cv-text-muted, #6B4C3B); }
+.cv-ped-obs  { font-size: 13px; color: var(--cv-text-dim, #8A6A55); font-style: italic; }
+.cv-ped-status { font-size: 14px; font-weight: 700; white-space: nowrap; color: var(--cv-text, #3B2418); }
+.cv-ped-acoes { display: flex; gap: 8px; flex-wrap: wrap; }
+.cv-ped-pix { flex: 1 1 100%; }
+.cv-ped-pix-nota { font-size: 14px; color: var(--cv-text-muted, #6B4C3B); margin: 8px 0 0; }
+
+@media (max-width: 600px) {
+    .cv-ped-botoes, .cv-ped-botoes .cv-btn { width: 100%; }
+    .cv-ped-campo-qtd { flex: 1 1 100px; }
+}

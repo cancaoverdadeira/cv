@@ -433,6 +433,11 @@ class CV_Page_Dashboard {
             <div class="cv-action-group-label"><span></span>💰 Monetização <span></span></div>
             <div class="cv-action-btns">
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-loja')); ?>" class="cv-ab cv-ab-orange">🛒 Loja</a>
+                <?php // v2.47.0: estoque e pedidos da Minha Área (mostra quantos pedidos esperam) ?>
+                <?php $cv_ped_pend = (int) $GLOBALS['wpdb']->get_var( "SELECT COUNT(*) FROM {$GLOBALS['wpdb']->prefix}cv_pedidos WHERE status = 'pendente'" ); ?>
+                <a href="<?php echo esc_url(admin_url('admin.php?page=cv-estoque')); ?>" class="cv-ab cv-ab-orange">📦 Estoque e Pedidos<?php echo $cv_ped_pend ? ' (' . $cv_ped_pend . ' novo' . ( $cv_ped_pend > 1 ? 's' : '' ) . ')' : ''; ?></a>
+                <?php $cv_parc_novas = (int) $GLOBALS['wpdb']->get_var( "SELECT COUNT(*) FROM {$GLOBALS['wpdb']->prefix}cv_parcerias WHERE status = 'nova'" ); ?>
+                <a href="<?php echo esc_url(admin_url('admin.php?page=cv-apoio')); ?>" class="cv-ab cv-ab-orange">💠 PIX e Parcerias<?php echo $cv_parc_novas ? ' (' . $cv_parc_novas . ' nova' . ( $cv_parc_novas > 1 ? 's' : '' ) . ')' : ''; ?></a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-sorteios')); ?>" class="cv-ab cv-ab-orange">🎁 Sorteios</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-brindes')); ?>" class="cv-ab cv-ab-orange">🎀 Brindes</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-banners')); ?>" class="cv-ab cv-ab-orange">🖼️ Banners</a>

@@ -246,7 +246,7 @@ class CV_Admin {
             '4.4.0',
             false
         );
-        $telas_com_grafico = array( 'cancao-verdadeira', 'cv-analytics', 'cv-sentimentos', 'cv-users', 'cv-subscribers', 'cv-seguranca' );
+        $telas_com_grafico = array( 'cancao-verdadeira', 'cv-analytics', 'cv-sentimentos', 'cv-users', 'cv-subscribers', 'cv-seguranca', 'cv-estoque' );
         if ( in_array( sanitize_key( $_GET['page'] ?? '' ), $telas_com_grafico, true ) ) {
             wp_enqueue_script( 'chartjs' );
         }

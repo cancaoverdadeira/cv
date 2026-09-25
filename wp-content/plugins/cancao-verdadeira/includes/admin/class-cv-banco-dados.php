@@ -58,6 +58,11 @@ class CV_Banco_Dados {
             $prefix . 'cv_produtos'           => array( 'label' => 'Loja (produtos)',      'icon' => '🛒', 'desc' => 'Produtos da loja' ),
             $prefix . 'cv_brindes'            => array( 'label' => 'Brindes',              'icon' => '🎀', 'desc' => 'Brindes cadastrados' ),
             $prefix . 'cv_brindes_entregas'   => array( 'label' => 'Entregas de brindes',  'icon' => '📦', 'desc' => 'Brindes enviados a assinantes' ),
+            $prefix . 'cv_estoque_itens'      => array( 'label' => 'Estoque (itens)',      'icon' => '📦', 'desc' => 'E-book, Caneca, Camiseta (v2.47.0)' ),
+            $prefix . 'cv_estoque_variacoes'  => array( 'label' => 'Estoque (tamanhos)',   'icon' => '👕', 'desc' => 'Saldo por item e tamanho' ),
+            $prefix . 'cv_estoque_mov'        => array( 'label' => 'Movimentos de estoque','icon' => '🔁', 'desc' => 'Entradas, saídas, ajustes e pedidos' ),
+            $prefix . 'cv_pedidos'            => array( 'label' => 'Pedidos',              'icon' => '🛍️', 'desc' => 'Pedidos feitos na Minha Área' ),
+            $prefix . 'cv_parcerias'          => array( 'label' => 'Parcerias',            'icon' => '🤝', 'desc' => 'Propostas do "Seja nosso parceiro" (v2.48.0)' ),
         );
 
         // Busca informações de tamanho e status via INFORMATION_SCHEMA

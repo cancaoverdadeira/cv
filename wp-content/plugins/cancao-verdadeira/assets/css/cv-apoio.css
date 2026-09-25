@@ -1,0 +1,67 @@
+/* cancao-verdadeira/assets/css/cv-apoio.css
+   "Apoie" do rodapé (v2.48.0): botões da coluna (com cara de link do
+   rodapé) e as janelas <dialog> "Seja nosso parceiro" e "Seja nosso
+   colaborador" (formulário, valores da doação e resultado do PIX).
+   Letras e botões grandes para o público 55+; tela cheia no celular. */
+.cv-apoio-abrir {
+    background:none; border:0; padding:0; cursor:pointer; text-align:left;
+    font:inherit; font-size:13px; color:var(--cv-text-muted, #F3E6D3);
+    transition:color .2s;
+}
+.cv-apoio-abrir:hover, .cv-apoio-abrir:focus-visible { color:#FFC24D; text-decoration:underline; }
+
+.cv-janela {
+    width:min(640px, calc(100vw - 32px)); max-height:calc(100vh - 40px); overflow:auto;
+    border:0; border-radius:16px; padding:28px 26px 24px; background:#FBF6EE; color:#3B2418;
+    box-shadow:0 20px 60px rgba(43,26,17,.35); font-size:16px;
+}
+.cv-janela::backdrop { background:rgba(43,26,17,.6); }
+.cv-janela h2 { font-family:var(--font-display, inherit); font-size:26px; margin:0 0 8px; color:#7B3A22; }
+.cv-janela-intro { font-size:16px; line-height:1.6; color:#6B4C3B; margin:0 0 18px; }
+.cv-janela-fechar {
+    position:absolute; top:12px; right:12px; width:40px; height:40px; border-radius:50%;
+    border:1px solid #EADBC6; background:#FFFFFF; color:#7B3A22; font-size:18px; cursor:pointer;
+}
+.cv-janela-form label { display:flex; flex-direction:column; gap:6px; font-weight:600; font-size:15px; color:#3B2418; }
+.cv-janela-form input[type=text], .cv-janela-form input[type=email], .cv-janela-form input[type=tel],
+.cv-janela-form input[type=url], .cv-janela-form textarea, .cv-doacao-outro input {
+    font:inherit; font-size:16px; padding:10px 12px; min-height:44px; border:1px solid #EADBC6;
+    border-radius:8px; background:#FFFFFF; color:#3B2418; font-weight:400;
+}
+.cv-janela-form input:focus, .cv-janela-form textarea:focus, .cv-doacao-outro input:focus { outline:2px solid #F2A51A; border-color:#F2A51A; }
+.cv-janela-tipos { border:0; padding:0; margin:0 0 14px; display:flex; flex-direction:column; gap:8px; }
+.cv-janela-tipos legend { font-weight:700; margin-bottom:6px; }
+.cv-janela-opcao { flex-direction:row !important; align-items:center; gap:10px !important; font-weight:400 !important;
+    background:#FFFFFF; border:1px solid #EADBC6; border-radius:8px; padding:10px 12px; cursor:pointer; }
+.cv-janela-opcao input { width:20px; height:20px; accent-color:#F2A51A; }
+.cv-janela-grade { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+.cv-janela-cheio { margin-bottom:12px; }
+.cv-janela-isca { position:absolute !important; left:-9999px !important; width:1px; height:1px; overflow:hidden; }
+.cv-janela-aceite { flex-direction:row !important; align-items:flex-start; gap:10px !important; font-weight:400 !important; font-size:14px !important; margin-bottom:12px; }
+.cv-janela-aceite input { width:20px; height:20px; margin-top:2px; accent-color:#F2A51A; flex-shrink:0; }
+.cv-janela-msg { font-size:15px; margin:0 0 12px; }
+.cv-janela-msg:empty { display:none; }
+.cv-janela-msg.is-ok   { background:#E3F4E8; color:#1C7C44; border:1px solid #1C7C44; padding:10px 12px; border-radius:8px; }
+.cv-janela-msg.is-erro { background:#FBE9E7; color:#C0392B; border:1px solid #C0392B; padding:10px 12px; border-radius:8px; }
+.cv-janela-msg.is-info { background:#FFF3D6; color:#8A5A00; padding:10px 12px; border-radius:8px; }
+.cv-janela-enviar { width:100%; min-height:48px; font-size:17px; }
+
+.cv-doacao-valores { display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; margin-bottom:14px; }
+.cv-doacao-valor {
+    min-height:52px; font-size:18px; font-weight:800; border-radius:10px; cursor:pointer;
+    border:2px solid #F2A51A; background:#FFFFFF; color:#7B3A22;
+}
+.cv-doacao-valor:hover, .cv-doacao-valor.is-ativo { background:#F2A51A; color:#3B2418; }
+.cv-doacao-outro { display:flex; gap:10px; align-items:flex-end; margin-bottom:8px; }
+.cv-doacao-outro label { flex:1; display:flex; flex-direction:column; gap:6px; font-weight:600; font-size:15px; }
+.cv-doacao-outro .cv-btn { min-height:44px; font-size:16px; }
+.cv-doacao-livre { margin:0 0 14px; }
+.cv-link-botao { background:none; border:0; padding:0; color:#7B3A22; text-decoration:underline; cursor:pointer; font:inherit; font-size:15px; }
+#cv-doacao-resultado .cv-pix { margin-top:4px; }
+
+@media (max-width: 560px) {
+    .cv-janela { width:100vw; max-width:100vw; max-height:100vh; height:100vh; border-radius:0; padding:24px 16px; }
+    .cv-janela-grade { grid-template-columns:1fr; }
+    .cv-doacao-valores { grid-template-columns:repeat(2, 1fr); }
+    .cv-doacao-outro { flex-direction:column; align-items:stretch; }
+}

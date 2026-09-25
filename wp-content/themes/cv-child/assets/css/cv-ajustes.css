@@ -13,6 +13,7 @@
    6) v15.13.0: botões oficiais das redes sociais (cor da marca + ícone branco).
    7) v15.14.0: rodapé com texto claro sobre o marrom; banner da marca nas
       páginas internas (.cv-hero--pagina).
+   8) v15.16.0: rodapé com 4 colunas (nova coluna "Apoie").
 ═══════════════════════════════════════════════════════════════ */
 
 /* ── 1. Player escuro ──────────────────────────────────────────
@@ -373,3 +374,11 @@ body legend { color: var(--cv-text); }
     .cv-hero--pagina .cv-hero-title { font-size: 28px; }
     .cv-hero--pagina .cv-hero-subtitle { font-size: 15px; }
 }
+
+/* ── 8. Rodapé com 4 colunas (v15.16.0) ─────────────────────────
+   A 4ª coluna "Apoie" (plugin CV_Apoio) abre as janelas Seja nosso
+   parceiro / colaborador. Telas médias: 2 × 2; celular: 1 coluna
+   (a regra do cv-components.css continua valendo abaixo de 768px). */
+.cv-footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+@media (max-width: 1100px) { .cv-footer-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 768px)  { .cv-footer-grid { grid-template-columns: 1fr; } }

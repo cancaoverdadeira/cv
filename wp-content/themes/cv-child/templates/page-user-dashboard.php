@@ -9,6 +9,8 @@
 // Favoritas, Histórico, Playlists e Conquistas. Redireciona para /login/
 // se não estiver logado. Todos os dados vêm de AJAX do plugin.
 // v15.11.0 (24/09/2026): cartões de playlist com "▶ Tocar" e "Abrir".
+// v15.15.0 (25/09/2026): aba "🛍️ Meus Pedidos" (E-book, Caneca, Camiseta),
+// desenhada pelo plugin (CV_Estoque_Area::render_aba). ?aba=pedidos abre direto.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -126,6 +128,9 @@ get_header();
                         array('id' => 'playlists',  'icon' => '📋', 'label' => 'Playlists'),
                         array('id' => 'conquistas', 'icon' => '🏅', 'label' => 'Conquistas'),
                     );
+                    if ( class_exists( 'CV_Estoque_Area' ) ) {
+                        $tabs[] = array('id' => 'pedidos', 'icon' => '🛍️', 'label' => 'Meus Pedidos');
+                    }
                     foreach ($tabs as $i => $tab) : ?>
                     <button class="cv-dash-tab <?php echo $i === 0 ? 'active' : ''; ?>"
                             data-tab="<?php echo esc_attr($tab['id']); ?>"
@@ -167,6 +172,13 @@ get_header();
                         <div class="cv-loading">⏳ Carregando playlists...</div>
                     </div>
                 </div>
+
+                <?php if ( class_exists( 'CV_Estoque_Area' ) ) : ?>
+                <!-- ABA: Meus Pedidos (plugin: CV_Estoque_Area) -->
+                <div id="cv-tab-pedidos" class="cv-dash-panel" role="tabpanel" style="display:none">
+                    <?php echo CV_Estoque_Area::render_aba( $user_id ); ?>
+                </div>
+                <?php endif; ?>
 
                 <!-- ABA: Conquistas -->
                 <div id="cv-tab-conquistas" class="cv-dash-panel" role="tabpanel" style="display:none">
@@ -213,6 +225,10 @@ jQuery(function($){
         $('#cv-tab-' + tab).show();
         if (!loaded[tab]) { loadTab(tab); }
     });
+
+    // ?aba=pedidos (link dos e-mails de pedido) abre a aba direto
+    var abaUrl = (location.search.match(/[?&]aba=([a-z]+)/) || [])[1];
+    if (abaUrl) { $('.cv-dash-tab[data-tab="' + abaUrl + '"]').trigger('click'); }
 
     function loadTab(tab) {
         loaded[tab] = true;

@@ -5,6 +5,8 @@
 // Conteúdo do rodapé: seção de newsletter, redes sociais (via CV_Social),
 // links do site e copyright. Incluído nos templates que têm footer visível.
 // Renderizado ANTES do player fixo — tem padding-bottom para não sobrepor.
+// v15.16.0 (25/09/2026): 4ª coluna "Apoie" (Seja nosso parceiro / Seja nosso
+// colaborador) e as duas janelas, desenhadas pelo plugin (CV_Apoio).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -119,6 +121,11 @@ $redes_sociais = class_exists('CV_Social') ? CV_Social::get_all() : array();
             </ul>
         </div>
 
+        <?php if ( class_exists( 'CV_Apoio' ) ) : ?>
+        <!-- Coluna: apoie (plugin: CV_Apoio) -->
+        <?php echo CV_Apoio::coluna_rodape(); ?>
+        <?php endif; ?>
+
     </div>
 
     <!-- Copyright -->
@@ -137,6 +144,8 @@ $redes_sociais = class_exists('CV_Social') ? CV_Social::get_all() : array();
     </div>
 
 </footer>
+
+<?php if ( class_exists( 'CV_Apoio' ) ) { echo CV_Apoio::janelas(); } // janelas "Apoie" (abrem pelo rodapé) ?>
 
 <!-- Newsletter JS (inline para garantir execução) -->
 <script>

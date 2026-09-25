@@ -1,0 +1,25 @@
+/* cancao-verdadeira/assets/css/cv-pix.css
+   Bloco "Pagar com PIX" (v2.48.0): QR Code à esquerda, valor, passos,
+   PIX Copia e Cola com botão "Copiar" e a chave. Usado nos pedidos da
+   Minha Área, na doação do rodapé e no teste do painel. Letras grandes
+   (público 55+), empilha no celular. */
+.cv-pix { background:#FFFFFF; border:2px solid #32BCAD; border-radius:12px; padding:16px; color:#3B2418; }
+.cv-pix-off { border-color:#EADBC6; color:#6B4C3B; font-size:15px; }
+.cv-pix-titulo { font-weight:700; font-size:17px; margin-bottom:10px; color:#1B7F75; }
+.cv-pix-corpo { display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap; }
+.cv-pix-qr { flex:0 0 auto; width:220px; min-height:220px; display:flex; align-items:center; justify-content:center; background:#FFFFFF; border-radius:8px; }
+.cv-pix-qr img { width:220px; height:220px; image-rendering:pixelated; }
+.cv-pix-qr-carregando { font-size:13px; color:#8A6A55; text-align:center; }
+.cv-pix-dados { flex:1 1 240px; min-width:0; }
+.cv-pix-valor { font-size:26px; font-weight:800; color:#1B7F75; margin-bottom:6px; }
+.cv-pix-passos { margin:0 0 12px; padding-left:20px; font-size:15px; line-height:1.6; }
+.cv-pix-rotulo { display:block; font-weight:700; font-size:14px; margin-bottom:4px; }
+.cv-pix-copia { display:flex; gap:8px; }
+.cv-pix-codigo { flex:1; min-width:0; font-family:monospace; font-size:13px; padding:10px; border:1px solid #EADBC6; border-radius:8px; background:#FBF6EE; color:#3B2418; }
+.cv-pix-copiar { white-space:nowrap; min-height:44px; font-size:15px; }
+.cv-pix-chave { margin-top:10px; font-size:14px; color:#6B4C3B; word-break:break-all; }
+@media (max-width: 560px) {
+    .cv-pix-corpo { flex-direction:column; align-items:center; }
+    .cv-pix-dados { width:100%; }
+    .cv-pix-copia { flex-direction:column; }
+}
