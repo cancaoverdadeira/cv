@@ -10,6 +10,7 @@
 // Redireciona para /login/ se não estiver logado.
 // v15.11.0 (24/09/2026): as músicas vêm de cv_get_playlist_queue e tocam no
 // player (YouTube ou MP3); remover música usa cv_playlist_remove_music.
+// v15.14.0: título no banner da marca (template-parts/banner-pagina.php).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -30,14 +31,20 @@ get_header();
     <main class="cv-main" id="cv-main" role="main">
         <?php get_template_part('template-parts/topbar'); ?>
 
-        <div style="padding:36px">
+        <?php
+        get_template_part( 'template-parts/banner-pagina', null, array(
+            'tag'       => '📋 Sua coleção',
+            'titulo'    => 'Minhas',
+            'destaque'  => 'Playlists',
+            'subtitulo' => 'Junte as músicas que mais tocam o seu coração e ouça quando quiser.',
+        ) );
+        ?>
 
-            <!-- Cabeçalho -->
-            <div style="display:flex;align-items:center;justify-content:space-between;
+        <div style="padding:28px 36px 36px">
+
+            <!-- Ação principal (o título está no banner acima) -->
+            <div style="display:flex;align-items:center;justify-content:flex-end;
                         margin-bottom:28px;flex-wrap:wrap;gap:12px">
-                <h1 style="font-family:var(--font-display);font-size:28px;font-weight:700;margin:0">
-                    📋 Minhas <span style="color:var(--cv-gold)">Playlists</span>
-                </h1>
                 <button id="cv-create-playlist"
                         class="cv-btn cv-btn-primary">
                     + Nova Playlist

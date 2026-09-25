@@ -54,12 +54,19 @@
 // v2.44.0 (24/09/2026) — Ícones oficiais das redes (CV_Icones, Simple Icons CC0) nos
 // links e botões de compartilhar; avisos de nova música e sorteio viram CAMPANHAS do
 // MailerLite (rascunho por padrão e sempre no site local; ou envio na hora).
+// v2.45.0 (25/09/2026) — Correções do 2º teste: editor "estilo Word" nos posts do
+// blog (editor clássico) e na letra (CV_Editor_Rico); caixa "🔎 SEO e Tags" de volta
+// na música (palavra-chave e título do Rank Math, tags, prévia do Google); Gravatar
+// ligado no Ultimate Member (a foto do perfil vem do e-mail, como a tela já dizia).
+// v2.46.0 (25/09/2026) — Tela do post organizada (Imagem destacada logo abaixo de
+// Publicar, caixas sem uso fora); exclusão de usuário passa playlists, favoritos,
+// notas e plays para quem herda o conteúdo (CV_Usuario_Exclusao).
 
 /**
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.44.0
+ * Version:     2.46.0
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -68,7 +75,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.44.0' );
+define( 'CV_VERSION',        '2.46.0' );
 define( 'CV_DB_VERSION',     '8' );       // v2.15.0: tabelas cv_sentimentos + cv_musica_sentimentos + cv_calibracao_log
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
@@ -83,6 +90,7 @@ $cv_includes = array(
     'includes/public/class-cv-launch.php',     // modo lançamento (contadores mínimos e seleção da casa)        // nomes centrais dos campos da música
     'includes/cpt/class-cv-cpt.php',
     'includes/cpt/class-cv-sem-generos.php',   // v2.26.0: gêneros removidos; redireciona /genero/ e /estilo/
+    'includes/cpt/class-cv-editor-rico.php',   // v2.45.0: editor "estilo Word" no blog e na letra
     'includes/cpt/class-cv-metaboxes.php',
     'includes/cpt/class-cv-exclusao.php',      // v2.39.0: exclusão completa da música (tabelas cv_*, capa, caches)
     'includes/cpt/class-cv-blog.php',          // v2.25.0: categoria Blog, URLs /blog/ e SEO automático dos posts
@@ -105,6 +113,7 @@ $cv_includes = array(
     'includes/user/class-cv-notifications.php',
     'includes/user/class-cv-public-profile.php',
     'includes/user/class-cv-um-integration.php',
+    'includes/user/class-cv-usuario-exclusao.php', // v2.46.0: dados cv_* passam para quem herda o conteúdo
     'includes/user/class-cv-um-traducao.php',    // v2.40.0: textos do Ultimate Member em português
     'includes/user/class-cv-achievements.php',
     // Segurança complementar

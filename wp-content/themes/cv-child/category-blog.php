@@ -7,6 +7,7 @@
 // Layout: sidebar + topbar + banner no padrão das páginas internas + grade
 // de cards (imagem destacada, data, título, resumo) + paginação.
 // Gerado em: 2026-09-23 (tema v15.1.0)
+// v15.14.0: o cabeçalho virou o banner da marca (template-parts/banner-pagina.php).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -25,15 +26,14 @@ get_header();
 
         <?php get_template_part( 'template-parts/topbar' ); ?>
 
-        <div class="cv-blog-hero" role="banner">
-            <nav aria-label="Navegação estrutural" class="cv-blog-crumbs">
-                <a href="<?php echo esc_url( home_url( '/' ) ); ?>">Início</a>
-                <span aria-hidden="true">/</span>
-                <span class="is-current"><?php echo esc_html( $blog_nome ); ?></span>
-            </nav>
-            <h1><?php echo esc_html( $blog_nome ); ?></h1>
-            <p><?php echo esc_html( $blog_desc ); ?></p>
-        </div>
+        <?php
+        get_template_part( 'template-parts/banner-pagina', null, array(
+            'tag'       => '📰 Histórias e bastidores',
+            'titulo'    => $blog_nome,
+            'destaque'  => 'da Canção Verdadeira',
+            'subtitulo' => $blog_desc,
+        ) );
+        ?>
 
         <section class="cv-section" aria-label="Posts do blog">
             <?php if ( have_posts() ) : ?>

@@ -10,6 +10,10 @@
 // Setup   : na 1ª carga cria a categoria, torna-a padrão e atualiza as regras
 //           de URL (opção cv_blog_version).
 // Gerado  : 2026-09-23
+// v2.46.0 : tela do post organizada. Coluna direita: Publicar → Imagem
+//           destacada → Categorias → Tags (a imagem tinha ido para o fim, depois
+//           de 9 caixas). Saem caixas sem uso no blog: Formato, Atributos do
+//           post, Opções do WP Rocket, Astra, Trackbacks e Campos personalizados.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -26,6 +30,32 @@ class CV_Blog {
         add_action( 'template_redirect', array( __CLASS__, 'redirect_old_urls' ) );
         add_action( 'add_meta_boxes',    array( __CLASS__, 'add_metabox' ) );
         add_action( 'save_post_post',    array( __CLASS__, 'save' ) );
+        add_action( 'add_meta_boxes',    array( __CLASS__, 'limpar_tela' ), 999, 1 );
+        add_filter( 'get_user_option_meta-box-order_post', array( __CLASS__, 'ordem_caixas' ) );
+    }
+
+    // ── Tela do post: ordem das caixas e caixas sem uso (v2.46.0) ────
+
+    public static function ordem_caixas( $ordem ) {
+        $ordem = is_array( $ordem ) ? $ordem : array();
+        $ordem['side']   = 'submitdiv,postimagediv,categorydiv,tagsdiv-post_tag,rank_math_metabox_content_ai,rank_math_metabox_link_suggestions';
+        $ordem['normal'] = 'cv_blog_seo,rank_math_metabox,postexcerpt';
+        return $ordem;
+    }
+
+    public static function limpar_tela( $post_type ) {
+        if ( 'post' !== $post_type ) { return; }
+        $caixas = array(
+            'formatdiv'               => 'side',     // Formato (o tema não usa)
+            'pageparentdiv'           => 'side',     // Atributos do post (modelo de página)
+            'rocket_post_exclude'     => 'side',     // Opções do WP Rocket (técnico)
+            'astra_settings_meta_box' => 'side',     // Configurações do Astra (o tema filho manda)
+            'trackbacksdiv'           => 'normal',   // Trackbacks (ninguém usa mais)
+            'postcustom'              => 'normal',   // Campos personalizados (técnico)
+        );
+        foreach ( $caixas as $id => $contexto ) {
+            remove_meta_box( $id, 'post', $contexto );
+        }
     }
 
     // ── Configuração inicial (roda uma vez) ─────────────────────────

@@ -8,6 +8,7 @@
 // Página completa de notificações do usuário: lista de todas as
 // notificações com ações de marcar como lida, marcar todas e excluir.
 // Redireciona para /login/ se não estiver logado.
+// v15.14.0: título no banner da marca (template-parts/banner-pagina.php).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -30,22 +31,22 @@ get_header();
     <main class="cv-main" id="cv-main" role="main">
         <?php get_template_part('template-parts/topbar'); ?>
 
-        <div style="max-width:760px;margin:0 auto;padding:40px 36px">
+        <?php
+        get_template_part( 'template-parts/banner-pagina', null, array(
+            'tag'       => $unread_count > 0
+                ? '🔔 ' . $unread_count . ( 1 === $unread_count ? ' não lida' : ' não lidas' )
+                : '🔔 Tudo em dia',
+            'titulo'    => 'Suas',
+            'destaque'  => 'Notificações',
+            'subtitulo' => 'Novas músicas, conquistas e avisos da Canção Verdadeira.',
+        ) );
+        ?>
 
-            <!-- Cabeçalho -->
-            <div style="display:flex;align-items:center;justify-content:space-between;
-                        margin-bottom:28px;flex-wrap:wrap;gap:12px">
-                <div>
-                    <h1 style="font-family:var(--font-display);font-size:28px;
-                               font-weight:700;margin:0 0 4px">
-                        🔔 Notificações
-                    </h1>
-                    <?php if ($unread_count > 0) : ?>
-                    <span style="font-size:13px;color:var(--cv-text-muted)">
-                        <?php echo $unread_count; ?> não lida<?php echo $unread_count !== 1 ? 's' : ''; ?>
-                    </span>
-                    <?php endif; ?>
-                </div>
+        <div style="max-width:760px;margin:0 auto;padding:28px 36px 40px">
+
+            <!-- Ações (o título está no banner acima) -->
+            <div style="display:flex;align-items:center;justify-content:flex-end;
+                        margin-bottom:20px;flex-wrap:wrap;gap:12px">
 
                 <?php if (!empty($notifications)) : ?>
                 <button id="cv-mark-all-read"

@@ -9,6 +9,9 @@
 // Autor   : Canção Verdadeira | Gerado: 2026-06-26
 // v2.26.0 : campo "Gênero Musical" removido (o site é todo sertanejo)
 // v2.25.0 : sync_excerpt usa CV_Fields::sync_excerpt (compartilhado com o blog)
+// v2.45.0 : letra com a barra "estilo Word" (CV_Editor_Rico) e caixa "🔎 SEO e
+//           Tags" de volta: palavra-chave principal e título no Google (gravados
+//           nos campos do Rank Math), tags e prévia do resultado no Google.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -37,6 +40,7 @@ class CV_Metaboxes {
         add_meta_box( 'cv_music_player',   '🎬 Player & Áudio',     array( __CLASS__, 'render_player' ),   'musica', 'normal', 'high' );
         add_meta_box( 'cv_music_info',     '🎤 Informações',         array( __CLASS__, 'render_info' ),     'musica', 'normal', 'high' );
         add_meta_box( 'cv_music_letra',    '📝 Letra da Música',     array( __CLASS__, 'render_letra' ),    'musica', 'normal', 'high' );
+        add_meta_box( 'cv_music_seo',      '🔎 SEO e Tags',          array( __CLASS__, 'render_seo' ),      'musica', 'normal', 'high' );
         add_meta_box( 'cv_music_config',   '⚙️ Configurações',       array( __CLASS__, 'render_config' ),   'musica', 'side',   'high' );
         add_meta_box( 'cv_music_estreia',  '📅 Estreia',             array( __CLASS__, 'render_estreia' ),  'musica', 'side',   'high' );
         add_meta_box( 'cv_music_stats',    '📊 Estatísticas',        array( __CLASS__, 'render_stats' ),    'musica', 'side',   'low' );
@@ -286,13 +290,71 @@ class CV_Metaboxes {
             'teeny'         => false,
             'textarea_rows' => 20,
             'tinymce'       => array(
-                'toolbar1' => 'bold,italic,underline,separator,bullist,numlist,separator,alignleft,aligncenter,alignright,separator,link,unlink,separator,undo,redo',
-                'toolbar2' => '',
+                'toolbar1'   => implode( ',', CV_Editor_Rico::barra_1() ),
+                'toolbar2'   => implode( ',', CV_Editor_Rico::barra_2() ),
                 'body_class' => 'cv-letra-editor',
             ),
             'quicktags'     => array( 'buttons' => 'strong,em,ul,ol,li,link' ),
         ) );
         echo '<p class="cv-hint" style="margin-top:8px">A letra é o conteúdo principal da página da música e é indexada pelo Google.</p>';
+    }
+
+    // ── SEO e Tags (v2.45.0) ──────────────────────────────────────
+    // Palavra-chave e título vão para os campos do Rank Math (rank_math_*),
+    // que já monta título, descrição, Open Graph e sitemap. A descrição
+    // continua no campo "Descrição" da caixa Informações.
+    public static function render_seo( $post ) {
+        $palavra = get_post_meta( $post->ID, 'rank_math_focus_keyword', true );
+        $titulo  = get_post_meta( $post->ID, 'rank_math_title', true );
+        $tags    = wp_get_post_terms( $post->ID, 'post_tag', array( 'fields' => 'names' ) );
+        $tags    = is_wp_error( $tags ) ? '' : implode( ', ', $tags );
+        $padrao  = ( $post->post_title ? $post->post_title : 'Título da música' ) . ' - ' . get_bloginfo( 'name' );
+        $link    = get_permalink( $post->ID );
+        ?>
+        <div class="cv-dark-grid-2" style="margin-bottom:14px">
+            <div class="cv-dark-field">
+                <label for="cv_seo_palavra">Palavra-chave principal</label>
+                <input type="text" id="cv_seo_palavra" name="cv_seo_palavra"
+                       value="<?php echo esc_attr( $palavra ); ?>"
+                       placeholder="Ex.: <?php echo esc_attr( $post->post_title ? mb_strtolower( $post->post_title ) . ' letra' : 'nome da música letra' ); ?>" />
+                <div class="cv-hint">O que a pessoa digitaria no Google para achar esta música. O Rank Math mede a página por ela.</div>
+            </div>
+            <div class="cv-dark-field">
+                <label for="cv_seo_titulo">Título no Google <span style="font-weight:400;text-transform:none">(opcional)</span></label>
+                <input type="text" id="cv_seo_titulo" name="cv_seo_titulo" maxlength="70"
+                       value="<?php echo esc_attr( $titulo ); ?>"
+                       placeholder="<?php echo esc_attr( $padrao ); ?>" />
+                <div class="cv-hint">Em branco, usa o automático: <em><?php echo esc_html( $padrao ); ?></em></div>
+            </div>
+        </div>
+        <div class="cv-dark-field" style="margin-bottom:14px">
+            <label for="cv_seo_tags">Tags</label>
+            <input type="text" id="cv_seo_tags" name="cv_seo_tags"
+                   value="<?php echo esc_attr( $tags ); ?>"
+                   placeholder="Ex.: sertanejo romântico, amor maduro, recomeço" />
+            <div class="cv-hint">Separe por vírgula. Ajudam a organizar as músicas e a busca do site.</div>
+        </div>
+
+        <div class="cv-section-label">Prévia no Google</div>
+        <div id="cv-seo-previa" style="background:#FFFFFF;border:1px solid #EADBC6;border-radius:8px;padding:14px 16px;max-width:600px;font-family:Arial,sans-serif">
+            <div style="font-size:12px;color:#4D5156"><?php echo esc_html( $link ); ?></div>
+            <div id="cv-seo-previa-titulo" style="font-size:18px;color:#1A0DAB;margin:4px 0"></div>
+            <div id="cv-seo-previa-desc" style="font-size:13px;color:#4D5156;line-height:1.5"></div>
+        </div>
+        <script>
+        jQuery(function($){
+            var padrao = <?php echo wp_json_encode( ' - ' . get_bloginfo( 'name' ) ); ?>;
+            function atualizar(){
+                var t = $.trim($('#cv_seo_titulo').val()) || ($.trim($('#title').val()) || 'Título da música') + padrao;
+                var d = $.trim($('#cv_descricao').val()) || 'Escreva a Descrição na caixa Informações — é ela que aparece aqui.';
+                $('#cv-seo-previa-titulo').text(t.length > 60 ? t.substr(0, 60) + '…' : t);
+                $('#cv-seo-previa-desc').text(d.length > 160 ? d.substr(0, 160) + '…' : d);
+            }
+            $('#cv_seo_titulo, #title, #cv_descricao').on('input', atualizar);
+            atualizar();
+        });
+        </script>
+        <?php
     }
 
     // ── Configurações laterais ────────────────────────────────────
@@ -479,6 +541,22 @@ class CV_Metaboxes {
                 'post_date_gmt' => $scheduled_gmt,
             ));
             add_action('save_post_musica', array(__CLASS__,'save'));
+        }
+
+        // SEO e Tags (v2.45.0) — campos do Rank Math + tags nativas
+        if ( isset( $_POST['cv_seo_palavra'] ) ) {
+            $palavra = sanitize_text_field( wp_unslash( $_POST['cv_seo_palavra'] ) );
+            if ( '' === $palavra ) { delete_post_meta( $post_id, 'rank_math_focus_keyword' ); }
+            else                   { update_post_meta( $post_id, 'rank_math_focus_keyword', $palavra ); }
+        }
+        if ( isset( $_POST['cv_seo_titulo'] ) ) {
+            $titulo_seo = sanitize_text_field( wp_unslash( $_POST['cv_seo_titulo'] ) );
+            if ( '' === $titulo_seo ) { delete_post_meta( $post_id, 'rank_math_title' ); }
+            else                      { update_post_meta( $post_id, 'rank_math_title', $titulo_seo ); }
+        }
+        if ( isset( $_POST['cv_seo_tags'] ) ) {
+            $tags = array_filter( array_map( 'trim', explode( ',', sanitize_text_field( wp_unslash( $_POST['cv_seo_tags'] ) ) ) ) );
+            wp_set_post_terms( $post_id, array_values( $tags ), 'post_tag', false );
         }
 
         // SEO automático — gera title e description a partir dos dados

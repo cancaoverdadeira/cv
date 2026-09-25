@@ -9,7 +9,9 @@
    páginas de playlist) e adiciona window.cvPlayer (alias em minúsculo)
    e o método loadQueue(), contrato já esperado pelo plugin (ver
    includes/public/class-cv-mvp.php). Fila, shuffle, repeat, volume e
-   registro de plays preservados do motor anterior. */
+   registro de plays preservados do motor anterior.
+   v15.14.0: na página inicial a fila do ranking é embaralhada a cada visita
+   (antes começava sempre pela 1ª colocada). */
 
 (function($) {
     'use strict';
@@ -259,6 +261,15 @@
     window._cvPlay = function(idx) { go(idx); };
 
     // ── Carga pelo ranking (usada na home) ──────────────────────
+    // Embaralha a lista (Fisher-Yates): cada visita começa numa música diferente
+    function embaralhar(lista) {
+        for (var i = lista.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var t = lista[i]; lista[i] = lista[j]; lista[j] = t;
+        }
+        return lista;
+    }
+
     function loadByPriority() {
         var urls = [REST + 'ranking/top', REST + 'ranking/best', REST + 'ranking/recent'];
         var i = 0;
@@ -267,7 +278,7 @@
             $.get(urls[i++], { limit: 50 }, function(data) {
                 var valid = (data || []).map(normalizeTrack).filter(function(m) { return !!(m.youtubeId || m.audioUrl); });
                 if (valid.length) {
-                    QUEUE = valid;
+                    QUEUE = embaralhar(valid);
                     try { sessionStorage.setItem('cv_queue', JSON.stringify(QUEUE.slice(0, 50))); } catch(e) {}
                     go(0);
                 } else {

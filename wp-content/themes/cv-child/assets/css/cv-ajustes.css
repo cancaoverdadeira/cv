@@ -11,6 +11,8 @@
    5) v15.11.0: resultados da busca lateral com fundo sólido; rótulos e
       botões dos formulários (Ultimate Member) visíveis e nas cores da marca.
    6) v15.13.0: botões oficiais das redes sociais (cor da marca + ícone branco).
+   7) v15.14.0: rodapé com texto claro sobre o marrom; banner da marca nas
+      páginas internas (.cv-hero--pagina).
 ═══════════════════════════════════════════════════════════════ */
 
 /* ── 1. Player escuro ──────────────────────────────────────────
@@ -336,3 +338,38 @@ body legend { color: var(--cv-text); }
     filter: brightness(.9);
 }
 .cv-icone { flex-shrink: 0; vertical-align: middle; }
+
+/* ── 7. Rodapé legível (v15.14.0) ───────────────────────────────
+   O fundo do rodapé é o marrom da barra lateral (--cv-bg-sidebar), mas os
+   textos usavam as cores escuras do tema claro: marrom sobre marrom, tudo
+   sumia. Mesma solução da barra lateral: redefine os tokens só aqui dentro. */
+.cv-footer {
+    --cv-gold:          #F2A51A;
+    --cv-text:          #FBF6EE;
+    --cv-text-muted:    #F3E6D3;
+    --cv-text-dim:      #E3CDB3;
+    --cv-border-subtle: rgba(255, 255, 255, 0.14);
+    color: var(--cv-text);
+}
+.cv-footer .cv-footer-links a:hover { color: #FFC24D; }
+
+/* ── 7b. Banner das páginas internas (v15.14.0) ─────────────────
+   Mesmo visual do hero da home, mais baixo, para Todas as Músicas, Blog,
+   Minhas Playlists, Notificações e perfil/conta. */
+.cv-hero--pagina {
+    padding: 36px 36px 32px;
+    grid-template-columns: minmax(0, 560px) minmax(180px, 240px);
+}
+.cv-hero--pagina .cv-hero-title {
+    white-space: normal;
+    font-size: clamp(30px, 2.8vw, 44px);
+}
+.cv-hero--pagina .cv-hero-subtitle { font-size: 17px; margin-bottom: 0; }
+.cv-hero--pagina .cv-hero-actions  { margin-top: 18px; }
+.cv-hero--sem-marca { grid-template-columns: minmax(0, 760px); justify-content: start; }
+@media (max-width: 768px) {
+    .cv-hero--pagina { grid-template-columns: 1fr; padding: 20px 16px 24px; }
+    .cv-hero--pagina .cv-hero-marca { width: 150px; }
+    .cv-hero--pagina .cv-hero-title { font-size: 28px; }
+    .cv-hero--pagina .cv-hero-subtitle { font-size: 15px; }
+}

@@ -6,6 +6,7 @@
 // URL: /musicas/ e /musicas/page/2/ etc.
 // Ordenação via ?orderby=plays|recente|titulo|avaliacao
 // v15.4.0: removido o filtro por gênero (o site é todo sertanejo).
+// v15.14.0: banner da marca no topo (template-parts/banner-pagina.php).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -76,21 +77,18 @@ get_header();
 
         <?php get_template_part('template-parts/topbar'); ?>
 
-        <!-- Cabeçalho do catálogo -->
-        <div style="background:linear-gradient(180deg,#FFFFFF 0%,var(--cv-bg) 100%);
-                    padding:40px 36px 28px;border-bottom:1px solid var(--cv-border-subtle)">
+        <?php
+        get_template_part( 'template-parts/banner-pagina', null, array(
+            'tag'       => $total > 0 ? '🎵 ' . number_format_i18n( $total ) . ( 1 === (int) $total ? ' música' : ' músicas' ) : '🎵 Catálogo',
+            'titulo'    => 'Todas as',
+            'destaque'  => 'Músicas',
+            'subtitulo' => 'Letras sertanejas autorais para ouvir, cantar junto e guardar no coração.',
+        ) );
+        ?>
 
-            <h1 style="font-family:var(--font-display);font-size:32px;font-weight:700;margin:0 0 6px">
-                🎵 <?php echo esc_html($titulo_pag); ?>
-                <?php if ($total > 0) : ?>
-                <span style="font-size:16px;font-weight:400;color:var(--cv-text-muted);margin-left:10px">
-                    <?php echo number_format($total); ?> música<?php echo $total !== 1 ? 's' : ''; ?>
-                </span>
-                <?php endif; ?>
-            </h1>
-
-            <!-- Ordenação -->
-            <div style="display:flex;align-items:center;gap:10px;margin-top:20px;flex-wrap:wrap">
+        <!-- Ordenação -->
+        <div style="padding:20px 36px 4px">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
                 <span style="font-size:12px;color:var(--cv-text-dim);text-transform:uppercase;letter-spacing:.5px">
                     Ordenar por:
                 </span>

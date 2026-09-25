@@ -7,6 +7,8 @@
 // manualmente. Aplica o layout completo do tema filho: sidebar + topbar +
 // conteúdo centralizado + player. Sem este arquivo o WordPress usa o layout
 // padrão do Astra, que não tem sidebar nem player.
+// v15.14.0: Meu Perfil, Perfil do membro e Minha Conta ganham o banner da marca
+// (template-parts/banner-pagina.php) no lugar do título simples.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -23,7 +25,21 @@ get_header();
 
         <?php while ( have_posts() ) : the_post(); ?>
 
-        <article style="max-width:760px;margin:0 auto;padding:48px 36px 60px">
+        <?php
+        // Páginas de perfil/conta com banner: slug => textos
+        $banners = array(
+            'meu-perfil'  => array( 'tag' => '👤 Sua conta', 'titulo' => 'Meu',   'destaque' => 'Perfil', 'subtitulo' => 'Seus dados, sua foto e sua senha.' ),
+            'membro'      => array( 'tag' => '👤 Perfil',    'titulo' => 'Perfil', 'destaque' => 'do Ouvinte', 'subtitulo' => 'Músicas favoritas, playlists e conquistas.' ),
+            'minha-conta' => array( 'tag' => '⚙️ Sua conta', 'titulo' => 'Minha', 'destaque' => 'Conta',  'subtitulo' => 'Dados de acesso, privacidade e notificações.' ),
+        );
+        $slug   = get_post_field( 'post_name', get_the_ID() );
+        $banner = isset( $banners[ $slug ] ) ? $banners[ $slug ] : null;
+        if ( $banner ) {
+            get_template_part( 'template-parts/banner-pagina', null, $banner );
+        }
+        ?>
+
+        <article style="max-width:760px;margin:0 auto;padding:<?php echo $banner ? '28px' : '48px'; ?> 36px 60px">
 
             <?php
             // Cabeçalho com título (exceto em páginas que têm shortcode de form)
@@ -36,7 +52,7 @@ get_header();
             );
             ?>
 
-            <?php if ( ! $has_form_shortcode ) : ?>
+            <?php if ( ! $has_form_shortcode && ! $banner ) : ?>
             <header style="margin-bottom:32px;padding-bottom:20px;
                            border-bottom:1px solid var(--cv-border-subtle)">
                 <h1 style="font-family:var(--font-display);font-size:32px;

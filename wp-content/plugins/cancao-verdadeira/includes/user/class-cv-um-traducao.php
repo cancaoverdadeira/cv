@@ -11,12 +11,15 @@
 //    e cadastro (_um_custom_fields) e os assuntos dos e-mails (um_options),
 //    sem mexer em textos já personalizados. Corpo dos e-mails: tema,
 //    pasta cv-child/ultimate-member/email/.
+// 3) v2.45.0 (versão 3 da rotina): liga "Usar Gravatars" no Ultimate Member.
+//    A tela Meu perfil diz que a foto vem do Gravatar, mas a opção estava
+//    desligada e todos apareciam com o boneco padrão do UM.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class CV_UM_Traducao {
 
-    const VERSAO_ROTULOS = 2; // sobe quando a lista de rótulos/opções mudar (v2: assuntos dos e-mails)
+    const VERSAO_ROTULOS = 3; // sobe quando a lista de rótulos/opções mudar (v2: assuntos dos e-mails; v3: Gravatar)
 
     // Texto original do Ultimate Member => texto em português.
     private static $textos = array(
@@ -221,6 +224,11 @@ class CV_UM_Traducao {
                     $um[ $chave ] = $par[1];
                     $mudou = true;
                 }
+            }
+            // v3: foto do perfil pelo Gravatar (e-mail cadastrado)
+            if ( empty( $um['use_gravatars'] ) ) {
+                $um['use_gravatars'] = 1;
+                $mudou = true;
             }
             if ( $mudou ) { update_option( 'um_options', $um ); }
         }
