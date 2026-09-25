@@ -17,6 +17,8 @@
 // v2.50.0: aba "🎤 Envios de música" (CV_Envio_Admin, views/envios.php).
 // v2.51.0: caixa "Apoie" também na Minha Área (caixa_area), com os dois botões
 // grandes — abrem as mesmas janelas do rodapé.
+// v2.52.0: 3º botão "🎤 Enviar minha música" (abre a aba de envio ou explica
+// que primeiro vem a proposta de parceria).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -106,7 +108,16 @@ class CV_Apoio {
             <div class="cv-apoio-area-botoes">
                 <button type="button" class="cv-btn cv-btn-secondary cv-apoio-abrir" data-janela="cv-janela-parceiro">🤝 Seja nosso parceiro</button>
                 <button type="button" class="cv-btn cv-btn-primary cv-apoio-abrir" data-janela="cv-janela-colaborador">💛 Seja nosso colaborador</button>
+                <?php // v2.52.0: atalho para a aba de envio (ou explicação, se ainda não é parceiro) ?>
+                <?php if ( class_exists( 'CV_Envio' ) && CV_Envio::pode_ver( get_current_user_id() ) ) : ?>
+                <a class="cv-btn cv-btn-secondary" href="<?php echo esc_url( add_query_arg( 'aba', 'enviar', home_url( '/minha-area/' ) ) ); ?>" onclick="var t=document.querySelector('.cv-dash-tab[data-tab=enviar]');if(t){t.click();t.scrollIntoView({behavior:'smooth'});return false;}">🎤 Enviar minha música</a>
+                <?php else : ?>
+                <button type="button" class="cv-btn cv-btn-secondary cv-apoio-abrir" data-janela="cv-janela-parceiro" title="Primeiro envie a proposta; depois a aba de envio aparece aqui">🎤 Enviar minha música</button>
+                <?php endif; ?>
             </div>
+            <?php if ( ! ( class_exists( 'CV_Envio' ) && CV_Envio::pode_ver( get_current_user_id() ) ) ) : ?>
+            <p class="cv-apoio-area-nota">🎤 Para enviar sua música: primeiro mande a proposta em "Seja nosso parceiro" (com o mesmo e-mail desta conta). Depois aparece a aba <strong>"Enviar música"</strong> aqui na sua Minha Área.</p>
+            <?php endif; ?>
         </section>
         <?php
         return ob_get_clean();

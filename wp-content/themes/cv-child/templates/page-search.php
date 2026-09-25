@@ -10,6 +10,7 @@
 // com o trecho da letra em destaque, filtra por sentimento e lista também os
 // posts do blog que citam o termo. A busca nativa (/?s=) redireciona para cá.
 // Sem termo: sugestões de sentimentos e as músicas mais recentes.
+// v15.20.0: o topo virou o banner da marca, com a busca dentro dele.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -47,16 +48,23 @@ get_header();
     <main class="cv-main" id="cv-main" role="main">
         <?php get_template_part( 'template-parts/topbar' ); ?>
 
-        <div class="cv-busca-hero">
-            <h1>🔍 Buscar <span>Músicas</span></h1>
-            <p>Encontre pelo título, por um trecho da letra, pelo compositor ou pelo artista.</p>
-            <?php get_template_part( 'template-parts/busca-avancada', null, array(
-                'termo'      => $termo,
-                'sentimento' => $sentimento,
-                'ordem'      => $ordem,
-                'autofocus'  => ! $buscou,
-            ) ); ?>
-        </div>
+        <?php
+        ob_start();
+        get_template_part( 'template-parts/busca-avancada', null, array(
+            'termo'      => $termo,
+            'sentimento' => $sentimento,
+            'ordem'      => $ordem,
+            'autofocus'  => ! $buscou,
+        ) );
+        $form_busca = ob_get_clean();
+        get_template_part( 'template-parts/banner-pagina', null, array(
+            'tag'       => '🔍 Buscar',
+            'titulo'    => 'Encontre sua',
+            'destaque'  => 'Canção',
+            'subtitulo' => 'Pelo título, por um trecho da letra, pelo compositor ou pelo artista.',
+            'acoes'     => $form_busca,
+        ) );
+        ?>
 
         <div class="cv-section">
 

@@ -416,7 +416,8 @@
             if (QUEUE.length) { go(IDX); } else { loadByPriority(); }
         });
 
-        $(document).on('click', '.cv-card-play-overlay, .cv-card-play-icon', function(e) {
+        // v15.20.0: o botão "▶ Tocar" do cartão usa o mesmo caminho da capa
+        $(document).on('click', '.cv-card-play-overlay, .cv-card-play-icon, .cv-card-tocar', function(e) {
             e.preventDefault(); e.stopPropagation();
             var $c = $(this).closest('.cv-card'), d = $c.data();
             API.playById({ musicId: d.musicId, audioUrl: d.audioUrl || '', youtubeId: d.youtubeId || '',

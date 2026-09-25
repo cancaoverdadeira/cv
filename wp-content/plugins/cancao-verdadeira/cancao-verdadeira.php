@@ -81,12 +81,16 @@
 // rascunho (aba "🎤 Envios de música"). Arquivos em cv-privado/ fora da pasta pública. Banco v12.
 // v2.51.0 (25/09/2026) — Caixa "Apoie" (Seja nosso parceiro / colaborador) também na
 // Minha Área; prompt de ajuda com os subitens do "b)" iguais ao original em Word.
+// v2.52.0 (26/09/2026) — 3º teste: "🔁 Transferir autoria" na tela Usuários
+// (CV_Transferir_Autoria); playlist pública/privada (cv_playlist_visibilidade);
+// CV_Ranking::get_most_played/get_best_rated (seções novas da home); "← Dashboard"
+// também em Categorias, Tags, Usuários e Mídia; "🎤 Enviar minha música" na caixa Apoie.
 
 /**
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.51.0
+ * Version:     2.52.0
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -95,7 +99,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.51.0' );
+define( 'CV_VERSION',        '2.52.0' );
 define( 'CV_DB_VERSION',     '12' );      // v2.50.0: cv_envios (v2.49.0: colunas novas em cv_parcerias)
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
@@ -134,6 +138,7 @@ $cv_includes = array(
     'includes/user/class-cv-public-profile.php',
     'includes/user/class-cv-um-integration.php',
     'includes/user/class-cv-usuario-exclusao.php', // v2.46.0: dados cv_* passam para quem herda o conteúdo
+    'includes/user/class-cv-transferir-autoria.php', // v2.52.0: "Transferir autoria" (tela Usuários)
     'includes/user/class-cv-um-traducao.php',    // v2.40.0: textos do Ultimate Member em português
     'includes/user/class-cv-achievements.php',
     // Segurança complementar

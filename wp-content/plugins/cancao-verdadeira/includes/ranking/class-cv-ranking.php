@@ -280,6 +280,53 @@ class CV_Ranking {
     }
 
     /**
+     * v2.52.0: seções "🔥 Mais tocadas" e "⭐ Melhor avaliadas" da home.
+     * Mesma regra do "Mais Favoritadas": publicadas, ativas e com pelo menos
+     * 1 play / 1 avaliação (sem número inventado).
+     */
+    public static function get_most_played( $limit = 8 ) {
+        return self::por_meta( CV_Fields::PLAYS_TOTAL, $limit, 'cv_ranking_plays_' );
+    }
+
+    public static function get_best_rated( $limit = 8 ) {
+        return self::por_meta( CV_Fields::AVG_RATING, $limit, 'cv_ranking_notas_' );
+    }
+
+    private static function por_meta( $meta, $limit, $prefixo ) {
+        $cache_key = $prefixo . absint( $limit );
+        $cached    = get_transient( $cache_key );
+        if ( false !== $cached ) { return $cached; }
+
+        $posts = get_posts( array(
+            'post_type'      => 'musica',
+            'post_status'    => 'publish',
+            'posts_per_page' => absint( $limit ),
+            'meta_key'       => $meta,
+            'orderby'        => array( 'meta_value_num' => 'DESC', 'date' => 'DESC' ),
+            'meta_query'     => array(
+                array( 'key' => CV_Fields::ATIVO, 'value' => '1', 'compare' => '=' ),
+                array( 'key' => $meta, 'value' => 0, 'compare' => '>', 'type' => 'DECIMAL(10,2)' ),
+            ),
+        ) );
+        $results = array();
+        foreach ( $posts as $post ) {
+            $results[] = (object) array(
+                'music_id'      => $post->ID,
+                'post_title'    => $post->post_title,
+                'post_name'     => $post->post_name,
+                'plays_total'   => (int) get_post_meta( $post->ID, CV_Fields::PLAYS_TOTAL, true ),
+                'score'         => (float) get_post_meta( $post->ID, CV_Fields::SCORE, true ),
+                'favorites'     => (int) get_post_meta( $post->ID, CV_Fields::FAVORITES, true ),
+                'position'      => 0,
+                'position_prev' => 0,
+            );
+        }
+        $results = self::enrich_results( $results );
+        set_transient( $cache_key, $results, HOUR_IN_SECONDS );
+        return $results;
+    }
+
+    /**
      * Alias semântico de get_top() — melhores por score.
      *
      * @param int $limit

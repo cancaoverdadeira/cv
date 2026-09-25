@@ -3,6 +3,7 @@
 // Página "Usuários": gestão de usuários da plataforma.
 // Extraído de class-cv-admin-pages.php em 2026-09-12 (refatoração:
 // cada página do admin passou a viver em seu próprio arquivo/classe).
+// v2.52.0: caixa "🔁 Transferir autoria" no fim da tela (CV_Transferir_Autoria).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -281,6 +282,9 @@ class CV_Page_Users {
             </table>
             <?php endif;?>
         </div>
+
+        <?php // v2.52.0: ferramenta "Transferir autoria" (CV_Transferir_Autoria) ?>
+        <?php if ( class_exists( 'CV_Transferir_Autoria' ) ) { echo CV_Transferir_Autoria::caixa(); } ?>
 
         <script>
         (function(){

@@ -15,6 +15,8 @@
       páginas internas (.cv-hero--pagina).
    8) v15.16.0: rodapé com 4 colunas (nova coluna "Apoie").
    9) v15.17.0: botão "🛍️ Loja" em destaque no menu lateral.
+  10) v15.20.0: busca dentro do banner; cartões com "▶ Tocar" e "🎬 Ver clipe";
+      botão de playlist pública/privada.
 ═══════════════════════════════════════════════════════════════ */
 
 /* ── 1. Player escuro ──────────────────────────────────────────
@@ -406,3 +408,23 @@ body legend { color: var(--cv-text); }
     padding: 2px 8px;
     border-radius: 50px;
 }
+
+/* ── 10. v15.20.0 ───────────────────────────────────────────────
+   a) Busca avançada dentro do banner (página Buscar): ocupa a largura toda. */
+.cv-hero--pagina .cv-hero-actions .cv-busca-avancada { width: 100%; max-width: 620px; margin: 0; }
+.cv-hero--pagina .cv-hero-actions .cv-busca-filtros { justify-content: flex-start; }
+@media (max-width: 768px) {
+    .cv-hero--pagina .cv-hero-actions .cv-busca-filtros { justify-content: stretch; }
+}
+
+/* b) Cartões de música: dois botões claros, "Tocar" e "Ver clipe" (público 55+). */
+.cv-card-botoes { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 8px 0 6px; }
+.cv-card-botoes .cv-btn { min-height: 40px; padding: 6px 8px; font-size: 13px; justify-content: center; text-decoration: none; }
+
+/* c) Playlist pública / privada */
+.cv-pl-visib {
+    background: none; border: 1px solid var(--cv-border); border-radius: 50px; cursor: pointer;
+    font-size: 12px; font-weight: 700; padding: 3px 10px; color: var(--cv-text-muted);
+}
+.cv-pl-visib.is-publica { border-color: var(--cv-accent); color: var(--cv-gold); background: #FFF3D6; }
+.cv-pl-visib:hover { border-color: var(--cv-gold); }

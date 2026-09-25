@@ -22,6 +22,7 @@
 .cv-apoio-area-texto span { font-size:15px; color:#6B4C3B; }
 .cv-apoio-area-botoes { display:flex; gap:10px; flex-wrap:wrap; }
 .cv-apoio-area-botoes .cv-btn { min-height:48px; font-size:16px; }
+.cv-apoio-area-nota { flex:1 1 100%; margin:0; font-size:14px; color:#6B4C3B; }
 @media (max-width: 640px) {
     .cv-apoio-area { margin:0 16px 16px; }
     .cv-apoio-area-botoes, .cv-apoio-area-botoes .cv-btn { width:100%; justify-content:center; }

@@ -15,6 +15,8 @@
 // só para quem já mandou proposta em "Seja nosso parceiro". ?aba=enviar abre direto.
 // v15.19.0: caixa "💛 Apoie a Canção Verdadeira" (Seja nosso parceiro /
 // colaborador) logo abaixo do cabeçalho, feita pelo plugin (CV_Apoio::caixa_area).
+// v15.20.0: banner da marca no topo ("Olá, <nome>"); o cabeçalho de baixo
+// ficou só com foto, e-mail, números e "Editar Perfil".
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -40,11 +42,19 @@ get_header();
     <main class="cv-main" id="cv-main" role="main">
         <?php get_template_part('template-parts/topbar'); ?>
 
+        <?php
+        get_template_part( 'template-parts/banner-pagina', null, array(
+            'tag'       => '👤 Minha Área',
+            'titulo'    => 'Olá,',
+            'destaque'  => $user->display_name,
+            'subtitulo' => 'Suas favoritas, playlists, pedidos e conquistas num só lugar.',
+        ) );
+        ?>
+
         <div style="max-width:1100px;margin:0 auto;padding:0 0 40px">
 
             <!-- Cabeçalho do perfil -->
-            <div style="background:linear-gradient(180deg,#FFFFFF 0%,var(--cv-bg) 100%);
-                        padding:40px 36px 32px">
+            <div style="padding:24px 36px 20px">
                 <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
 
                     <!-- Avatar -->
@@ -57,10 +67,10 @@ get_header();
 
                     <!-- Nome e info -->
                     <div>
-                        <h1 style="font-family:var(--font-display);font-size:26px;
-                                   font-weight:700;margin:0 0 4px">
-                            Olá, <?php echo esc_html($user->display_name); ?> 👋
-                        </h1>
+                        <div style="font-family:var(--font-display);font-size:20px;
+                                    font-weight:700;margin:0 0 4px">
+                            <?php echo esc_html($user->display_name); ?>
+                        </div>
                         <p style="color:var(--cv-text-muted);font-size:13px;margin:0">
                             <?php echo esc_html($user->user_email); ?> · Membro desde
                             <?php echo esc_html( date_i18n( 'F \\d\\e Y', strtotime( $user->user_registered ) ) ); ?>
@@ -313,7 +323,7 @@ jQuery(function($){
                     + '<div style="font-size:36px;margin-bottom:10px">📋</div>'
                     + '<div style="font-weight:700;font-size:14px;margin-bottom:4px;color:var(--cv-text)">' + $('<div>').text(pl.name).html() + '</div>'
                     + '<div style="font-size:12px;color:#8A6A55">' + (pl.total_musicas || pl.count || 0) + ' músicas</div>'
-                    + (pl.is_public ? '<div style="font-size:10px;color:var(--cv-gold);margin-top:4px">🌐 Pública</div>' : '')
+                    + (function(){ var pub = (pl.is_public === true || pl.is_public == 1); return '<div style="margin-top:6px"><button type="button" class="cv-pl-visib' + (pub ? ' is-publica' : '') + '" data-id="' + parseInt(pl.id, 10) + '" data-publica="' + (pub ? 1 : 0) + '">' + (pub ? '🌐 Pública' : '🔒 Privada') + '</button></div>'; })()
                     + '<div style="display:flex;gap:8px;justify-content:center;margin-top:12px">'
                     + '<button class="cv-pl-tocar cv-btn cv-btn-primary cv-btn-sm" data-playlist="' + parseInt(pl.id, 10) + '">▶ Tocar</button>'
                     + '<a class="cv-btn cv-btn-secondary cv-btn-sm" href="' + cvPlUrl + '?pl=' + parseInt(pl.id, 10) + '">Abrir</a>'

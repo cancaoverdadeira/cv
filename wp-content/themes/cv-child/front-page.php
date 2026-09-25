@@ -12,6 +12,7 @@
 // v15.4.0: removida a grade "Explorar Gêneros" (o site é todo sertanejo).
 // v15.3.0: hero em duas colunas centralizadas (texto + marca maior, sem o
 // vão entre eles), título numa linha só e maior, selo "Sertanejo autoral".
+// v15.20.0: seções "🔥 Mais tocadas" e "⭐ Melhor avaliadas" depois de "Mais Favoritadas".
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -27,6 +28,10 @@ $destaques      = class_exists('CV_Ranking') ? CV_Ranking::get_best(5)    : arra
 // seção mostra "Em breve" até o ranking dos ouvintes se formar.
 $favoritas      = ( class_exists('CV_Ranking') && method_exists('CV_Ranking', 'get_most_favorited') && ! $modo_selecao )
                   ? CV_Ranking::get_most_favorited(8) : array();
+// v15.20.0: "🔥 Mais tocadas" e "⭐ Melhor avaliadas" — só entram músicas
+// com pelo menos 1 play / 1 avaliação de verdade; sem dados, "Em breve".
+$mais_tocadas   = ( class_exists('CV_Ranking') && method_exists('CV_Ranking', 'get_most_played') ) ? CV_Ranking::get_most_played(8) : array();
+$melhor_notas   = ( class_exists('CV_Ranking') && method_exists('CV_Ranking', 'get_best_rated') )  ? CV_Ranking::get_best_rated(8)  : array();
 // Últimos 3 posts do Blog (capa = imagem destacada).
 $blog_term      = get_term_by('slug', 'blog', 'category');
 $blog_posts     = $blog_term ? get_posts(array(
@@ -278,6 +283,30 @@ get_header();
             </div>
             <?php endif; ?>
         </section>
+
+        <?php
+        // v15.20.0: duas seções no mesmo formato do "Mais Favoritadas"
+        $secoes_extra = array(
+            array( 'rotulo' => 'Mais tocadas',    'icone' => '🔥', 'titulo' => 'Mais <span>Tocadas</span>',    'lista' => $mais_tocadas ),
+            array( 'rotulo' => 'Melhor avaliadas', 'icone' => '⭐', 'titulo' => 'Melhor <span>Avaliadas</span>', 'lista' => $melhor_notas ),
+        );
+        foreach ( $secoes_extra as $sx ) : ?>
+        <section class="cv-section" aria-label="<?php echo esc_attr( $sx['rotulo'] ); ?>">
+            <div class="cv-section-header">
+                <h2 class="cv-section-title"><?php echo esc_html( $sx['icone'] ); ?> <?php echo wp_kses( $sx['titulo'], array( 'span' => array() ) ); ?></h2>
+                <a href="<?php echo esc_url( home_url( '/ranking/' ) ); ?>" class="cv-section-link">Ver ranking →</a>
+            </div>
+            <?php if ( empty( $sx['lista'] ) ) :
+                get_template_part( 'template-parts/card-em-breve', null, array( 'quantidade' => 5, 'icone' => $sx['icone'], 'texto' => 'Em breve' ) );
+            else : ?>
+            <div class="cv-grid">
+                <?php foreach ( $sx['lista'] as $m ) :
+                    get_template_part( 'template-parts/card-musica', null, array( 'music_id' => $m->music_id, 'show_rank' => false ) );
+                endforeach; ?>
+            </div>
+            <?php endif; ?>
+        </section>
+        <?php endforeach; ?>
 
         <!-- ══════════════════════════════════════════════════════
              DO BLOG (3 posts mais recentes)

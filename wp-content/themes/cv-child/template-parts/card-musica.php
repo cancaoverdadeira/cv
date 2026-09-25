@@ -8,6 +8,8 @@
 //   $music_id   — ID do post (padrão: get_the_ID())
 //   $show_rank  — bool: exibir posição no ranking (padrão: false)
 // v15.4.0: removida a etiqueta de gênero (o site é todo sertanejo).
+// v15.20.0: dois botões claros abaixo do título — "▶ Tocar" (player do
+// rodapé) e "🎬 Ver clipe" (página da música, com o vídeo e a letra).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -115,6 +117,16 @@ $yt_id = cv_youtube_id( $youtube_url );
             <?php echo esc_html( $artista ?: $compositor ); ?>
         </p>
         <?php endif; ?>
+
+        <div class="cv-card-botoes">
+            <?php if ( $yt_id || $audio_url ) : ?>
+            <button type="button" class="cv-btn cv-btn-primary cv-card-tocar"
+                    aria-label="<?php echo esc_attr( 'Tocar ' . $titulo ); ?>">▶ Tocar</button>
+            <?php endif; ?>
+            <a class="cv-btn cv-btn-secondary" href="<?php echo esc_url( $url ); ?>"
+               aria-label="<?php echo esc_attr( ( $yt_id ? 'Ver o clipe de ' : 'Ver a música ' ) . $titulo ); ?>"
+               <?php echo ( $yt_id || $audio_url ) ? '' : 'style="grid-column:1 / -1"'; ?>><?php echo $yt_id ? '🎬 Ver clipe' : '📄 Ver música'; ?></a>
+        </div>
 
         <!-- Ações e estatísticas -->
         <div class="cv-card-acoes">

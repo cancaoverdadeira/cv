@@ -5,6 +5,8 @@
 // Gerencia playlists dos usuários: criar, renomear, excluir,
 // adicionar/remover músicas e reordenar por drag-and-drop.
 // Todas as ações requerem usuário logado e nonce AJAX válido.
+// v2.52.0: cv_playlist_visibilidade — o dono deixa a playlist 🔒 privada ou
+// 🌐 pública (pública aparece no perfil público e qualquer pessoa pode tocar).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -18,6 +20,7 @@ class CV_Playlists {
         add_action( 'wp_ajax_cv_playlist_remove_music', array( __CLASS__, 'remove_music' ) );
         add_action( 'wp_ajax_cv_playlist_reorder',      array( __CLASS__, 'reorder' ) );
         add_action( 'wp_ajax_cv_playlist_list',         array( __CLASS__, 'list_playlists' ) );
+        add_action( 'wp_ajax_cv_playlist_visibilidade', array( __CLASS__, 'visibilidade' ) );
     }
 
     private static function require_login() {
@@ -257,6 +260,25 @@ class CV_Playlists {
         }
 
         return $playlists;
+    }
+
+    /** Liga/desliga "pública" (só o dono). Devolve o novo estado. */
+    public static function visibilidade() {
+        check_ajax_referer( 'cv_playlist_nonce', 'nonce' );
+        self::require_login();
+        $id      = absint( $_POST['playlist_id'] ?? 0 );
+        $publica = absint( $_POST['publica'] ?? 0 ) ? 1 : 0;
+        if ( ! $id || ! self::owns_playlist( $id, get_current_user_id() ) ) {
+            wp_send_json_error( array( 'message' => 'Playlist não encontrada.' ) );
+        }
+        global $wpdb;
+        $wpdb->update( $wpdb->prefix . 'cv_playlists', array( 'is_public' => $publica ), array( 'id' => $id ), array( '%d' ), array( '%d' ) );
+        wp_send_json_success( array(
+            'publica' => $publica,
+            'message' => $publica
+                ? '🌐 Playlist pública: aparece no seu perfil e qualquer pessoa pode ouvir.'
+                : '🔒 Playlist privada: só você vê e ouve.',
+        ) );
     }
 
     private static function owns_playlist( $playlist_id, $user_id ) {

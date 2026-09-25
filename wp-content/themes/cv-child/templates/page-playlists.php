@@ -11,6 +11,7 @@
 // v15.11.0 (24/09/2026): as músicas vêm de cv_get_playlist_queue e tocam no
 // player (YouTube ou MP3); remover música usa cv_playlist_remove_music.
 // v15.14.0: título no banner da marca (template-parts/banner-pagina.php).
+// v15.20.0: botão 🔒 Privada / 🌐 Pública em cada playlist (cv-theme.js).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -110,8 +111,12 @@ get_header();
                                 </div>
                                 <div style="font-size:12px;color:var(--cv-text-muted)">
                                     <?php echo $pl->count; ?> música<?php echo $pl->count !== 1 ? 's' : ''; ?>
-                                    <?php echo $pl->is_public ? ' · 🌐 Pública' : ''; ?>
                                 </div>
+                                <button type="button" class="cv-pl-visib<?php echo $pl->is_public ? ' is-publica' : ''; ?>"
+                                        data-id="<?php echo esc_attr($pl->id); ?>" data-publica="<?php echo $pl->is_public ? 1 : 0; ?>"
+                                        onclick="event.stopPropagation()"
+                                        title="Clique para tornar <?php echo $pl->is_public ? 'privada' : 'pública'; ?>"
+                                        style="margin-top:4px"><?php echo $pl->is_public ? '🌐 Pública' : '🔒 Privada'; ?></button>
                             </div>
 
                             <!-- Ações -->

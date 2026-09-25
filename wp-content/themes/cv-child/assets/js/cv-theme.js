@@ -5,7 +5,8 @@
    autocomplete de busca, toasts de feedback e helpers globais.
    O parallax usa requestAnimationFrame para suavidade máxima e
    IntersectionObserver para parar quando o hero sai da tela (performance).
-   v15.11.0: botão ".cv-pl-tocar" toca uma playlist inteira de qualquer página. */
+   v15.11.0: botão ".cv-pl-tocar" toca uma playlist inteira de qualquer página.
+   v15.20.0: botão ".cv-pl-visib" deixa a playlist privada ou pública (no fim do arquivo). */
 
 (function($) {
     'use strict';
@@ -434,3 +435,25 @@
     };
 
 }(jQuery));
+
+/* v15.20.0 — Playlist 🔒 privada / 🌐 pública (Minhas Playlists e Minha Área).
+   Pública: aparece no perfil público e qualquer pessoa pode tocar. */
+jQuery(function ($) {
+    $(document).on('click', '.cv-pl-visib', function (e) {
+        e.preventDefault(); e.stopPropagation();
+        var $b = $(this), nova = parseInt($b.data('publica'), 10) ? 0 : 1;
+        if (nova && !confirm('Deixar esta playlist PÚBLICA?\nEla aparece no seu perfil e qualquer pessoa pode ouvir.')) { return; }
+        var pub = window.cvPublic || {};
+        $b.prop('disabled', true);
+        $.post(pub.ajaxUrl, { action: 'cv_playlist_visibilidade', nonce: (pub.nonces || {}).playlist, playlist_id: $b.data('id'), publica: nova }, function (r) {
+            $b.prop('disabled', false);
+            if (r && r.success) {
+                var p = parseInt(r.data.publica, 10);
+                $b.data('publica', p).attr('data-publica', p).toggleClass('is-publica', !!p)
+                  .text(p ? '🌐 Pública' : '🔒 Privada').attr('title', 'Clique para tornar ' + (p ? 'privada' : 'pública'));
+            } else {
+                alert((r && r.data && r.data.message) || 'Não foi possível mudar.');
+            }
+        }).fail(function () { $b.prop('disabled', false); alert('Falha de conexão.'); });
+    });
+});

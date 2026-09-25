@@ -71,7 +71,9 @@ class CV_Admin {
         $tela_cv = ( '' !== $page && 0 === strpos( $page, 'cv-' ) );
         // v2.43.0: também nas telas de post do blog (o Dashboard tem o grupo "📰 Blog")
         $musica  = in_array( $pagenow, array( 'edit.php', 'post-new.php', 'post.php' ), true ) && in_array( $typenow, array( 'musica', 'post' ), true );
-        if ( ! $tela_cv && ! $musica ) { return; }
+        // v2.52.0: também em Categorias, Tags, Usuários e Mídia (pedido do Eduardo)
+        $outras  = in_array( $pagenow, array( 'edit-tags.php', 'term.php', 'users.php', 'user-edit.php', 'user-new.php', 'profile.php', 'upload.php', 'media-new.php' ), true );
+        if ( ! $tela_cv && ! $musica && ! $outras ) { return; }
         echo '<div class="cv-voltar-topo" style="margin:14px 20px 0 2px">' . self::btn_voltar() . '</div>';
     }
 

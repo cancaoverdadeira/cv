@@ -34,7 +34,7 @@ class CV_Usuario_Exclusao {
     }
 
     // ── 1. Transfere tudo para outro usuário ────────────────────────
-    private static function transferir( $de, $para ) {
+    public static function transferir( $de, $para ) { // v2.52.0: pública (usada também por CV_Transferir_Autoria)
         global $wpdb;
         $resumo = array();
 

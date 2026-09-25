@@ -9,6 +9,7 @@
 // v15.4.0: removida a aba "Por Gênero" (o site é todo sertanejo).
 // Dados vindos de CV_Ranking::get_top(), get_by_period() e get_recent().
 // Abas JS sem reload de página. Mobile-first.
+// v15.20.0: cabeçalho virou o banner da marca (template-parts/banner-pagina.php).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -29,19 +30,14 @@ get_header();
     <main class="cv-main" id="cv-main" role="main">
         <?php get_template_part('template-parts/topbar'); ?>
 
-        <!-- Cabeçalho -->
-        <div style="background:linear-gradient(135deg,#F8F3E7 0%,#FFFFFF 100%);
-                    padding:40px 36px 28px;border-bottom:1px solid var(--cv-border-subtle)">
-            <h1 style="font-family:var(--font-display);font-size:36px;font-weight:700;margin:0 0 8px">
-                🏆 <span style="color:var(--cv-gold)">Ranking</span> de Músicas
-            </h1>
-            <p style="color:var(--cv-text-muted);margin:0;font-size:14px">
-                Baseado em plays, favoritos e avaliações dos usuários
-                <?php if ($ultima_atuali) : ?>
-                · Atualizado <?php echo human_time_diff(strtotime($ultima_atuali), current_time('timestamp')); ?> atrás
-                <?php endif; ?>
-            </p>
-        </div>
+        <?php
+        get_template_part( 'template-parts/banner-pagina', null, array(
+            'tag'       => $ultima_atuali ? '🏆 Atualizado ' . human_time_diff( strtotime( $ultima_atuali ), current_time( 'timestamp' ) ) . ' atrás' : '🏆 Ranking',
+            'titulo'    => 'Ranking de',
+            'destaque'  => 'Músicas',
+            'subtitulo' => 'As canções que mais tocam o coração dos ouvintes, pelos plays, favoritos e avaliações.',
+        ) );
+        ?>
 
         <?php if ( $modo_selecao ) : ?>
         <div class="cv-section">
