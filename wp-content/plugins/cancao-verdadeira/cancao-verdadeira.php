@@ -69,12 +69,24 @@
 // ou aleatória) e gerador do código copia e cola (BR Code + CRC16) com QR Code; pedidos
 // só por PIX; rodapé com "Seja nosso parceiro" (propostas em cv_parcerias) e "Seja nosso
 // colaborador" (doação por PIX). Tela "💠 PIX e Parcerias". Banco v10.
+// v2.49.0 (25/09/2026) — Página "Loja" (/loja/) com a vitrine do estoque e "Quero este"
+// indo para a Minha Área com o item escolhido. "Seja nosso parceiro": nome artístico,
+// cidade e música; depois do envio, "Nossas propostas" e "Modelo de contrato" (só
+// divulgação, mediante taxa; a música continua do artista) na tela e em Word
+// (CV_Docx, CV_Parceria_Docs). Aba "📄 Propostas e contrato" no painel. Banco v11.
+// v2.50.0 (25/09/2026) — Envio de música do parceiro, na Minha Área, em 4 etapas:
+// contrato em PDF com ASSINATURA DIGITAL obrigatória (CV_Assinatura_PDF confere
+// quem assinou e se não foi alterado), PIX da taxa (CVDIV<nº>), link do YouTube e
+// dados da música (com prompt de ajuda em Word). O admin aprova e gera a música em
+// rascunho (aba "🎤 Envios de música"). Arquivos em cv-privado/ fora da pasta pública. Banco v12.
+// v2.51.0 (25/09/2026) — Caixa "Apoie" (Seja nosso parceiro / colaborador) também na
+// Minha Área; prompt de ajuda com os subitens do "b)" iguais ao original em Word.
 
 /**
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.48.0
+ * Version:     2.51.0
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -83,8 +95,8 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.48.0' );
-define( 'CV_DB_VERSION',     '10' );      // v2.48.0: cv_parcerias (v2.47.0: estoque e pedidos)
+define( 'CV_VERSION',        '2.51.0' );
+define( 'CV_DB_VERSION',     '12' );      // v2.50.0: cv_envios (v2.49.0: colunas novas em cv_parcerias)
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
 define( 'CV_PLUGIN_FILE',    __FILE__ );
@@ -166,6 +178,13 @@ $cv_includes = array(
     // v2.48.0: PIX (gerador do código copia e cola) e "Apoie" do rodapé
     'includes/apoio/class-cv-pix.php',
     'includes/apoio/class-cv-apoio.php',
+    'includes/apoio/class-cv-docx.php',          // v2.49.0: gera .docx (Word) sem biblioteca externa
+    'includes/apoio/class-cv-parceria-docs.php', // v2.49.0: propostas e contrato do parceiro
+    'includes/apoio/class-cv-assinatura-pdf.php',// v2.50.0: confere a assinatura digital do PDF
+    'includes/apoio/class-cv-envio.php',         // v2.50.0: envio de música do parceiro (4 etapas)
+    'includes/apoio/class-cv-envio-prompt.php',  // v2.50.0: prompt de ajuda do YouTube (Word)
+    'includes/apoio/class-cv-envio-area.php',    // v2.50.0: aba "Enviar música" da Minha Área
+    'includes/apoio/class-cv-envio-admin.php',   // v2.50.0: aprovação e geração da música em rascunho
     'includes/estoque/class-cv-estoque.php',
     'includes/estoque/class-cv-estoque-analise.php',
     'includes/estoque/class-cv-estoque-area.php',
@@ -519,6 +538,10 @@ function cv_create_tables() {
         nome VARCHAR(120) NOT NULL,
         email VARCHAR(191) NOT NULL,
         telefone VARCHAR(30) DEFAULT '',
+        nome_artistico VARCHAR(120) DEFAULT '',
+        cidade_uf VARCHAR(80) DEFAULT '',
+        musica VARCHAR(191) DEFAULT '',
+        token VARCHAR(40) DEFAULT '',
         tipo VARCHAR(30) NOT NULL DEFAULT 'outro',
         link VARCHAR(255) DEFAULT '',
         mensagem TEXT,
@@ -527,6 +550,35 @@ function cv_create_tables() {
         criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         KEY status (status),
         KEY criado_em (criado_em)
+    ) $charset;";
+
+    // v2.50.0 (CV_DB_VERSION 12): envio de música do parceiro (4 etapas na Minha Área).
+    $sql[] = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}cv_envios (
+        id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        user_id BIGINT UNSIGNED NOT NULL,
+        parceria_id BIGINT UNSIGNED DEFAULT 0,
+        etapa TINYINT UNSIGNED NOT NULL DEFAULT 1,
+        contrato_arquivo VARCHAR(255) DEFAULT '',
+        contrato_info TEXT,
+        contrato_status VARCHAR(20) NOT NULL DEFAULT 'pendente',
+        pagamento_status VARCHAR(20) NOT NULL DEFAULT 'aguardando',
+        comprovante_arquivo VARCHAR(255) DEFAULT '',
+        valor DECIMAL(10,2) DEFAULT 0,
+        youtube_url VARCHAR(255) DEFAULT '',
+        youtube_titulo VARCHAR(191) DEFAULT '',
+        titulo VARCHAR(191) DEFAULT '',
+        artista VARCHAR(120) DEFAULT '',
+        compositor VARCHAR(191) DEFAULT '',
+        descricao TEXT,
+        letra LONGTEXT,
+        tags VARCHAR(255) DEFAULT '',
+        status VARCHAR(20) NOT NULL DEFAULT 'rascunho',
+        musica_id BIGINT UNSIGNED DEFAULT 0,
+        obs_admin TEXT,
+        criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        atualizado_em DATETIME NULL,
+        KEY user_id (user_id),
+        KEY status (status)
     ) $charset;";
 
     $sql[] = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}cv_sorteios (
@@ -612,6 +664,22 @@ function cv_create_tables() {
         ADD COLUMN IF NOT EXISTS plays_24h BIGINT UNSIGNED DEFAULT 0,
         ADD COLUMN IF NOT EXISTS plays_30d BIGINT UNSIGNED DEFAULT 0,
         ADD COLUMN IF NOT EXISTS position_prev INT UNSIGNED DEFAULT 0" );
+
+    // v2.49.0: colunas novas de cv_parcerias. MySQL 8 não aceita
+    // "ADD COLUMN IF NOT EXISTS", então confere uma a uma antes de criar.
+    $parc = $wpdb->prefix . 'cv_parcerias';
+    if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $parc ) ) === $parc ) {
+        $cols = $wpdb->get_col( "SHOW COLUMNS FROM {$parc}" );
+        $novas = array(
+            'nome_artistico' => "VARCHAR(120) DEFAULT '' AFTER telefone",
+            'cidade_uf'      => "VARCHAR(80) DEFAULT '' AFTER nome_artistico",
+            'musica'         => "VARCHAR(191) DEFAULT '' AFTER cidade_uf",
+            'token'          => "VARCHAR(40) DEFAULT '' AFTER musica",
+        );
+        foreach ( $novas as $col => $def ) {
+            if ( ! in_array( $col, $cols, true ) ) { $wpdb->query( "ALTER TABLE {$parc} ADD COLUMN {$col} {$def}" ); }
+        }
+    }
 
     $wpdb->show_errors();
 

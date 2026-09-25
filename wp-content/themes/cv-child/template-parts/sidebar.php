@@ -9,6 +9,8 @@
 // v15.4.0: removida a lista de gêneros (o site é todo sertanejo).
 // v15.5.1: removido o script duplicado do botão "Buscar" (campo não abria).
 // v15.12.0: link "📰 Blog" no menu (endereço /blog/).
+// v15.17.0: botão "🛍️ Loja" em destaque nas ações rápidas (logo abaixo de
+// "Ver Músicas"), com selo "Novo" — pedido do Eduardo: "bem visível".
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -42,6 +44,12 @@ if ( $is_logged ) {
            class="cv-btn-sidebar cv-btn-sidebar-primary">
             <span>🎵</span>
             <span>Ver Músicas</span>
+        </a>
+        <a href="<?php echo esc_url( home_url('/loja/') ); ?>"
+           class="cv-btn-sidebar cv-btn-sidebar-loja<?php echo is_page('loja') ? ' is-ativo' : ''; ?>">
+            <span>🛍️</span>
+            <span>Loja</span>
+            <span class="cv-selo-novo">Novo</span>
         </a>
         <a href="<?php echo esc_url( home_url('/buscar-musicas/') ); ?>"
            class="cv-btn-sidebar cv-btn-sidebar-secondary cv-search-trigger">

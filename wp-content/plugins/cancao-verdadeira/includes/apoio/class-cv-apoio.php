@@ -10,6 +10,13 @@
 // Painel: admin.php?page=cv-apoio, abas "💠 Conta PIX" e "🤝 Parcerias".
 // HTML do painel em includes/apoio/views/; JS em assets/js/cv-apoio.js
 // (rodapé) e assets/js/admin-apoio.js (painel).
+// v2.49.0: o parceiro informa também nome artístico, cidade/UF e o título da
+// música; depois do envio aparecem "📄 Nossas propostas" e "📝 Modelo de
+// contrato" (só para divulgação), na tela e em Word (CV_Parceria_Docs).
+// Nova aba no painel: "📄 Propostas e contrato".
+// v2.50.0: aba "🎤 Envios de música" (CV_Envio_Admin, views/envios.php).
+// v2.51.0: caixa "Apoie" também na Minha Área (caixa_area), com os dois botões
+// grandes — abrem as mesmas janelas do rodapé.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -87,6 +94,24 @@ class CV_Apoio {
         return ob_get_clean();
     }
 
+    /** Caixa da Minha Área com os dois botões grandes (mesmas janelas do rodapé). */
+    public static function caixa_area() {
+        ob_start();
+        ?>
+        <section class="cv-apoio-area" aria-label="Apoie a Canção Verdadeira">
+            <div class="cv-apoio-area-texto">
+                <strong>💛 Apoie a Canção Verdadeira</strong>
+                <span>Divulgue sua música com a gente ou ajude com qualquer valor por PIX.</span>
+            </div>
+            <div class="cv-apoio-area-botoes">
+                <button type="button" class="cv-btn cv-btn-secondary cv-apoio-abrir" data-janela="cv-janela-parceiro">🤝 Seja nosso parceiro</button>
+                <button type="button" class="cv-btn cv-btn-primary cv-apoio-abrir" data-janela="cv-janela-colaborador">💛 Seja nosso colaborador</button>
+            </div>
+        </section>
+        <?php
+        return ob_get_clean();
+    }
+
     /** As duas janelas (<dialog>), impressas uma vez no fim da página. */
     public static function janelas() {
         $pix_ok = CV_Pix::ativo();
@@ -104,10 +129,13 @@ class CV_Apoio {
                     <?php endforeach; ?>
                 </fieldset>
                 <div class="cv-janela-grade">
-                    <label>Seu nome *<input type="text" name="nome" maxlength="120" required autocomplete="name"></label>
+                    <label>Seu nome completo *<input type="text" name="nome" maxlength="120" required autocomplete="name"></label>
+                    <label>Nome artístico<input type="text" name="nome_artistico" maxlength="120" placeholder="Como você é conhecido(a)"></label>
                     <label>E-mail *<input type="email" name="email" maxlength="191" required autocomplete="email"></label>
                     <label>WhatsApp<input type="tel" name="telefone" maxlength="30" autocomplete="tel" placeholder="(31) 99999-9999"></label>
-                    <label>Link da música ou do seu trabalho<input type="url" name="link" maxlength="255" placeholder="YouTube, Instagram, Google Drive…"></label>
+                    <label>Cidade / UF<input type="text" name="cidade_uf" maxlength="80" placeholder="Ex.: Divinópolis/MG"></label>
+                    <label>Título da música<input type="text" name="musica" maxlength="191" placeholder="Nome da música a divulgar"></label>
+                    <label class="cv-janela-cheio-grade">Link da música ou do seu trabalho<input type="url" name="link" maxlength="255" placeholder="YouTube, Instagram, Google Drive…"></label>
                 </div>
                 <label class="cv-janela-cheio">Conte um pouco sobre você e a proposta *<textarea name="mensagem" rows="4" maxlength="2000" required></textarea></label>
                 <label class="cv-janela-isca" aria-hidden="true">Site<input type="text" name="site" tabindex="-1" autocomplete="off"></label>
@@ -115,6 +143,20 @@ class CV_Apoio {
                 <div class="cv-janela-msg" role="status" aria-live="polite"></div>
                 <button type="submit" class="cv-btn cv-btn-primary cv-janela-enviar">Enviar proposta</button>
             </form>
+            <div id="cv-parceria-docs" class="cv-parceria-docs" hidden>
+                <p class="cv-janela-msg is-ok" id="cv-parceria-ok"></p>
+                <p class="cv-janela-intro">Veja abaixo as nossas propostas e o modelo de contrato, já com os seus dados. Você pode ler aqui e baixar em Word.</p>
+                <div class="cv-parceria-botoes">
+                    <button type="button" class="cv-btn cv-btn-primary cv-parceria-doc" data-doc="propostas">📄 Nossas propostas</button>
+                    <button type="button" class="cv-btn cv-btn-primary cv-parceria-doc" data-doc="contrato" id="cv-parceria-btn-contrato">📝 Modelo de contrato</button>
+                </div>
+                <p class="cv-parceria-sem-contrato" hidden>O contrato de gravação ou de outras propostas é combinado caso a caso: entraremos em contato.</p>
+                <div id="cv-parceria-doc-area" class="cv-parceria-doc-area" hidden>
+                    <div class="cv-parceria-doc-texto" tabindex="0"></div>
+                    <a href="#" class="cv-btn cv-btn-primary cv-parceria-baixar" download>⬇️ Baixar em Word</a>
+                </div>
+                <p class="cv-parceria-validade">Os links para baixar ficam disponíveis por 7 dias.</p>
+            </div>
         </dialog>
 
         <dialog id="cv-janela-colaborador" class="cv-janela" aria-labelledby="cv-janela-colaborador-titulo">
@@ -163,6 +205,10 @@ class CV_Apoio {
         $nome     = mb_substr( sanitize_text_field( $post['nome'] ?? '' ), 0, 120 );
         $email    = sanitize_email( $post['email'] ?? '' );
         $telefone = mb_substr( preg_replace( '/[^0-9()+\- ]/', '', $post['telefone'] ?? '' ), 0, 30 );
+        $artistico = mb_substr( sanitize_text_field( $post['nome_artistico'] ?? '' ), 0, 120 );
+        $cidade_uf = mb_substr( sanitize_text_field( $post['cidade_uf'] ?? '' ), 0, 80 );
+        $musica    = mb_substr( sanitize_text_field( $post['musica'] ?? '' ), 0, 191 );
+        $token     = wp_generate_password( 32, false, false ); // chave do link de download (7 dias)
         $link     = esc_url_raw( $post['link'] ?? '', array( 'http', 'https' ) );
         $mensagem = mb_substr( sanitize_textarea_field( $post['mensagem'] ?? '' ), 0, 2000 );
 
@@ -174,10 +220,12 @@ class CV_Apoio {
         global $wpdb;
         $agora = current_time( 'mysql' );
         $ok = $wpdb->insert( $wpdb->prefix . 'cv_parcerias', array(
-            'nome' => $nome, 'email' => $email, 'telefone' => $telefone, 'tipo' => $tipo,
-            'link' => $link, 'mensagem' => $mensagem, 'status' => 'nova',
+            'nome' => $nome, 'email' => $email, 'telefone' => $telefone,
+            'nome_artistico' => $artistico, 'cidade_uf' => $cidade_uf, 'musica' => $musica, 'token' => $token,
+            'tipo' => $tipo, 'link' => $link, 'mensagem' => $mensagem, 'status' => 'nova',
             'consentimento_em' => $agora, 'criado_em' => $agora,
-        ), array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' ) );
+        ), array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' ) );
+        $id = (int) $wpdb->insert_id;
         if ( ! $ok ) { wp_send_json_error( array( 'message' => 'Não foi possível enviar agora. Tente de novo.' ) ); }
         set_transient( $chave, $envios + 1, HOUR_IN_SECONDS );
 
@@ -185,13 +233,19 @@ class CV_Apoio {
             self::email(),
             '🤝 Nova proposta de parceria: ' . $nome,
             sprintf(
-                "Nova proposta pelo rodapé do site.\n\nTipo: %s\nNome: %s\nE-mail: %s\nWhatsApp: %s\nLink: %s\n\nMensagem:\n%s\n\nVer todas: %s",
-                wp_strip_all_tags( $tipos[ $tipo ] ), $nome, $email, $telefone ? $telefone : '—', $link ? $link : '—', $mensagem,
+                "Nova proposta pelo rodapé do site.\n\nTipo: %s\nNome: %s\nNome artístico: %s\nCidade/UF: %s\nMúsica: %s\nE-mail: %s\nWhatsApp: %s\nLink: %s\n\nMensagem:\n%s\n\nVer todas: %s",
+                wp_strip_all_tags( $tipos[ $tipo ] ), $nome, $artistico ? $artistico : '—', $cidade_uf ? $cidade_uf : '—', $musica ? $musica : '—',
+                $email, $telefone ? $telefone : '—', $link ? $link : '—', $mensagem,
                 admin_url( 'admin.php?page=cv-apoio&aba=parcerias' )
             ),
             array( 'Reply-To: ' . $nome . ' <' . $email . '>' )
         );
-        wp_send_json_success( array( 'message' => 'Obrigado, ' . $nome . '! Recebemos sua proposta e vamos responder em breve. 🎶' ) );
+        wp_send_json_success( array(
+            'message'  => 'Obrigado, ' . $nome . '! Recebemos sua proposta e vamos responder em breve. 🎶',
+            'id'       => $id,
+            't'        => $token,
+            'contrato' => 'divulgar' === $tipo,
+        ) );
     }
 
     // ════════════════════════════════════════════════════════════════
@@ -201,7 +255,8 @@ class CV_Apoio {
     public static function render() {
         if ( ! current_user_can( 'manage_options' ) ) { return; }
         global $wpdb;
-        $abas = array( 'pix' => '💠 Conta PIX', 'parcerias' => '🤝 Parcerias' );
+        $abas = array( 'pix' => '💠 Conta PIX', 'parcerias' => '🤝 Parcerias', 'envios' => '🎤 Envios de música', 'documentos' => '📄 Propostas e contrato' );
+        $a_revisar = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}cv_envios WHERE status = 'enviado'" );
         $aba  = sanitize_key( $_GET['aba'] ?? 'pix' );
         if ( ! isset( $abas[ $aba ] ) ) { $aba = 'pix'; }
         $novas = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}cv_parcerias WHERE status = 'nova'" );
@@ -215,7 +270,7 @@ class CV_Apoio {
             <div id="cv-apoio-msg" class="cv-action-message" style="display:none"></div>
             <nav class="cv-est-abas" aria-label="Abas">
                 <?php foreach ( $abas as $id => $rotulo ) : ?>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=cv-apoio&aba=' . $id ) ); ?>" class="cv-est-aba<?php echo $aba === $id ? ' is-ativa' : ''; ?>"><?php echo esc_html( $rotulo ); ?><?php echo ( 'parcerias' === $id && $novas ) ? '<span class="cv-est-badge">' . $novas . '</span>' : ''; ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=cv-apoio&aba=' . $id ) ); ?>" class="cv-est-aba<?php echo $aba === $id ? ' is-ativa' : ''; ?>"><?php echo esc_html( $rotulo ); ?><?php echo ( 'parcerias' === $id && $novas ) ? '<span class="cv-est-badge">' . $novas . '</span>' : ''; ?><?php echo ( 'envios' === $id && $a_revisar ) ? '<span class="cv-est-badge">' . $a_revisar . '</span>' : ''; ?></a>
                 <?php endforeach; ?>
             </nav>
             <?php include CV_PLUGIN_DIR . 'includes/apoio/views/' . $aba . '.php'; ?>

@@ -11,18 +11,66 @@
 // v2.48.0: pagamento SOMENTE por PIX — cada pedido pendente tem o botão
 // "💠 Pagar com PIX" (QR + copia e cola no valor do pedido, identificação
 // CVPED<número>), e o PIX do pedido novo já abre sozinho.
+// v2.49.0: página pública "Loja" (/loja/, modelo templates/page-loja.php do
+// tema) com a vitrine dos itens: "Quero este" leva à Minha Área com o item
+// já escolhido (?aba=pedidos&item=<variação>); sem login, passa pelo Entrar.
+// A página é criada uma vez só (opção cv_loja_pagina); se for para a
+// lixeira, não é recriada.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class CV_Estoque_Area {
 
-    const TEMPLATE = 'templates/page-user-dashboard.php';
+    const TEMPLATE      = 'templates/page-user-dashboard.php';
+    const TEMPLATE_LOJA = 'templates/page-loja.php';
+    const VERSAO_PAGINA = '1';
 
     public static function init() {
         add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue' ), 30 );
+        add_action( 'wp_loaded',          array( __CLASS__, 'criar_pagina_loja' ) );
+    }
+
+    /** Cria a página "Loja" uma única vez (não recria se foi apagada). */
+    public static function criar_pagina_loja() {
+        if ( get_option( 'cv_loja_pagina' ) === self::VERSAO_PAGINA ) { return; }
+        $existe = get_posts( array(
+            'post_type'   => 'page',
+            'name'        => 'loja',
+            'post_status' => array( 'publish', 'draft', 'private', 'trash', 'pending', 'future' ),
+            'numberposts' => 1,
+            'fields'      => 'ids',
+        ) );
+        if ( empty( $existe ) ) {
+            $id = wp_insert_post( array(
+                'post_type'    => 'page',
+                'post_title'   => 'Loja',
+                'post_name'    => 'loja',
+                'post_status'  => 'publish',
+                'post_content' => '',
+            ) );
+            if ( $id && ! is_wp_error( $id ) ) { update_post_meta( $id, '_wp_page_template', self::TEMPLATE_LOJA ); }
+        }
+        update_option( 'cv_loja_pagina', self::VERSAO_PAGINA, false );
+    }
+
+    public static function url_loja() {
+        $p = get_page_by_path( 'loja' );
+        return $p ? get_permalink( $p->ID ) : home_url( '/loja/' );
+    }
+
+    /** Link do "Quero este": Minha Área com o item escolhido (ou Entrar antes). */
+    public static function url_pedido( $variacao_id ) {
+        $area    = get_page_by_path( 'minha-area' );
+        $destino = add_query_arg( array( 'aba' => 'pedidos', 'item' => (int) $variacao_id ), $area ? get_permalink( $area->ID ) : home_url( '/minha-area/' ) );
+        if ( is_user_logged_in() ) { return $destino; }
+        return function_exists( 'cv_login_url' ) ? cv_login_url( $destino ) : wp_login_url( $destino );
     }
 
     public static function enqueue() {
+        if ( is_page_template( self::TEMPLATE_LOJA ) ) {
+            wp_enqueue_style( 'cv-pedidos', CV_PLUGIN_URL . 'assets/css/cv-pedidos.css', array(), CV_VERSION );
+            return;
+        }
         if ( ! is_user_logged_in() || ! is_page_template( self::TEMPLATE ) ) { return; }
         wp_enqueue_style( 'cv-pedidos', CV_PLUGIN_URL . 'assets/css/cv-pedidos.css', array(), CV_VERSION );
         wp_enqueue_script( 'cv-pedidos', CV_PLUGIN_URL . 'assets/js/cv-pedidos.js', array( 'jquery' ), CV_VERSION, true );
@@ -95,6 +143,64 @@ class CV_Estoque_Area {
             </li>
             <?php endforeach; ?>
         </ul>
+        <?php
+        return ob_get_clean();
+    }
+
+    /** Vitrine da página Loja: um cartão por item ativo. */
+    public static function vitrine() {
+        $itens = array();
+        foreach ( CV_Estoque::variacoes( true ) as $v ) { $itens[ $v->item_id ][] = $v; }
+        if ( empty( $itens ) ) {
+            return '<div class="cv-empty">🛍️ Os produtos da Canção Verdadeira chegam em breve. Volte logo!</div>';
+        }
+        $tipos = CV_Estoque::tipos();
+        ob_start();
+        ?>
+        <p class="cv-loja-aviso">💠 Pagamento <strong>somente por PIX</strong>, pela sua Minha Área. Depois do pedido, combinamos a entrega com você.</p>
+        <div class="cv-loja-grade">
+            <?php foreach ( $itens as $vars ) :
+                $v1        = $vars[0];
+                $tamanhos  = count( $vars ) > 1 || '' !== $v1->variacao;
+                $esgotado  = $v1->controla_estoque && 0 === array_sum( array_map( function ( $x ) { return max( 0, (int) $x->estoque_atual ); }, $vars ) );
+                $icone     = mb_substr( $tipos[ $v1->tipo ] ?? '🛍️', 0, 1 );
+                $descricao = $v1->descricao;
+            ?>
+            <article class="cv-loja-card<?php echo $esgotado ? ' is-esgotado' : ''; ?>">
+                <div class="cv-loja-img">
+                    <?php if ( $v1->imagem_url ) : ?>
+                    <img src="<?php echo esc_url( $v1->imagem_url ); ?>" alt="<?php echo esc_attr( $v1->nome ); ?>" loading="lazy" />
+                    <?php else : ?>
+                    <span aria-hidden="true"><?php echo esc_html( $icone ); ?></span>
+                    <?php endif; ?>
+                </div>
+                <div class="cv-loja-corpo">
+                    <h2 class="cv-loja-nome"><?php echo esc_html( $v1->nome ); ?></h2>
+                    <?php if ( $descricao ) : ?><p class="cv-loja-desc"><?php echo esc_html( $descricao ); ?></p><?php endif; ?>
+                    <div class="cv-loja-preco">R$ <?php echo esc_html( number_format( (float) $v1->preco, 2, ',', '.' ) ); ?></div>
+                    <?php if ( $esgotado ) : ?>
+                    <span class="cv-loja-esgotado">Esgotado no momento</span>
+                    <?php elseif ( $tamanhos ) : ?>
+                    <div class="cv-loja-rotulo">Escolha o tamanho:</div>
+                    <div class="cv-loja-tamanhos">
+                        <?php foreach ( $vars as $v ) : $tem = ! $v->controla_estoque || (int) $v->estoque_atual > 0; ?>
+                        <?php if ( $tem ) : ?>
+                        <a class="cv-loja-tam" href="<?php echo esc_url( self::url_pedido( $v->id ) ); ?>" aria-label="Pedir tamanho <?php echo esc_attr( $v->variacao ); ?>"><?php echo esc_html( $v->variacao ); ?></a>
+                        <?php else : ?>
+                        <span class="cv-loja-tam is-off" title="Esgotado"><?php echo esc_html( $v->variacao ); ?></span>
+                        <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php else : ?>
+                    <a class="cv-btn cv-btn-primary cv-loja-botao" href="<?php echo esc_url( self::url_pedido( $v1->id ) ); ?>">🛍️ Quero este</a>
+                    <?php endif; ?>
+                </div>
+            </article>
+            <?php endforeach; ?>
+        </div>
+        <?php if ( ! is_user_logged_in() ) : ?>
+        <p class="cv-loja-aviso cv-loja-aviso-login">Para pedir, é preciso <strong>entrar na sua conta</strong> (é grátis). Você volta direto para o seu pedido.</p>
+        <?php endif; ?>
         <?php
         return ob_get_clean();
     }

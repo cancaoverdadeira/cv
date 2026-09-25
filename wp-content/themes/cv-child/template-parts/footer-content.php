@@ -7,6 +7,7 @@
 // Renderizado ANTES do player fixo — tem padding-bottom para não sobrepor.
 // v15.16.0 (25/09/2026): 4ª coluna "Apoie" (Seja nosso parceiro / Seja nosso
 // colaborador) e as duas janelas, desenhadas pelo plugin (CV_Apoio).
+// v15.17.0: link "🛍️ Loja" na coluna Explorar.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -96,6 +97,7 @@ $redes_sociais = class_exists('CV_Social') ? CV_Social::get_all() : array();
                 <li><a href="<?php echo esc_url(home_url('/musicas/')); ?>">Todas as Músicas</a></li>
                 <li><a href="<?php echo esc_url(home_url('/ranking/')); ?>">Ranking</a></li>
                 <li><a href="<?php echo esc_url(home_url('/buscar-musicas/')); ?>">Buscar</a></li>
+                <li><a href="<?php echo esc_url(home_url('/loja/')); ?>">🛍️ Loja</a></li>
             </ul>
         </div>
 

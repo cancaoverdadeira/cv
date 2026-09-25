@@ -85,7 +85,7 @@ class CV_Estoque {
         global $wpdb;
         $where = $so_ativas ? 'WHERE i.ativo = 1 AND v.ativo = 1' : '';
         return $wpdb->get_results(
-            'SELECT v.*, i.nome, i.tipo, i.preco, i.controla_estoque, i.estoque_minimo, i.ativo AS item_ativo, i.imagem_url
+            'SELECT v.*, i.nome, i.tipo, i.preco, i.controla_estoque, i.estoque_minimo, i.ativo AS item_ativo, i.imagem_url, i.descricao
                FROM ' . self::t( 'estoque_variacoes' ) . ' v
                JOIN ' . self::t( 'estoque_itens' ) . " i ON i.id = v.item_id
               {$where}

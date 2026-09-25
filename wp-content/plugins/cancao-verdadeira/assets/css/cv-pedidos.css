@@ -3,7 +3,8 @@
    do item, quantidade e observação, botão "Incluir pedido" ao lado, e a
    lista de pedidos com a situação e o botão "Excluir" nos pendentes.
    Usa os tokens do tema (--cv-*), com valores de reserva.
-   v2.48.0: botões "Pagar com PIX"/"Excluir" e a caixa do PIX em largura total. */
+   v2.48.0: botões "Pagar com PIX"/"Excluir" e a caixa do PIX em largura total.
+   v2.49.0: vitrine da página Loja (cartões, preço, tamanhos, "Quero este"). */
 .cv-ped-intro { color: var(--cv-text-muted, #6B4C3B); font-size: 16px; line-height: 1.6; margin: 0 0 18px; }
 .cv-ped-form {
     display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap;
@@ -44,3 +45,32 @@
     .cv-ped-botoes, .cv-ped-botoes .cv-btn { width: 100%; }
     .cv-ped-campo-qtd { flex: 1 1 100px; }
 }
+
+/* ── Vitrine da Loja (v2.49.0) ─────────────────────────────── */
+.cv-loja-aviso { font-size: 16px; color: var(--cv-text-muted, #6B4C3B); margin: 0 0 20px; }
+.cv-loja-aviso-login { margin-top: 20px; }
+.cv-loja-grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+.cv-loja-card {
+    background: var(--cv-bg-card, #FFFFFF); border: 1px solid var(--cv-border, #EADBC6);
+    border-radius: var(--cv-radius-lg, 16px); overflow: hidden; display: flex; flex-direction: column;
+    box-shadow: var(--cv-shadow-card, 0 2px 12px rgba(123,58,34,.08));
+}
+.cv-loja-card.is-esgotado { opacity: .7; }
+.cv-loja-img { aspect-ratio: 1 / 1; background: var(--cv-bg-elevated, #F3E6D3); display: flex; align-items: center; justify-content: center; }
+.cv-loja-img img { width: 100%; height: 100%; object-fit: cover; }
+.cv-loja-img span { font-size: 72px; }
+.cv-loja-corpo { padding: 16px 18px 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.cv-loja-nome { font-family: var(--font-display, inherit); font-size: 22px; margin: 0; color: var(--cv-text, #3B2418); }
+.cv-loja-desc { font-size: 15px; line-height: 1.5; color: var(--cv-text-muted, #6B4C3B); margin: 0; }
+.cv-loja-preco { font-size: 24px; font-weight: 800; color: var(--cv-gold, #7B3A22); margin-top: auto; }
+.cv-loja-rotulo { font-size: 14px; font-weight: 600; color: var(--cv-text, #3B2418); }
+.cv-loja-tamanhos { display: flex; gap: 8px; flex-wrap: wrap; }
+.cv-loja-tam {
+    min-width: 52px; min-height: 48px; display: inline-flex; align-items: center; justify-content: center;
+    border: 2px solid var(--cv-accent, #F2A51A); border-radius: 10px; font-size: 17px; font-weight: 800;
+    color: var(--cv-gold, #7B3A22); text-decoration: none; background: #FFFFFF;
+}
+.cv-loja-tam:hover, .cv-loja-tam:focus-visible { background: var(--cv-accent, #F2A51A); color: #3B2418; }
+.cv-loja-tam.is-off { border-color: var(--cv-border, #EADBC6); color: var(--cv-text-disabled, #B39880); text-decoration: line-through; }
+.cv-loja-botao { min-height: 48px; font-size: 17px; justify-content: center; }
+.cv-loja-esgotado { font-weight: 700; color: var(--cv-text-dim, #8A6A55); }

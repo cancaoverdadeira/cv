@@ -2,6 +2,10 @@
  * cancao-verdadeira/assets/js/admin-apoio.js
  * Tela "💠 PIX e Parcerias" do painel (v2.48.0): salvar a conta PIX e o
  * e-mail dos avisos, mudar a situação e excluir propostas de parceria.
+ * v2.49.0: salvar "Propostas e contrato" (taxa, prazo, textos) e restaurar
+ * os textos-modelo.
+ * v2.50.0: envios de música (aprovar/recusar contrato, confirmar PIX,
+ * recusar com motivo, gerar a música em rascunho) e o prompt de ajuda.
  * nonce e ajaxUrl vêm de window.cvApoioAdmin (CV_Apoio::enqueue_admin()).
  */
 jQuery(function ($) {
@@ -42,6 +46,52 @@ jQuery(function ($) {
     $('#cv-apoio-email-salvar').on('click', function () {
         enviar({ action: 'cv_apoio_email', email: $('#cv-apoio-email').val() }, $(this), false);
     });
+    function salvarDocs($btn, restaurar) {
+        enviar({
+            action: 'cv_apoio_docs_salvar',
+            taxa: $('#cv-doc-taxa').val(),
+            prazo: $('#cv-doc-prazo').val(),
+            taxa_inclui: $('#cv-doc-inclui').val(),
+            contratada: $('#cv-doc-contratada').val(),
+            foro: $('#cv-doc-foro').val(),
+            propostas: $('#cv-doc-propostas').val(),
+            contrato: $('#cv-doc-contrato').val(),
+            restaurar: restaurar ? 1 : 0
+        }, $btn, true);
+    }
+    $('#cv-doc-salvar').on('click', function () { salvarDocs($(this), false); });
+    $('#cv-doc-restaurar').on('click', function () {
+        if (!confirm('Trocar os dois textos pelos textos-modelo originais? O que você escreveu neles será perdido.')) { return; }
+        salvarDocs($(this), true);
+    });
+
+    // ── Envios de música ─────────────────────────────────────────
+    $(document).on('click', '.cv-envio-acao', function () {
+        var $b = $(this), dados = { action: 'cv_envio_admin', id: $b.data('id'), acao: $b.data('acao') };
+        if ($b.data('motivo')) {
+            var m = prompt('Escreva o motivo (o parceiro vai receber por e-mail):');
+            if (!m || !$.trim(m)) { return; }
+            dados.motivo = m;
+        } else if ($b.data('confirma') && !confirm($b.data('confirma'))) { return; }
+        var rotulo = $b.text();
+        $b.prop('disabled', true).text('Aguarde...');
+        dados.nonce = cfg.nonce;
+        $.post(cfg.ajaxUrl, dados, function (r) {
+            var ok = !!(r && r.success);
+            msg((ok ? '✅ ' : '❌ ') + ((r && r.data && r.data.message) || 'Não foi possível concluir.'), ok);
+            if (ok && r.data.editar) { setTimeout(function () { window.location.href = r.data.editar; }, 900); }
+            else if (ok) { setTimeout(function () { location.reload(); }, 900); }
+            else { $b.prop('disabled', false).text(rotulo); }
+        }).fail(function () { msg('❌ Falha de conexão.', false); $b.prop('disabled', false).text(rotulo); });
+    });
+    $('#cv-envio-prompt-salvar').on('click', function () {
+        enviar({ action: 'cv_envio_prompt_salvar', texto: $('#cv-envio-prompt').val() }, $(this), false);
+    });
+    $('#cv-envio-prompt-restaurar').on('click', function () {
+        if (!confirm('Voltar ao prompt-modelo? O texto atual será perdido.')) { return; }
+        enviar({ action: 'cv_envio_prompt_salvar', restaurar: 1 }, $(this), true);
+    });
+
     $(document).on('change', '.cv-parc-status', function () {
         enviar({ action: 'cv_apoio_parceria_status', id: $(this).data('id'), status: this.value }, null, false);
     });

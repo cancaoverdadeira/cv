@@ -2,13 +2,30 @@
    "Apoie" do rodapé (v2.48.0): botões da coluna (com cara de link do
    rodapé) e as janelas <dialog> "Seja nosso parceiro" e "Seja nosso
    colaborador" (formulário, valores da doação e resultado do PIX).
-   Letras e botões grandes para o público 55+; tela cheia no celular. */
-.cv-apoio-abrir {
+   Letras e botões grandes para o público 55+; tela cheia no celular.
+   v2.49.0: 7 campos em grade no parceiro e o leitor das propostas/contrato.
+   v2.51.0: caixa "Apoie" da Minha Área (.cv-apoio-area). */
+.cv-footer .cv-apoio-abrir {
     background:none; border:0; padding:0; cursor:pointer; text-align:left;
     font:inherit; font-size:13px; color:var(--cv-text-muted, #F3E6D3);
     transition:color .2s;
 }
-.cv-apoio-abrir:hover, .cv-apoio-abrir:focus-visible { color:#FFC24D; text-decoration:underline; }
+.cv-footer .cv-apoio-abrir:hover, .cv-footer .cv-apoio-abrir:focus-visible { color:#FFC24D; text-decoration:underline; }
+
+.cv-apoio-area {
+    display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+    margin:0 36px 16px; padding:16px 20px; border-radius:var(--cv-radius-lg, 16px);
+    background:linear-gradient(90deg, #FFF3D6 0%, #FBF6EE 100%); border:1px solid #F2A51A;
+}
+.cv-apoio-area-texto { display:flex; flex-direction:column; gap:2px; flex:1 1 280px; }
+.cv-apoio-area-texto strong { font-size:17px; color:#7B3A22; }
+.cv-apoio-area-texto span { font-size:15px; color:#6B4C3B; }
+.cv-apoio-area-botoes { display:flex; gap:10px; flex-wrap:wrap; }
+.cv-apoio-area-botoes .cv-btn { min-height:48px; font-size:16px; }
+@media (max-width: 640px) {
+    .cv-apoio-area { margin:0 16px 16px; }
+    .cv-apoio-area-botoes, .cv-apoio-area-botoes .cv-btn { width:100%; justify-content:center; }
+}
 
 .cv-janela {
     width:min(640px, calc(100vw - 32px)); max-height:calc(100vh - 40px); overflow:auto;
@@ -58,6 +75,23 @@
 .cv-doacao-livre { margin:0 0 14px; }
 .cv-link-botao { background:none; border:0; padding:0; color:#7B3A22; text-decoration:underline; cursor:pointer; font:inherit; font-size:15px; }
 #cv-doacao-resultado .cv-pix { margin-top:4px; }
+
+.cv-janela-cheio-grade { grid-column: 1 / -1; }
+.cv-parceria-botoes { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
+.cv-parceria-botoes .cv-btn { min-height:48px; font-size:16px; flex:1 1 200px; justify-content:center; }
+.cv-parceria-doc.is-ativo { box-shadow:0 0 0 3px rgba(123,58,34,.35); }
+.cv-parceria-sem-contrato, .cv-parceria-validade { font-size:14px; color:#6B4C3B; }
+.cv-parceria-doc-area { margin-top:6px; }
+.cv-parceria-doc-texto {
+    max-height:48vh; overflow:auto; background:#FFFFFF; border:1px solid #EADBC6; border-radius:10px;
+    padding:18px 20px; font-size:15px; line-height:1.6; color:#3B2418; margin-bottom:12px;
+}
+.cv-parceria-doc-texto p { margin:0 0 10px; text-align:justify; }
+.cv-parceria-doc-texto ul { margin:0 0 10px 20px; list-style:disc; }
+.cv-doc-titulo { text-align:center; font-size:19px; color:#7B3A22; margin:0 0 14px; }
+.cv-doc-subtitulo { font-size:16px; color:#7B3A22; margin:16px 0 6px; }
+.cv-doc-nota { font-size:13px; font-style:italic; color:#6B4C3B; }
+.cv-parceria-baixar { width:100%; min-height:48px; font-size:17px; justify-content:center; }
 
 @media (max-width: 560px) {
     .cv-janela { width:100vw; max-width:100vw; max-height:100vh; height:100vh; border-radius:0; padding:24px 16px; }

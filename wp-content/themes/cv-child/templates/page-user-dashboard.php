@@ -11,6 +11,10 @@
 // v15.11.0 (24/09/2026): cartões de playlist com "▶ Tocar" e "Abrir".
 // v15.15.0 (25/09/2026): aba "🛍️ Meus Pedidos" (E-book, Caneca, Camiseta),
 // desenhada pelo plugin (CV_Estoque_Area::render_aba). ?aba=pedidos abre direto.
+// v15.18.0 (25/09/2026): aba "🎤 Enviar música" para parceiros (CV_Envio_Area),
+// só para quem já mandou proposta em "Seja nosso parceiro". ?aba=enviar abre direto.
+// v15.19.0: caixa "💛 Apoie a Canção Verdadeira" (Seja nosso parceiro /
+// colaborador) logo abaixo do cabeçalho, feita pelo plugin (CV_Apoio::caixa_area).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -96,6 +100,8 @@ get_header();
                 </div>
             </div>
 
+            <?php if ( class_exists( 'CV_Apoio' ) ) { echo CV_Apoio::caixa_area(); } // Apoie: parceiro / colaborador ?>
+
             <!-- Conquistas (mini) -->
             <?php if (!empty($conquistas)) :
                 $earned_list = array_filter($conquistas, function($a){ return $a['earned']; });
@@ -130,6 +136,10 @@ get_header();
                     );
                     if ( class_exists( 'CV_Estoque_Area' ) ) {
                         $tabs[] = array('id' => 'pedidos', 'icon' => '🛍️', 'label' => 'Meus Pedidos');
+                    }
+                    $mostra_envio = class_exists( 'CV_Envio' ) && CV_Envio::pode_ver( $user_id );
+                    if ( $mostra_envio ) {
+                        $tabs[] = array('id' => 'enviar', 'icon' => '🎤', 'label' => 'Enviar música');
                     }
                     foreach ($tabs as $i => $tab) : ?>
                     <button class="cv-dash-tab <?php echo $i === 0 ? 'active' : ''; ?>"
@@ -177,6 +187,13 @@ get_header();
                 <!-- ABA: Meus Pedidos (plugin: CV_Estoque_Area) -->
                 <div id="cv-tab-pedidos" class="cv-dash-panel" role="tabpanel" style="display:none">
                     <?php echo CV_Estoque_Area::render_aba( $user_id ); ?>
+                </div>
+                <?php endif; ?>
+
+                <?php if ( $mostra_envio ) : ?>
+                <!-- ABA: Enviar música (plugin: CV_Envio_Area) -->
+                <div id="cv-tab-enviar" class="cv-dash-panel" role="tabpanel" style="display:none">
+                    <div id="cv-envio-aba"><?php echo CV_Envio_Area::lista( $user_id ); ?></div>
                 </div>
                 <?php endif; ?>
 

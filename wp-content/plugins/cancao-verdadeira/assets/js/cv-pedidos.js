@@ -5,6 +5,7 @@
  * e o select (estoque atualizado) voltam prontos do servidor.
  * v2.48.0: botão "💠 Pagar com PIX" abre/fecha o QR do pedido (cv-pix.js
  * desenha), e o PIX do pedido recém-criado já abre sozinho.
+ * v2.49.0: ?item=<variação> (vindo da Loja) já deixa o item escolhido.
  * ajaxUrl e nonce vêm de window.cvPedidos (CV_Estoque_Area::enqueue()).
  */
 jQuery(function ($) {
@@ -21,6 +22,19 @@ jQuery(function ($) {
         var $q = $('#cv-ped-qtd').attr('max', max);
         if (parseInt($q.val(), 10) > max) { $q.val(max); }
     });
+
+    // Veio da Loja com ?item=<variação>: deixa o item escolhido
+    var itemUrl = (location.search.match(/[?&]item=(\d+)/) || [])[1];
+    if (itemUrl) {
+        var $opt = $('#cv-ped-item option[value="' + itemUrl + '"]').not(':disabled');
+        if ($opt.length) {
+            $('#cv-ped-item').val(itemUrl).trigger('change');
+            setTimeout(function () {
+                $('html,body').animate({ scrollTop: $('.cv-ped-form').offset().top - 100 }, 300);
+                $('#cv-ped-qtd').trigger('focus');
+            }, 300);
+        }
+    }
 
     $('#cv-ped-incluir').on('click', function () {
         var $b = $(this);
