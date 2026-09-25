@@ -69,6 +69,7 @@ $dados = array(
     'audio_url'    => $audio_url,
     'cover'        => $cover,
     'letra'        => $letra,
+    'historia'     => (string) get_post_meta( $music_id, '_cv_historia', true ), // v15.21.0
     'plays'        => $plays,
     'show_plays'   => $show_plays,
     'avg_rating'   => $avg_rating,
@@ -96,6 +97,7 @@ get_header();
                  itemscope itemtype="https://schema.org/MusicComposition"
                  data-music-id="<?php echo esc_attr($music_id); ?>">
 
+            <?php get_template_part( 'template-parts/musica/dedicatoria' ); // v15.22.0: veio de "Ofereça esta música" ?>
             <?php get_template_part( 'template-parts/musica/hero', null, $dados ); ?>
 
             <!-- ══════════════════════════════════════════════════

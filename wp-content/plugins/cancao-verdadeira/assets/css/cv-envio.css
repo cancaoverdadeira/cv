@@ -8,13 +8,13 @@
 .cv-envio-card { background:var(--cv-bg-card, #FFFFFF); border:1px solid var(--cv-border, #EADBC6); border-radius:var(--cv-radius-lg, 16px); padding:20px 22px; margin-bottom:18px; box-shadow:var(--cv-shadow-card, 0 2px 12px rgba(123,58,34,.08)); }
 .cv-envio-cab { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
 .cv-envio-cab h3 { margin:0; font-family:var(--font-display, inherit); font-size:22px; color:var(--cv-text, #3B2418); flex:1 1 auto; }
-.cv-envio-num { font-size:13px; color:var(--cv-text-dim, #8A6A55); }
+.cv-envio-num { font-size:13px; color:var(--cv-text-dim, #735442); }
 .cv-envio-selo { font-size:13px; font-weight:700; padding:3px 12px; border-radius:50px; background:#F3E6D3; color:#7B3A22; }
 .cv-envio-selo.is-aguardando { background:#FFF3D6; color:#8A5A00; }
 .cv-envio-selo.is-aprovado { background:#E3F4E8; color:#1C7C44; }
 .cv-envio-selo.is-recusado { background:#FBE9E7; color:#C0392B; }
 .cv-envio-passos { list-style:none; display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; margin:16px 0; padding:0; }
-.cv-envio-passos li { display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600; color:var(--cv-text-dim, #8A6A55); background:#FBF6EE; border-radius:10px; padding:8px 10px; }
+.cv-envio-passos li { display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600; color:var(--cv-text-dim, #735442); background:#FBF6EE; border-radius:10px; padding:8px 10px; }
 .cv-envio-passos li span { width:26px; height:26px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background:#EADBC6; color:#6B4C3B; font-weight:800; flex-shrink:0; }
 .cv-envio-passos li.is-feito { color:#1C7C44; }
 .cv-envio-passos li.is-feito span { background:#1C7C44; color:#FFFFFF; }
@@ -29,7 +29,7 @@
 .cv-envio-como a { color:#7B3A22; }
 .cv-envio-form { display:flex; flex-direction:column; gap:12px; margin-top:8px; }
 .cv-envio-form label { display:flex; flex-direction:column; gap:6px; font-weight:600; font-size:15px; color:var(--cv-text, #3B2418); }
-.cv-envio-form small { font-weight:400; color:var(--cv-text-dim, #8A6A55); }
+.cv-envio-form small { font-weight:400; color:var(--cv-text-dim, #735442); }
 .cv-envio-form input[type=text], .cv-envio-form input[type=url], .cv-envio-form textarea {
     font:inherit; font-size:16px; font-weight:400; padding:10px 12px; min-height:44px;
     border:1px solid var(--cv-border, #EADBC6); border-radius:8px; background:#FFFFFF; color:var(--cv-text, #3B2418);

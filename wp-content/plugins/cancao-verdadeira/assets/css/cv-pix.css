@@ -9,7 +9,7 @@
 .cv-pix-corpo { display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap; }
 .cv-pix-qr { flex:0 0 auto; width:220px; min-height:220px; display:flex; align-items:center; justify-content:center; background:#FFFFFF; border-radius:8px; }
 .cv-pix-qr img { width:220px; height:220px; image-rendering:pixelated; }
-.cv-pix-qr-carregando { font-size:13px; color:#8A6A55; text-align:center; }
+.cv-pix-qr-carregando { font-size:13px; color:#735442; text-align:center; }
 .cv-pix-dados { flex:1 1 240px; min-width:0; }
 .cv-pix-valor { font-size:26px; font-weight:800; color:#1B7F75; margin-bottom:6px; }
 .cv-pix-passos { margin:0 0 12px; padding-left:20px; font-size:15px; line-height:1.6; }

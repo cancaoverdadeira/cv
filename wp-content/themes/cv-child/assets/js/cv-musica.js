@@ -6,6 +6,8 @@
  * excluir). Carregado só em páginas de música (functions.php).
  * Dados: cvPublic (plugin) e cvMusica = { musicId, playMs } (tema).
  * v15.10.0: saiu do <script> em linha do single-musica.php (fase 6).
+ * v15.21.0: A− / A+ muda o tamanho da letra (15 a 29 px) e guarda a escolha
+ * no aparelho (localStorage, com proteção se o navegador bloquear).
  */
 jQuery(function($){
     var AJAX   = cvPublic.ajaxUrl;
@@ -101,6 +103,26 @@ jQuery(function($){
     });
 
     // ── Copiar letra ─────────────────────────────────────────────
+    // ── Tamanho da letra (A− / A+) ─────────────────────────────
+    (function(){
+        var MIN = 15, MAX = 29, PASSO = 2, CHAVE = 'cv_letra_tamanho';
+        var $alvo = $('#cv-letra-conteudo');
+        if (!$alvo.length) { return; }
+        var tam = 17;
+        try { tam = parseInt(window.localStorage.getItem(CHAVE), 10) || 17; } catch (e) {}
+        function aplicar() {
+            tam = Math.max(MIN, Math.min(MAX, tam));
+            $alvo[0].style.setProperty('--cv-letra-tam', tam + 'px');
+            $('.cv-historia')[0] && $('.cv-historia')[0].style.setProperty('--cv-letra-tam', tam + 'px');
+            $('#cv-letra-menor').prop('disabled', tam <= MIN);
+            $('#cv-letra-maior').prop('disabled', tam >= MAX);
+            try { window.localStorage.setItem(CHAVE, String(tam)); } catch (e) {}
+        }
+        $('#cv-letra-menor').on('click', function(){ tam -= PASSO; aplicar(); });
+        $('#cv-letra-maior').on('click', function(){ tam += PASSO; aplicar(); });
+        aplicar();
+    })();
+
     $('#cv-copy-letra-btn').on('click', function(){
         var txt = $('#cv-letra-conteudo').text().trim();
         navigator.clipboard.writeText(txt).then(function(){

@@ -746,7 +746,7 @@ body.cv-modal-open {
 }
 .cv-trend-up-strong { color: #1C7C44; background: rgba(39,174,96,.15); }
 .cv-trend-up        { color: #1D8148; background: rgba(46,204,113,.12); }
-.cv-trend-stable    { color: #8A6A55;    background: rgba(123,58,34,0.07); }
+.cv-trend-stable    { color: #735442;    background: rgba(123,58,34,0.07); }
 .cv-trend-down      { color: #AD5C14; background: rgba(230,126,34,.12); }
 .cv-trend-down-strong { color: #D62C1A; background: rgba(231,76,60,.15); }
 .cv-trend-new       { color: #7B3A22; background: rgba(242,165,26,0.16); }

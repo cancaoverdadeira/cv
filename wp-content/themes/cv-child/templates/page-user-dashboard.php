@@ -95,7 +95,7 @@ get_header();
                                         font-weight:700;color:var(--cv-gold)">
                                 <?php echo $s[1]; ?>
                             </div>
-                            <div style="font-size:11px;color:#8A6A55;text-transform:uppercase;letter-spacing:.5px">
+                            <div style="font-size:11px;color:#735442;text-transform:uppercase;letter-spacing:.5px">
                                 <?php echo $s[2]; ?>
                             </div>
                         </div>
@@ -322,7 +322,7 @@ jQuery(function($){
                     + 'border-radius:var(--cv-radius);padding:16px;text-align:center">'
                     + '<div style="font-size:36px;margin-bottom:10px">📋</div>'
                     + '<div style="font-weight:700;font-size:14px;margin-bottom:4px;color:var(--cv-text)">' + $('<div>').text(pl.name).html() + '</div>'
-                    + '<div style="font-size:12px;color:#8A6A55">' + (pl.total_musicas || pl.count || 0) + ' músicas</div>'
+                    + '<div style="font-size:12px;color:#735442">' + (pl.total_musicas || pl.count || 0) + ' músicas</div>'
                     + (function(){ var pub = (pl.is_public === true || pl.is_public == 1); return '<div style="margin-top:6px"><button type="button" class="cv-pl-visib' + (pub ? ' is-publica' : '') + '" data-id="' + parseInt(pl.id, 10) + '" data-publica="' + (pub ? 1 : 0) + '">' + (pub ? '🌐 Pública' : '🔒 Privada') + '</button></div>'; })()
                     + '<div style="display:flex;gap:8px;justify-content:center;margin-top:12px">'
                     + '<button class="cv-pl-tocar cv-btn cv-btn-primary cv-btn-sm" data-playlist="' + parseInt(pl.id, 10) + '">▶ Tocar</button>'

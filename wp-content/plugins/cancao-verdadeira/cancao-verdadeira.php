@@ -85,12 +85,14 @@
 // (CV_Transferir_Autoria); playlist pública/privada (cv_playlist_visibilidade);
 // CV_Ranking::get_most_played/get_best_rated (seções novas da home); "← Dashboard"
 // também em Categorias, Tags, Usuários e Mídia; "🎤 Enviar minha música" na caixa Apoie.
+// v2.53.0 (26/09/2026) — Prioridade 0 (público 55+): campo "📖 Por trás da canção"
+// (CV_Fields::HISTORIA) no cadastro da música, mostrado abaixo da letra.
 
 /**
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.52.0
+ * Version:     2.53.0
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -99,7 +101,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.52.0' );
+define( 'CV_VERSION',        '2.53.0' );
 define( 'CV_DB_VERSION',     '12' );      // v2.50.0: cv_envios (v2.49.0: colunas novas em cv_parcerias)
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );

@@ -5,11 +5,15 @@
 // que aparece ao selecionar parte da letra.
 // Chamado por single-musica.php com get_template_part( ..., null, $args ).
 // v15.10.0: separado do single-musica.php (refatoração, fase 6).
+// v15.21.0: botões A− / A+ (tamanho da letra, lembrado no aparelho) e o bloco
+// "📖 Por trás da canção" abaixo da letra (campo _cv_historia do plugin).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 // Dados vêm de $args (get_template_part não compartilha variáveis).
-$letra = isset( $args['letra'] ) ? $args['letra'] : '';
+$letra    = isset( $args['letra'] ) ? $args['letra'] : '';
+$historia = isset( $args['historia'] ) ? trim( $args['historia'] ) : '';
+$autor    = ! empty( $args['compositor'] ) ? $args['compositor'] : '';
 ?>
                     <!-- Letra -->
                     <div class="cv-musica-letra-section">
@@ -17,11 +21,18 @@ $letra = isset( $args['letra'] ) ? $args['letra'] : '';
                             <h2 style="font-family:var(--font-display);font-size:18px;font-weight:700;margin:0;color:var(--cv-gold)">
                                 📝 Letra
                             </h2>
-                            <button id="cv-copy-letra-btn"
-                                    class="cv-btn cv-btn-secondary cv-btn-sm"
-                                    title="Copiar letra">
-                                📋 Copiar letra
-                            </button>
+                            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                                <div class="cv-letra-tamanho" role="group" aria-label="Tamanho da letra">
+                                    <span class="cv-letra-tamanho-rotulo">Tamanho:</span>
+                                    <button type="button" id="cv-letra-menor" aria-label="Diminuir a letra" title="Diminuir a letra">A−</button>
+                                    <button type="button" id="cv-letra-maior" aria-label="Aumentar a letra" title="Aumentar a letra" style="font-size:20px">A+</button>
+                                </div>
+                                <button id="cv-copy-letra-btn"
+                                        class="cv-btn cv-btn-secondary cv-btn-sm"
+                                        title="Copiar letra">
+                                    📋 Copiar letra
+                                </button>
+                            </div>
                         </div>
 
                         <!-- Instrução de seleção de trecho -->
@@ -48,6 +59,15 @@ $letra = isset( $args['letra'] ) ? $args['letra'] : '';
                                 ?>
                             </div>
                         </div>
+
+                        <?php if ( '' !== $historia ) : ?>
+                        <!-- Por trás da canção (v15.21.0) -->
+                        <section class="cv-historia" aria-label="Por trás da canção">
+                            <h2>📖 Por trás da canção</h2>
+                            <div class="cv-historia-texto"><?php echo wpautop( esc_html( $historia ) ); ?></div>
+                            <?php if ( $autor ) : ?><p class="cv-historia-assinatura">— <?php echo esc_html( $autor ); ?></p><?php endif; ?>
+                        </section>
+                        <?php endif; ?>
 
                         <!-- Popup de comentário de trecho (aparece ao selecionar texto) -->
                         <div id="cv-trecho-popup"

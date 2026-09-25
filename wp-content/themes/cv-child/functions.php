@@ -12,7 +12,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_CHILD_VERSION', '15.20.0' );
+define( 'CV_CHILD_VERSION', '15.22.0' );
 define( 'CV_CHILD_DIR',     get_stylesheet_directory() );
 define( 'CV_CHILD_URL',     get_stylesheet_directory_uri() );
 
@@ -112,6 +112,8 @@ function cv_child_enqueue() {
             CV_CHILD_VERSION,
             true
         );
+        // v15.22.0: "Ofereça esta música" (cartão + dedicatória)
+        wp_enqueue_script( 'cv-oferecer', CV_CHILD_URL . '/assets/js/cv-oferecer.js', array( 'jquery' ), CV_CHILD_VERSION, true );
         wp_localize_script( 'cv-musica-js', 'cvMusica', array(
             'musicId' => (int) get_queried_object_id(),
             'playMs'  => ( defined( 'CV_PLAY_SECONDS' ) ? (int) CV_PLAY_SECONDS : 30 ) * 1000,

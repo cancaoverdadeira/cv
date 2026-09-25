@@ -12,6 +12,8 @@
 // v2.45.0 : letra com a barra "estilo Word" (CV_Editor_Rico) e caixa "🔎 SEO e
 //           Tags" de volta: palavra-chave principal e título no Google (gravados
 //           nos campos do Rank Math), tags e prévia do resultado no Google.
+// v2.53.0 : caixa "📖 Por trás da canção" (CV_Fields::HISTORIA): a história da
+//           música contada pelo compositor, mostrada abaixo da letra no site.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -40,6 +42,7 @@ class CV_Metaboxes {
         add_meta_box( 'cv_music_player',   '🎬 Player & Áudio',     array( __CLASS__, 'render_player' ),   'musica', 'normal', 'high' );
         add_meta_box( 'cv_music_info',     '🎤 Informações',         array( __CLASS__, 'render_info' ),     'musica', 'normal', 'high' );
         add_meta_box( 'cv_music_letra',    '📝 Letra da Música',     array( __CLASS__, 'render_letra' ),    'musica', 'normal', 'high' );
+        add_meta_box( 'cv_music_historia', '📖 Por trás da canção',  array( __CLASS__, 'render_historia' ), 'musica', 'normal', 'high' );
         add_meta_box( 'cv_music_seo',      '🔎 SEO e Tags',          array( __CLASS__, 'render_seo' ),      'musica', 'normal', 'high' );
         add_meta_box( 'cv_music_config',   '⚙️ Configurações',       array( __CLASS__, 'render_config' ),   'musica', 'side',   'high' );
         add_meta_box( 'cv_music_estreia',  '📅 Estreia',             array( __CLASS__, 'render_estreia' ),  'musica', 'side',   'high' );
@@ -299,6 +302,22 @@ class CV_Metaboxes {
         echo '<p class="cv-hint" style="margin-top:8px">A letra é o conteúdo principal da página da música e é indexada pelo Google.</p>';
     }
 
+    // ── Por trás da canção (v2.53.0) ──────────────────────────────
+    public static function render_historia( $post ) {
+        $historia = get_post_meta( $post->ID, CV_Fields::HISTORIA, true );
+        ?>
+        <p class="cv-hint" style="margin:0 0 8px">Conte com suas palavras como a música nasceu: onde, quando, para quem, o que sentiu. Aparece no site logo abaixo da letra. Deixe em branco para não mostrar.</p>
+        <div class="cv-dark-field">
+            <textarea id="cv_historia" name="cv_historia" rows="7" style="font-size:15px;line-height:1.6"
+                      placeholder="Ex.: Escrevi esta canção numa madrugada em 1998, pensando na minha mãe..."><?php echo esc_textarea( $historia ); ?></textarea>
+            <div class="cv-hint"><span id="cv-historia-len"><?php echo mb_strlen( (string) $historia ); ?></span> caracteres — o ideal é de 3 a 6 parágrafos curtos. Parágrafos são separados por uma linha em branco.</div>
+        </div>
+        <script>
+        jQuery(function($){ $('#cv_historia').on('input', function(){ $('#cv-historia-len').text(this.value.length); }); });
+        </script>
+        <?php
+    }
+
     // ── SEO e Tags (v2.45.0) ──────────────────────────────────────
     // Palavra-chave e título vão para os campos do Rank Math (rank_math_*),
     // que já monta título, descrição, Open Graph e sitemap. A descrição
@@ -541,6 +560,13 @@ class CV_Metaboxes {
                 'post_date_gmt' => $scheduled_gmt,
             ));
             add_action('save_post_musica', array(__CLASS__,'save'));
+        }
+
+        // Por trás da canção (v2.53.0)
+        if ( isset( $_POST['cv_historia'] ) ) {
+            $historia = sanitize_textarea_field( wp_unslash( $_POST['cv_historia'] ) );
+            if ( '' === trim( $historia ) ) { delete_post_meta( $post_id, CV_Fields::HISTORIA ); }
+            else                            { update_post_meta( $post_id, CV_Fields::HISTORIA, $historia ); }
         }
 
         // SEO e Tags (v2.45.0) — campos do Rank Math + tags nativas

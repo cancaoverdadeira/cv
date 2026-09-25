@@ -17,6 +17,9 @@
    9) v15.17.0: botão "🛍️ Loja" em destaque no menu lateral.
   10) v15.20.0: busca dentro do banner; cartões com "▶ Tocar" e "🎬 Ver clipe";
       botão de playlist pública/privada.
+  11) v15.21.0: contraste AA (texto claro #735442; laranja #FFC24D sobre o
+      marrom) e o tamanho da letra ajustável (A− / A+).
+  14) v15.22.0: "💌 Ofereça esta música" (cartão, janela e faixa de dedicatória).
 ═══════════════════════════════════════════════════════════════ */
 
 /* ── 1. Player escuro ──────────────────────────────────────────
@@ -267,7 +270,7 @@
 .cv-sidebar .cv-autocomplete-list {
     --cv-text:          #3B2418;
     --cv-text-muted:    #7B3A22;
-    --cv-text-dim:      #8A6A55;
+    --cv-text-dim:      #735442;
     --cv-gold:          #7B3A22;
     --cv-bg-card:       #FFFFFF;
     --cv-border:        #EADBC6;
@@ -348,7 +351,7 @@ body legend { color: var(--cv-text); }
    textos usavam as cores escuras do tema claro: marrom sobre marrom, tudo
    sumia. Mesma solução da barra lateral: redefine os tokens só aqui dentro. */
 .cv-footer {
-    --cv-gold:          #F2A51A;
+    --cv-gold:          #FFC24D; /* v15.21.0: contraste 5,3 sobre o marrom (era #F2A51A, 4,1) */
     --cv-text:          #FBF6EE;
     --cv-text-muted:    #F3E6D3;
     --cv-text-dim:      #E3CDB3;
@@ -428,3 +431,59 @@ body legend { color: var(--cv-text); }
 }
 .cv-pl-visib.is-publica { border-color: var(--cv-accent); color: var(--cv-gold); background: #FFF3D6; }
 .cv-pl-visib:hover { border-color: var(--cv-gold); }
+
+/* ── 11. Contraste nível AA (v15.21.0) ──────────────────────────
+   Medido em 26/09/2026 (mínimo 4,5 para texto comum):
+   · texto claro #8A6A55 dava 4,57 no creme e 3,99 no bege → #735442 (6,35 / 5,55);
+   · laranja #F2A51A sobre o marrom do menu/rodapé dava 4,12 → #FFC24D (5,29).
+   Os arquivos protegidos não mudam: os tokens são redefinidos aqui. */
+:root { --cv-text-dim: #735442; }
+.cv-sidebar { --cv-gold: #FFC24D; }
+
+/* ── 12. Tamanho da letra ajustável (A− / A+) — v15.21.0 ──────── */
+.cv-letra-tamanho { display: inline-flex; gap: 6px; align-items: center; }
+.cv-letra-tamanho button {
+    min-width: 44px; min-height: 40px; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--cv-border); background: #FFFFFF; color: var(--cv-gold);
+    font-family: var(--font-display); font-weight: 700; font-size: 16px;
+}
+.cv-letra-tamanho button:hover { border-color: var(--cv-gold); }
+.cv-letra-tamanho button:disabled { opacity: .45; cursor: default; }
+.cv-letra-tamanho .cv-letra-tamanho-rotulo { font-size: 13px; color: var(--cv-text-muted); }
+#cv-letra-conteudo [itemprop="text"] { font-size: var(--cv-letra-tam, 17px) !important; }
+
+/* ── 13. "Por trás da canção" (v15.21.0) ───────────────────────── */
+.cv-historia { margin-top: 28px; padding: 22px 24px; border-radius: var(--cv-radius-lg); background: var(--cv-bg-elevated); border-left: 4px solid var(--cv-accent); }
+.cv-historia h2 { font-family: var(--font-display); font-size: 20px; color: var(--cv-gold); margin: 0 0 12px; }
+.cv-historia-texto { font-family: var(--font-body); font-size: var(--cv-letra-tam, 17px); line-height: 1.8; color: var(--cv-text); }
+.cv-historia-texto p { margin: 0 0 12px; }
+.cv-historia-assinatura { margin: 8px 0 0; font-style: italic; color: var(--cv-text-muted); font-size: 15px; }
+
+/* ── 14. "💌 Ofereça esta música" (v15.22.0) ─────────────────────
+   Cartão na lateral, janela (usa .cv-janela do plugin) e a faixa de
+   dedicatória no topo da música quando o link veio de uma oferta. */
+.cv-oferecer-card { background: linear-gradient(135deg, #FFF3D6 0%, #FFFFFF 100%); border-color: var(--cv-accent); }
+.cv-oferecer-intro { font-size: 15px; line-height: 1.5; color: var(--cv-text-muted); margin: 0 0 12px; }
+.cv-oferecer-card .cv-btn { width: 100%; min-height: 48px; font-size: 16px; justify-content: center; }
+.cv-oferecer-sugestoes { display: flex; flex-wrap: wrap; gap: 8px; margin: -4px 0 14px; }
+.cv-oferecer-sugestao { border: 1px solid var(--cv-border); background: #FFFFFF; border-radius: 50px; padding: 6px 12px; font-size: 14px; cursor: pointer; color: var(--cv-text); }
+.cv-oferecer-sugestao:hover { border-color: var(--cv-accent); background: #FFF3D6; }
+.cv-oferecer-estilos { flex-direction: row !important; flex-wrap: wrap; }
+.cv-oferecer-estilos legend { width: 100%; }
+.cv-oferecer-previa { width: 100%; height: auto; max-width: 420px; display: block; margin: 0 auto 14px; border-radius: 16px; box-shadow: var(--cv-shadow-lg); }
+.cv-oferecer-acoes { display: flex; flex-direction: column; gap: 10px; }
+.cv-oferecer-acoes .cv-btn { min-height: 48px; font-size: 16px; justify-content: center; }
+.cv-oferecer-dica { font-size: 14px; color: var(--cv-text-muted); margin: 12px 0 0; }
+
+.cv-dedicatoria {
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+    margin: 20px 36px 0; padding: 20px 24px; border-radius: var(--cv-radius-lg);
+    background: linear-gradient(135deg, #FFF3D6 0%, #FFE9EE 100%); border: 2px solid var(--cv-accent);
+}
+.cv-dedicatoria-icone { font-size: 44px; }
+.cv-dedicatoria-texto { flex: 1 1 320px; }
+.cv-dedicatoria-para { font-family: var(--font-display); font-size: 24px; color: var(--cv-gold); margin: 0 0 6px; }
+.cv-dedicatoria blockquote { margin: 0 0 6px; font-family: var(--font-body); font-style: italic; font-size: 19px; line-height: 1.5; color: var(--cv-text); }
+.cv-dedicatoria-de { margin: 0; font-size: 16px; color: var(--cv-text-muted); }
+.cv-dedicatoria .cv-btn { min-height: 48px; font-size: 16px; }
+@media (max-width: 768px) { .cv-dedicatoria { margin: 16px 16px 0; } }

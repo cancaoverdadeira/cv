@@ -106,6 +106,9 @@ $share_links  = isset( $args['share_links'] ) ? $args['share_links'] : array();
                         <?php endif; ?>
                     </div>
 
+                    <?php // v15.22.0: "💌 Ofereça esta música" (cartão + janela)
+                    get_template_part( 'template-parts/musica/oferecer', null, $args ); ?>
+
                     <!-- Compartilhar -->
                     <div class="cv-aside-card">
                         <h3 class="cv-aside-title">📤 Compartilhar</h3>

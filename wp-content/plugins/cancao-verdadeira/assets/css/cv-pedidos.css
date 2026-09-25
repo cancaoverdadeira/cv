@@ -35,7 +35,7 @@
 .cv-ped-info { flex: 1 1 260px; display: flex; flex-direction: column; gap: 3px; }
 .cv-ped-info strong { font-size: 16px; color: var(--cv-text, #3B2418); }
 .cv-ped-meta { font-size: 14px; color: var(--cv-text-muted, #6B4C3B); }
-.cv-ped-obs  { font-size: 13px; color: var(--cv-text-dim, #8A6A55); font-style: italic; }
+.cv-ped-obs  { font-size: 13px; color: var(--cv-text-dim, #735442); font-style: italic; }
 .cv-ped-status { font-size: 14px; font-weight: 700; white-space: nowrap; color: var(--cv-text, #3B2418); }
 .cv-ped-acoes { display: flex; gap: 8px; flex-wrap: wrap; }
 .cv-ped-pix { flex: 1 1 100%; }
@@ -73,4 +73,4 @@
 .cv-loja-tam:hover, .cv-loja-tam:focus-visible { background: var(--cv-accent, #F2A51A); color: #3B2418; }
 .cv-loja-tam.is-off { border-color: var(--cv-border, #EADBC6); color: var(--cv-text-disabled, #B39880); text-decoration: line-through; }
 .cv-loja-botao { min-height: 48px; font-size: 17px; justify-content: center; }
-.cv-loja-esgotado { font-weight: 700; color: var(--cv-text-dim, #8A6A55); }
+.cv-loja-esgotado { font-weight: 700; color: var(--cv-text-dim, #735442); }
