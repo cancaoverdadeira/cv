@@ -6,6 +6,7 @@
  * excluir). Carregado só em páginas de música (functions.php).
  * Dados: cvPublic (plugin) e cvMusica = { musicId, playMs } (tema).
  * v15.10.0: saiu do <script> em linha do single-musica.php (fase 6).
+ * v15.32.1: comentário do botão Ouvir corrigido (o WaveSurfer saiu na v15.0.0).
  * v15.21.0: A− / A+ muda o tamanho da letra (15 a 29 px) e guarda a escolha
  * no aparelho (localStorage, com proteção se o navegador bloquear).
  * v15.23.0: o A− / A+ também muda o tamanho da cifra simples.
@@ -29,7 +30,7 @@ jQuery(function($){
     // ── Botão Play ───────────────────────────────────────────────
     $('#cv-play-btn').on('click', function(){
         var d = $(this).data();
-        // Se tem MP3 cadastrado: usa WaveSurfer (player do rodapé)
+        // Se tem MP3 cadastrado: toca no player do rodapé (CV_Player, cv-player.js)
         if (d.audioUrl && window.CV_Player) {
             CV_Player.playById({
                 musicId  : d.musicId,
