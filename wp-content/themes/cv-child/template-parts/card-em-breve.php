@@ -7,6 +7,8 @@
 // Uso: get_template_part( 'template-parts/card-em-breve', null, array(
 //        'quantidade' => 4, 'icone' => '🎵', 'texto' => 'Em breve', 'formato' => 'musica'|'post' ) );
 // Gerado em: 2026-09-23 (tema v15.2.0)
+// v15.27.0: 'sem_grade' => true imprime só os cartões, para completar uma grade
+// que já tem cartões de verdade (ex.: 2 músicas + 2 "Em breve").
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -15,10 +17,13 @@ $icone      = isset( $args['icone'] )   ? $args['icone']   : '🎵';
 $texto      = isset( $args['texto'] )   ? $args['texto']   : 'Em breve';
 $formato    = isset( $args['formato'] ) ? $args['formato'] : 'musica';
 $grid_class = 'post' === $formato ? 'cv-blog-grid' : 'cv-grid';
+$sem_grade  = ! empty( $args['sem_grade'] );
 ?>
+<?php if ( ! $sem_grade ) : ?>
 <div class="<?php echo esc_attr( $grid_class ); ?> cv-em-breve-grid" aria-label="<?php echo esc_attr( $texto ); ?>">
+<?php endif; ?>
     <?php for ( $i = 0; $i < $quantidade; $i++ ) : ?>
-    <div class="cv-card-breve cv-card-breve-<?php echo esc_attr( $formato ); ?>" aria-hidden="<?php echo $i ? 'true' : 'false'; ?>">
+    <div class="cv-card-breve cv-card-breve-<?php echo esc_attr( $formato ); ?>" aria-hidden="<?php echo ( $i || $sem_grade ) ? 'true' : 'false'; ?>">
         <div class="cv-card-breve-capa">
             <span class="cv-card-breve-icone"><?php echo esc_html( $icone ); ?></span>
             <span class="cv-card-breve-selo"><?php echo esc_html( $texto ); ?></span>
@@ -29,4 +34,6 @@ $grid_class = 'post' === $formato ? 'cv-blog-grid' : 'cv-grid';
         </div>
     </div>
     <?php endfor; ?>
+<?php if ( ! $sem_grade ) : ?>
 </div>
+<?php endif; ?>

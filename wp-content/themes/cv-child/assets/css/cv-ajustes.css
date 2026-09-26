@@ -20,6 +20,7 @@
   11) v15.21.0: contraste AA (texto claro #735442; laranja #FFC24D sobre o
       marrom) e o tamanho da letra ajustável (A− / A+).
   14) v15.22.0: "💌 Ofereça esta música" (cartão, janela e faixa de dedicatória).
+  20) v15.27.0: home com linhas de 4 cartões (Favoritas, Mais tocadas, Melhor avaliadas).
   19) v15.26.0: página "🎤 Para artistas" (/artista/) e o botão verde do WhatsApp.
   18) v15.25.0: "💬 O que os ouvintes sentiram" (cartões e formulário).
   17) v15.24.0: "🎤 Cantar junto" (letra em tela cheia, estrofe atual em destaque);
@@ -700,4 +701,18 @@ html.cv-cantar-aberto, html.cv-cantar-aberto body { overflow: hidden; }
     .cv-artista-texto { padding: 18px 16px; }
     .cv-artista-whats { padding: 20px 16px; }
     .cv-artista-acoes .cv-btn, .cv-artista-whats .cv-btn { width: 100%; justify-content: center; }
+}
+
+/* ── 20. Home: linhas de 4 cartões (v15.27.0) ────────────────────
+   Favoritas, Mais tocadas e Melhor avaliadas usam .cv-grid-col-4 e são
+   completadas com "Em breve" até fechar a linha (front-page.php). O
+   cv-components.css passa para 3 colunas até 1024 px, o que quebraria a
+   linha; aqui ficam 4 até o celular, e lá 2 + 2. */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .cv-grid-linha4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+/* Celular pequeno: 2 + 2 (o padrão do site ali é 1 por linha, que empilharia
+   os "Em breve" e deixaria a página muito comprida) */
+@media (max-width: 380px) {
+    .cv-grid-linha4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 }

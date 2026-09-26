@@ -13,6 +13,9 @@
 // v15.3.0: hero em duas colunas centralizadas (texto + marca maior, sem o
 // vão entre eles), título numa linha só e maior, selo "Sertanejo autoral".
 // v15.20.0: seções "🔥 Mais tocadas" e "⭐ Melhor avaliadas" depois de "Mais Favoritadas".
+// v15.27.0 (pedido do Eduardo): "Mais Favoritadas" virou "Favoritas" e "Do Blog" virou
+// "Blog"; Favoritas, Mais tocadas e Melhor avaliadas sempre em linhas de 4 cartões e o
+// Blog em linhas de 3, completando com cartões "Em breve" (cv_completar_grade).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -40,6 +43,19 @@ $blog_posts     = $blog_term ? get_posts(array(
     'posts_per_page' => 3,
     'cat'            => $blog_term->term_id,
 )) : array();
+
+// v15.27.0: quantos cartões "Em breve" completam a última linha da grade
+// (sem nenhum cartão de verdade, mostra uma linha inteira de "Em breve").
+if ( ! function_exists( 'cv_completar_grade' ) ) {
+    function cv_completar_grade( $reais, $por_linha ) {
+        $reais = (int) $reais;
+        if ( 0 === $reais ) { return $por_linha; }
+        $resto = $reais % $por_linha;
+        return $resto ? $por_linha - $resto : 0;
+    }
+}
+$cv_linha_musicas = 4;
+$cv_linha_blog    = 3;
 
 // Configurações do hero
 $banner_url     = get_option('cv_banner_url', '');
@@ -269,23 +285,21 @@ get_header();
         <!-- ══════════════════════════════════════════════════════
              MAIS FAVORITADAS
         ══════════════════════════════════════════════════════ -->
-        <section class="cv-section" aria-label="Mais favoritadas">
+        <section class="cv-section" aria-label="Favoritas">
             <div class="cv-section-header">
-                <h2 class="cv-section-title">❤️ Mais <span>Favoritadas</span></h2>
+                <h2 class="cv-section-title">❤️ <span>Favoritas</span></h2>
             </div>
-            <?php if ( empty($favoritas) ) :
-                get_template_part('template-parts/card-em-breve', null, array('quantidade' => 5, 'icone' => '❤️', 'texto' => 'Em breve'));
-            else : ?>
-            <div class="cv-grid">
+            <div class="cv-grid cv-grid-col-4 cv-grid-linha4">
                 <?php foreach ( $favoritas as $m ) :
                     get_template_part( 'template-parts/card-musica', null, array( 'music_id' => $m->music_id, 'show_rank' => false ) );
                 endforeach; ?>
+                <?php $falta = cv_completar_grade( count( $favoritas ), $cv_linha_musicas );
+                if ( $falta ) { get_template_part( 'template-parts/card-em-breve', null, array( 'quantidade' => $falta, 'icone' => '❤️', 'texto' => 'Em breve', 'sem_grade' => true ) ); } ?>
             </div>
-            <?php endif; ?>
         </section>
 
         <?php
-        // v15.20.0: duas seções no mesmo formato do "Mais Favoritadas"
+        // v15.20.0: duas seções no mesmo formato de "Favoritas"
         $secoes_extra = array(
             array( 'rotulo' => 'Mais tocadas',    'icone' => '🔥', 'titulo' => 'Mais <span>Tocadas</span>',    'lista' => $mais_tocadas ),
             array( 'rotulo' => 'Melhor avaliadas', 'icone' => '⭐', 'titulo' => 'Melhor <span>Avaliadas</span>', 'lista' => $melhor_notas ),
@@ -296,24 +310,22 @@ get_header();
                 <h2 class="cv-section-title"><?php echo esc_html( $sx['icone'] ); ?> <?php echo wp_kses( $sx['titulo'], array( 'span' => array() ) ); ?></h2>
                 <a href="<?php echo esc_url( home_url( '/ranking/' ) ); ?>" class="cv-section-link">Ver ranking →</a>
             </div>
-            <?php if ( empty( $sx['lista'] ) ) :
-                get_template_part( 'template-parts/card-em-breve', null, array( 'quantidade' => 5, 'icone' => $sx['icone'], 'texto' => 'Em breve' ) );
-            else : ?>
-            <div class="cv-grid">
+            <div class="cv-grid cv-grid-col-4 cv-grid-linha4">
                 <?php foreach ( $sx['lista'] as $m ) :
                     get_template_part( 'template-parts/card-musica', null, array( 'music_id' => $m->music_id, 'show_rank' => false ) );
                 endforeach; ?>
+                <?php $falta = cv_completar_grade( count( $sx['lista'] ), $cv_linha_musicas );
+                if ( $falta ) { get_template_part( 'template-parts/card-em-breve', null, array( 'quantidade' => $falta, 'icone' => $sx['icone'], 'texto' => 'Em breve', 'sem_grade' => true ) ); } ?>
             </div>
-            <?php endif; ?>
         </section>
         <?php endforeach; ?>
 
         <!-- ══════════════════════════════════════════════════════
-             DO BLOG (3 posts mais recentes)
+             BLOG (3 posts mais recentes, completando com "Em breve")
         ══════════════════════════════════════════════════════ -->
-        <section class="cv-section" aria-label="Do blog">
+        <section class="cv-section" aria-label="Blog">
             <div class="cv-section-header">
-                <h2 class="cv-section-title">📝 Do <span>Blog</span></h2>
+                <h2 class="cv-section-title">📝 <span>Blog</span></h2>
                 <?php if ( $blog_posts && $blog_term ) : ?>
                 <a href="<?php echo esc_url(get_term_link($blog_term)); ?>"
                    class="cv-section-link">Ver todos →</a>
@@ -340,6 +352,8 @@ get_header();
                     </div>
                 </article>
                 <?php endforeach; ?>
+                <?php $falta = cv_completar_grade( count( $blog_posts ), $cv_linha_blog );
+                if ( $falta ) { get_template_part( 'template-parts/card-em-breve', null, array( 'quantidade' => $falta, 'icone' => '📝', 'texto' => 'Em breve', 'formato' => 'post', 'sem_grade' => true ) ); } ?>
             </div>
             <?php endif; ?>
         </section>
