@@ -8,6 +8,7 @@
 // v15.6.0: publicidade depois da letra (CV_Monetization).
 // v15.10.0: dividido em partes (refatoração, fase 6) — HTML sem mudanças.
 // v15.23.0: passa a cifra simples (_cv_cifra) para a parte da letra.
+// v15.25.0: "💬 O que os ouvintes sentiram" (parte depoimentos.php) depois da publicidade.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -118,6 +119,8 @@ get_header();
                          rotação): parágrafo curto → "Leia após a publicidade" → banner.
                          Só aparece se houver banner ativo nessa posição. -->
                     <?php if ( class_exists( 'CV_Monetization' ) ) { echo CV_Monetization::bloco_apos_letra( $music_id ); } ?>
+
+                    <?php get_template_part( 'template-parts/musica/depoimentos', null, $dados ); // v15.25.0 ?>
 
                     <?php get_template_part( 'template-parts/musica/modal-trecho' ); ?>
 

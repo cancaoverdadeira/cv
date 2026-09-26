@@ -6,6 +6,7 @@
 // 24/09/2026: arquivo da antiga Calibração de Métricas apagado (substituída
 //           pelo modo lançamento, CV_Launch).
 // v2.26.0 : removida a página "Gêneros" (cv-generos) — o site é todo sertanejo.
+// v2.55.0 : tela "💬 Depoimentos" (cv-depoimentos, CV_Depoimentos::render).
 // Segurança: Operadores nunca veem o menu do WP — apenas este painel.
 // Autor   : Canção Verdadeira | Gerado: 2026-06-26
 
@@ -88,6 +89,8 @@ class CV_Admin_Menu {
             'manage_options', 'cv-apoio',              array( 'CV_Apoio', 'render' ) );
         add_submenu_page( null, 'Sorteios',           'Sorteios',
             'manage_options', 'cv-sorteios',           array( 'CV_Monetization_Pages', 'page_sorteios' ) );
+        add_submenu_page( null, 'Depoimentos',        'Depoimentos',
+            'manage_options', 'cv-depoimentos',        array( 'CV_Depoimentos', 'render' ) ); // v2.55.0
         add_submenu_page( null, 'Banners',            'Banners',
             'manage_options', 'cv-banners',            array( 'CV_Page_Appearance', 'render' ) );
 

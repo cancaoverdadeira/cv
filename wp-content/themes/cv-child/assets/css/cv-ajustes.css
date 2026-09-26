@@ -20,6 +20,7 @@
   11) v15.21.0: contraste AA (texto claro #735442; laranja #FFC24D sobre o
       marrom) e o tamanho da letra ajustável (A− / A+).
   14) v15.22.0: "💌 Ofereça esta música" (cartão, janela e faixa de dedicatória).
+  18) v15.25.0: "💬 O que os ouvintes sentiram" (cartões e formulário).
   17) v15.24.0: "🎤 Cantar junto" (letra em tela cheia, estrofe atual em destaque);
       v15.24.1: tela clara, só a estrofe atual escura.
   16) v15.23.0: "🎸 Cifra simples" (partes do claro ao escuro, na paleta).
@@ -612,4 +613,53 @@ html.cv-cantar-aberto, html.cv-cantar-aberto body { overflow: hidden; }
     .cv-cantar .cv-cantar-nav { flex: 1 1 0; min-width: 0; }
     .cv-cantar .cv-cantar-tocar { order: -1; flex: 1 1 100%; min-height: 48px; }
     .cv-cantar-dica { display: none; }
+}
+
+/* ── 18. "💬 Depoimentos dos ouvintes" (v15.25.0) ──────────────
+   Cartões brancos com aspas laranja e faixa na cor da marca; formulário
+   dentro de <details> (abre sem JavaScript). Letras grandes para o 55+. */
+.cv-depo { margin-top: 32px; padding: 24px; border-radius: var(--cv-radius-lg); background: var(--cv-bg-elevated); }
+.cv-depo h2 { font-family: var(--font-display); font-size: 22px; color: var(--cv-gold); margin: 0 0 16px; }
+.cv-depo h2 span { color: var(--cv-accent-hover); }
+.cv-depo-lista { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 18px; }
+.cv-depo-cartao {
+    position: relative; margin: 0; padding: 22px 20px 16px 22px;
+    background: #FFFFFF; border: 1px solid var(--cv-border); border-left: 5px solid var(--cv-accent);
+    border-radius: 14px; box-shadow: var(--cv-shadow-card);
+}
+.cv-depo-cartao::before {
+    content: "“"; position: absolute; top: -6px; right: 14px;
+    font-family: Georgia, serif; font-size: 64px; line-height: 1; color: rgba(242,165,26,.45);
+}
+.cv-depo-cartao blockquote { border: 0; padding: 0; quotes: none; margin: 0 0 12px; font-family: var(--font-body); font-size: 18px; line-height: 1.6; color: var(--cv-text); font-style: italic; }
+.cv-depo-cartao figcaption { font-size: 15px; color: var(--cv-text-muted); }
+.cv-depo-cartao figcaption strong { color: var(--cv-gold); }
+.cv-depo-vazio { margin: 0 0 16px; font-family: var(--font-body); font-size: 18px; color: var(--cv-text-muted); }
+.cv-depo-form-caixa > summary { list-style: none; display: inline-flex; cursor: pointer; }
+.cv-depo-form-caixa > summary::-webkit-details-marker { display: none; }
+.cv-depo-form-caixa[open] > summary { margin-bottom: 16px; }
+.cv-depo-form { padding: 20px; background: #FFFFFF; border: 1px solid var(--cv-border); border-radius: 14px; }
+.cv-depo-campo { display: block; margin-bottom: 14px; }
+.cv-depo-campo > span { display: block; margin-bottom: 6px; font-weight: 700; font-size: 16px; color: var(--cv-text); }
+.cv-depo-campo em { font-weight: 400; color: var(--cv-text-muted); }
+.cv-depo-campo textarea, .cv-depo-campo input {
+    width: 100%; box-sizing: border-box; padding: 12px 14px; border-radius: 10px;
+    border: 1px solid var(--cv-border-hover); background: var(--cv-bg); color: var(--cv-text);
+    font-family: var(--font-body); font-size: 18px;
+}
+.cv-depo-campo textarea:focus, .cv-depo-campo input:focus { outline: 3px solid rgba(242,165,26,.45); border-color: var(--cv-accent); }
+.cv-depo-conta { display: block; margin-top: 4px; font-size: 13px; color: var(--cv-text-muted); text-align: right; }
+.cv-depo-linha { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cv-depo-aceite { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 10px; font-size: 15px; color: var(--cv-text); cursor: pointer; }
+.cv-depo-aceite input { width: 22px; height: 22px; margin-top: 1px; accent-color: var(--cv-gold); flex: 0 0 auto; }
+.cv-depo-aviso { margin: 0 0 14px; font-size: 14px; color: var(--cv-text-muted); }
+.cv-depo-msg { margin: 12px 0 0; font-size: 16px; font-weight: 700; }
+.cv-depo-msg:empty { display: none; }
+.cv-depo-msg.is-ok { color: var(--cv-success); }
+.cv-depo-msg.is-erro { color: var(--cv-error); }
+.cv-depo-isca { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+@media (max-width: 768px) {
+    .cv-depo { padding: 18px 14px; }
+    .cv-depo-linha { grid-template-columns: 1fr; gap: 0; }
+    .cv-depo-form { padding: 16px 14px; }
 }

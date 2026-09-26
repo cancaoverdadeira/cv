@@ -6,6 +6,8 @@
 // exclui admin-ajax.php do cache, define TTL 1h para CPT musica,
 // purga automaticamente ao salvar post, protege JS do player de
 // minificacao. Nao interfere se os plugins nao estiverem ativos.
+// v2.55.0: limpar_post() — o WP Rocket 3.23 não tem mais rocket_clean_post();
+// a página da música é limpa por rocket_clean_files( endereço ).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -38,8 +40,7 @@ class CV_Litespeed {
 
     public static function purge_on_save( $post_id ) {
         if ( wp_is_post_revision( $post_id ) ) { return; }
-        if ( function_exists( 'litespeed_purge_post' ) ) { litespeed_purge_post( $post_id ); }
-        if ( function_exists( 'rocket_clean_post' ) )    { rocket_clean_post( $post_id ); }
+        self::limpar_post( $post_id );
 
         // Limpa todos os transients de ranking (qualquer limite)
         // O formato é: cv_ranking_top_{limit} e cv_ranking_recent_{limit}
@@ -51,6 +52,17 @@ class CV_Litespeed {
                 OR option_name LIKE '\_transient\_cv\_ranking\_period\_%'
                 OR option_name LIKE '\_transient\_timeout\_cv\_ranking\_period\_%'"
         );
+    }
+
+    /** Limpa do cache (LiteSpeed ou WP Rocket) a página de um post/música. */
+    public static function limpar_post( $post_id ) {
+        if ( function_exists( 'litespeed_purge_post' ) ) { litespeed_purge_post( $post_id ); }
+        if ( function_exists( 'rocket_clean_post' ) ) {
+            rocket_clean_post( $post_id );
+        } elseif ( function_exists( 'rocket_clean_files' ) ) {
+            $url = get_permalink( $post_id );
+            if ( $url ) { rocket_clean_files( array( $url ) ); }
+        }
     }
 
     public static function rocket_exclude_ajax( $exclusions ) {

@@ -4,6 +4,7 @@
 // Extraído de class-cv-admin-pages.php em 2026-09-12 (refatoração:
 // cada página do admin passou a viver em seu próprio arquivo/classe).
 // v2.35.0: CSS e JS em assets/css|js/admin-dashboard.*
+// v2.55.0: botão "💬 Depoimentos" (com os que aguardam aprovação) no grupo Audiência.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -407,6 +408,9 @@ class CV_Page_Dashboard {
             <div class="cv-action-group-label"><span></span>👥 Audiência <span></span></div>
             <div class="cv-action-btns">
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-users')); ?>" class="cv-ab cv-ab-blue">👥 Usuários</a>
+                <?php // v2.55.0: depoimentos dos ouvintes (mostra quantos esperam aprovação) ?>
+                <?php $cv_depo_pend = class_exists( 'CV_Depoimentos' ) ? CV_Depoimentos::contar( 'hold' ) : 0; ?>
+                <a href="<?php echo esc_url(admin_url('admin.php?page=cv-depoimentos')); ?>" class="cv-ab cv-ab-orange">💬 Depoimentos<?php echo $cv_depo_pend ? ' (' . $cv_depo_pend . ' aguardando)' : ''; ?></a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-subscribers')); ?>" class="cv-ab cv-ab-purple">📨 Email Marketing</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-email')); ?>" class="cv-ab cv-ab-purple">✉️ Templates de E-mail</a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=cv-social')); ?>" class="cv-ab cv-ab-blue">📱 Redes Sociais</a>

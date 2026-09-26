@@ -12,7 +12,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_CHILD_VERSION', '15.24.1' );
+define( 'CV_CHILD_VERSION', '15.25.0' );
 define( 'CV_CHILD_DIR',     get_stylesheet_directory() );
 define( 'CV_CHILD_URL',     get_stylesheet_directory_uri() );
 
@@ -116,6 +116,14 @@ function cv_child_enqueue() {
         wp_enqueue_script( 'cv-oferecer', CV_CHILD_URL . '/assets/js/cv-oferecer.js', array( 'jquery' ), CV_CHILD_VERSION, true );
         // v15.24.0: "🎤 Cantar junto" (letra em tela cheia, estrofe por estrofe)
         wp_enqueue_script( 'cv-cantar', CV_CHILD_URL . '/assets/js/cv-cantar.js', array( 'jquery', 'cv-musica-js' ), CV_CHILD_VERSION, true );
+        // v15.25.0: "💬 Depoimentos dos ouvintes" (envio para CV_Depoimentos do plugin)
+        if ( class_exists( 'CV_Depoimentos' ) ) {
+            wp_enqueue_script( 'cv-depoimentos', CV_CHILD_URL . '/assets/js/cv-depoimentos.js', array( 'jquery' ), CV_CHILD_VERSION, true );
+            wp_localize_script( 'cv-depoimentos', 'cvDepo', array(
+                'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+                'nonce'   => wp_create_nonce( CV_Depoimentos::NONCE ),
+            ) );
+        }
         wp_localize_script( 'cv-musica-js', 'cvMusica', array(
             'musicId' => (int) get_queried_object_id(),
             'playMs'  => ( defined( 'CV_PLAY_SECONDS' ) ? (int) CV_PLAY_SECONDS : 30 ) * 1000,
