@@ -12,6 +12,9 @@
 /wp-content/plugins/*
 !/wp-content/plugins/cancao-verdadeira/
 !/wp-content/plugins/cancao-verdadeira/**
+# Plugin provisório da migração (26/09/2026) — apagar depois da subida
+!/wp-content/plugins/cv-migracao/
+!/wp-content/plugins/cv-migracao/**
 
 # Código próprio: tema filho customizado
 !/wp-content/themes/
