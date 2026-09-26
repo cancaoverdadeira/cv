@@ -9,6 +9,7 @@
 // "📖 Por trás da canção" abaixo da letra (campo _cv_historia do plugin).
 // v15.23.0: "🎸 Cifra simples" entre a letra e a história (parte cifra.php).
 // v15.24.0: botão "🎤 Cantar junto" (letra em tela cheia, assets/js/cv-cantar.js).
+// v15.30.0: âncoras #letra e #historia (atalhos do "✨ Novidades" da home).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -18,7 +19,7 @@ $historia = isset( $args['historia'] ) ? trim( $args['historia'] ) : '';
 $autor    = ! empty( $args['compositor'] ) ? $args['compositor'] : '';
 ?>
                     <!-- Letra -->
-                    <div class="cv-musica-letra-section">
+                    <div class="cv-musica-letra-section" id="letra">
                         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
                             <h2 style="font-family:var(--font-display);font-size:18px;font-weight:700;margin:0;color:var(--cv-gold)">
                                 📝 Letra
@@ -69,7 +70,7 @@ $autor    = ! empty( $args['compositor'] ) ? $args['compositor'] : '';
 
                         <?php if ( '' !== $historia ) : ?>
                         <!-- Por trás da canção (v15.21.0) -->
-                        <section class="cv-historia" aria-label="Por trás da canção">
+                        <section class="cv-historia" id="historia" aria-label="Por trás da canção">
                             <h2>📖 Por trás da canção</h2>
                             <div class="cv-historia-texto"><?php echo wpautop( esc_html( $historia ) ); ?></div>
                             <?php if ( $autor ) : ?><p class="cv-historia-assinatura">— <?php echo esc_html( $autor ); ?></p><?php endif; ?>

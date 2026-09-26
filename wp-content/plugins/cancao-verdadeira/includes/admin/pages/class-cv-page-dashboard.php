@@ -5,6 +5,7 @@
 // cada página do admin passou a viver em seu próprio arquivo/classe).
 // v2.35.0: CSS e JS em assets/css|js/admin-dashboard.*
 // v2.55.0: botão "💬 Depoimentos" (com os que aguardam aprovação) no grupo Audiência.
+// v2.58.0: quadro "📋 Músicas para completar" (sem história, cifra ou estrofes).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -35,6 +36,70 @@ class CV_Page_Dashboard {
             CV_VERSION,
             true
         );
+    }
+
+    /**
+     * v2.58.0: a letra veio sem separação de estrofes? (colada do Word/LibreOffice
+     * com um verso por parágrafo e nenhuma linha em branco). Mesma regra do
+     * "Cantar junto" (tema, assets/js/cv-cantar.js).
+     */
+    public static function letra_sem_estrofes( $html ) {
+        $t = preg_replace( '#<br\s*/?>#i', "\n", (string) $html );
+        $t = preg_replace( '#</p>\s*#i', "\n\n", $t );
+        $t = html_entity_decode( wp_strip_all_tags( $t ), ENT_QUOTES, 'UTF-8' );
+        $blocos = array_values( array_filter( array_map( 'trim', preg_split( '/\n\s*\n+/', str_replace( "\r", '', $t ) ) ), 'strlen' ) );
+        if ( count( $blocos ) < 12 ) { return false; }
+        $uma = 0;
+        foreach ( $blocos as $b ) { if ( false === strpos( $b, "\n" ) ) { $uma++; } }
+        return $uma / count( $blocos ) > 0.8;
+    }
+
+    /**
+     * v2.58.0: quadro "📋 Músicas para completar" — músicas PUBLICADAS que ainda
+     * não têm "📖 Por trás da canção", "🎸 Cifra simples" ou estrofes separadas.
+     * Cada linha tem o botão Editar. Tudo completo: uma mensagem de parabéns.
+     */
+    private static function quadro_completar() {
+        $ids = get_posts( array( 'post_type' => 'musica', 'post_status' => 'publish', 'posts_per_page' => 50, 'fields' => 'ids', 'orderby' => 'date', 'order' => 'DESC', 'no_found_rows' => true ) );
+        if ( ! $ids ) { return ''; }
+        $linhas = array();
+        foreach ( $ids as $id ) {
+            $falta = array(
+                'historia' => '' === trim( (string) get_post_meta( $id, CV_Fields::HISTORIA, true ) ),
+                'cifra'    => '' === trim( (string) get_post_meta( $id, CV_Fields::CIFRA, true ) ),
+                'estrofes' => self::letra_sem_estrofes( get_post_field( 'post_content', $id ) ),
+            );
+            if ( in_array( true, $falta, true ) ) { $linhas[ $id ] = $falta; }
+        }
+        $ok  = '<span style="color:#1C7C44;font-weight:700">✅</span>';
+        $nao = '<span style="color:#B8700C;font-weight:700">— falta</span>';
+        ob_start();
+        ?>
+        <div class="cv-dash-panel" style="margin-bottom:20px">
+            <h3>📋 Músicas para completar</h3>
+            <?php if ( ! $linhas ) : ?>
+            <p style="margin:0;color:#1C7C44;font-size:14px">✅ Todas as músicas publicadas têm história, cifra e estrofes separadas. Parabéns!</p>
+            <?php else : ?>
+            <p style="margin:0 0 10px;color:#6B4C3B;font-size:13px">Músicas já publicadas que ainda não mostram tudo para o público. A cifra é opcional; a história é o que mais aproxima o ouvinte.</p>
+            <table class="widefat striped" style="font-size:13px">
+                <thead><tr><th>Música</th><th>📖 Por trás da canção</th><th>🎸 Cifra</th><th>📝 Estrofes da letra</th><th></th></tr></thead>
+                <tbody>
+                <?php foreach ( $linhas as $id => $f ) : ?>
+                <tr>
+                    <td><a href="<?php echo esc_url( get_permalink( $id ) ); ?>" target="_blank" rel="noopener"><strong><?php echo esc_html( get_the_title( $id ) ); ?></strong></a></td>
+                    <td><?php echo $f['historia'] ? $nao : $ok; // phpcs:ignore ?></td>
+                    <td><?php echo $f['cifra'] ? $nao : $ok; // phpcs:ignore ?></td>
+                    <td><?php echo $f['estrofes'] ? '<span style="color:#B8700C;font-weight:700" title="Cole a letra de novo com uma linha em branco entre as estrofes">⚠️ sem separação</span>' : $ok; // phpcs:ignore ?></td>
+                    <td style="text-align:right"><a class="cv-ab cv-ab-gold" href="<?php echo esc_url( get_edit_post_link( $id ) ); ?>">✏️ Editar</a></td>
+                </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+            <p style="margin:10px 0 0;color:#8A6A55;font-size:12px">⚠️ "Sem separação": a letra foi colada com um verso por parágrafo. Cole de novo deixando <strong>uma linha em branco entre as estrofes</strong> (o "Cantar junto" fica perfeito).</p>
+            <?php endif; ?>
+        </div>
+        <?php
+        return ob_get_clean();
     }
 
     public static function render() {
@@ -370,6 +435,8 @@ class CV_Page_Dashboard {
             </div>
 
         </div>
+
+        <?php echo self::quadro_completar(); // v2.58.0: músicas publicadas sem história, cifra ou estrofes ?>
 
         <!-- ── Central de Ações ───────────────────────────────────── -->
         <div id="cv-action-message" style="display:none;padding:10px 16px;border-radius:6px;margin-bottom:16px;font-size:13px"></div>

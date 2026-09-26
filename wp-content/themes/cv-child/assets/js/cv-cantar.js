@@ -9,6 +9,8 @@
  * pelo CV_Player) e pede para a tela do celular não apagar (Wake Lock).
  * Carregado só na página da música (functions.php); precisa do botão
  * #cv-cantar-btn e da letra em #cv-letra-conteudo (template-parts/musica/letra.php).
+ * v15.30.0: abre sozinho quando o endereço termina em #cantar-junto; letra sem
+ * separação de estrofes (um verso por parágrafo) é agrupada de 4 em 4 versos.
  */
 jQuery(function($){
     var $botao = $('#cv-cantar-btn');
@@ -26,9 +28,19 @@ jQuery(function($){
             .replace(/<\/p>\s*/gi, '\n\n');
         var texto = new DOMParser().parseFromString(html, 'text/html').body.textContent || '';
         texto = texto.replace(/\r/g, '').replace(/[ \t]+\n/g, '\n');
-        return texto.split(/\n\s*\n+/)
+        var lista = texto.split(/\n\s*\n+/)
             .map(function(s){ return s.replace(/^\s+|\s+$/g, ''); })
-            .filter(function(s){ return s && !/^letra( completa)?:?$/i.test(s); });
+            .filter(function(s){ return s && !/^letra( completa)?\b/i.test(s); });
+        // v15.30.0: letra colada do Word/LibreOffice com UM verso por parágrafo e
+        // nenhuma linha em branco (ex.: 76 "estrofes" de 1 linha). Sem como saber
+        // onde cada estrofe termina, agrupa os versos de 4 em 4.
+        var umaLinha = lista.filter(function(s){ return s.indexOf('\n') === -1; }).length;
+        if (lista.length >= 12 && umaLinha / lista.length > 0.8) {
+            var versos = lista.join('\n').split('\n'), grupos = [];
+            for (var i = 0; i < versos.length; i += 4) { grupos.push(versos.slice(i, i + 4).join('\n')); }
+            return grupos;
+        }
+        return lista;
     }
 
     // ── Monta a tela (uma vez só) ────────────────────────────────
@@ -162,6 +174,11 @@ jQuery(function($){
     }
 
     $botao.on('click', abrir);
+
+    // v15.30.0: o atalho "🎤 Cantar junto" do "✨ Novidades" (home) chega com
+    // #cantar-junto no endereço e já abre a tela (sem tela cheia do navegador,
+    // que só abre com um toque da pessoa; o botão ✕ Sair fecha normalmente).
+    if (window.location.hash === '#cantar-junto') { setTimeout(abrir, 300); }
 
     // Teclado: setas, espaço, Home/End, Esc e o Tab preso dentro da tela
     $(document).on('keydown', function(e){

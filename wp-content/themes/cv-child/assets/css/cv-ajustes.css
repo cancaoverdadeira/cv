@@ -20,6 +20,7 @@
   11) v15.21.0: contraste AA (texto claro #735442; laranja #FFC24D sobre o
       marrom) e o tamanho da letra ajustável (A− / A+).
   14) v15.22.0: "💌 Ofereça esta música" (cartão, janela e faixa de dedicatória).
+  21) v15.30.0: "✨ Novidades para você" na home e âncoras da página da música.
   20) v15.27.0: home com linhas de 4 cartões (Favoritas, Mais tocadas, Melhor avaliadas).
   19) v15.26.0: página "🎤 Para artistas" (/artista/) e o botão verde do WhatsApp.
   18) v15.25.0: "💬 O que os ouvintes sentiram" (cartões e formulário).
@@ -715,4 +716,40 @@ html.cv-cantar-aberto, html.cv-cantar-aberto body { overflow: hidden; }
    os "Em breve" e deixaria a página muito comprida) */
 @media (max-width: 380px) {
     .cv-grid-linha4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+}
+
+/* ── 21. "✨ Novidades para você" (v15.30.0) ────────────────────
+   Atalhos grandes (fácil de tocar no celular) para as funções do público
+   55+. As âncoras da página da música param abaixo da barra do topo. */
+#letra, #cifra, #historia, #oferecer, #depoimentos { scroll-margin-top: 90px; }
+.cv-novidades[hidden] { display: none; }
+.cv-novidades-caixa {
+    padding: 22px 24px 24px; border-radius: var(--cv-radius-lg);
+    background: linear-gradient(135deg, #FFF7E8 0%, var(--cv-bg-elevated) 100%);
+    border: 1px solid var(--cv-border); border-top: 5px solid var(--cv-accent);
+}
+.cv-novidades-topo { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.cv-novidades-topo .cv-section-title { margin: 0; }
+.cv-novidades-fechar {
+    min-height: 40px; padding: 6px 14px; border-radius: 10px; cursor: pointer;
+    border: 1px solid var(--cv-border); background: #FFFFFF; color: var(--cv-text-muted); font-size: 14px; font-weight: 700;
+}
+.cv-novidades-fechar:hover { color: var(--cv-gold); border-color: var(--cv-gold-dim); }
+.cv-novidades-intro { margin: 8px 0 16px; font-family: var(--font-body); font-size: 18px; color: var(--cv-text); }
+.cv-novidades-lista { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.cv-novidade {
+    display: flex; flex-direction: column; gap: 4px; height: 100%; box-sizing: border-box;
+    padding: 16px 18px; border-radius: 14px; background: #FFFFFF; border: 1px solid var(--cv-border);
+    text-decoration: none; color: var(--cv-text); box-shadow: var(--cv-shadow-card); transition: transform .15s, border-color .15s;
+}
+.cv-novidade:hover, .cv-novidade:focus-visible { transform: translateY(-2px); border-color: var(--cv-accent); }
+.cv-novidade:focus-visible { outline: 3px solid rgba(242,165,26,.5); outline-offset: 2px; }
+.cv-novidade-icone { font-size: 30px; line-height: 1; }
+.cv-novidade-titulo { font-family: var(--font-display); font-weight: 700; font-size: 19px; color: var(--cv-gold); }
+.cv-novidade-texto { font-size: 15px; line-height: 1.5; color: var(--cv-text); flex: 1; }
+.cv-novidade-ver { margin-top: 6px; font-size: 14px; font-weight: 700; color: var(--cv-accent-hover); }
+@media (max-width: 1024px) { .cv-novidades-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px)  {
+    .cv-novidades-caixa { padding: 18px 14px; }
+    .cv-novidades-lista { grid-template-columns: 1fr; }
 }

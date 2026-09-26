@@ -8,6 +8,7 @@
 // (embaixo): classes .cv-cifra-tom-0 a .cv-cifra-tom-5 em cv-ajustes.css.
 // Chamado por template-parts/musica/letra.php com $args['cifra'].
 // Sem cifra cadastrada, não mostra nada.
+// v15.30.0: âncora #cifra (atalho do "✨ Novidades" da home).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -42,7 +43,7 @@ if ( ! $partes ) { return; }
 $total = count( $partes );
 ?>
                         <!-- Cifra simples (v15.23.0) -->
-                        <section class="cv-cifra" aria-label="Cifra simples">
+                        <section class="cv-cifra" id="cifra" aria-label="Cifra simples">
                             <div class="cv-cifra-topo">
                                 <h2>🎸 Cifra simples</h2>
                                 <?php if ( '' !== $tom ) : ?>

@@ -12,7 +12,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_CHILD_VERSION', '15.29.0' );
+define( 'CV_CHILD_VERSION', '15.30.0' );
 define( 'CV_CHILD_DIR',     get_stylesheet_directory() );
 define( 'CV_CHILD_URL',     get_stylesheet_directory_uri() );
 
@@ -101,6 +101,11 @@ function cv_child_enqueue() {
         CV_CHILD_VERSION,
         true
     );
+
+    // v15.30.0: "✨ Novidades para você" da home (botão Fechar por 30 dias)
+    if ( is_front_page() ) {
+        wp_enqueue_script( 'cv-novidades', CV_CHILD_URL . '/assets/js/cv-novidades.js', array(), CV_CHILD_VERSION, true );
+    }
 
     // JS da página da música (v15.10.0: antes era um <script> em linha no
     // single-musica.php). Precisa de cvPublic (plugin) e recebe cvMusica.

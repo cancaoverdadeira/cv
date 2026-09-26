@@ -8,6 +8,7 @@
 // a música com a dedicatória no topo (template-parts/musica/dedicatoria.php).
 // Nada é gravado no banco: o recado viaja no próprio link.
 // JS: assets/js/cv-oferecer.js · CSS: cv-ajustes.css (seção 14).
+// v15.30.0: âncora #oferecer (atalho do "✨ Novidades" da home).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -15,7 +16,7 @@ $titulo = isset( $args['titulo'] ) ? $args['titulo'] : get_the_title();
 $cover  = isset( $args['cover'] ) ? $args['cover'] : '';
 $autor  = ! empty( $args['artista'] ) ? $args['artista'] : ( ! empty( $args['compositor'] ) ? $args['compositor'] : '' );
 ?>
-<div class="cv-aside-card cv-oferecer-card">
+<div class="cv-aside-card cv-oferecer-card" id="oferecer">
     <h3 class="cv-aside-title">💌 Ofereça esta música</h3>
     <p class="cv-oferecer-intro">Mande para alguém especial, com um recado seu. Criamos um cartão bonito para enviar pelo WhatsApp.</p>
     <button type="button" class="cv-btn cv-btn-primary cv-oferecer-abrir">💌 Oferecer para alguém</button>

@@ -17,6 +17,7 @@
 // "Blog"; Favoritas, Mais tocadas e Melhor avaliadas sempre em linhas de 4 cartões e o
 // Blog em linhas de 3, completando com cartões "Em breve" (cv_completar_grade).
 // v15.29.0: "Chegando Agora" virou "Novas" (também em linhas de 4).
+// v15.30.0: quadro "✨ Novidades para você" abaixo do banner (template-parts/novidades.php).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -157,6 +158,8 @@ get_header();
             <?php endif; ?>
 
         </section>
+
+        <?php get_template_part( 'template-parts/novidades' ); // v15.30.0: ✨ Novidades para você ?>
 
         <!-- ══════════════════════════════════════════════════════
              TOP 10 RANKING
