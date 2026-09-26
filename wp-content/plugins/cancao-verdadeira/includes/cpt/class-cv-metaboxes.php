@@ -14,6 +14,8 @@
 //           nos campos do Rank Math), tags e prévia do resultado no Google.
 // v2.53.0 : caixa "📖 Por trás da canção" (CV_Fields::HISTORIA): a história da
 //           música contada pelo compositor, mostrada abaixo da letra no site.
+// v2.54.0 : caixa "🎸 Cifra simples" (CV_Fields::CIFRA): só os acordes de cada
+//           parte, uma por linha; o tema mostra do tom mais claro ao mais escuro.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -43,6 +45,7 @@ class CV_Metaboxes {
         add_meta_box( 'cv_music_info',     '🎤 Informações',         array( __CLASS__, 'render_info' ),     'musica', 'normal', 'high' );
         add_meta_box( 'cv_music_letra',    '📝 Letra da Música',     array( __CLASS__, 'render_letra' ),    'musica', 'normal', 'high' );
         add_meta_box( 'cv_music_historia', '📖 Por trás da canção',  array( __CLASS__, 'render_historia' ), 'musica', 'normal', 'high' );
+        add_meta_box( 'cv_music_cifra',    '🎸 Cifra simples',       array( __CLASS__, 'render_cifra' ),    'musica', 'normal', 'high' );
         add_meta_box( 'cv_music_seo',      '🔎 SEO e Tags',          array( __CLASS__, 'render_seo' ),      'musica', 'normal', 'high' );
         add_meta_box( 'cv_music_config',   '⚙️ Configurações',       array( __CLASS__, 'render_config' ),   'musica', 'side',   'high' );
         add_meta_box( 'cv_music_estreia',  '📅 Estreia',             array( __CLASS__, 'render_estreia' ),  'musica', 'side',   'high' );
@@ -300,6 +303,18 @@ class CV_Metaboxes {
             'quicktags'     => array( 'buttons' => 'strong,em,ul,ol,li,link' ),
         ) );
         echo '<p class="cv-hint" style="margin-top:8px">A letra é o conteúdo principal da página da música e é indexada pelo Google.</p>';
+    }
+
+    // ── Cifra simples (v2.54.0) ───────────────────────────────────
+    public static function render_cifra( $post ) {
+        $cifra = get_post_meta( $post->ID, CV_Fields::CIFRA, true );
+        ?>
+        <p class="cv-hint" style="margin:0 0 8px">Só os acordes, para quem toca violão. Escreva <strong>uma parte por linha</strong>: o nome da parte, dois-pontos e os acordes separados por espaço. Se quiser, ponha o tom numa linha "Tom:". Aparece no site logo abaixo da letra. Deixe em branco para não mostrar.</p>
+        <div class="cv-dark-field">
+            <textarea id="cv_cifra" name="cv_cifra" rows="6" style="font-size:15px;line-height:1.6;font-family:monospace"
+                      placeholder="Tom: G&#10;Introdução: G D Em C&#10;Estrofe: G D Em C&#10;Refrão: C G D G&#10;Final: C D G"><?php echo esc_textarea( $cifra ); ?></textarea>
+        </div>
+        <?php
     }
 
     // ── Por trás da canção (v2.53.0) ──────────────────────────────
@@ -567,6 +582,13 @@ class CV_Metaboxes {
             $historia = sanitize_textarea_field( wp_unslash( $_POST['cv_historia'] ) );
             if ( '' === trim( $historia ) ) { delete_post_meta( $post_id, CV_Fields::HISTORIA ); }
             else                            { update_post_meta( $post_id, CV_Fields::HISTORIA, $historia ); }
+        }
+
+        // Cifra simples (v2.54.0)
+        if ( isset( $_POST['cv_cifra'] ) ) {
+            $cifra = sanitize_textarea_field( wp_unslash( $_POST['cv_cifra'] ) );
+            if ( '' === trim( $cifra ) ) { delete_post_meta( $post_id, CV_Fields::CIFRA ); }
+            else                         { update_post_meta( $post_id, CV_Fields::CIFRA, $cifra ); }
         }
 
         // SEO e Tags (v2.45.0) — campos do Rank Math + tags nativas

@@ -26,6 +26,7 @@ class CV_Fields {
     const ANO          = '_cv_ano';
     const DESCRICAO    = '_cv_descricao';
     const HISTORIA     = '_cv_historia';   // v2.53.0: "Por trás da canção" (texto do compositor)
+    const CIFRA        = '_cv_cifra';      // v2.54.0: cifra simples, uma parte por linha ("Refrão: C G D")
     const ATIVO        = '_cv_ativo';
     const DESTAQUE     = '_cv_destaque';
     const ESTREIA_DATE = '_cv_estreia_date';
@@ -58,6 +59,7 @@ class CV_Fields {
             self::ANO          => 'integer',
             self::DESCRICAO    => 'string',
             self::HISTORIA     => 'string',
+            self::CIFRA        => 'string',
             self::ATIVO        => 'string',
             self::DESTAQUE     => 'string',
             self::ESTREIA_DATE => 'string',

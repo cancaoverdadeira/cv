@@ -7,6 +7,7 @@
 // v15.10.0: separado do single-musica.php (refatoração, fase 6).
 // v15.21.0: botões A− / A+ (tamanho da letra, lembrado no aparelho) e o bloco
 // "📖 Por trás da canção" abaixo da letra (campo _cv_historia do plugin).
+// v15.23.0: "🎸 Cifra simples" entre a letra e a história (parte cifra.php).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -59,6 +60,8 @@ $autor    = ! empty( $args['compositor'] ) ? $args['compositor'] : '';
                                 ?>
                             </div>
                         </div>
+
+                        <?php get_template_part( 'template-parts/musica/cifra', null, array( 'cifra' => isset( $args['cifra'] ) ? $args['cifra'] : '' ) ); ?>
 
                         <?php if ( '' !== $historia ) : ?>
                         <!-- Por trás da canção (v15.21.0) -->

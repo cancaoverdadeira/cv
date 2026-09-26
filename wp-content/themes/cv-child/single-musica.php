@@ -7,6 +7,7 @@
 // O JavaScript da página fica em assets/js/cv-musica.js (functions.php).
 // v15.6.0: publicidade depois da letra (CV_Monetization).
 // v15.10.0: dividido em partes (refatoração, fase 6) — HTML sem mudanças.
+// v15.23.0: passa a cifra simples (_cv_cifra) para a parte da letra.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -70,6 +71,7 @@ $dados = array(
     'cover'        => $cover,
     'letra'        => $letra,
     'historia'     => (string) get_post_meta( $music_id, '_cv_historia', true ), // v15.21.0
+    'cifra'        => (string) get_post_meta( $music_id, '_cv_cifra', true ),    // v15.23.0
     'plays'        => $plays,
     'show_plays'   => $show_plays,
     'avg_rating'   => $avg_rating,

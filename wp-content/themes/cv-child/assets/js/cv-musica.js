@@ -8,6 +8,7 @@
  * v15.10.0: saiu do <script> em linha do single-musica.php (fase 6).
  * v15.21.0: A− / A+ muda o tamanho da letra (15 a 29 px) e guarda a escolha
  * no aparelho (localStorage, com proteção se o navegador bloquear).
+ * v15.23.0: o A− / A+ também muda o tamanho da cifra simples.
  */
 jQuery(function($){
     var AJAX   = cvPublic.ajaxUrl;
@@ -113,7 +114,7 @@ jQuery(function($){
         function aplicar() {
             tam = Math.max(MIN, Math.min(MAX, tam));
             $alvo[0].style.setProperty('--cv-letra-tam', tam + 'px');
-            $('.cv-historia')[0] && $('.cv-historia')[0].style.setProperty('--cv-letra-tam', tam + 'px');
+            $('.cv-historia, .cv-cifra').each(function(){ this.style.setProperty('--cv-letra-tam', tam + 'px'); });
             $('#cv-letra-menor').prop('disabled', tam <= MIN);
             $('#cv-letra-maior').prop('disabled', tam >= MAX);
             try { window.localStorage.setItem(CHAVE, String(tam)); } catch (e) {}
