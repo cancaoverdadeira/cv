@@ -8,6 +8,7 @@
 //           Inclui Security Score calculado e teste de conectividade.
 // Público : Administradores — impressiona perfis técnicos (ex: DI de TI)
 // Autor   : Canção Verdadeira | Gerado: 2026-06-27
+// v2.62.0: lista de tabelas usa $GLOBALS['wpdb'] (a variável $wpdb não existia ali e gerava avisos).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -446,7 +447,7 @@ class CV_System_Status {
                             <tbody>
                             <?php foreach (array_slice($d['db']['tabelas'],0,8) as $t): ?>
                             <tr>
-                                <td style="font-family:monospace;font-size:10px;color:var(--muted)"><?php echo esc_html(str_replace($wpdb->prefix.'cv_','',$t->nome)); ?></td>
+                                <td style="font-family:monospace;font-size:10px;color:var(--muted)"><?php echo esc_html(str_replace($GLOBALS['wpdb']->prefix.'cv_','',$t->nome)); ?></td>
                                 <td><?php echo number_format((int)$t->linhas); ?></td>
                                 <td><?php echo round($t->data_kb + $t->index_kb,1); ?>KB</td>
                             </tr>

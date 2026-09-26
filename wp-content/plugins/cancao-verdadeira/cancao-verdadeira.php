@@ -87,12 +87,14 @@
 // também em Categorias, Tags, Usuários e Mídia; "🎤 Enviar minha música" na caixa Apoie.
 // v2.53.0 (26/09/2026) — Prioridade 0 (público 55+): campo "📖 Por trás da canção"
 // (CV_Fields::HISTORIA) no cadastro da música, mostrado abaixo da letra.
+// v2.62.0 (26/09/2026) — a ativação não apaga mais as regras de endereço /musica/ (cv_refazer_regras, com
+// auto-conserto); ALTER do cv_ranking_cache compatível com MySQL 8; exportações de plays e ranking corrigidas.
 
 /**
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.61.0
+ * Version:     2.62.0
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -101,7 +103,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.61.0' );
+define( 'CV_VERSION',        '2.62.0' );
 define( 'CV_DB_VERSION',     '12' );      // v2.50.0: cv_envios (v2.49.0: colunas novas em cv_parcerias)
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
@@ -285,8 +287,32 @@ function cv_activate() {
     }
     // Agendar cron jobs do plugin
     cv_schedule_crons();
-    flush_rewrite_rules();
+    // v2.62.0: NÃO refazer as regras aqui. Na ativação o tipo "musica" ainda não
+    // foi registrado, e o flush apagava as regras /musica/… (26/09: o endereço da
+    // música virou "página da imagem" e o Rank Math redirecionou em círculo → 502).
+    // Só marca; cv_refazer_regras() refaz no próximo carregamento.
+    update_option( 'cv_refazer_regras', 1, false );
 }
+
+/**
+ * v2.62.0: refaz as regras de endereço DEPOIS que o tipo "musica" foi
+ * registrado (init, prioridade 999): quando a ativação pediu, ou quando as
+ * regras das músicas sumiram (auto-conserto, no máximo 1 vez a cada 10 min).
+ */
+function cv_refazer_regras() {
+    if ( ! post_type_exists( 'musica' ) || '' === (string) get_option( 'permalink_structure' ) ) { return; }
+    $pedido = (bool) get_option( 'cv_refazer_regras' );
+    if ( ! $pedido ) {
+        $regras = get_option( 'rewrite_rules' );
+        if ( ! is_array( $regras ) || empty( $regras ) ) { return; } // o WordPress refaz sozinho
+        foreach ( $regras as $destino ) { if ( false !== strpos( $destino, 'musica=' ) ) { return; } }
+        if ( get_transient( 'cv_regras_consertadas' ) ) { return; }
+        set_transient( 'cv_regras_consertadas', 1, 10 * MINUTE_IN_SECONDS );
+    }
+    delete_option( 'cv_refazer_regras' );
+    flush_rewrite_rules( false );
+}
+add_action( 'init', 'cv_refazer_regras', 999 );
 
 function cv_schedule_crons() {
     wp_clear_scheduled_hook( 'cv_cron_ranking' );
@@ -669,10 +695,14 @@ function cv_create_tables() {
     // Usa try/catch implícito via $wpdb->suppress_errors para compatibilidade
     $wpdb->hide_errors();
 
-    $wpdb->query( "ALTER TABLE {$wpdb->prefix}cv_ranking_cache
-        ADD COLUMN IF NOT EXISTS plays_24h BIGINT UNSIGNED DEFAULT 0,
-        ADD COLUMN IF NOT EXISTS plays_30d BIGINT UNSIGNED DEFAULT 0,
-        ADD COLUMN IF NOT EXISTS position_prev INT UNSIGNED DEFAULT 0" );
+    // v2.62.0: o MySQL 8 não aceita "ADD COLUMN IF NOT EXISTS"; confere uma a uma.
+    $rk = $wpdb->prefix . 'cv_ranking_cache';
+    if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $rk ) ) === $rk ) {
+        $cols_rk = $wpdb->get_col( "SHOW COLUMNS FROM {$rk}" );
+        foreach ( array( 'plays_24h' => 'BIGINT UNSIGNED DEFAULT 0', 'plays_30d' => 'BIGINT UNSIGNED DEFAULT 0', 'position_prev' => 'INT UNSIGNED DEFAULT 0' ) as $col => $def ) {
+            if ( ! in_array( $col, $cols_rk, true ) ) { $wpdb->query( "ALTER TABLE {$rk} ADD COLUMN {$col} {$def}" ); }
+        }
+    }
 
     // v2.49.0: colunas novas de cv_parcerias. MySQL 8 não aceita
     // "ADD COLUMN IF NOT EXISTS", então confere uma a uma antes de criar.

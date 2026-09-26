@@ -10,6 +10,7 @@
 // v2.26.0: removidos o filtro e as colunas Gênero/Subcategoria (site todo
 // sertanejo); coluna "Plays Total" passou a ler _cv_plays_total (lia _cv_plays,
 // que não existe, e saía sempre 0).
+// v2.62.0: exportações de plays (coluna ip_address) e de ranking (variação calculada de position_prev) voltaram a funcionar.
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -514,7 +515,7 @@ class CV_Admin_Exports {
         if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $date_start ) ) $date_start = date( 'Y-m-d', strtotime( '-30 days' ) );
         if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $date_end ) )   $date_end   = date( 'Y-m-d' );
         $rows = $wpdb->get_results( $wpdb->prepare(
-            "SELECT p.music_id, po.post_title AS titulo, p.user_id, p.user_ip, p.played_at
+            "SELECT p.music_id, po.post_title AS titulo, p.user_id, p.ip_address AS user_ip, p.played_at
              FROM {$table} p
              LEFT JOIN {$wpdb->posts} po ON po.ID = p.music_id
              WHERE p.played_at >= %s AND p.played_at < %s
@@ -552,7 +553,8 @@ class CV_Admin_Exports {
         $limit_sql = $limit > 0 ? 'LIMIT ' . intval( $limit ) : '';
         $rows = $wpdb->get_results(
             "SELECT r.position, r.music_id, po.post_title AS titulo,
-                    r.score, r.plays_total, r.plays_7d, r.favorites, r.avg_rating, r.position_change
+                    r.score, r.plays_total, r.plays_7d, r.favorites, r.avg_rating,
+                    CASE WHEN r.position_prev > 0 THEN CAST(r.position_prev AS SIGNED) - CAST(r.position AS SIGNED) ELSE 0 END AS position_change
              FROM {$table} r
              LEFT JOIN {$wpdb->posts} po ON po.ID = r.music_id
              ORDER BY r.position ASC {$limit_sql}"
