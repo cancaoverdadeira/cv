@@ -13,6 +13,7 @@
 // "Ver Músicas"), com selo "Novo" — pedido do Eduardo: "bem visível".
 // v15.29.0: link "✉️ Contato" no menu, abaixo de Blog.
 // v15.31.0: botão "✨ Novidades" (selo NOVO) abaixo da Loja; abre uma janela.
+// v15.31.2: saiu o botão "🔍 Buscar" das ações rápidas (repetido com o do Menu).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -59,24 +60,7 @@ if ( $is_logged ) {
             <span>Novidades</span>
             <span class="cv-selo-novo">Novo</span>
         </button>
-        <a href="<?php echo esc_url( home_url('/buscar-musicas/') ); ?>"
-           class="cv-btn-sidebar cv-btn-sidebar-secondary cv-search-trigger">
-            <span>🔍</span>
-            <span>Buscar</span>
-        </a>
-    </div>
-
-    <!-- Campo de busca rápida (expansível) -->
-    <div class="cv-sidebar-search" style="padding:0 12px 10px;display:none" id="cv-sidebar-search-wrap">
-        <div class="cv-search-wrap" style="position:relative">
-            <input type="text"
-                   class="cv-input cv-search-input"
-                   placeholder="Buscar músicas, artistas..."
-                   autocomplete="off"
-                   style="font-size:13px;padding:8px 36px 8px 12px" />
-            <span class="cv-search-icon" style="right:10px">🔍</span>
-            <div class="cv-autocomplete-list" style="position:absolute;top:100%;left:0;right:0;z-index:50"></div>
-        </div>
+        <?php // v15.31.2: o botão "🔍 Buscar" daqui (e o campo que ele abria) saiu: ficava repetido com o "Buscar" do Menu abaixo ?>
     </div>
 
     <!-- Navegação principal -->

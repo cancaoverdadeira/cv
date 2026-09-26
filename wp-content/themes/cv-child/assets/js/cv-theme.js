@@ -125,14 +125,7 @@
                 if ( e.key === 'Escape' && $sidebar.hasClass('open') ) { close(); }
             });
 
-            // Toggle busca na sidebar
-            $('.cv-search-trigger').on('click', function(e) {
-                e.preventDefault();
-                var $wrap = $('#cv-sidebar-search-wrap');
-                $wrap.slideToggle(180, function() {
-                    if ( $wrap.is(':visible') ) { $wrap.find('input').focus(); }
-                });
-            });
+            // (v15.31.2: o campo de busca do menu lateral saiu; a busca fica no Menu → Buscar)
 
             // Toggle busca na topbar mobile
             $('#cv-topbar-search-toggle').on('click', function() {
