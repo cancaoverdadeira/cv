@@ -8,6 +8,7 @@
 // A aba só aparece para quem já mandou proposta em "Seja nosso parceiro"
 // (mesmo e-mail) ou já tem envios. Regras e AJAX: CV_Envio.
 // CSS/JS: assets/css/cv-envio.css e assets/js/cv-envio.js.
+// v2.59.0: "Veja o passo a passo" leva à página "Como assinar pelo gov.br" do site.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -15,6 +16,12 @@ class CV_Envio_Area {
 
     const ASSINADOR_GOVBR = 'https://assinador.iti.br/';
     const AJUDA_GOVBR     = 'https://www.gov.br/pt-br/servicos/assinatura-eletronica';
+
+    /** v2.59.0: nossa página "Como assinar pelo gov.br" (tema); sem ela, a do governo. */
+    public static function url_ajuda() {
+        $p = get_page_by_path( 'assinar-gov-br' );
+        return ( $p && 'publish' === $p->post_status ) ? get_permalink( $p ) : self::AJUDA_GOVBR;
+    }
 
     public static function init() {
         add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue' ), 32 );
@@ -122,7 +129,7 @@ class CV_Envio_Area {
             <ol class="cv-envio-como">
                 <li><a href="<?php echo esc_url( self::url_baixar( $e, 'contrato' ) ); ?>">⬇️ <strong>Baixe o contrato</strong> (Word)</a>, já com os seus dados.</li>
                 <li>Abra no Word (ou LibreOffice), confira e escolha <strong>Salvar como → PDF</strong>.</li>
-                <li>Assine <strong>de graça</strong> no <a href="<?php echo esc_url( self::ASSINADOR_GOVBR ); ?>" target="_blank" rel="noopener">assinador do gov.br</a>: entre com sua conta gov.br (nível prata ou ouro), envie o PDF, posicione a assinatura e <strong>baixe o PDF assinado</strong>. <a href="<?php echo esc_url( self::AJUDA_GOVBR ); ?>" target="_blank" rel="noopener">Como funciona</a>.</li>
+                <li>Assine <strong>de graça</strong> no <a href="<?php echo esc_url( self::ASSINADOR_GOVBR ); ?>" target="_blank" rel="noopener">assinador do gov.br</a>: entre com sua conta gov.br (nível prata ou ouro), envie o PDF, posicione a assinatura e <strong>baixe o PDF assinado</strong>. <a href="<?php echo esc_url( self::url_ajuda() ); ?>" target="_blank" rel="noopener">Veja o passo a passo</a>.</li>
                 <li>Envie aqui o <strong>PDF assinado</strong>, sem abrir nem salvar de novo (qualquer mudança invalida a assinatura).</li>
             </ol>
             <form class="cv-envio-form" data-acao="contrato">

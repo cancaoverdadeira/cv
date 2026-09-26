@@ -11,6 +11,7 @@
 // com o botão certo para cada pessoa (visitante, logado, parceiro com a aba
 // "Enviar música"); o WhatsApp dos artistas com mensagem pronta; e perguntas
 // frequentes. A janela "Seja nosso parceiro" é a do rodapé (CV_Apoio).
+// v15.34.0: links para "Como assinar pelo gov.br" (/assinar-gov-br/).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -123,7 +124,7 @@ get_header();
                 <li>
                     <span class="cv-artista-num">3</span>
                     <h3>Envie pela Minha Área</h3>
-                    <p>Na aba <strong>"🎤 Enviar música"</strong>: o contrato assinado pelo gov.br, o PIX da divulgação, o link do YouTube e os dados da música.</p>
+                    <p>Na aba <strong>"🎤 Enviar música"</strong>: o contrato assinado pelo gov.br (<a href="<?php echo esc_url( home_url( '/assinar-gov-br/' ) ); ?>">veja como assinar</a>), o PIX da divulgação, o link do YouTube e os dados da música.</p>
                     <?php if ( $parceiro ) : ?>
                     <a class="cv-btn cv-btn-primary" href="<?php echo esc_url( $url_envio ); ?>">🎤 Enviar minha música</a>
                     <?php else : ?>
@@ -162,7 +163,7 @@ get_header();
             </details>
             <details>
                 <summary>O que é a assinatura digital do contrato?</summary>
-                <p>É uma assinatura feita pelo celular ou computador, de graça, no aplicativo ou site do <strong>gov.br</strong> (conta prata ou ouro). Ela dá validade ao contrato sem precisar imprimir nem ir ao cartório. Se tiver dificuldade, chame no WhatsApp que a gente ajuda.</p>
+                <p>É uma assinatura feita pelo celular ou computador, de graça, no aplicativo ou site do <strong>gov.br</strong> (conta prata ou ouro). Ela dá validade ao contrato sem precisar imprimir nem ir ao cartório. <a href="<?php echo esc_url( home_url( '/assinar-gov-br/' ) ); ?>">Veja o passo a passo</a>. Se tiver dificuldade, chame no WhatsApp que a gente ajuda.</p>
             </details>
             <details>
                 <summary>Que tipo de música vocês divulgam?</summary>
