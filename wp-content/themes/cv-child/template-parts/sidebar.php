@@ -12,6 +12,7 @@
 // v15.17.0: botão "🛍️ Loja" em destaque nas ações rápidas (logo abaixo de
 // "Ver Músicas"), com selo "Novo" — pedido do Eduardo: "bem visível".
 // v15.29.0: link "✉️ Contato" no menu, abaixo de Blog.
+// v15.31.0: botão "✨ Novidades" (selo NOVO) abaixo da Loja; abre uma janela.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -52,6 +53,12 @@ if ( $is_logged ) {
             <span>Loja</span>
             <span class="cv-selo-novo">Novo</span>
         </a>
+        <?php // v15.31.0: "✨ Novidades" abre a janela com os atalhos (template-parts/novidades.php) ?>
+        <button type="button" class="cv-btn-sidebar cv-btn-sidebar-novidades cv-apoio-abrir" data-janela="cv-janela-novidades">
+            <span>✨</span>
+            <span>Novidades</span>
+            <span class="cv-selo-novo">Novo</span>
+        </button>
         <a href="<?php echo esc_url( home_url('/buscar-musicas/') ); ?>"
            class="cv-btn-sidebar cv-btn-sidebar-secondary cv-search-trigger">
             <span>🔍</span>

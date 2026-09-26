@@ -148,6 +148,7 @@ $redes_sociais = class_exists('CV_Social') ? CV_Social::get_all() : array();
 </footer>
 
 <?php if ( class_exists( 'CV_Apoio' ) ) { echo CV_Apoio::janelas(); } // janelas "Apoie" (abrem pelo rodapé) ?>
+<?php if ( class_exists( 'CV_Apoio' ) ) { get_template_part( 'template-parts/novidades' ); } // v15.31.0: janela "✨ Novidades" (abre pelo menu lateral) ?>
 
 <!-- Newsletter JS (inline para garantir execução) -->
 <script>

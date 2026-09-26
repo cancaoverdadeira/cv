@@ -179,6 +179,8 @@ jQuery(function($){
     // #cantar-junto no endereço e já abre a tela (sem tela cheia do navegador,
     // que só abre com um toque da pessoa; o botão ✕ Sair fecha normalmente).
     if (window.location.hash === '#cantar-junto') { setTimeout(abrir, 300); }
+    // v15.31.0: vindo da janela "✨ Novidades" estando já nesta música
+    window.addEventListener('hashchange', function(){ if (window.location.hash === '#cantar-junto') { abrir(); } });
 
     // Teclado: setas, espaço, Home/End, Esc e o Tab preso dentro da tela
     $(document).on('keydown', function(e){

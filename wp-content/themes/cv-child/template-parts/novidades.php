@@ -1,14 +1,15 @@
 <?php
 // cancao-verdadeira-child/template-parts/novidades.php
 // Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
-// "✨ Novidades para você" (v15.30.0, 26/09/2026), logo abaixo do banner da
-// página inicial: atalhos grandes para as funções pensadas para o público
-// 55+, que ficam na página de cada música (Letra maior, Cantar junto, Cifra,
-// Por trás da canção, Ofereça esta música e Depoimentos). Cada atalho leva a
-// uma música de exemplo, já na parte certa (#letra, #cantar-junto, #cifra,
-// #historia, #oferecer, #depoimentos). Cifra e história só entram se alguma
-// música publicada tiver esses campos. "✕ Fechar" esconde por 30 dias
-// (assets/js/cv-novidades.js). Sem nenhuma música publicada, não aparece.
+// Janela "✨ Novidades para você" (v15.30.0; virou janela em v15.31.0, a
+// pedido do Eduardo, para não empurrar os cartões da home para baixo).
+// Abre pelo botão "✨ Novidades" (selo NOVO) do menu lateral e pelo ✨ da
+// barra do topo no celular — botões com .cv-apoio-abrir, o mesmo abridor de
+// janelas do plugin (assets/js/cv-apoio.js). Atalhos grandes para as funções
+// do público 55+ na página da música de exemplo, já na parte certa (#letra,
+// #cantar-junto, #cifra, #historia, #oferecer, #depoimentos). Cifra e história
+// só entram se alguma música publicada tiver esses campos. Impressa uma vez
+// por página em template-parts/footer-content.php. Sem música publicada, nada.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -42,27 +43,20 @@ $itens = array(
     array( 'icone' => '💬', 'titulo' => 'Conte o que sentiu',   'texto' => 'Deixe seu depoimento: essa música lembrou alguém?', 'id' => $base, 'ancora' => 'depoimentos' ),
 );
 ?>
-        <!-- ══════════════════════════════════════════════════════
-             ✨ NOVIDADES (v15.30.0)
-        ══════════════════════════════════════════════════════ -->
-        <section class="cv-section cv-novidades" id="cv-novidades" aria-labelledby="cv-novidades-titulo">
-            <div class="cv-novidades-caixa">
-                <div class="cv-novidades-topo">
-                    <h2 id="cv-novidades-titulo" class="cv-section-title">✨ Novidades <span>para você</span></h2>
-                    <button type="button" class="cv-novidades-fechar" aria-label="Fechar as novidades">✕ Fechar</button>
-                </div>
-                <p class="cv-novidades-intro">Preparamos estas funções para deixar a música ainda mais perto de você. Toque em uma para ver como funciona:</p>
-                <ul class="cv-novidades-lista">
-                    <?php foreach ( $itens as $it ) : if ( ! $it['id'] ) { continue; } ?>
-                    <li>
-                        <a class="cv-novidade" href="<?php echo esc_url( get_permalink( $it['id'] ) . '#' . $it['ancora'] ); ?>">
-                            <span class="cv-novidade-icone" aria-hidden="true"><?php echo esc_html( $it['icone'] ); ?></span>
-                            <span class="cv-novidade-titulo"><?php echo esc_html( $it['titulo'] ); ?></span>
-                            <span class="cv-novidade-texto"><?php echo esc_html( $it['texto'] ); ?></span>
-                            <span class="cv-novidade-ver">Ver na música →</span>
-                        </a>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        </section>
+<dialog id="cv-janela-novidades" class="cv-janela cv-janela-novidades" aria-labelledby="cv-novidades-titulo">
+    <button type="button" class="cv-janela-fechar" aria-label="Fechar">✕</button>
+    <h2 id="cv-novidades-titulo">✨ Novidades para você</h2>
+    <p class="cv-janela-intro">Preparamos estas funções para deixar a música ainda mais perto de você. Toque em uma para ver como funciona:</p>
+    <ul class="cv-novidades-lista">
+        <?php foreach ( $itens as $it ) : if ( ! $it['id'] ) { continue; } ?>
+        <li>
+            <a class="cv-novidade" href="<?php echo esc_url( get_permalink( $it['id'] ) . '#' . $it['ancora'] ); ?>">
+                <span class="cv-novidade-icone" aria-hidden="true"><?php echo esc_html( $it['icone'] ); ?></span>
+                <span class="cv-novidade-titulo"><?php echo esc_html( $it['titulo'] ); ?></span>
+                <span class="cv-novidade-texto"><?php echo esc_html( $it['texto'] ); ?></span>
+                <span class="cv-novidade-ver">Ver na música →</span>
+            </a>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+</dialog>

@@ -5,6 +5,8 @@
 // Barra superior mobile (display:none no desktop, display:flex no mobile).
 // Contém: botão hamburger, logo centralizada, busca e avatar/login.
 // Incluída em todos os templates antes do conteúdo principal.
+// v15.31.0: botão ✨ (Novidades) ao lado da busca, abre a janela de novidades;
+// em celular estreito o 🏠 some (ficava atrás do logo, que já leva ao início).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -45,12 +47,20 @@ if ( $is_logged ) {
 
         <!-- Link Início mobile -->
         <a href="<?php echo esc_url( home_url('/') ); ?>"
+           class="cv-topbar-inicio"
            aria-label="Início"
            style="background:none;color:var(--cv-text-muted);font-size:18px;
                   padding:6px;text-decoration:none;display:flex;align-items:center"
            title="Voltar ao início">
             🏠
         </a>
+
+        <!-- Novidades (v15.31.0): abre a janela "✨ Novidades para você" -->
+        <button type="button" class="cv-topbar-btn cv-apoio-abrir" data-janela="cv-janela-novidades"
+                aria-label="Novidades" title="Novidades"
+                style="background:none;border:none;color:var(--cv-text-muted);font-size:18px;cursor:pointer;padding:6px">
+            ✨
+        </button>
 
         <!-- Busca mobile -->
         <button class="cv-topbar-btn"
