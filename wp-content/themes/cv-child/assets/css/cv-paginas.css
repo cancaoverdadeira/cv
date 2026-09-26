@@ -6,6 +6,7 @@
    páginas depois de cv-ajustes.css; o navegador guarda em cache.
    Todos os seletores usam o prefixo cv- (não vazam para o Astra/plugins).
    Origem de cada seção indicada no título dela.
+   v15.33.0: no celular a coluna lateral da música vem depois da letra.
 ═══════════════════════════════════════════════════════════════ */
 
 /* ── Conteúdo de páginas e posts (page.php, single.php, blog) ─────────────────────────────── */
@@ -216,7 +217,9 @@
 /* Mobile */
 @media (max-width: 900px) {
     .cv-musica-body { grid-template-columns: 1fr; padding: 20px 16px; }
-    .cv-musica-aside { order: -1; }
+    /* v15.33.0: a lateral (Informações, Avaliação, Ofereça…) vem DEPOIS do vídeo e
+       da letra; antes vinha primeiro e a letra só aparecia depois de 2 telas. */
+    .cv-musica-aside { order: 0; }
     .cv-musica-hero-content { padding: 20px 16px 28px; }
 }
 @media (max-width: 600px) {

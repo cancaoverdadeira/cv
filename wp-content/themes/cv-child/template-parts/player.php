@@ -8,6 +8,7 @@
 // de progresso simples (já existia como fallback, agora é o modo padrão).
 // Controles: play/pause, anterior, próxima, shuffle, repeat, volume,
 // alternância de fonte (YouTube/MP3) e fila.
+// v15.33.0: no celular a barra vira linha fina no alto e somem 🔀 🔁 e YouTube/MP3 (seção 23 do cv-ajustes.css).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 ?>

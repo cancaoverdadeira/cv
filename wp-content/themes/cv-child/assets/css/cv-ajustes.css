@@ -20,6 +20,7 @@
   11) v15.21.0: contraste AA (texto claro #735442; laranja #FFC24D sobre o
       marrom) e o tamanho da letra ajustável (A− / A+).
   14) v15.22.0: "💌 Ofereça esta música" (cartão, janela e faixa de dedicatória).
+  23) v15.33.0: player do rodapé no celular (nada fora da tela).
   22) v15.32.0: topo da página inicial mais baixo no celular (1º cartão na 1ª tela).
   21) v15.30.0: "✨ Novidades para você" e âncoras da página da música (janela em v15.31.0).
   20) v15.27.0: home com linhas de 4 cartões (Favoritas, Mais tocadas, Melhor avaliadas).
@@ -767,4 +768,31 @@ html.cv-cantar-aberto, html.cv-cantar-aberto body { overflow: hidden; }
     .cv-hero--home .cv-hero-actions .cv-btn-lg { flex: 1 1 0; min-width: 0; padding: 11px 10px; font-size: 14px; justify-content: center; white-space: nowrap; }
     .cv-hero--home .cv-hero-actions .cv-hero-pulse { flex: 1 1 100%; }
     .cv-hero--home .cv-hero-agora { margin-top: 12px !important; } /* o espaço vem escrito no HTML */
+}
+
+/* ── 23. Player do rodapé no celular (v15.33.0) ───────────────────
+   No celular as 8 peças do player ficavam numa linha só e 4 saíam da
+   tela (🔁, barra de progresso, YouTube/MP3 e ☰ da fila). Agora, como nos
+   aplicativos de música: capa e nome + ⏮ ▶ ⏭ + ☰, e a barra de progresso
+   vira uma linha fina no alto do player (ela só mostra o andamento; não
+   tem toque para avançar). Os !important vencem o estilo escrito direto
+   no HTML (template-parts/player.php). O computador não muda. */
+@media (max-width: 768px) {
+    .cv-player {
+        display: grid; grid-template-columns: minmax(0, 1fr) auto auto;
+        align-items: center; gap: 0 8px; padding: 6px 12px 4px;
+    }
+    .cv-player-info { min-width: 0 !important; max-width: none !important; }
+    .cv-player-progress {
+        position: absolute; top: 0; left: 0; right: 0;
+        max-width: none !important; margin: 0; pointer-events: none;
+    }
+    .cv-player-progress .cv-player-bar { height: 4px; border-radius: 0; background: rgba(255,255,255,.14); }
+    .cv-player-progress .cv-player-bar-fill { border-radius: 0; }
+    #cv-player-current, #cv-player-duration { display: none; }
+    #cv-btn-mode { display: none !important; }
+    .cv-player-controls { gap: 4px; }
+}
+@media (max-width: 600px) {
+    #cv-btn-shuffle, #cv-btn-repeat { display: none; }
 }
