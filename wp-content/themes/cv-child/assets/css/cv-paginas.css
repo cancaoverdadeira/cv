@@ -7,6 +7,7 @@
    Todos os seletores usam o prefixo cv- (não vazam para o Astra/plugins).
    Origem de cada seção indicada no título dela.
    v15.33.0: no celular a coluna lateral da música vem depois da letra.
+   v15.33.1: topo da música com fundo claro atrás dos textos (contraste AA).
 ═══════════════════════════════════════════════════════════════ */
 
 /* ── Conteúdo de páginas e posts (page.php, single.php, blog) ─────────────────────────────── */
@@ -99,7 +100,9 @@
 .cv-musica-hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, #FFFFFF 0%, rgba(59,36,24,0.45) 50%, rgba(123,58,34,0.03) 100%);
+    /* v15.33.1: clareia a parte de baixo da foto (onde ficam os textos) em vez de
+       escurecer; antes o texto marrom ficava sobre marrom e era difícil de ler. */
+    background: linear-gradient(to top, #FBF6EE 0%, rgba(251,246,238,0.94) 38%, rgba(251,246,238,0.6) 68%, rgba(251,246,238,0.08) 100%);
 }
 .cv-musica-hero-content {
     position: relative;

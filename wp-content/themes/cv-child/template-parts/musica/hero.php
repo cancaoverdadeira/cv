@@ -5,6 +5,7 @@
 // (plays, nota, posição no ranking) e botões Ouvir e Favoritar.
 // Chamado por single-musica.php com get_template_part( ..., null, $args ).
 // v15.10.0: separado do single-musica.php (refatoração, fase 6).
+// v15.33.1: textos do topo em cores sólidas da paleta (contraste AA sobre o fundo claro).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -37,10 +38,10 @@ $fav_label    = isset( $args['fav_label'] ) ? $args['fav_label'] : '';
 
                     <!-- Breadcrumb -->
                     <nav aria-label="Navegação" style="margin-bottom:16px">
-                        <ol style="list-style:none;padding:0;margin:0;display:flex;gap:6px;flex-wrap:wrap;font-size:12px;color:rgba(59,36,24,0.55)">
-                            <li><a href="<?php echo esc_url(home_url('/')); ?>" style="color:rgba(59,36,24,0.55);text-decoration:none">Início</a></li>
+                        <ol style="list-style:none;padding:0;margin:0;display:flex;gap:6px;flex-wrap:wrap;font-size:12px;color:#6B4C3B">
+                            <li><a href="<?php echo esc_url(home_url('/')); ?>" style="color:#6B4C3B;text-decoration:none">Início</a></li>
                             <li>/</li>
-                            <li><a href="<?php echo esc_url(home_url('/musicas/')); ?>" style="color:rgba(59,36,24,0.55);text-decoration:none">Músicas</a></li>
+                            <li><a href="<?php echo esc_url(home_url('/musicas/')); ?>" style="color:#6B4C3B;text-decoration:none">Músicas</a></li>
                         </ol>
                     </nav>
 
@@ -67,14 +68,14 @@ $fav_label    = isset( $args['fav_label'] ) ? $args['fav_label'] : '';
                             </h1>
 
                             <?php if ($artista) : ?>
-                            <p style="font-size:16px;color:rgba(59,36,24,0.8);margin:0 0 4px"
+                            <p style="font-size:16px;color:#3B2418;margin:0 0 4px"
                                itemprop="lyricist" itemscope itemtype="https://schema.org/Person">
                                 <span itemprop="name"><?php echo esc_html($artista); ?></span>
                             </p>
                             <?php endif; ?>
 
                             <?php if ($compositor && $compositor !== $artista) : ?>
-                            <p style="font-size:13px;color:rgba(59,36,24,0.55);margin:0 0 12px"
+                            <p style="font-size:13px;color:#6B4C3B;margin:0 0 12px"
                                itemprop="composer" itemscope itemtype="https://schema.org/Person">
                                 Compositor: <span itemprop="name"><?php echo esc_html($compositor); ?></span>
                             </p>
@@ -83,20 +84,20 @@ $fav_label    = isset( $args['fav_label'] ) ? $args['fav_label'] : '';
                             <!-- Stats rápidas -->
                             <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px">
                                 <?php if ($show_plays) : ?>
-                                <span style="font-size:13px;color:rgba(59,36,24,0.6)">
+                                <span style="font-size:13px;color:#6B4C3B">
                                     ▶ <?php echo number_format($plays); ?> plays
                                 </span>
                                 <?php elseif ( class_exists('CV_Launch') ) : echo CV_Launch::badge(); endif; ?>
                                 <?php if ($avg_rating > 0 && $show_rating) : ?>
                                 <span style="font-size:13px;color:var(--cv-gold)">
                                     ★ <?php echo number_format($avg_rating, 1); ?>/5
-                                    <span style="color:rgba(59,36,24,0.55);font-size:11px">
+                                    <span style="color:#6B4C3B;font-size:11px">
                                         (<?php echo $rating_count; ?> avaliações)
                                     </span>
                                 </span>
                                 <?php endif; ?>
                                 <?php if ($posicao) : ?>
-                                <span style="font-size:13px;color:rgba(59,36,24,0.6)">
+                                <span style="font-size:13px;color:#6B4C3B">
                                     🏆 #<?php echo $posicao; ?> no ranking
                                 </span>
                                 <?php endif; ?>
