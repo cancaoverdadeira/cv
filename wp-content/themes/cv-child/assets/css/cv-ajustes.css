@@ -20,6 +20,8 @@
   11) v15.21.0: contraste AA (texto claro #735442; laranja #FFC24D sobre o
       marrom) e o tamanho da letra ajustável (A− / A+).
   14) v15.22.0: "💌 Ofereça esta música" (cartão, janela e faixa de dedicatória).
+  15) v15.22.1: topo da 404 sem vazar para trás do menu lateral (coluna do
+      texto flexível e margem esquerda maior), em telas de 1200 a 1450 px.
 ═══════════════════════════════════════════════════════════════ */
 
 /* ── 1. Player escuro ──────────────────────────────────────────
@@ -203,6 +205,18 @@
 .cv-hero--404 .cv-busca-avancada { margin: 0; max-width: 560px; }
 .cv-hero--404 .cv-busca-filtros { justify-content: flex-start; }
 .cv-404-atalhos { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+/* v15.22.1: o "max-content" do hero da marca somado ao logo não cabia entre
+   1200 e 1450 px, e o texto vazava para trás do menu lateral (cortando o "4",
+   a busca e o "Sentimento"). Na 404 a coluna do texto passa a encolher e
+   quebrar a linha, o logo fica entre 200 e 300 px e a margem esquerda cresce.
+   A home continua com as regras de .cv-hero--marca. */
+@media (min-width: 769px) {
+    .cv-hero--404 {
+        grid-template-columns: minmax(0, 760px) minmax(200px, 300px);
+        gap: 32px;
+        padding-left: 56px;
+    }
+}
 
 @media (max-width: 768px) {
     .cv-busca-hero { padding: 28px 16px 22px; }
