@@ -4,6 +4,7 @@
  * chamadas AJAX. nonce e ajaxUrl vêm de window.cvMon, impressos por
  * CV_Monetization_Pages::enqueue_js().
  * v2.36.0: saiu do <script> que ficava dentro de page_brindes().
+ * v2.60.0: envia também a peça do estoque (#cv-br-estoque).
  */
 jQuery(function($){
     var nonce = (window.cvMon || {}).nonce || '';
@@ -12,7 +13,7 @@ jQuery(function($){
     $('#cv-brinde-novo-btn').on('click',function(){$('#cv-br-id').val(0);$('#cv-brinde-form input,#cv-brinde-form textarea').val('');$('#cv-br-qtd').val('1');$('#cv-brinde-form').slideDown(180);});
     $('#cv-brinde-cancelar').on('click',function(){$('#cv-brinde-form').slideUp(180);});
     $(document).on('click','.cv-media-pick-br',function(){var frame=wp.media({title:'Selecionar imagem',button:{text:'Usar'},multiple:false});frame.on('select',function(){$('#cv-br-imagem').val(frame.state().get('selection').first().toJSON().url);});frame.open();});
-    $('#cv-brinde-salvar').on('click',function(){var $b=$(this).prop('disabled',true).text('Salvando...');$.post(ajax,{action:'cv_save_brinde',nonce:nonce,id:$('#cv-br-id').val(),titulo:$('#cv-br-titulo').val(),descricao:$('#cv-br-desc').val(),imagem_url:$('#cv-br-imagem').val(),quantidade:$('#cv-br-qtd').val()},function(r){if(r.success){msg('✅ Brinde salvo!',true);setTimeout(function(){location.reload();},1200);}else{msg('❌ Erro.',false);$b.prop('disabled',false).text('💾 Salvar Brinde');}});});
+    $('#cv-brinde-salvar').on('click',function(){var $b=$(this).prop('disabled',true).text('Salvando...');$.post(ajax,{action:'cv_save_brinde',nonce:nonce,id:$('#cv-br-id').val(),titulo:$('#cv-br-titulo').val(),descricao:$('#cv-br-desc').val(),imagem_url:$('#cv-br-imagem').val(),quantidade:$('#cv-br-qtd').val(),estoque:$('#cv-br-estoque').val()||0},function(r){if(r.success){msg('✅ Brinde salvo!',true);setTimeout(function(){location.reload();},1200);}else{msg('❌ Erro.',false);$b.prop('disabled',false).text('💾 Salvar Brinde');}});});
     $('#cv-env-brinde-btn').on('click',function(){
         var bid=$('#cv-env-brinde').val(), email=$('#cv-env-email').val(), msgtxt=$('#cv-env-msg').val();
         if(!bid||!email){msg('❌ Selecione o brinde e informe o e-mail.',false);return;}

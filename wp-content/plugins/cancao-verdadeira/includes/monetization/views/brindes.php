@@ -3,6 +3,7 @@
 // Tela "Brindes" do painel: cadastro de brindes e envio de brinde + e-mail a um assinante.
 // Incluído por CV_Monetization_Pages::page_brindes() (v2.36.0: saiu de dentro do método).
 // O JavaScript da tela fica em assets/js/admin-brindes.js.
+// v2.60.0: campo "📦 Tirar do estoque" (CV_Estoque_Ligacao) e a peça ligada na lista de envio.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -44,6 +45,7 @@ $assinantes= $wpdb->get_results( "SELECT email, name FROM {$wpdb->prefix}cv_subs
                     <button type="button" class="cv-btn cv-btn-outline cv-media-pick-br" data-target="cv-br-imagem">📁 Biblioteca</button>
                 </div>
             </div>
+            <?php echo class_exists( 'CV_Estoque_Ligacao' ) ? CV_Estoque_Ligacao::campo( 'cv-br-estoque' ) : ''; // v2.60.0 ?>
         </div>
         <div style="display:flex;gap:10px;margin-top:16px">
             <button id="cv-brinde-salvar" class="cv-btn cv-btn-primary">💾 Salvar Brinde</button>
@@ -63,7 +65,8 @@ $assinantes= $wpdb->get_results( "SELECT email, name FROM {$wpdb->prefix}cv_subs
                         if ( $b->status === 'esgotado' ) { continue; }
                     ?>
                     <option value="<?php echo esc_attr( $b->id ); ?>">
-                        <?php echo esc_html( $b->titulo . ' (' . $b->quantidade . ' disp.)' ); ?>
+                        <?php $cv_peca = class_exists( 'CV_Estoque_Ligacao' ) ? CV_Estoque_Ligacao::rotulo( 'brinde', $b->id ) : ''; // v2.60.0
+                        echo esc_html( $b->titulo . ' (' . $b->quantidade . ' disp.)' . ( $cv_peca ? ' — 📦 tira do estoque: ' . $cv_peca : '' ) ); ?>
                     </option>
                     <?php endforeach; ?>
                 </select>

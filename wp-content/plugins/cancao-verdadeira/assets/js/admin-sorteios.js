@@ -4,6 +4,7 @@
  * chamadas AJAX. nonce e ajaxUrl vêm de window.cvMon, impressos por
  * CV_Monetization_Pages::enqueue_js().
  * v2.36.0: saiu do <script> que ficava dentro de page_sorteios().
+ * v2.60.0: envia também a peça do estoque (#cv-s-estoque).
  */
 jQuery(function($){
     var nonce = (window.cvMon || {}).nonce || '';
@@ -31,7 +32,7 @@ jQuery(function($){
     $(document).on('click','.cv-media-pick-sort',function(){var frame=wp.media({title:'Selecionar imagem',button:{text:'Usar'},multiple:false});frame.on('select',function(){$('#cv-s-imagem').val(frame.state().get('selection').first().toJSON().url);});frame.open();});
     $('#cv-sort-salvar').on('click',function(){
         var $b=$(this).prop('disabled',true).text('Agendando...');
-        $.post(ajax,{action:'cv_save_sorteio',nonce:nonce,id:$('#cv-sort-id').val(),titulo:$('#cv-s-titulo').val(),descricao:$('#cv-s-desc').val(),premio:$('#cv-s-premio').val(),imagem_url:$('#cv-s-imagem').val(),data_sorteio:$('#cv-s-data').val().replace('T',' ')},function(r){
+        $.post(ajax,{action:'cv_save_sorteio',nonce:nonce,id:$('#cv-sort-id').val(),titulo:$('#cv-s-titulo').val(),descricao:$('#cv-s-desc').val(),premio:$('#cv-s-premio').val(),imagem_url:$('#cv-s-imagem').val(),data_sorteio:$('#cv-s-data').val().replace('T',' '),estoque:$('#cv-s-estoque').val()||0},function(r){
             if(r.success){msg('✅ Sorteio agendado!',true);setTimeout(function(){location.reload();},1200);}
             else{msg('❌ Erro.',false);$b.prop('disabled',false).text('🎰 Agendar Sorteio');}
         });

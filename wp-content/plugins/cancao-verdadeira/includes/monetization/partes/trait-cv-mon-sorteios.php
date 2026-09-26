@@ -4,6 +4,7 @@
 // e-mail ao vencedor e AJAX de salvar sorteio.
 // v2.38.0: saiu de class-cv-monetization.php, sem mudança de lógica.
 // Os métodos continuam sendo chamados como CV_Monetization::metodo().
+// v2.60.0: sorteio ligado a uma peça do estoque tira 1 peça quando é realizado (CV_Estoque_Ligacao).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -64,6 +65,13 @@ trait CV_Mon_Sorteios {
                 array( '%s','%s','%s','%s','%d' ),
                 array( '%d' )
             );
+
+            // v2.60.0: tira a peça do prêmio do estoque (se o sorteio estiver ligado)
+            $cv_saldo = class_exists( 'CV_Estoque_Ligacao' ) ? CV_Estoque_Ligacao::baixar( 'sorteio', $sorteio->id, 'Sorteio "' . $sorteio->titulo . '": ' . $vencedor->email ) : null;
+            if ( is_wp_error( $cv_saldo ) ) {
+                wp_mail( get_option( 'admin_email' ), '[CV] ⚠️ Sorteio sem peça no estoque — ' . $sorteio->titulo,
+                    "O sorteio \"{$sorteio->titulo}\" foi realizado, mas a peça do prêmio não pôde sair do estoque:\n" . $cv_saldo->get_error_message() . "\n\nDê entrada da peça em Estoque e Pedidos e registre a saída à mão (motivo: Sorteio)." );
+            }
 
             // Envia e-mail ao vencedor
             self::enviar_email_vencedor( $sorteio, $vencedor );
@@ -138,6 +146,10 @@ trait CV_Mon_Sorteios {
         } else {
             $wpdb->insert( $wpdb->prefix . 'cv_sorteios', $data, $fmt );
             $id = $wpdb->insert_id;
+        }
+        // v2.60.0: peça do estoque que sai quando o sorteio for realizado
+        if ( class_exists( 'CV_Estoque_Ligacao' ) && isset( $_POST['estoque'] ) ) {
+            CV_Estoque_Ligacao::ligar( 'sorteio', $id, absint( $_POST['estoque'] ) );
         }
 
         wp_send_json_success( array( 'id' => $id ) );

@@ -92,7 +92,7 @@
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.59.0
+ * Version:     2.60.0
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -101,7 +101,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.59.0' );
+define( 'CV_VERSION',        '2.60.0' );
 define( 'CV_DB_VERSION',     '12' );      // v2.50.0: cv_envios (v2.49.0: colunas novas em cv_parcerias)
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
@@ -194,6 +194,7 @@ $cv_includes = array(
     'includes/apoio/class-cv-envio-area.php',    // v2.50.0: aba "Enviar música" da Minha Área
     'includes/apoio/class-cv-envio-admin.php',   // v2.50.0: aprovação e geração da música em rascunho
     'includes/estoque/class-cv-estoque.php',
+    'includes/estoque/class-cv-estoque-ligacao.php', // v2.60.0: brindes e sorteios tiram peça do estoque
     'includes/estoque/class-cv-estoque-analise.php',
     'includes/estoque/class-cv-estoque-area.php',
     'includes/estoque/class-cv-estoque-admin.php',

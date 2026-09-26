@@ -3,6 +3,7 @@
 // Tela "Sorteios" do painel: agendar sorteios entre os assinantes e anunciar por e-mail.
 // Incluído por CV_Monetization_Pages::page_sorteios() (v2.36.0: saiu de dentro do método).
 // O JavaScript da tela fica em assets/js/admin-sorteios.js.
+// v2.60.0: campo "📦 Tirar do estoque" (CV_Estoque_Ligacao) e a peça ligada na lista.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -50,6 +51,7 @@ $total_subs = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}cv_subs
                     <button type="button" class="cv-btn cv-btn-outline cv-media-pick-sort" data-target="cv-s-imagem">📁 Biblioteca</button>
                 </div>
             </div>
+            <?php echo class_exists( 'CV_Estoque_Ligacao' ) ? CV_Estoque_Ligacao::campo( 'cv-s-estoque' ) : ''; // v2.60.0 ?>
         </div>
         <p style="font-size:13px;color:#8A6A55;margin-top:12px">
             ℹ O sorteio será realizado automaticamente na data/hora definida. O vencedor será escolhido aleatoriamente entre os <strong style="color:#7B3A22"><?php echo $total_subs; ?></strong> assinantes e receberá um e-mail automático.
@@ -81,7 +83,8 @@ $total_subs = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}cv_subs
             ?>
             <tr>
                 <td><strong style="color:var(--cv-text)"><?php echo esc_html( $s->titulo ); ?></strong></td>
-                <td style="color:#6B4C3B;font-size:13px"><?php echo esc_html( $s->premio ); ?></td>
+                <td style="color:#6B4C3B;font-size:13px"><?php echo esc_html( $s->premio ); ?>
+                    <?php $cv_peca = class_exists( 'CV_Estoque_Ligacao' ) ? CV_Estoque_Ligacao::rotulo( 'sorteio', $s->id ) : ''; if ( $cv_peca ) : // v2.60.0 ?><br><span style="font-size:12px">📦 tira do estoque: <?php echo esc_html( $cv_peca ); ?></span><?php endif; ?></td>
                 <td style="font-size:12px;color:#8A6A55"><?php echo esc_html( date( 'd/m/Y H:i', strtotime( $s->data_sorteio ) ) ); ?></td>
                 <td style="text-align:center">
                     <span style="color:<?php echo esc_attr( $sl[1] ); ?>;font-size:13px;font-weight:700"><?php echo esc_html( $sl[0] ); ?></span>
