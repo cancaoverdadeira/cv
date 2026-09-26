@@ -20,6 +20,7 @@
   11) v15.21.0: contraste AA (texto claro #735442; laranja #FFC24D sobre o
       marrom) e o tamanho da letra ajustável (A− / A+).
   14) v15.22.0: "💌 Ofereça esta música" (cartão, janela e faixa de dedicatória).
+  17) v15.24.0: "🎤 Cantar junto" (letra em tela cheia, estrofe atual em destaque).
   16) v15.23.0: "🎸 Cifra simples" (partes do claro ao escuro, na paleta).
   15) v15.22.1: topo da 404 sem vazar para trás do menu lateral (coluna do
       texto flexível e margem esquerda maior), em telas de 1200 a 1450 px.
@@ -539,4 +540,70 @@ body legend { color: var(--cv-text); }
     .cv-cifra { padding: 18px 14px; }
     .cv-cifra-parte { padding: 12px 14px; }
     .cv-cifra-nome { min-width: 0; width: 100%; }
+}
+
+/* ── 17. "🎤 Cantar junto" (v15.24.0) ──────────────────────────
+   Tela cheia em marrom café: estrofe atual em creme, com faixa laranja
+   (#FFC24D, contraste AA sobre o marrom); as outras ficam apagadas.
+   Tamanho próprio (--cantar-tam, 24 a 60 px) pelo A− / A+ da própria tela.
+   Montada por assets/js/cv-cantar.js. */
+html.cv-cantar-aberto, html.cv-cantar-aberto body { overflow: hidden; }
+.cv-cantar {
+    position: fixed; inset: 0; z-index: 100000;
+    display: flex; flex-direction: column;
+    background: linear-gradient(180deg, #3B2418 0%, #2B1A11 100%);
+    color: #FBF6EE; font-family: var(--font-ui);
+}
+.cv-cantar[hidden] { display: none; }
+.cv-cantar-topo {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 18px;
+    padding: 14px 24px; border-bottom: 1px solid rgba(255,194,77,.25);
+}
+.cv-cantar-titulo { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: #FFC24D; }
+.cv-cantar-titulo span { color: #FBF6EE; }
+.cv-cantar-contador { font-size: 16px; color: rgba(251,246,238,.8); }
+.cv-cantar-ferramentas { display: flex; gap: 8px; }
+.cv-cantar button {
+    min-height: 48px; min-width: 52px; padding: 8px 16px; border-radius: 12px; cursor: pointer;
+    border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.10); color: #FBF6EE;
+    font-family: var(--font-display); font-weight: 700; font-size: 18px; transition: background .2s;
+}
+.cv-cantar button:hover { background: rgba(255,255,255,.18); }
+.cv-cantar button:focus-visible { outline: 3px solid #FFC24D; outline-offset: 2px; }
+.cv-cantar button:disabled { opacity: .35; cursor: default; }
+.cv-cantar .cv-cantar-maior { font-size: 22px; }
+.cv-cantar .cv-cantar-sair { border-color: rgba(255,194,77,.5); }
+.cv-cantar-letra {
+    flex: 1; overflow-y: auto; overscroll-behavior: contain;
+    width: 100%; max-width: 920px; margin: 0 auto; padding: 30vh 24px;
+    scrollbar-width: thin; scrollbar-color: rgba(255,194,77,.4) transparent;
+}
+.cv-cantar-estrofe {
+    margin: 0 0 14px; padding: 16px 24px; border-radius: 14px; border-left: 6px solid transparent;
+    font-family: var(--font-body); font-size: var(--cantar-tam, 34px); line-height: 1.45;
+    white-space: pre-line; color: rgba(251,246,238,.45); cursor: pointer;
+    transition: color .3s, background .3s, border-color .3s;
+}
+.cv-cantar-estrofe.is-passada { color: rgba(251,246,238,.32); }
+.cv-cantar-estrofe.is-atual { color: #FBF6EE; background: rgba(255,194,77,.10); border-left-color: #FFC24D; cursor: default; }
+.cv-cantar-estrofe:focus { outline: none; }
+.cv-cantar-base {
+    display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
+    padding: 14px 24px 6px; border-top: 1px solid rgba(255,194,77,.25);
+}
+.cv-cantar .cv-cantar-nav { min-width: 170px; min-height: 58px; font-size: 20px; }
+.cv-cantar .cv-cantar-proxima { background: #F2A51A; border-color: #F2A51A; color: #3B2418; }
+.cv-cantar .cv-cantar-proxima:hover { background: #FFC24D; }
+.cv-cantar .cv-cantar-tocar { min-height: 58px; font-size: 18px; color: #FFC24D; }
+.cv-cantar-dica { margin: 0; padding: 4px 24px 14px; text-align: center; font-size: 14px; color: rgba(251,246,238,.7); }
+@media (prefers-reduced-motion: reduce) { .cv-cantar-estrofe { transition: none; } }
+@media (max-width: 768px) {
+    .cv-cantar-topo { padding: 10px 14px; }
+    .cv-cantar-titulo { font-size: 18px; width: 100%; }
+    .cv-cantar-letra { padding: 25vh 12px; }
+    .cv-cantar-estrofe { padding: 12px 14px; border-left-width: 5px; }
+    .cv-cantar-base { padding: 10px 12px 14px; gap: 8px; }
+    .cv-cantar .cv-cantar-nav { flex: 1 1 0; min-width: 0; }
+    .cv-cantar .cv-cantar-tocar { order: -1; flex: 1 1 100%; min-height: 48px; }
+    .cv-cantar-dica { display: none; }
 }

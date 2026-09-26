@@ -8,6 +8,7 @@
 // v15.21.0: botões A− / A+ (tamanho da letra, lembrado no aparelho) e o bloco
 // "📖 Por trás da canção" abaixo da letra (campo _cv_historia do plugin).
 // v15.23.0: "🎸 Cifra simples" entre a letra e a história (parte cifra.php).
+// v15.24.0: botão "🎤 Cantar junto" (letra em tela cheia, assets/js/cv-cantar.js).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -28,6 +29,9 @@ $autor    = ! empty( $args['compositor'] ) ? $args['compositor'] : '';
                                     <button type="button" id="cv-letra-menor" aria-label="Diminuir a letra" title="Diminuir a letra">A−</button>
                                     <button type="button" id="cv-letra-maior" aria-label="Aumentar a letra" title="Aumentar a letra" style="font-size:20px">A+</button>
                                 </div>
+                                <button type="button" id="cv-cantar-btn" class="cv-btn cv-btn-primary cv-btn-sm" title="Letra em tela cheia, estrofe por estrofe">
+                                    🎤 Cantar junto
+                                </button>
                                 <button id="cv-copy-letra-btn"
                                         class="cv-btn cv-btn-secondary cv-btn-sm"
                                         title="Copiar letra">
