@@ -19,6 +19,7 @@
 // v15.29.0: "Chegando Agora" virou "Novas" (também em linhas de 4).
 // v15.30.0: quadro "✨ Novidades para você" abaixo do banner; em v15.31.0 virou
 // janela aberta pelo menu lateral (template-parts/novidades.php), para não empurrar os cartões.
+// v15.32.0: topo mais baixo no celular (classes .cv-hero--home e .cv-hero-agora, seção 22 do cv-ajustes.css).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -79,7 +80,7 @@ get_header();
         <!-- ══════════════════════════════════════════════════════
              HERO SECTION
         ══════════════════════════════════════════════════════ -->
-        <section class="cv-hero<?php echo $banner_url ? ' cv-hero--marca' : ''; ?>" aria-label="Destaque">
+        <section class="cv-hero cv-hero--home<?php echo $banner_url ? ' cv-hero--marca' : ''; ?>" aria-label="Destaque">
 
             <?php if ( $hero_cover ) : ?>
             <div class="cv-hero-bg"
@@ -123,7 +124,7 @@ get_header();
                 </div>
 
                 <?php if ( $hero_music ) : ?>
-                <div style="margin-top:24px;display:flex;align-items:center;gap:12px">
+                <div class="cv-hero-agora" style="margin-top:24px;display:flex;align-items:center;gap:12px">
                     <button class="cv-btn cv-btn-primary"
                             data-music-id="<?php echo esc_attr($hero_music->music_id); ?>"
                             data-youtube-id="<?php echo esc_attr(cv_youtube_id(get_post_meta($hero_music->music_id, '_cv_youtube_url', true))); ?>"

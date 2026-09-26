@@ -20,6 +20,7 @@
   11) v15.21.0: contraste AA (texto claro #735442; laranja #FFC24D sobre o
       marrom) e o tamanho da letra ajustável (A− / A+).
   14) v15.22.0: "💌 Ofereça esta música" (cartão, janela e faixa de dedicatória).
+  22) v15.32.0: topo da página inicial mais baixo no celular (1º cartão na 1ª tela).
   21) v15.30.0: "✨ Novidades para você" e âncoras da página da música (janela em v15.31.0).
   20) v15.27.0: home com linhas de 4 cartões (Favoritas, Mais tocadas, Melhor avaliadas).
   19) v15.26.0: página "🎤 Para artistas" (/artista/) e o botão verde do WhatsApp.
@@ -749,4 +750,21 @@ html.cv-cantar-aberto, html.cv-cantar-aberto body { overflow: hidden; }
 @media (max-width: 420px) {
     .cv-topbar .cv-topbar-inicio { display: none !important; }
     .cv-topbar-right { gap: 2px; }
+}
+
+/* ── 22. Topo da página inicial no celular (v15.32.0) ─────────────
+   Antes ocupava ~620 px num celular de 375 px (quase a tela toda) e o
+   primeiro cartão só aparecia rolando. Só a home (.cv-hero--home); os
+   banners das páginas internas não mudam. O logo pequeno continua na
+   barra do topo, então o logo grande diminui. */
+@media (max-width: 768px) {
+    .cv-hero--home.cv-hero--marca { gap: 6px; padding: 14px 16px 18px; }
+    .cv-hero--home .cv-hero-marca { width: 120px; }
+    .cv-hero--home .cv-hero-tag { margin-bottom: 8px; font-size: 11px; padding: 4px 12px; }
+    .cv-hero--home.cv-hero--marca .cv-hero-title { font-size: 28px; line-height: 1.15; margin-bottom: 6px; }
+    .cv-hero--home.cv-hero--marca .cv-hero-subtitle { font-size: 15px; margin-bottom: 12px; }
+    .cv-hero--home .cv-hero-actions { gap: 8px; flex-wrap: wrap; }
+    .cv-hero--home .cv-hero-actions .cv-btn-lg { flex: 1 1 0; min-width: 0; padding: 11px 10px; font-size: 14px; justify-content: center; white-space: nowrap; }
+    .cv-hero--home .cv-hero-actions .cv-hero-pulse { flex: 1 1 100%; }
+    .cv-hero--home .cv-hero-agora { margin-top: 12px !important; } /* o espaço vem escrito no HTML */
 }
