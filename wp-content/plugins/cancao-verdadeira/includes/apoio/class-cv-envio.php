@@ -188,7 +188,7 @@ class CV_Envio {
         check_ajax_referer( 'cv_envio_nonce', 'nonce' );
         $uid = get_current_user_id();
         if ( ! self::pode_ver( $uid ) ) {
-            wp_send_json_error( array( 'message' => 'Primeiro envie uma proposta em "Seja nosso parceiro" (rodapé do site), com o mesmo e-mail da sua conta.' ) );
+            wp_send_json_error( array( 'message' => 'Primeiro envie uma proposta na página "Para artistas", com o mesmo e-mail da sua conta.' ) );
         }
         $abertos = 0;
         foreach ( self::do_usuario( $uid ) as $e ) { if ( in_array( $e->status, array( 'rascunho', 'enviado' ), true ) ) { $abertos++; } }

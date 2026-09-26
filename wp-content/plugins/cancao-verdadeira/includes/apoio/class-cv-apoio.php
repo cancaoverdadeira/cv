@@ -20,6 +20,9 @@
 // v2.52.0: 3º botão "🎤 Enviar minha música" (abre a aba de envio ou explica
 // que primeiro vem a proposta de parceria).
 // v2.56.0: link "🎤 Para artistas" na coluna Apoie do rodapé (página /artista/).
+// v2.57.0: o rodapé e a Minha Área ficam só com "🎤 Para artistas" e "💛 Apoie a
+// Canção Verdadeira" (antes "Seja nosso colaborador"); a janela da proposta de
+// parceria continua e é aberta de dentro da página Para artistas.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -43,6 +46,12 @@ class CV_Apoio {
             'aceita'    => '✅ Aceita',
             'recusada'  => '✖ Recusada',
         );
+    }
+
+    /** v2.57.0: endereço da página "Para artistas" (onde fica a proposta de parceria). */
+    public static function url_artistas() {
+        $p = get_page_by_path( 'artista' );
+        return ( $p && 'publish' === $p->post_status ) ? get_permalink( $p ) : home_url( '/artista/' );
     }
 
     public static function email() {
@@ -89,12 +98,9 @@ class CV_Apoio {
         <div class="cv-apoio-coluna">
             <h3 class="cv-footer-col-title">Apoie</h3>
             <ul class="cv-footer-links">
-                <li><button type="button" class="cv-apoio-abrir" data-janela="cv-janela-parceiro">🤝 Seja nosso parceiro</button></li>
-                <li><button type="button" class="cv-apoio-abrir" data-janela="cv-janela-colaborador">💛 Seja nosso colaborador</button></li>
-                <?php // v2.56.0: página "Para artistas" (/artista/, tema templates/page-artist.php) ?>
-                <?php $artista = get_page_by_path( 'artista' ); if ( $artista && 'publish' === $artista->post_status ) : ?>
-                <li><a href="<?php echo esc_url( get_permalink( $artista ) ); ?>">🎤 Para artistas</a></li>
-                <?php endif; ?>
+                <?php // v2.57.0: "Seja nosso parceiro" saiu (a proposta abre de dentro de "Para artistas") ?>
+                <li><a href="<?php echo esc_url( self::url_artistas() ); ?>">🎤 Para artistas</a></li>
+                <li><button type="button" class="cv-apoio-abrir" data-janela="cv-janela-colaborador">💛 Apoie a Canção Verdadeira</button></li>
             </ul>
         </div>
         <?php
@@ -111,17 +117,17 @@ class CV_Apoio {
                 <span>Divulgue sua música com a gente ou ajude com qualquer valor por PIX.</span>
             </div>
             <div class="cv-apoio-area-botoes">
-                <button type="button" class="cv-btn cv-btn-secondary cv-apoio-abrir" data-janela="cv-janela-parceiro">🤝 Seja nosso parceiro</button>
-                <button type="button" class="cv-btn cv-btn-primary cv-apoio-abrir" data-janela="cv-janela-colaborador">💛 Seja nosso colaborador</button>
+                <a class="cv-btn cv-btn-secondary" href="<?php echo esc_url( self::url_artistas() ); ?>">🎤 Para artistas</a>
+                <button type="button" class="cv-btn cv-btn-primary cv-apoio-abrir" data-janela="cv-janela-colaborador">💛 Apoie a Canção Verdadeira</button>
                 <?php // v2.52.0: atalho para a aba de envio (ou explicação, se ainda não é parceiro) ?>
                 <?php if ( class_exists( 'CV_Envio' ) && CV_Envio::pode_ver( get_current_user_id() ) ) : ?>
                 <a class="cv-btn cv-btn-secondary" href="<?php echo esc_url( add_query_arg( 'aba', 'enviar', home_url( '/minha-area/' ) ) ); ?>" onclick="var t=document.querySelector('.cv-dash-tab[data-tab=enviar]');if(t){t.click();t.scrollIntoView({behavior:'smooth'});return false;}">🎤 Enviar minha música</a>
                 <?php else : ?>
-                <button type="button" class="cv-btn cv-btn-secondary cv-apoio-abrir" data-janela="cv-janela-parceiro" title="Primeiro envie a proposta; depois a aba de envio aparece aqui">🎤 Enviar minha música</button>
+                <a class="cv-btn cv-btn-secondary" href="<?php echo esc_url( self::url_artistas() ); ?>" title="Primeiro envie a proposta; depois a aba de envio aparece aqui">🎤 Enviar minha música</a>
                 <?php endif; ?>
             </div>
             <?php if ( ! ( class_exists( 'CV_Envio' ) && CV_Envio::pode_ver( get_current_user_id() ) ) ) : ?>
-            <p class="cv-apoio-area-nota">🎤 Para enviar sua música: primeiro mande a proposta em "Seja nosso parceiro" (com o mesmo e-mail desta conta). Depois aparece a aba <strong>"Enviar música"</strong> aqui na sua Minha Área.</p>
+            <p class="cv-apoio-area-nota">🎤 Para enviar sua música: primeiro mande a proposta na página <a href="<?php echo esc_url( self::url_artistas() ); ?>"><strong>Para artistas</strong></a> (com o mesmo e-mail desta conta). Depois aparece a aba <strong>"Enviar música"</strong> aqui na sua Minha Área.</p>
             <?php endif; ?>
         </section>
         <?php
@@ -177,7 +183,7 @@ class CV_Apoio {
 
         <dialog id="cv-janela-colaborador" class="cv-janela" aria-labelledby="cv-janela-colaborador-titulo">
             <button type="button" class="cv-janela-fechar" aria-label="Fechar">✕</button>
-            <h2 id="cv-janela-colaborador-titulo">💛 Seja nosso colaborador</h2>
+            <h2 id="cv-janela-colaborador-titulo">💛 Apoie a Canção Verdadeira</h2>
             <p class="cv-janela-intro">A Canção Verdadeira é feita com carinho e sem patrocínio. Com qualquer valor, por PIX, você ajuda a gravar novas músicas e a manter o site no ar. Muito obrigado!</p>
             <?php if ( $pix_ok ) : ?>
             <div class="cv-doacao-valores" role="group" aria-label="Escolha um valor">

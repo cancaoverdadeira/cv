@@ -37,7 +37,7 @@ class CV_Envio_Area {
     /** Conteúdo da aba: explicação, botão "Enviar nova música" e os cartões. */
     public static function lista( $user_id ) {
         if ( ! CV_Envio::pode_ver( $user_id ) ) {
-            return '<div class="cv-empty">🎤 Para enviar sua música, primeiro mande uma proposta em <strong>"Seja nosso parceiro"</strong>, no rodapé do site, usando o mesmo e-mail da sua conta.</div>';
+            return '<div class="cv-empty">🎤 Para enviar sua música, primeiro mande uma proposta na página <a href="' . esc_url( CV_Apoio::url_artistas() ) . '"><strong>Para artistas</strong></a>, usando o mesmo e-mail da sua conta.</div>';
         }
         $envios = CV_Envio::do_usuario( $user_id );
         ob_start();

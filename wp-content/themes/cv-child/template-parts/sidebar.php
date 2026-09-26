@@ -11,6 +11,7 @@
 // v15.12.0: link "📰 Blog" no menu (endereço /blog/).
 // v15.17.0: botão "🛍️ Loja" em destaque nas ações rápidas (logo abaixo de
 // "Ver Músicas"), com selo "Novo" — pedido do Eduardo: "bem visível".
+// v15.29.0: link "✉️ Contato" no menu, abaixo de Blog.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -99,6 +100,12 @@ if ( $is_logged ) {
         <a href="<?php echo esc_url( home_url('/blog/') ); ?>"
            class="cv-nav-link <?php echo ( is_category('blog') || ( is_singular('post') && in_category('blog') ) ) ? 'active' : ''; ?>">
             <span class="nav-icon">📰</span> Blog
+        </a>
+
+        <?php // v15.29.0: link "Contato" (página /contato/) ?>
+        <a href="<?php echo esc_url( home_url('/contato/') ); ?>"
+           class="cv-nav-link <?php echo is_page('contato') ? 'active' : ''; ?>">
+            <span class="nav-icon">✉️</span> Contato
         </a>
 
         <?php if ( $is_logged ) : ?>

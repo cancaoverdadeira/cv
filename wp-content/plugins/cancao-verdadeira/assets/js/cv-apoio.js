@@ -1,7 +1,7 @@
 /*
  * cancao-verdadeira/assets/js/cv-apoio.js
  * "Apoie" do rodapé (v2.48.0): abre e fecha as janelas "Seja nosso parceiro"
- * e "Seja nosso colaborador", envia a proposta de parceria e gera o PIX da
+ * e "Apoie a Canção Verdadeira" (antes "Seja nosso colaborador"), envia a proposta de parceria e gera o PIX da
  * doação no valor escolhido (o código vem do servidor; o QR é desenhado por
  * cv-pix.js). ajaxUrl e nonce: window.cvApoio (parceria) e window.cvPix (PIX).
  * v2.49.0: depois do envio, o formulário dá lugar aos botões "Nossas

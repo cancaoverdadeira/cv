@@ -12,6 +12,7 @@
 // Sem termo: sugestões de sentimentos e as músicas mais recentes.
 // v15.20.0: o topo virou o banner da marca, com a busca dentro dele.
 // v15.28.0: "Chegando Agora" em linhas de 4 cartões, completando com "Em breve".
+// v15.29.0: "Chegando Agora" virou "Novas".
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -146,7 +147,7 @@ get_header();
             </div>
             <?php endif; ?>
 
-            <div class="cv-busca-cabecalho"><h2>🎵 Chegando <span>Agora</span></h2></div>
+            <div class="cv-busca-cabecalho"><h2>🎵 <span>Novas</span></h2></div>
             <?php // v15.28.0: linhas de 4, completando com "Em breve" ?>
             <div class="cv-grid cv-grid-col-4 cv-grid-linha4">
                 <?php foreach ( $recentes as $m ) {

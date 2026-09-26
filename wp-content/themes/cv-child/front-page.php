@@ -16,6 +16,7 @@
 // v15.27.0 (pedido do Eduardo): "Mais Favoritadas" virou "Favoritas" e "Do Blog" virou
 // "Blog"; Favoritas, Mais tocadas e Melhor avaliadas sempre em linhas de 4 cartões e o
 // Blog em linhas de 3, completando com cartões "Em breve" (cv_completar_grade).
+// v15.29.0: "Chegando Agora" virou "Novas" (também em linhas de 4).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -253,28 +254,27 @@ get_header();
         </section>
 
         <!-- ══════════════════════════════════════════════════════
-             MÚSICAS RECENTES
+             NOVAS (músicas recentes)
         ══════════════════════════════════════════════════════ -->
-        <section class="cv-section" aria-label="Músicas recentes">
+        <section class="cv-section" aria-label="Novas músicas">
             <div class="cv-section-header">
-                <h2 class="cv-section-title">🎵 Chegando <span>Agora</span></h2>
+                <h2 class="cv-section-title">🎵 <span>Novas</span></h2>
                 <a href="<?php echo esc_url(home_url('/musicas/')); ?>"
                    class="cv-section-link">Ver todas →</a>
             </div>
 
-            <?php if ( empty($recentes) ) :
-                get_template_part('template-parts/card-em-breve', null, array('quantidade' => 5, 'icone' => '🎵', 'texto' => 'Em breve'));
-            else : ?>
-            <div class="cv-grid">
+            <?php // v15.29.0: "Chegando Agora" virou "Novas", em linhas de 4 com "Em breve" ?>
+            <div class="cv-grid cv-grid-col-4 cv-grid-linha4">
                 <?php foreach ( $recentes as $m ) :
                     get_template_part( 'template-parts/card-musica', null, array( 'music_id' => $m->music_id, 'show_rank' => false ) );
                 endforeach; ?>
+                <?php $falta = cv_completar_grade( count( $recentes ), $cv_linha_musicas );
+                if ( $falta ) { get_template_part( 'template-parts/card-em-breve', null, array( 'quantidade' => $falta, 'icone' => '🎵', 'texto' => 'Em breve', 'sem_grade' => true ) ); } ?>
             </div>
-            <?php endif; ?>
         </section>
 
         <!-- ══════════════════════════════════════════════════════
-             MAIS FAVORITADAS
+             FAVORITAS
         ══════════════════════════════════════════════════════ -->
         <section class="cv-section" aria-label="Favoritas">
             <div class="cv-section-header">
