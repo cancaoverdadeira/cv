@@ -19,6 +19,7 @@
 // grandes — abrem as mesmas janelas do rodapé.
 // v2.52.0: 3º botão "🎤 Enviar minha música" (abre a aba de envio ou explica
 // que primeiro vem a proposta de parceria).
+// v2.56.0: link "🎤 Para artistas" na coluna Apoie do rodapé (página /artista/).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -90,6 +91,10 @@ class CV_Apoio {
             <ul class="cv-footer-links">
                 <li><button type="button" class="cv-apoio-abrir" data-janela="cv-janela-parceiro">🤝 Seja nosso parceiro</button></li>
                 <li><button type="button" class="cv-apoio-abrir" data-janela="cv-janela-colaborador">💛 Seja nosso colaborador</button></li>
+                <?php // v2.56.0: página "Para artistas" (/artista/, tema templates/page-artist.php) ?>
+                <?php $artista = get_page_by_path( 'artista' ); if ( $artista && 'publish' === $artista->post_status ) : ?>
+                <li><a href="<?php echo esc_url( get_permalink( $artista ) ); ?>">🎤 Para artistas</a></li>
+                <?php endif; ?>
             </ul>
         </div>
         <?php
