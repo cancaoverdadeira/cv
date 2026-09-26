@@ -6,6 +6,8 @@
 // registra opções e expõe funções auxiliares usadas pelas páginas admin.
 // v1.9.2 — inclui ajax_delete_subscriber corretamente dentro da classe.
 // v2.41.0 — botão "← Dashboard" automático no topo das telas (voltar_automatico).
+// v2.61.0 — esconde 3 avisos de propaganda de outros plugins (esconder_propagandas)
+//           e dá título na aba às telas escondidas do menu (titulo_aba).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -17,6 +19,8 @@ class CV_Admin {
         add_action( 'wp_ajax_cv_clear_seo_cache', array( __CLASS__, 'ajax_clear_seo_cache' ) );
         add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
         add_action( 'admin_head',            array( __CLASS__, 'dark_mode_nova_musica' ) );
+        add_action( 'admin_head',            array( __CLASS__, 'esconder_propagandas' ) ); // v2.61.0
+        add_filter( 'admin_title',           array( __CLASS__, 'titulo_aba' ), 10, 2 );     // v2.61.0
         add_action( 'admin_init',            array( __CLASS__, 'register_settings' ) );
         add_action( 'wp_ajax_cv_recalculate_ranking',       array( __CLASS__, 'ajax_recalculate' ) );
         add_action( 'wp_ajax_cv_clear_cache',               array( __CLASS__, 'ajax_clear_cache' ) );
@@ -96,6 +100,36 @@ class CV_Admin {
             . 'onmouseover="this.style.background=&quot;' . $hov . '&quot;" '
             . 'onmouseout="this.style.background=&quot;' . $bg . '&quot;">'
             . '&larr; Dashboard</a>';
+    }
+
+    /**
+     * v2.61.0: esconde no painel três avisos que são só propaganda e empurravam
+     * todas as telas ~300 px para baixo: pesquisa do Astra, janelinha de
+     * "Começar" do plugin de acessibilidade e o aviso promocional de licença do
+     * Elementor Pro (formato e-notice--extended). Avisos de segurança (Wordfence)
+     * e de atualização continuam aparecendo.
+     */
+    /**
+     * v2.61.0: as telas escondidas do menu (abertas pelos botões do Dashboard,
+     * registradas com pai "null") ficavam sem título na aba do navegador
+     * ("‹ Canção Verdadeira"). Usa o título com que cada uma foi registrada.
+     */
+    public static function titulo_aba( $admin_title, $title ) {
+        if ( '' !== trim( (string) $title ) ) { return $admin_title; }
+        $page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+        if ( 0 !== strpos( $page, 'cv-' ) ) { return $admin_title; }
+        global $submenu;
+        foreach ( (array) ( isset( $submenu[''] ) ? $submenu[''] : array() ) as $item ) {
+            if ( isset( $item[2] ) && $item[2] === $page ) {
+                $nome = ! empty( $item[3] ) ? $item[3] : $item[0];
+                return wp_strip_all_tags( $nome ) . ' &lsaquo; ' . get_bloginfo( 'name' ) . ' &#8212; WordPress';
+            }
+        }
+        return $admin_title;
+    }
+
+    public static function esconder_propagandas() {
+        echo '<style id="cv-sem-propaganda">#astra-optin-notice,.ea11y-settings-pointer,.e-notice.e-notice--extended{display:none!important}</style>' . "\n";
     }
 
     public static function dark_mode_nova_musica() {

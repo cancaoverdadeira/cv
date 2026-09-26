@@ -14,6 +14,8 @@
 //           nos campos do Rank Math), tags e prévia do resultado no Google.
 // v2.53.0 : caixa "📖 Por trás da canção" (CV_Fields::HISTORIA): a história da
 //           música contada pelo compositor, mostrada abaixo da letra no site.
+// v2.61.0 : tela mais limpa: saem caixas de outros plugins sem uso e a capa vem
+//           logo abaixo de Publicar (limpar_tela, ordem_caixas).
 // v2.54.0 : caixa "🎸 Cifra simples" (CV_Fields::CIFRA): só os acordes de cada
 //           parte, uma por linha; o tema mostra do tom mais claro ao mais escuro.
 
@@ -28,6 +30,29 @@ class CV_Metaboxes {
         add_action( 'admin_head',        array( __CLASS__, 'dark_css' ) );
         // Remove metaboxes nativos desnecessários na tela de música
         add_action( 'admin_menu',        array( __CLASS__, 'remove_default_metaboxes' ) );
+        // v2.61.0: caixas de outros plugins que não servem para a música e ordem das caixas
+        add_action( 'add_meta_boxes',    array( __CLASS__, 'limpar_tela' ), 999, 1 );
+        add_filter( 'get_user_option_meta-box-order_musica', array( __CLASS__, 'ordem_caixas' ) );
+    }
+
+    /**
+     * v2.61.0: tira da tela da música as caixas de outros plugins que não são
+     * usadas no cadastro (Rank Math "Conteúdo com IA" e "Sugestões de links",
+     * "Opções do WP Rocket"); o cache das músicas continua normal.
+     */
+    public static function limpar_tela( $post_type ) {
+        if ( 'musica' !== $post_type ) { return; }
+        foreach ( array( 'rank_math_metabox_content_ai', 'rank_math_metabox_link_suggestions', 'rocket_post_exclude' ) as $id ) {
+            foreach ( array( 'side', 'normal', 'advanced' ) as $ctx ) { remove_meta_box( $id, 'musica', $ctx ); }
+        }
+    }
+
+    /** v2.61.0: ordem das caixas na ordem de trabalho; a capa logo abaixo de Publicar. */
+    public static function ordem_caixas( $ordem ) {
+        $ordem = is_array( $ordem ) ? $ordem : array();
+        $ordem['side']   = 'submitdiv,postimagediv,cv_music_config,cv_music_estreia,cv_sentimentos_metabox,cv_music_stats';
+        $ordem['normal'] = 'cv_music_player,cv_music_info,cv_music_letra,cv_music_historia,cv_music_cifra,cv_music_seo,cv_distribuicao';
+        return $ordem;
     }
 
     public static function remove_default_metaboxes() {
