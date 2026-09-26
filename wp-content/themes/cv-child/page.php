@@ -9,6 +9,8 @@
 // padrão do Astra, que não tem sidebar nem player.
 // v15.14.0: Meu Perfil, Perfil do membro e Minha Conta ganham o banner da marca
 // (template-parts/banner-pagina.php) no lugar do título simples.
+// v15.35.0: Cadastro, Login e Recuperar senha também ganham o banner (antes o
+// formulário aparecia solto, sem título nem explicação).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -31,6 +33,10 @@ get_header();
             'meu-perfil'  => array( 'tag' => '👤 Sua conta', 'titulo' => 'Meu',   'destaque' => 'Perfil', 'subtitulo' => 'Seus dados, sua foto e sua senha.' ),
             'membro'      => array( 'tag' => '👤 Perfil',    'titulo' => 'Perfil', 'destaque' => 'do Ouvinte', 'subtitulo' => 'Músicas favoritas, playlists e conquistas.' ),
             'minha-conta' => array( 'tag' => '⚙️ Sua conta', 'titulo' => 'Minha', 'destaque' => 'Conta',  'subtitulo' => 'Dados de acesso, privacidade e notificações.' ),
+            // v15.35.0: Cadastro, Login e Recuperar senha ganham título e explicação
+            'cadastro'        => array( 'tag' => '🎵 É grátis', 'titulo' => 'Crie sua', 'destaque' => 'conta', 'subtitulo' => 'Favorite músicas, monte suas playlists e receba as novidades. Leva só um minuto.' ),
+            'login'           => array( 'tag' => '👋 Que bom te ver', 'titulo' => 'Entrar na', 'destaque' => 'sua conta', 'subtitulo' => 'Suas músicas favoritas e playlists estão esperando por você.' ),
+            'recuperar-senha' => array( 'tag' => '🔑 Acesso', 'titulo' => 'Recuperar', 'destaque' => 'senha', 'subtitulo' => 'Digite o seu e-mail e enviamos um link para você criar uma senha nova.' ),
         );
         $slug   = get_post_field( 'post_name', get_the_ID() );
         $banner = isset( $banners[ $slug ] ) ? $banners[ $slug ] : null;

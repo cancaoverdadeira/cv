@@ -20,6 +20,8 @@
   11) v15.21.0: contraste AA (texto claro #735442; laranja #FFC24D sobre o
       marrom) e o tamanho da letra ajustável (A− / A+).
   14) v15.22.0: "💌 Ofereça esta música" (cartão, janela e faixa de dedicatória).
+  26) v15.36.0: Minha Área no celular (números em 2 colunas).
+  25) v15.35.0: formulários do Ultimate Member maiores (Cadastro, Login, Conta).
   24) v15.34.0: página "Como assinar pelo gov.br" (/assinar-gov-br/).
   23) v15.33.0: player do rodapé no celular (nada fora da tela).
   22) v15.32.0: topo da página inicial mais baixo no celular (1º cartão na 1ª tela).
@@ -823,4 +825,38 @@ html.cv-cantar-aberto, html.cv-cantar-aberto body { overflow: hidden; }
 @media (max-width: 560px) {
     .cv-gov-passos li { padding: 16px 14px; gap: 12px; }
     .cv-gov-num { width: 40px; height: 40px; font-size: 19px; }
+}
+
+/* ── 25. Formulários do Ultimate Member maiores (v15.35.0) ────────
+   Cadastro, Login, Recuperar senha e Minha conta. Letra de 17 px nos
+   campos: abaixo de 16 px o iPhone dá zoom sozinho ao tocar no campo, o
+   que desorienta. Campos de 50 px e botões de 54 px (fácil de acertar com
+   o dedo); rótulos maiores. Os !important vencem as regras do UM. */
+.um .um-form .um-field-label label,
+.um .um-form .um-field-label { font-size: 17px !important; }
+.um .um-form input[type="text"],
+.um .um-form input[type="email"],
+.um .um-form input[type="password"],
+.um .um-form input[type="tel"],
+.um .um-form input[type="number"],
+.um .um-form input[type="url"],
+.um .um-form select {
+    font-size: 17px !important; height: 50px !important; line-height: 1.3 !important;
+    padding: 0 14px !important;
+}
+.um .um-form textarea { font-size: 17px !important; padding: 12px 14px !important; }
+.um .um-form input::placeholder, .um .um-form textarea::placeholder { color: #8A6A55 !important; opacity: 1; }
+.um .um-form .um-button,
+.um .um-form input[type="submit"].um-button,
+.um .um-form a.um-button { min-height: 54px !important; font-size: 17px !important; line-height: 1.2 !important; padding: 14px 18px !important; }
+.um .um-form .um-field-checkbox-option, .um .um-form .um-field-radio-option,
+.um .um-form .um-col-alt-b a, .um .um-form .um-link-alt { font-size: 16px !important; }
+.um .um-form .um-field-error, .um .um-form .um-field-notice { font-size: 15px !important; }
+
+/* ── 26. Minha Área no celular (v15.36.0) ─────────────────────────
+   Os 4 números (Plays, Favoritos, Playlists, Conquistas) ficavam em
+   quadradinhos estreitos à esquerda; agora 2 colunas na largura toda. */
+@media (max-width: 600px) {
+    .cv-dash-stats { margin-left: 0 !important; width: 100%; display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px !important; }
+    .cv-dash-stat { min-width: 0 !important; }
 }

@@ -17,6 +17,7 @@
 // colaborador) logo abaixo do cabeçalho, feita pelo plugin (CV_Apoio::caixa_area).
 // v15.20.0: banner da marca no topo ("Olá, <nome>"); o cabeçalho de baixo
 // ficou só com foto, e-mail, números e "Editar Perfil".
+// v15.36.0: caixa "💛 Apoie" depois das abas; números em 2 colunas no celular.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -78,7 +79,7 @@ get_header();
                     </div>
 
                     <!-- Stats -->
-                    <div style="margin-left:auto;display:flex;gap:16px;flex-wrap:wrap">
+                    <div class="cv-dash-stats" style="margin-left:auto;display:flex;gap:16px;flex-wrap:wrap">
                         <?php
                         $stats = array(
                             array('▶', $data['plays_total'] ?? 0,   'Plays'),
@@ -87,7 +88,7 @@ get_header();
                             array('🏅', $earned . '/' . $total,      'Conquistas'),
                         );
                         foreach ($stats as $s) : ?>
-                        <div style="text-align:center;background:var(--cv-bg-card);
+                        <div class="cv-dash-stat" style="text-align:center;background:var(--cv-bg-card);
                                     border:1px solid var(--cv-border-subtle);
                                     border-radius:var(--cv-radius);padding:14px 18px;min-width:80px">
                             <div style="font-size:18px;margin-bottom:4px"><?php echo $s[0]; ?></div>
@@ -95,7 +96,7 @@ get_header();
                                         font-weight:700;color:var(--cv-gold)">
                                 <?php echo $s[1]; ?>
                             </div>
-                            <div style="font-size:11px;color:#735442;text-transform:uppercase;letter-spacing:.5px">
+                            <div style="font-size:13px;color:#735442;text-transform:uppercase;letter-spacing:.5px">
                                 <?php echo $s[2]; ?>
                             </div>
                         </div>
@@ -109,8 +110,6 @@ get_header();
                     </a>
                 </div>
             </div>
-
-            <?php if ( class_exists( 'CV_Apoio' ) ) { echo CV_Apoio::caixa_area(); } // Apoie: parceiro / colaborador ?>
 
             <!-- Conquistas (mini) -->
             <?php if (!empty($conquistas)) :
@@ -229,6 +228,9 @@ get_header();
                 </div>
 
             </div>
+
+            <?php // v15.36.0: a caixa "💛 Apoie" veio para depois das abas (antes empurrava o conteúdo da pessoa para baixo) ?>
+            <?php if ( class_exists( 'CV_Apoio' ) ) { echo CV_Apoio::caixa_area(); } ?>
         </div>
 
         <?php get_template_part('template-parts/footer-content'); ?>
