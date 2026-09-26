@@ -10,6 +10,7 @@
 // Dados vindos de CV_Ranking::get_top(), get_by_period() e get_recent().
 // Abas JS sem reload de página. Mobile-first.
 // v15.20.0: cabeçalho virou o banner da marca (template-parts/banner-pagina.php).
+// v15.28.0: a Seleção em linhas de 4 cartões, completando com "Em breve".
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -46,7 +47,7 @@ get_header();
                 Ele aparece aqui assim que as músicas tiverem audiência suficiente.
                 Enquanto isso, conheça a <strong>Seleção da Canção Verdadeira</strong>, escolhida pela nossa equipe.
             </div>
-            <div class="cv-grid">
+            <div class="cv-grid cv-grid-col-4 cv-grid-linha4">
                 <?php
                 $selecao = CV_Launch::selection(20);
                 $sel_q   = new WP_Query( array(
@@ -58,10 +59,10 @@ get_header();
                 while ( $sel_q->have_posts() ) : $sel_q->the_post();
                     get_template_part('template-parts/card-musica');
                 endwhile;
+                $cv_qtd_sel = (int) $sel_q->post_count;
                 wp_reset_postdata();
-                if ( ! $selecao ) : ?>
-                <div class="cv-empty">Nenhuma música em destaque ainda.</div>
-                <?php endif; ?>
+                // v15.28.0: completa a linha com "Em breve" (sem seleção, uma linha inteira)
+                $falta = cv_completar_grade( $cv_qtd_sel, 4 ); if ( $falta ) { get_template_part( 'template-parts/card-em-breve', null, array( 'quantidade' => $falta, 'icone' => '⭐', 'texto' => 'Em breve', 'sem_grade' => true ) ); } ?>
             </div>
         </div>
         <?php else : ?>

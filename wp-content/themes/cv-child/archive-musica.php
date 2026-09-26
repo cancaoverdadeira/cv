@@ -7,6 +7,7 @@
 // Ordenação via ?orderby=plays|recente|titulo|avaliacao
 // v15.4.0: removido o filtro por gênero (o site é todo sertanejo).
 // v15.14.0: banner da marca no topo (template-parts/banner-pagina.php).
+// v15.28.0: grade em linhas de 4 cartões; a última linha é completada com "Em breve".
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -112,12 +113,14 @@ get_header();
         <div class="cv-section">
             <?php if ( $query->have_posts() ) : ?>
 
-            <div class="cv-grid">
+            <div class="cv-grid cv-grid-col-4 cv-grid-linha4">
                 <?php while ( $query->have_posts() ) :
                     $query->the_post();
                     get_template_part( 'template-parts/card-musica', null, array( 'music_id' => get_the_ID(), 'show_rank' => false ) );
                 endwhile;
                 wp_reset_postdata(); ?>
+                <?php // v15.28.0: completa a última linha (só na última página) com "Em breve"
+                if ( $paged >= (int) $query->max_num_pages ) { $falta = cv_completar_grade( $query->post_count, 4 ); if ( $falta ) { get_template_part( 'template-parts/card-em-breve', null, array( 'quantidade' => $falta, 'icone' => '🎵', 'texto' => 'Em breve', 'sem_grade' => true ) ); } } ?>
             </div>
 
             <!-- Paginação -->
@@ -144,8 +147,9 @@ get_header();
 
             <?php else : ?>
 
-            <!-- Nenhuma música encontrada -->
-            <div style="text-align:center;padding:60px 20px">
+            <!-- Nenhuma música encontrada (v15.28.0: uma linha de "Em breve" acima do aviso) -->
+            <?php get_template_part( 'template-parts/card-em-breve', null, array( 'quantidade' => 4, 'icone' => '🎵', 'texto' => 'Em breve' ) ); ?>
+            <div style="text-align:center;padding:40px 20px 60px">
                 <div style="font-size:48px;margin-bottom:16px">🎵</div>
                 <h2 style="font-family:var(--font-display);color:var(--cv-gold);margin-bottom:8px">
                     Nenhuma música encontrada

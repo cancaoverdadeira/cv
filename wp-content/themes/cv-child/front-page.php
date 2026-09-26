@@ -44,16 +44,7 @@ $blog_posts     = $blog_term ? get_posts(array(
     'cat'            => $blog_term->term_id,
 )) : array();
 
-// v15.27.0: quantos cartões "Em breve" completam a última linha da grade
-// (sem nenhum cartão de verdade, mostra uma linha inteira de "Em breve").
-if ( ! function_exists( 'cv_completar_grade' ) ) {
-    function cv_completar_grade( $reais, $por_linha ) {
-        $reais = (int) $reais;
-        if ( 0 === $reais ) { return $por_linha; }
-        $resto = $reais % $por_linha;
-        return $resto ? $por_linha - $resto : 0;
-    }
-}
+// v15.27.0: cv_completar_grade() fica em functions.php (usada também nas páginas internas)
 $cv_linha_musicas = 4;
 $cv_linha_blog    = 3;
 

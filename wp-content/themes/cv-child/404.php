@@ -8,6 +8,7 @@
 // recentes; cards "Em breve" enquanto não há músicas publicadas).
 // O WordPress já devolve o status HTTP 404; o Rank Math marca como noindex.
 // Gerado em: 2026-09-23 (tema v15.5.0)
+// v15.28.0: "Que tal ouvir…" em linhas de 4 cartões, completando com "Em breve".
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -89,15 +90,13 @@ get_header();
                 <h2 class="cv-section-title"><?php echo wp_kses( $titulo_sugeridas, array( 'span' => array() ) ); ?></h2>
                 <a href="<?php echo esc_url( home_url( '/musicas/' ) ); ?>" class="cv-section-link">Ver todas →</a>
             </div>
-            <?php if ( $sugeridas ) : ?>
-            <div class="cv-grid">
+            <?php // v15.28.0: linhas de 4, completando com "Em breve" ?>
+            <div class="cv-grid cv-grid-col-4 cv-grid-linha4">
                 <?php foreach ( $sugeridas as $m ) {
                     get_template_part( 'template-parts/card-musica', null, array( 'music_id' => $m->music_id, 'show_rank' => false ) );
                 } ?>
+                <?php $falta = cv_completar_grade( count( $sugeridas ), 4 ); if ( $falta ) { get_template_part( 'template-parts/card-em-breve', null, array( 'quantidade' => $falta, 'icone' => '🎵', 'texto' => 'Em breve', 'sem_grade' => true ) ); } ?>
             </div>
-            <?php else :
-                get_template_part( 'template-parts/card-em-breve', null, array( 'quantidade' => 5, 'icone' => '🎵', 'texto' => 'Em breve' ) );
-            endif; ?>
         </section>
 
         <?php get_template_part( 'template-parts/footer-content' ); ?>

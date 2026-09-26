@@ -12,7 +12,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_CHILD_VERSION', '15.27.0' );
+define( 'CV_CHILD_VERSION', '15.28.0' );
 define( 'CV_CHILD_DIR',     get_stylesheet_directory() );
 define( 'CV_CHILD_URL',     get_stylesheet_directory_uri() );
 
@@ -295,3 +295,18 @@ function cv_child_pwa_tags() { ?>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Canção Verdadeira">
 <?php }
+
+/**
+ * v15.27.0 / v15.28.0: quantos cartões "Em breve" completam a última linha de
+ * uma grade (sem nenhum cartão de verdade, uma linha inteira de "Em breve").
+ * Usada na home, em Todas as músicas, Ranking, Busca e 404, sempre com a
+ * grade .cv-grid-col-4 .cv-grid-linha4 (4 por linha; 2 + 2 no celular).
+ */
+if ( ! function_exists( 'cv_completar_grade' ) ) {
+    function cv_completar_grade( $reais, $por_linha ) {
+        $reais = (int) $reais;
+        if ( 0 === $reais ) { return $por_linha; }
+        $resto = $reais % $por_linha;
+        return $resto ? $por_linha - $resto : 0;
+    }
+}
