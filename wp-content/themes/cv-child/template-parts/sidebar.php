@@ -14,6 +14,7 @@
 // v15.29.0: link "✉️ Contato" no menu, abaixo de Blog.
 // v15.31.0: botão "✨ Novidades" (selo NOVO) abaixo da Loja; abre uma janela.
 // v15.31.2: saiu o botão "🔍 Buscar" das ações rápidas (repetido com o do Menu).
+// v15.36.2: selo da Loja passou de "Novo" para "Em breve" (pedido do Eduardo, 04/10).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -52,7 +53,7 @@ if ( $is_logged ) {
            class="cv-btn-sidebar cv-btn-sidebar-loja<?php echo is_page('loja') ? ' is-ativo' : ''; ?>">
             <span>🛍️</span>
             <span>Loja</span>
-            <span class="cv-selo-novo">Novo</span>
+            <span class="cv-selo-novo">Em breve</span>
         </a>
         <?php // v15.31.0: "✨ Novidades" abre a janela com os atalhos (template-parts/novidades.php) ?>
         <button type="button" class="cv-btn-sidebar cv-btn-sidebar-novidades cv-apoio-abrir" data-janela="cv-janela-novidades">

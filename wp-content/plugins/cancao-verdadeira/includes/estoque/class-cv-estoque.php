@@ -10,7 +10,7 @@
 // Pedidos (Minha Área): entram "pendente" e só baixam o estoque quando o admin
 // CONFIRMA. Pagamento só por PIX (CV_Pix, v2.48.0); a entrega é combinada.
 // Alerta: quando uma variação chega ao mínimo (padrão 10 peças), um e-mail
-// vai para cv_estoque_email (padrão cancaoverdadeira@gmail.com), uma vez só;
+// vai para cv_estoque_email (padrão contato@cancaoverdadeira.com.br), uma vez só;
 // o aviso "rearma" quando o estoque volta a ficar acima do mínimo.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -20,7 +20,7 @@ class CV_Estoque {
     const TAMANHOS          = array( 'P', 'M', 'G', 'GG' );
     const MAX_QTD_PEDIDO    = 10; // por pedido
     const MAX_PENDENTES     = 10; // pedidos pendentes por pessoa (evita abuso)
-    const EMAIL_PADRAO      = 'cancaoverdadeira@gmail.com';
+    const EMAIL_PADRAO      = 'contato@cancaoverdadeira.com.br';
 
     public static function tipos() {
         return array(

@@ -30,7 +30,7 @@ jQuery(function ($) {
         }).fail(function () { msg('❌ Falha de conexão.', false); if ($btn) { $btn.prop('disabled', false).text(rotulo); } });
     }
 
-    var exemplos = { email: 'ex.: cancaoverdadeira@gmail.com', telefone: 'ex.: (31) 99999-9999', aleatoria: 'ex.: 123e4567-e89b-12d3-a456-426614174000' };
+    var exemplos = { email: 'ex.: contato@cancaoverdadeira.com.br', telefone: 'ex.: (31) 99999-9999', aleatoria: 'ex.: 123e4567-e89b-12d3-a456-426614174000' };
     $('#cv-pix-tipo').on('change', function () { $('#cv-pix-chave').attr('placeholder', exemplos[this.value] || ''); }).trigger('change');
 
     $('#cv-pix-salvar').on('click', function () {

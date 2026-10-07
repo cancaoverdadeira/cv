@@ -20,6 +20,7 @@
   11) v15.21.0: contraste AA (texto claro #735442; laranja #FFC24D sobre o
       marrom) e o tamanho da letra ajustável (A− / A+).
   14) v15.22.0: "💌 Ofereça esta música" (cartão, janela e faixa de dedicatória).
+  27) v15.37.0: tela Entrar com letra maior e botão "Mostrar" nas senhas.
   26) v15.36.0: Minha Área no celular (números em 2 colunas).
   25) v15.35.0: formulários do Ultimate Member maiores (Cadastro, Login, Conta).
   24) v15.34.0: página "Como assinar pelo gov.br" (/assinar-gov-br/).
@@ -436,6 +437,7 @@ body legend { color: var(--cv-text); }
     text-transform: uppercase;
     padding: 2px 8px;
     border-radius: 50px;
+    white-space: nowrap; /* v15.36.2: "Em breve" não quebra em duas linhas */
 }
 
 /* ── 10. v15.20.0 ───────────────────────────────────────────────
@@ -860,3 +862,84 @@ html.cv-cantar-aberto, html.cv-cantar-aberto body { overflow: hidden; }
     .cv-dash-stats { margin-left: 0 !important; width: 100%; display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px !important; }
     .cv-dash-stat { min-width: 0 !important; }
 }
+
+/* ── 27. Entrar maior + "Mostrar senha" (v15.37.0) ────────────────
+   a) Tela Entrar (formulário de login do Ultimate Member, .um-login): um
+      pouco maior que os outros formulários (seção 25), por pedido do
+      Eduardo para o público 55+.
+   b) Botão "👁️ Mostrar / 🙈 Esconder" que o assets/js/cv-senha.js põe
+      dentro de todo campo de senha. Texto além do ícone, 44 px de altura. */
+.um.um-login .um-form .um-field-label label,
+.um.um-login .um-form .um-field-label { font-size: 20px !important; }
+.um.um-login .um-form input[type="text"],
+.um.um-login .um-form input[type="email"],
+.um.um-login .um-form input[type="password"] { font-size: 19px !important; height: 56px !important; }
+.um.um-login .um-form .um-button,
+.um.um-login .um-form input[type="submit"].um-button,
+.um.um-login .um-form a.um-button { min-height: 58px !important; font-size: 19px !important; }
+.um.um-login .um-form .um-field-checkbox-option,
+.um.um-login .um-form .um-col-alt-b a,
+.um.um-login .um-form .um-link-alt { font-size: 18px !important; }
+
+.cv-senha-caixa { position: relative; display: block; width: 100%; }
+.cv-senha-caixa input { width: 100% !important; padding-right: 128px !important; box-sizing: border-box; }
+.cv-senha-ver {
+    position: absolute; top: 50%; right: 6px; transform: translateY(-50%);
+    display: inline-flex; align-items: center; gap: 6px;
+    min-height: 44px; padding: 0 12px; margin: 0;
+    background: #FFF6E5; color: #5E2A17; border: 2px solid #F2A51A; border-radius: 8px;
+    font-size: 16px; font-weight: 700; line-height: 1; cursor: pointer;
+}
+.cv-senha-ver:hover { background: #FFE9BF; }
+.cv-senha-ver:focus-visible { outline: 3px solid #5E2A17; outline-offset: 2px; }
+.cv-senha-ver[aria-pressed="true"] { background: #F2A51A; color: #3B1A0E; }
+.cv-senha-icone { font-size: 18px; }
+
+
+/* ── 28. Aviso "Seu perfil ainda está vazio" (v15.38.0) ────────────
+   Página do perfil (/membro/...). O Ultimate Member mostrava um rosto
+   triste de 70 px, longe da barra de abas, e o texto em 16 px cinza claro.
+   Agora: ícone menor e mais perto, texto 20 px escuro e o link
+   "Completar meu perfil" como botão laranja (texto em class-cv-um-traducao.php). */
+.um .um-profile-note { padding-top: 6px !important; margin: 0 !important; }
+.um .um-profile-note > i { font-size: 40px !important; height: 40px !important; line-height: 40px !important; color: #7B3A22; }
+.um .um-profile-note span { font-size: 20px !important; line-height: 1.5 !important; color: #3B2418 !important; margin-top: 8px !important; }
+.um .um-profile-note span a {
+    display: inline-block; margin-top: 14px; padding: 14px 28px; min-height: 54px; box-sizing: border-box;
+    background: #F2A51A; color: #3B2418 !important; border-radius: 8px;
+    font-size: 19px; font-weight: 700; text-decoration: none !important;
+}
+.um .um-profile-note span a:hover { background: #E0950F; }
+.um .um-profile-note span a:focus-visible { outline: 3px solid #5E2A17; outline-offset: 2px; }
+
+/* ── 29. Minha Conta: nome, "Ver perfil" e menu com texto (v15.38.1) ─
+   A coluna do conteúdo tem ~690 px, então o Ultimate Member liga o modo
+   compacto (.uimob800): some o nome, some o link "Ver perfil" e o menu
+   da esquerda fica só com ícones. Aqui o modo completo volta (só quando
+   não é celular; abaixo de 500 px o UM usa o menu de cima). O nome e o
+   botão laranja "Ver perfil" valem em qualquer largura. */
+div.uimob800.um-account .um-account-side { width: 230px !important; padding: 0 !important; }
+div.uimob800.um-account .um-account-main { width: calc(100% - 230px) !important; max-width: none !important; padding-left: 24px !important; }
+div.uimob800.um-account .um-account-side .uimob800-show { display: none !important; }
+div.uimob800.um-account .um-account-side .uimob800-hide { display: block !important; }
+div.uimob800.um-account .um-account-side li a span.um-account-icon.uimob800-hide,
+div.uimob800.um-account .um-account-side li a span.um-account-title.uimob800-hide { display: inline-block !important; float: none !important; vertical-align: middle; }
+div.uimob800.um-account .um-account-side li a span.um-account-arrow.uimob800-hide { display: none !important; }
+div.uimob800.um-account .um-account-meta a { border: 0 !important; display: inline-block !important; }
+div.uimob800.um-account .um-account-meta-img img { width: 110px !important; height: 110px !important; object-fit: cover; }
+div.uimob800.um-account .um-account-name { padding-top: 10px; }
+.um.um-account .um-account-name > a { font-size: 20px !important; font-weight: 700; color: #3B2418 !important; }
+.um.um-account .um-account-profile-link a.um-link {
+    display: inline-block !important; margin-top: 8px; padding: 10px 18px;
+    background: #F2A51A; color: #3B2418 !important; border-radius: 8px;
+    font-size: 17px !important; font-weight: 700; text-decoration: none !important;
+}
+div.uimob800.um-account .um-account-side li a {
+    height: auto !important; min-height: 52px; line-height: 1.3 !important;
+    padding: 12px 14px !important; text-align: left !important;
+    font-size: 18px !important; color: #3B2418 !important; display: flex !important; align-items: center; gap: 12px;
+}
+div.uimob800.um-account .um-account-side li a span.um-account-icon { border: 0 !important; padding: 0 !important; width: 24px !important; height: auto !important; font-size: 20px !important; color: #7B3A22 !important; }
+div.uimob800.um-account .um-account-side li a span.um-account-icon i { height: auto !important; line-height: 1 !important; }
+div.uimob800.um-account .um-account-side li a span.um-account-title { padding: 0 !important; height: auto !important; line-height: 1.3 !important; color: inherit !important; }
+div.uimob800.um-account .um-account-side li a.current { background: #F2A51A !important; color: #3B2418 !important; font-weight: 700; }

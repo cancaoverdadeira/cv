@@ -23,12 +23,13 @@
 // v2.57.0: o rodapé e a Minha Área ficam só com "🎤 Para artistas" e "💛 Apoie a
 // Canção Verdadeira" (antes "Seja nosso colaborador"); a janela da proposta de
 // parceria continua e é aberta de dentro da página Para artistas.
+// v2.62.1: e-mail padrão dos avisos = contato@cancaoverdadeira.com.br (antes o Gmail antigo).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class CV_Apoio {
 
-    const EMAIL_PADRAO     = 'cancaoverdadeira@gmail.com';
+    const EMAIL_PADRAO     = 'contato@cancaoverdadeira.com.br';
     const LIMITE_POR_HORA  = 3;
 
     public static function tipos_parceria() {

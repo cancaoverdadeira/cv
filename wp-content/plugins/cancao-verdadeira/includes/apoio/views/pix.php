@@ -24,7 +24,7 @@ $c = CV_Pix::config();
         </div>
         <div class="cv-form-group">
             <label class="cv-form-label" for="cv-pix-chave">Chave PIX</label>
-            <input type="text" id="cv-pix-chave" class="cv-input" value="<?php echo esc_attr( 'telefone' === $c['tipo'] ? CV_Pix::chave_para_exibir() : $c['chave'] ); ?>" placeholder="ex.: cancaoverdadeira@gmail.com" />
+            <input type="text" id="cv-pix-chave" class="cv-input" value="<?php echo esc_attr( 'telefone' === $c['tipo'] ? CV_Pix::chave_para_exibir() : $c['chave'] ); ?>" placeholder="ex.: contato@cancaoverdadeira.com.br" />
         </div>
         <div class="cv-est-grid-2">
             <div class="cv-form-group">

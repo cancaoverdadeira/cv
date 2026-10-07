@@ -6,7 +6,8 @@
    O parallax usa requestAnimationFrame para suavidade máxima e
    IntersectionObserver para parar quando o hero sai da tela (performance).
    v15.11.0: botão ".cv-pl-tocar" toca uma playlist inteira de qualquer página.
-   v15.20.0: botão ".cv-pl-visib" deixa a playlist privada ou pública (no fim do arquivo). */
+   v15.20.0: botão ".cv-pl-visib" deixa a playlist privada ou pública (no fim do arquivo).
+   v15.36.1: único dono do ☰ e da 🔍 do celular (o <script> repetido do topbar.php saiu). */
 
 (function($) {
     'use strict';
@@ -122,7 +123,9 @@
             $overlay.on('click', close);
 
             $(document).on('keydown', function(e) {
-                if ( e.key === 'Escape' && $sidebar.hasClass('open') ) { close(); }
+                if ( e.key !== 'Escape' ) { return; }
+                if ( $sidebar.hasClass('open') ) { close(); }
+                $('#cv-topbar-search-panel').slideUp(180); // v15.36.1: Esc fecha também a busca do celular
             });
 
             // (v15.31.2: o campo de busca do menu lateral saiu; a busca fica no Menu → Buscar)

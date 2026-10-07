@@ -9,10 +9,11 @@
 // NESTA VERSÃO: removido o registro do WaveSurfer.js (motor antigo,
 // causava as falhas da v13). Adicionado o registro da YouTube IFrame API,
 // usada pelo novo motor do player em assets/js/cv-player.js.
+// v15.37.0: assets/js/cv-senha.js em todas as páginas (botão "Mostrar" nas senhas).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_CHILD_VERSION', '15.36.0' );
+define( 'CV_CHILD_VERSION', '15.38.1' );
 define( 'CV_CHILD_DIR',     get_stylesheet_directory() );
 define( 'CV_CHILD_URL',     get_stylesheet_directory_uri() );
 
@@ -88,6 +89,9 @@ function cv_child_enqueue() {
         CV_CHILD_VERSION,
         true
     );
+
+    // v15.37.0: botão "👁️ Mostrar" em todo campo de senha (público 55+). Sem dependências.
+    wp_enqueue_script( 'cv-senha', CV_CHILD_URL . '/assets/js/cv-senha.js', array(), CV_CHILD_VERSION, true );
 
     // YouTube IFrame API — script oficial, carrega assincronamente e chama
     // window.onYouTubeIframeAPIReady (definido em cv-player.js) quando pronto.

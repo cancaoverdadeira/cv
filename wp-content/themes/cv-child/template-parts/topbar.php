@@ -7,6 +7,8 @@
 // Incluída em todos os templates antes do conteúdo principal.
 // v15.31.0: botão ✨ (Novidades) ao lado da busca, abre a janela de novidades;
 // em celular estreito o 🏠 some (ficava atrás do logo, que já leva ao início).
+// v15.36.1: saiu o <script> daqui; ele repetia o de assets/js/cv-theme.js e os
+// dois juntos abriam e fechavam o menu (☰) e a busca (🔍) no mesmo toque.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -126,39 +128,3 @@ if ( $is_logged ) {
              style="position:absolute;top:100%;left:0;right:0;z-index:50;margin-top:4px"></div>
     </div>
 </div>
-
-<script>
-jQuery(function($){
-    var $searchPanel = $('#cv-topbar-search-panel');
-    var $hamburger   = $('#cv-hamburger');
-    var $sidebar     = $('#cv-sidebar');
-    var $overlay     = $('#cv-overlay');
-
-    // Toggle hamburger
-    $hamburger.on('click', function(){
-        var isOpen = $sidebar.hasClass('open');
-        $sidebar.toggleClass('open');
-        $overlay.toggleClass('active');
-        $hamburger.attr('aria-expanded', !isOpen);
-    });
-
-    // Toggle busca mobile
-    $('#cv-topbar-search-toggle').on('click', function(){
-        $searchPanel.slideToggle(180, function(){
-            if ($searchPanel.is(':visible')) {
-                $('#cv-topbar-search-input').focus();
-            }
-        });
-    });
-
-    // Fechar busca ao pressionar Esc
-    $(document).on('keydown', function(e){
-        if (e.key === 'Escape') {
-            $searchPanel.slideUp(180);
-            $sidebar.removeClass('open');
-            $overlay.removeClass('active');
-            $hamburger.attr('aria-expanded', 'false');
-        }
-    });
-});
-</script>

@@ -9,8 +9,30 @@
 // links para redes sociais configuradas no plugin CV_Social.
 // Sem dependência do Gravity Forms — funciona com o WordPress puro.
 // v15.13.0: redes sociais com o ícone oficial na cor da marca (icon_cor).
+// v15.38.0: resposta automática para quem escreveu ("sua mensagem chegou"),
+// no máximo 3 por IP a cada 10 min (evita usar o formulário para mandar
+// e-mails a terceiros).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+if ( ! function_exists( 'cv_contato_resposta_automatica' ) ) {
+    /** Avisa quem escreveu que a mensagem chegou. Não responder: é automática. */
+    function cv_contato_resposta_automatica( $nome, $email, $assunto ) {
+        $chave = 'cv_contato_auto_' . md5( $_SERVER['REMOTE_ADDR'] ?? '' );
+        $vezes = (int) get_transient( $chave );
+        if ( $vezes >= 3 ) { return; }
+        set_transient( $chave, $vezes + 1, 10 * MINUTE_IN_SECONDS );
+
+        $nome    = wp_html_excerpt( $nome, 60 );
+        $assunto = wp_html_excerpt( $assunto ? $assunto : 'Mensagem de contato', 80 );
+        $corpo   = "Olá, $nome!\n\n"
+                 . "Sua mensagem com o assunto \"$assunto\" chegou para nós.\n"
+                 . "Em breve entraremos em contato.\n\n"
+                 . "Esta é uma mensagem automática. Por favor, não responda a este e-mail.\n\n"
+                 . "Com carinho,\nEquipe Canção Verdadeira\n" . home_url( '/' );
+        wp_mail( $email, 'Recebemos sua mensagem — Canção Verdadeira', $corpo );
+    }
+}
 
 // Processa envio do formulário
 $msg_enviada = false;
@@ -38,6 +60,7 @@ if ( isset($_POST['cv_contact_submit']) ) {
             );
             if ($enviou) {
                 $msg_enviada = true;
+                cv_contato_resposta_automatica( $nome, $email, $assunto );
             } else {
                 $msg_erro = 'Erro ao enviar. Tente novamente ou entre em contato pelo WhatsApp.';
             }
@@ -89,7 +112,7 @@ get_header();
             <?php if ($msg_enviada) : ?>
             <div style="background:#EAF6EA;border:1px solid #2d6a2d;border-radius:var(--cv-radius);
                         padding:20px 24px;margin-bottom:28px;color:#388038;font-size:15px">
-                ✓ Mensagem enviada com sucesso! Responderemos em breve.
+                ✓ Mensagem enviada com sucesso! Mandamos uma confirmação para o seu e-mail e responderemos em breve.
             </div>
             <?php elseif ($msg_erro) : ?>
             <div style="background:#F6EAEA;border:1px solid #6a2d2d;border-radius:var(--cv-radius);

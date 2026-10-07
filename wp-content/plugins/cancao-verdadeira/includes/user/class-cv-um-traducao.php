@@ -14,12 +14,14 @@
 // 3) v2.45.0 (versão 3 da rotina): liga "Usar Gravatars" no Ultimate Member.
 //    A tela Meu perfil diz que a foto vem do Gravatar, mas a opção estava
 //    desligada e todos apareciam com o boneco padrão do UM.
+// 4) v2.63.0 (versão 4): assuntos dos avisos ao administrador (nova conta,
+//    cadastro para análise, conta excluída) chegavam em inglês.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class CV_UM_Traducao {
 
-    const VERSAO_ROTULOS = 3; // sobe quando a lista de rótulos/opções mudar (v2: assuntos dos e-mails; v3: Gravatar)
+    const VERSAO_ROTULOS = 4; // sobe quando a lista de rótulos/opções mudar (v2: assuntos dos e-mails; v3: Gravatar; v4: avisos ao administrador)
 
     // Texto original do Ultimate Member => texto em português.
     private static $textos = array(
@@ -145,10 +147,35 @@ class CV_UM_Traducao {
         'Back'                 => 'Voltar',
         'This user account status is %s' => 'Situação da conta: %s',
         'Approved'             => 'Aprovada',
-        'Your profile is looking a little empty. Why not <a href="%s">add</a> some information!' => 'Seu perfil ainda está vazio. Que tal <a href="%s">adicionar</a> algumas informações?',
+        'Your profile is looking a little empty. Why not <a href="%s">add</a> some information!' => 'Seu perfil ainda está vazio.<br><a href="%s">✏️ Completar meu perfil</a>', // v2.63.0: link vira botão (cv-ajustes.css seção 28)
+        'This user has not added any information to their profile yet.' => 'Esta pessoa ainda não preencheu o perfil.',
         'Please upload a valid image!' => 'Envie uma imagem válida!',
         'Sorry this is not a valid image.' => 'Este arquivo não é uma imagem válida.',
         'Sorry this is not a valid file.'  => 'Este arquivo não é válido.',
+
+        // v2.63.0: tela "Editar perfil" (/membro/.../?um_action=edit) ainda tinha inglês
+        'Update Profile'       => 'Salvar perfil',
+        'Change photo'         => 'Trocar a foto',
+        'Change cover photo'   => 'Trocar a foto de capa',
+        'Remove cover photo'   => 'Remover a foto de capa',
+        'Profile photo'        => 'Foto do perfil',
+        'Upload Photo'         => 'Enviar foto',
+        'Upload File'          => 'Enviar arquivo',
+        'Change file'          => 'Trocar o arquivo',
+        'Drag &amp; Drop Photo' => 'Arraste a foto para cá',
+        'Drag &amp; Drop File'  => 'Arraste o arquivo para cá',
+        'You can only upload one image' => 'Você só pode enviar uma imagem',
+        'You can only upload one file'  => 'Você só pode enviar um arquivo',
+        'Processing...'        => 'Processando...',
+        'Tell us a bit about yourself...' => 'Conte um pouco sobre você...',
+        'Only fill in if you are not human' => 'Não preencha este campo',
+        'Close view photo modal' => 'Fechar',
+        'This user has not created any posts.' => 'Esta pessoa ainda não publicou nada.',
+        'This user has not made any comments.' => 'Esta pessoa ainda não comentou.',
+        'load more posts'      => 'ver mais publicações',
+        'load more comments'   => 'ver mais comentários',
+        'no comments'          => 'sem comentários',
+        'You are not allowed to edit this user.' => 'Você não tem permissão para editar esta pessoa.',
 
         // Botão do e-mail de boas-vindas ({action_title})
         'Login to our site'    => 'Entrar no site',
@@ -168,6 +195,10 @@ class CV_UM_Traducao {
         'pending_email_sub'       => array( '[{site_name}] New user account', '[{site_name}] Cadastro em análise' ),
         'approved_email_sub'      => array( 'Your account at {site_name} is now active', 'Sua conta no {site_name} está ativa' ),
         'rejected_email_sub'      => array( 'Your account has been rejected', 'Seu cadastro não foi aprovado' ),
+        // v2.63.0 (v4 da rotina): avisos que o administrador recebe
+        'notification_new_user_sub' => array( '[{site_name}] New user account', '[{site_name}] Nova conta criada' ),
+        'notification_review_sub'   => array( '[{site_name}] New user awaiting review', '[{site_name}] Cadastro esperando sua análise' ),
+        'notification_deletion_sub' => array( '[{site_name}] Account deleted', '[{site_name}] Conta excluída' ),
         'delete_account_text'     => array( 'Are you sure you want to delete your account? This will erase all of your account data from the site. To delete your account enter your password below.', 'Tem certeza de que quer excluir sua conta? Todos os seus dados serão apagados do site. Para excluir, digite sua senha abaixo.' ),
         'delete_account_no_pass_required_text' => array( 'Are you sure you want to delete your account? This will erase all of your account data from the site. To delete your account, click on the button below.', 'Tem certeza de que quer excluir sua conta? Todos os seus dados serão apagados do site. Para excluir, clique no botão abaixo.' ),
     );
