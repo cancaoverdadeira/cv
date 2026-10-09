@@ -1,0 +1,50 @@
+/* ═══════════════════════════════════════════════════════════════
+   cancao-verdadeira/assets/css/cv-musica-favorita.css
+   Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
+   v2.65.0 (08/10/2026): bloco "🎵 Minha música favorita" no perfil.
+   Pensado para o público 55+: letra de 18 px, listas e botões com pelo
+   menos 52 px de altura e estrelas grandes. Carregado só no perfil
+   (class-cv-musica-favorita.php). Cartão da música = estilo do tema.
+   ═══════════════════════════════════════════════════════════════ */
+.cv-fav { margin: 28px 0 8px; padding: 22px 20px; background: #FFF8EC; border: 1px solid #EBD9BF; border-radius: 12px; color: #3B2418; }
+.cv-fav [hidden] { display: none !important; } /* o .cv-btn do tema tem display próprio */
+.cv-fav-titulo { margin: 0 0 6px; font-size: 22px; font-weight: 700; color: #3B2418; }
+.cv-fav-dica { margin: 0 0 16px; font-size: 18px; line-height: 1.5; color: #5E4030; }
+
+.cv-fav-escolha { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+.cv-fav-campo { display: flex; flex-direction: column; gap: 6px; margin: 0; }
+.cv-fav-campo > span { font-size: 18px; font-weight: 700; color: #3B2418; }
+.cv-fav-campo select {
+    width: 100%; min-height: 52px; padding: 10px 12px; box-sizing: border-box;
+    font-size: 18px; color: #3B2418; background: #fff;
+    border: 2px solid #C9A97F; border-radius: 8px;
+}
+.cv-fav-campo select:focus-visible { outline: 3px solid #7B3A22; outline-offset: 2px; }
+.cv-fav-campo select:disabled { background: #F3ECE2; color: #8A6A55; }
+
+#cv-fav-previa { min-height: 10px; transition: opacity .2s; }
+#cv-fav-previa.cv-fav-carregando { opacity: .45; }
+.cv-fav-cartao { display: grid; grid-template-columns: minmax(0, 300px); gap: 0; }
+
+.cv-fav-estrelas { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin-top: 14px; }
+.cv-fav-estrelas-rotulo { font-size: 18px; font-weight: 700; margin-right: 6px; }
+.cv-fav-estrela {
+    width: 48px; height: 48px; padding: 0; line-height: 1;
+    font-size: 34px; color: #A88B6A; background: transparent; border: 0; cursor: pointer;
+}
+.cv-fav-estrela.cv-on { color: #F2A51A; }
+.cv-fav-estrela:hover { color: #E0950F; }
+.cv-fav-estrela:focus-visible { outline: 3px solid #7B3A22; outline-offset: 2px; border-radius: 6px; }
+.cv-fav-estrelas-msg { flex-basis: 100%; font-size: 16px; color: #2F6B2F; min-height: 1.2em; }
+
+.cv-fav-acoes { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.cv-fav-acoes .cv-btn { min-height: 52px; padding: 12px 22px; font-size: 18px; font-weight: 700; }
+.cv-fav-msg { font-size: 18px; color: #2F6B2F; }
+.cv-fav-msg.cv-erro { color: #A3261B; }
+
+@media (max-width: 600px) {
+    .cv-fav { padding: 18px 14px; }
+    .cv-fav-escolha { grid-template-columns: 1fr; }
+    .cv-fav-cartao { grid-template-columns: 1fr; }
+    .cv-fav-acoes .cv-btn { width: 100%; }
+}

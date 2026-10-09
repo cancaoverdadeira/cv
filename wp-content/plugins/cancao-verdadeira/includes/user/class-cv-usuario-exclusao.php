@@ -11,6 +11,8 @@
 //    favoritos, notas e comentários; os plays ficam anônimos (user_id = 0)
 //    para o ranking e os totais não mudarem.
 // Os registros de cv_action_logs NÃO mudam: são auditoria (quem fez o quê).
+// v2.65.0: no fim, refaz os totais guardados nas músicas afetadas (número de
+// favoritos e média das notas); antes eles ficavam com a pessoa excluída.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -30,7 +32,35 @@ class CV_Usuario_Exclusao {
         if ( ! $user_id ) { return array(); }
         if ( $reatribuir === $user_id ) { $reatribuir = 0; }
 
-        return $reatribuir ? self::transferir( $user_id, $reatribuir ) : self::limpar( $user_id );
+        $musicas = self::musicas_da_pessoa( $user_id );
+        $resumo  = $reatribuir ? self::transferir( $user_id, $reatribuir ) : self::limpar( $user_id );
+        self::refazer_totais( $musicas );
+        return $resumo;
+    }
+
+    /** Músicas que a pessoa favoritou ou deu nota (para refazer os totais). */
+    private static function musicas_da_pessoa( $user_id ) {
+        global $wpdb;
+        $ids = array();
+        foreach ( array( 'cv_favorites', 'cv_ratings' ) as $tabela ) {
+            $nome = $wpdb->prefix . $tabela;
+            if ( ! self::tabela_existe( $nome ) ) { continue; }
+            $ids = array_merge( $ids, $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT music_id FROM {$nome} WHERE user_id = %d", $user_id ) ) );
+        }
+        return array_unique( array_map( 'absint', $ids ) );
+    }
+
+    /** Favoritos e média das notas no post_meta, iguais às tabelas. */
+    private static function refazer_totais( $musicas ) {
+        global $wpdb;
+        foreach ( (array) $musicas as $id ) {
+            if ( ! $id ) { continue; }
+            $favs = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}cv_favorites WHERE music_id = %d", $id ) );
+            update_post_meta( $id, CV_Fields::FAVORITES, $favs );
+            if ( class_exists( 'CV_Ratings' ) ) {
+                update_post_meta( $id, CV_Fields::AVG_RATING, CV_Ratings::get_average( $id ) );
+            }
+        }
     }
 
     // ── 1. Transfere tudo para outro usuário ────────────────────────

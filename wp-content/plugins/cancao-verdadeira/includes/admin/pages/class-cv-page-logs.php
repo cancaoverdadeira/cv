@@ -3,6 +3,7 @@
 // Página "Logs": visualização de logs do sistema.
 // Extraído de class-cv-admin-pages.php em 2026-09-12 (refatoração:
 // cada página do admin passou a viver em seu próprio arquivo/classe).
+// v2.66.0: rótulo "📷 Erro na foto/capa" (erros do envio de foto e capa do perfil).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -43,6 +44,7 @@ class CV_Page_Logs {
             'playlist_created'=> array('icon' => '📋',  'label' => 'Playlist criada',    'color' => '#9b59b6'),
             'cache_cleared'   => array('icon' => '🗑️',  'label' => 'Cache limpo',        'color' => '#e67e22'),
             'ranking_recalc'  => array('icon' => '🔄',  'label' => 'Ranking recalculado','color' => '#1DB954'),
+            'foto_perfil_erro'=> array('icon' => '📷',  'label' => 'Erro na foto/capa',  'color' => '#e74c3c'), // v2.66.0 (CV_UM_Fotos)
         );
         ?>
         <div class="wrap" id="cv-logs-executive">

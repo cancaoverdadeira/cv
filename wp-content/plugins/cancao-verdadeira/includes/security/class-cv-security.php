@@ -7,6 +7,9 @@
 // headers HTTP de segurança nas páginas públicas, gera .htaccess na pasta
 // do plugin para impedir acesso direto aos arquivos PHP, e registra
 // tentativas bloqueadas na tabela cv_action_logs para auditoria.
+// v2.66.3 (09/10/2026): o ?ver= dos arquivos de terceiros não é mais apagado,
+// e sim trocado por um código embaralhado. Sem versão no endereço, o Cloudflare
+// guardou o um-modal.min.js antigo do Ultimate Member e o "Aplicar" da foto dava 403.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -188,7 +191,7 @@ class CV_Security {
         remove_action( 'wp_head', 'wlwmanifest_link' );
         remove_action( 'wp_head', 'rsd_link' );
 
-        // Remove versão dos scripts e estilos do WordPress
+        // Esconde a versão dos scripts e estilos do WordPress e de terceiros
         // (dificulta identificar a versão exata instalada)
         add_filter( 'style_loader_src',  array( __CLASS__, 'remove_version_from_url' ), 9999 );
         add_filter( 'script_loader_src', array( __CLASS__, 'remove_version_from_url' ), 9999 );
@@ -197,14 +200,23 @@ class CV_Security {
     public static function remove_version_from_url( $src ) {
         // v2.27.1: mantém ?ver= nos arquivos do próprio site (plugin e tema
         // filho) — é o que obriga o navegador a baixar a versão nova depois
-        // de cada atualização. Só esconde a versão do WordPress e de terceiros.
+        // de cada atualização.
         if ( false !== strpos( $src, '/cancao-verdadeira/' ) || false !== strpos( $src, '/cv-child/' ) ) {
             return $src;
         }
-        if ( strpos( $src, 'ver=' ) ) {
-            $src = remove_query_arg( 'ver', $src );
+        // v2.66.3: nos de terceiros a versão vira um código embaralhado (não dá
+        // para saber qual é), mas o endereço MUDA quando o plugin é atualizado.
+        // Apagar o ?ver= fazia o Cloudflare e o navegador usarem o arquivo velho.
+        $partes = wp_parse_url( $src );
+        if ( empty( $partes['query'] ) ) {
+            return $src;
         }
-        return $src;
+        parse_str( $partes['query'], $args );
+        if ( ! isset( $args['ver'] ) || '' === (string) $args['ver'] ) {
+            return $src;
+        }
+        $codigo = substr( wp_hash( 'cv-ver|' . $args['ver'] ), 0, 8 );
+        return add_query_arg( 'ver', $codigo, remove_query_arg( 'ver', $src ) );
     }
 
     // ── LOG DE AÇÕES ──────────────────────────────────────────────

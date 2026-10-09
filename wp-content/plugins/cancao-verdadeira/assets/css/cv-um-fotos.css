@@ -1,0 +1,17 @@
+/* ═══════════════════════════════════════════════════════════════
+   cancao-verdadeira/assets/css/cv-um-fotos.css
+   Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
+   v2.66.0 (08/10/2026): aviso dentro da janela "Trocar a foto" do
+   Ultimate Member quando o "Aplicar" dá erro ou demora (cv-um-fotos.js).
+   Letra de 18 px e botões de 52 px para o público 55+.
+   ═══════════════════════════════════════════════════════════════ */
+.cv-foto-aviso { margin: 16px; padding: 16px 18px; background: #FFF4E5; border: 2px solid #C8641E; border-radius: 10px; color: #3B2418; }
+.cv-foto-aviso-titulo { margin: 0 0 6px; font-size: 19px; font-weight: 700; }
+.cv-foto-aviso-detalhe { margin: 0 0 12px; font-size: 17px; line-height: 1.5; }
+.cv-foto-aviso-botoes { display: flex; flex-wrap: wrap; gap: 10px; }
+.cv-foto-aviso-botoes button {
+    min-height: 52px; padding: 10px 18px; font-size: 18px; font-weight: 700; cursor: pointer;
+    border-radius: 8px; border: 2px solid #7B3A22; background: #fff; color: #3B2418;
+}
+.cv-foto-aviso-botoes .cv-foto-recarregar { background: #F2A51A; border-color: #F2A51A; }
+.cv-foto-aviso-botoes button:focus-visible { outline: 3px solid #7B3A22; outline-offset: 2px; }

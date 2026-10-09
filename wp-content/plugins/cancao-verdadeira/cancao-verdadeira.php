@@ -2,6 +2,20 @@
 // cancao-verdadeira/cancao-verdadeira.php
 // Gerado em: 2026-06-29 10:00:00
 // Projeto: Canção Verdadeira — Plataforma de letras musicais sertanejas
+// ATENÇÃO (v2.66.1): o bloco "Plugin Name" precisa ficar nos primeiros 8 KB do arquivo —
+// o WordPress só lê esse pedaço. O histórico de versões fica DEPOIS do cabeçalho.
+
+/**
+ * Plugin Name: Cancao Verdadeira
+ * Plugin URI:  https://cancaoverdadeira.com.br
+ * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
+ * Version:     2.66.3
+ * Author:      Cancao Verdadeira
+ * Text Domain: cancao-verdadeira
+ * Requires at least: 6.0
+ * Requires PHP:      7.2
+ */
+
 // v2.23.0 — Painel de Banco de Dados: visão executiva das tabelas cv_*,
 // contagem real de registros, tamanho em disco, engine, índices e status.
 // Painel de Inteligência Editorial: oportunidades por gap (sem letra, sem
@@ -89,21 +103,26 @@
 // (CV_Fields::HISTORIA) no cadastro da música, mostrado abaixo da letra.
 // v2.62.0 (26/09/2026) — a ativação não apaga mais as regras de endereço /musica/ (cv_refazer_regras, com
 // auto-conserto); ALTER do cv_ranking_cache compatível com MySQL 8; exportações de plays e ranking corrigidas.
+// v2.64.0 (08/10/2026) — perfil do ouvinte com Cidade, Estado, "Minha música favorita" e "Como conheci
+// o site" (CV_Perfil_Campos, form "profile" do Ultimate Member, que vinha sem campos).
+// v2.65.0 (08/10/2026) — "🎵 Minha música favorita": sentimento → música, cartão com ▶ Tocar, ❤ e ⭐ no
+// próprio perfil (CV_Musica_Favorita); corrigida a função cv_music_card (abas Histórico/Favoritas quebravam);
+// excluir uma conta agora refaz o total de favoritos e a média das notas das músicas (CV_Usuario_Exclusao).
+// v2.66.0 (08/10/2026) — foto do perfil e capa: a janela não fica mais presa em "Processando..." quando o
+// servidor dá erro (aviso + Fechar/Recarregar) e o erro vai para o Log do painel (CV_UM_Fotos).
+// v2.66.1 (08/10/2026) — cabeçalho "Plugin Name" voltou para o topo: com o histórico crescendo ele passou
+// dos 8 KB que o WordPress lê, e o envio do ZIP dava "Nenhum plugin válido foi encontrado".
+// v2.66.2 (09/10/2026) — foto/capa no ar: "Aplicar" dá 403 (chave de segurança recusada, só no ar). O log
+// agora diz qual parte da chave não confere (modo, sessão, idade da página, cookies) e, se a chave
+// confere com outro modo, o pedido segue nesse modo (CV_UM_Fotos::conferir_chave).
+// v2.66.3 (09/10/2026) — CAUSA do 403 achada: CV_Security apagava o ?ver= dos arquivos de terceiros e o
+// Cloudflare seguia entregando o um-modal.min.js antigo do UM (sem a chave). Agora o ?ver= vira um código
+// embaralhado que muda a cada atualização; e o cv-um-fotos.js põe a chave da página se o pedido sair sem ela.
 
-/**
- * Plugin Name: Cancao Verdadeira
- * Plugin URI:  https://cancaoverdadeira.com.br
- * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.63.0
- * Author:      Cancao Verdadeira
- * Text Domain: cancao-verdadeira
- * Requires at least: 6.0
- * Requires PHP:      7.2
- */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.63.0' );
+define( 'CV_VERSION',        '2.66.3' );
 define( 'CV_DB_VERSION',     '12' );      // v2.50.0: cv_envios (v2.49.0: colunas novas em cv_parcerias)
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
@@ -144,6 +163,9 @@ $cv_includes = array(
     'includes/user/class-cv-usuario-exclusao.php', // v2.46.0: dados cv_* passam para quem herda o conteúdo
     'includes/user/class-cv-transferir-autoria.php', // v2.52.0: "Transferir autoria" (tela Usuários)
     'includes/user/class-cv-um-traducao.php',    // v2.40.0: textos do Ultimate Member em português
+    'includes/user/class-cv-perfil-campos.php',  // v2.64.0: Cidade, Estado, como conheci
+    'includes/user/class-cv-musica-favorita.php', // v2.65.0: música favorita (sentimento → música, ▶ ❤ ⭐)
+    'includes/user/class-cv-um-fotos.php',       // v2.66.0: foto/capa — aviso de erro e log
     'includes/user/class-cv-achievements.php',
     // Segurança complementar
     'includes/security/class-cv-security.php',
