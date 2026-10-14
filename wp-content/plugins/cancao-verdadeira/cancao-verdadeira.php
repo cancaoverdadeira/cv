@@ -9,7 +9,7 @@
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.66.3
+ * Version:     2.67.1
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -118,11 +118,14 @@
 // v2.66.3 (09/10/2026) — CAUSA do 403 achada: CV_Security apagava o ?ver= dos arquivos de terceiros e o
 // Cloudflare seguia entregando o um-modal.min.js antigo do UM (sem a chave). Agora o ?ver= vira um código
 // embaralhado que muda a cada atualização; e o cv-um-fotos.js põe a chave da página se o pedido sair sem ela.
+// v2.67.0 (14/10/2026) — página "Playlists da Comunidade" (/playlists-da-comunidade/): as playlists 🌐 públicas
+// de todos, com capa, dono e ▶ Tocar (CV_Playlists::get_public_playlists). Criada uma vez só, sozinha.
+// v2.67.1 (14/10/2026) — cada playlist pública traz os nomes das 3 primeiras músicas (cartão compacto do tema).
 
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.66.3' );
+define( 'CV_VERSION',        '2.67.1' );
 define( 'CV_DB_VERSION',     '12' );      // v2.50.0: cv_envios (v2.49.0: colunas novas em cv_parcerias)
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );

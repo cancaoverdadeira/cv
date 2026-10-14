@@ -83,6 +83,12 @@ if ( $is_logged ) {
             <span class="nav-icon">🏆</span> Ranking
         </a>
 
+        <?php // v15.41.0: "Playlists da Comunidade" (as públicas de todos os ouvintes) ?>
+        <a href="<?php echo esc_url( home_url('/playlists-da-comunidade/') ); ?>"
+           class="cv-nav-link <?php echo is_page('playlists-da-comunidade') ? 'active' : ''; ?>">
+            <span class="nav-icon">🌐</span> Playlists da Comunidade
+        </a>
+
         <a href="<?php echo esc_url( home_url('/buscar-musicas/') ); ?>"
            class="cv-nav-link <?php echo is_page('buscar-musicas') ? 'active' : ''; ?>">
             <span class="nav-icon">🔍</span> Buscar

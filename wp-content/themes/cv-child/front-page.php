@@ -20,6 +20,10 @@
 // v15.30.0: quadro "✨ Novidades para você" abaixo do banner; em v15.31.0 virou
 // janela aberta pelo menu lateral (template-parts/novidades.php), para não empurrar os cartões.
 // v15.32.0: topo mais baixo no celular (classes .cv-hero--home e .cv-hero-agora, seção 22 do cv-ajustes.css).
+// v15.40.0 (13/10/2026, pedido do Eduardo): saíram os botões "Tocar Agora", "Explorar Músicas",
+// "Ver Ranking" e o bloco "#1 agora" do topo (tudo isso já está no menu lateral e no player do
+// rodapé); a "Seleção da Canção Verdadeira" sobe, principalmente no celular, e mostra no máximo 3 músicas,
+// com o título "Seleção Top Três da Canção Verdadeira".
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -28,7 +32,7 @@ $top_musicas    = class_exists('CV_Ranking') ? CV_Ranking::get_top(10)    : arra
 // Modo lançamento: sem audiência real suficiente, o Top 10 vira a seleção
 // editorial (músicas ⭐ Destaque), com título que deixa isso explícito.
 $modo_selecao   = class_exists('CV_Launch') && ! CV_Launch::ranking_ready();
-if ( $modo_selecao ) { $top_musicas = CV_Launch::selection(10); }
+if ( $modo_selecao ) { $top_musicas = CV_Launch::selection(3); }
 $recentes       = class_exists('CV_Ranking') ? CV_Ranking::get_recent(8)  : array();
 $destaques      = class_exists('CV_Ranking') ? CV_Ranking::get_best(5)    : array();
 // Mais Favoritadas: no modo lançamento os números ainda são baixos, então a
@@ -105,51 +109,6 @@ get_header();
                     <?php echo esc_html($site_desc); ?> ❤
                 </p>
 
-                <div class="cv-hero-actions">
-                    <!-- Botão de autoplay — aparece até o usuário clicar -->
-                    <button id="cv-hero-play-btn"
-                            class="cv-btn cv-btn-primary cv-btn-lg cv-hero-pulse"
-                            style="display:none"
-                            aria-label="Tocar músicas mais populares">
-                        ▶ Tocar Agora
-                    </button>
-                    <a href="<?php echo esc_url(home_url('/musicas/')); ?>"
-                       class="cv-btn cv-btn-ghost cv-btn-lg">
-                        🎵 Explorar Músicas
-                    </a>
-                    <a href="<?php echo esc_url(home_url('/ranking/')); ?>"
-                       class="cv-btn cv-btn-ghost cv-btn-lg" style="opacity:.7">
-                        🏆 Ver Ranking
-                    </a>
-                </div>
-
-                <?php if ( $hero_music ) : ?>
-                <div class="cv-hero-agora" style="margin-top:24px;display:flex;align-items:center;gap:12px">
-                    <button class="cv-btn cv-btn-primary"
-                            data-music-id="<?php echo esc_attr($hero_music->music_id); ?>"
-                            data-youtube-id="<?php echo esc_attr(cv_youtube_id(get_post_meta($hero_music->music_id, '_cv_youtube_url', true))); ?>"
-                            data-title="<?php echo esc_attr($hero_music->post_title); ?>"
-                            data-cover="<?php echo esc_attr(cv_cover_url($hero_music->music_id)); ?>"
-                            data-audio-url="<?php echo esc_attr(get_post_meta($hero_music->music_id, '_cv_audio_url', true)); ?>"
-                            onclick="CV_Player && CV_Player.playById({musicId:this.dataset.musicId, audioUrl:this.dataset.audioUrl, youtubeId:this.dataset.youtubeId, title:this.dataset.title, cover:this.dataset.cover})"
-                            style="border-radius:50%;width:52px;height:52px;padding:0;font-size:20px">
-                        ▶
-                    </button>
-                    <div>
-                        <div style="font-size:12px;color:var(--cv-text-dim);text-transform:uppercase;letter-spacing:1px">
-                            #1 agora
-                        </div>
-                        <div style="font-size:14px;font-weight:700;color:var(--cv-text)">
-                            <?php echo esc_html($hero_music->post_title); ?>
-                        </div>
-                        <?php if ($hero_music->artista) : ?>
-                        <div style="font-size:12px;color:var(--cv-text-muted)">
-                            <?php echo esc_html($hero_music->artista); ?>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <?php endif; ?>
             </div>
 
             <?php if ( $banner_url ) : ?>
@@ -167,7 +126,7 @@ get_header();
         <section class="cv-section" aria-label="Ranking">
             <div class="cv-section-header">
                 <?php if ( $modo_selecao ) : ?>
-                <h2 class="cv-section-title">⭐ Seleção da <span>Canção Verdadeira</span></h2>
+                <h2 class="cv-section-title">⭐ Seleção Top Três da <span>Canção Verdadeira</span></h2>
                 <?php else : ?>
                 <h2 class="cv-section-title">🏆 Top <span>10</span></h2>
                 <a href="<?php echo esc_url(home_url('/ranking/')); ?>"
@@ -362,52 +321,6 @@ get_header();
 <!-- JS: click no item do ranking para tocar -->
 <script>
 jQuery(function($){
-
-    // ── Autoplay na home ─────────────────────────────────────────
-    // Estratégia: tenta silenciado (bypassa política do browser)
-    // Quando player carrega, exibe botão pulsante para ativar som
-    if (window.cvTheme && cvTheme.isFrontPage) {
-
-        // Mostra botão imediatamente
-        $('#cv-hero-play-btn').show();
-
-        // Aguarda player estar pronto e tenta autoplay mudo
-        var autoplayInterval = setInterval(function(){
-            if (window.CV_Player && window.YT && window.YT.Player) {
-                clearInterval(autoplayInterval);
-                // Player já carregou via onYouTubeIframeAPIReady
-                // Verifica se já está tocando (loadAndPlay chamado no onReady)
-                setTimeout(function(){
-                    if (!CV_Player.isPlaying()) {
-                        // Não tocou — mostra botão destacado
-                        $('#cv-hero-play-btn').addClass('cv-pulse-active');
-                    } else {
-                        // Está tocando — esconde botão
-                        $('#cv-hero-play-btn').fadeOut(500);
-                    }
-                }, 3000);
-            }
-        }, 500);
-
-        // Clique no botão hero: garante que toca com som
-        $('#cv-hero-play-btn').on('click', function(){
-            $(this).fadeOut(400);
-            if (window.CV_Player) {
-                if (CV_Player.isPlaying()) {
-                    // Já está tocando mudo — só desmutar
-                    try {
-                        var yt = document.getElementById('cv-yt-player');
-                        if (yt && yt.contentWindow) {
-                            // Unmute via API publica
-                        }
-                    } catch(e) {}
-                } else {
-                    // Não está tocando — dispara
-                    $('#cv-btn-play').trigger('click');
-                }
-            }
-        });
-    }
 
     // ── Click no ranking para tocar ──────────────────────────────
     $(document).on('click', '.cv-ranking-item[data-music-id]', function(e){

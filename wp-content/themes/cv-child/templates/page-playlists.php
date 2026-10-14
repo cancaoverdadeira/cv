@@ -12,6 +12,8 @@
 // player (YouTube ou MP3); remover música usa cv_playlist_remove_music.
 // v15.14.0: título no banner da marca (template-parts/banner-pagina.php).
 // v15.20.0: botão 🔒 Privada / 🌐 Pública em cada playlist (cv-theme.js).
+// v15.41.0: o botão diz "· mudar" (o Eduardo não percebeu que era clicável).
+// v15.41.1: Privada/Pública, ▶ e 🗑 do cartão voltaram a funcionar (o clique era barrado).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -114,9 +116,8 @@ get_header();
                                 </div>
                                 <button type="button" class="cv-pl-visib<?php echo $pl->is_public ? ' is-publica' : ''; ?>"
                                         data-id="<?php echo esc_attr($pl->id); ?>" data-publica="<?php echo $pl->is_public ? 1 : 0; ?>"
-                                        onclick="event.stopPropagation()"
                                         title="Clique para tornar <?php echo $pl->is_public ? 'privada' : 'pública'; ?>"
-                                        style="margin-top:4px"><?php echo $pl->is_public ? '🌐 Pública' : '🔒 Privada'; ?></button>
+                                        style="margin-top:4px"><?php echo $pl->is_public ? '🌐 Pública · mudar' : '🔒 Privada · mudar'; ?></button>
                             </div>
 
                             <!-- Ações -->
@@ -124,13 +125,11 @@ get_header();
                                 <button class="cv-pl-play-all"
                                         data-id="<?php echo esc_attr($pl->id); ?>"
                                         title="Tocar tudo"
-                                        onclick="event.stopPropagation()"
                                         style="background:none;border:none;color:var(--cv-gold);
                                                cursor:pointer;font-size:16px;padding:2px">▶</button>
                                 <button class="cv-pl-delete"
                                         data-id="<?php echo esc_attr($pl->id); ?>"
                                         title="Excluir playlist"
-                                        onclick="event.stopPropagation()"
                                         style="background:none;border:none;color:var(--cv-text-dim);
                                                cursor:pointer;font-size:14px;padding:2px">🗑</button>
                             </div>
@@ -184,7 +183,11 @@ jQuery(function($){
     $('#cv-create-playlist, #cv-create-playlist-empty').on('click', criarPlaylist);
 
     // Selecionar playlist
-    $(document).on('click', '.cv-pl-item', function(){
+    // v15.41.1: clique num botão do cartão (Privada, ▶, 🗑) não seleciona o cartão.
+    // Antes os botões tinham onclick="event.stopPropagation()", que barrava o
+    // clique antes de chegar aos códigos $(document).on(...) e nada acontecia.
+    $(document).on('click', '.cv-pl-item', function(e){
+        if (e.target !== this && $(e.target).closest('button').length) { return; }
         $('.cv-pl-item').removeClass('active');
         $(this).addClass('active');
         var id   = $(this).data('id');

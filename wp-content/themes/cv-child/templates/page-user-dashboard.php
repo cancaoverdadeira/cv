@@ -325,7 +325,7 @@ jQuery(function($){
                     + '<div style="font-size:36px;margin-bottom:10px">📋</div>'
                     + '<div style="font-weight:700;font-size:14px;margin-bottom:4px;color:var(--cv-text)">' + $('<div>').text(pl.name).html() + '</div>'
                     + '<div style="font-size:12px;color:#735442">' + (pl.total_musicas || pl.count || 0) + ' músicas</div>'
-                    + (function(){ var pub = (pl.is_public === true || pl.is_public == 1); return '<div style="margin-top:6px"><button type="button" class="cv-pl-visib' + (pub ? ' is-publica' : '') + '" data-id="' + parseInt(pl.id, 10) + '" data-publica="' + (pub ? 1 : 0) + '">' + (pub ? '🌐 Pública' : '🔒 Privada') + '</button></div>'; })()
+                    + (function(){ var pub = (pl.is_public === true || pl.is_public == 1); return '<div style="margin-top:6px"><button type="button" class="cv-pl-visib' + (pub ? ' is-publica' : '') + '" data-id="' + parseInt(pl.id, 10) + '" data-publica="' + (pub ? 1 : 0) + '">' + (pub ? '🌐 Pública · mudar' : '🔒 Privada · mudar') + '</button></div>'; })()
                     + '<div style="display:flex;gap:8px;justify-content:center;margin-top:12px">'
                     + '<button class="cv-pl-tocar cv-btn cv-btn-primary cv-btn-sm" data-playlist="' + parseInt(pl.id, 10) + '">▶ Tocar</button>'
                     + '<a class="cv-btn cv-btn-secondary cv-btn-sm" href="' + cvPlUrl + '?pl=' + parseInt(pl.id, 10) + '">Abrir</a>'

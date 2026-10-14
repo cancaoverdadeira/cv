@@ -433,12 +433,13 @@
 }(jQuery));
 
 /* v15.20.0 — Playlist 🔒 privada / 🌐 pública (Minhas Playlists e Minha Área).
-   Pública: aparece no perfil público e qualquer pessoa pode tocar. */
+   Pública: aparece no perfil público e qualquer pessoa pode tocar.
+   v15.41.0: a pública também aparece em "Playlists da Comunidade". */
 jQuery(function ($) {
     $(document).on('click', '.cv-pl-visib', function (e) {
         e.preventDefault(); e.stopPropagation();
         var $b = $(this), nova = parseInt($b.data('publica'), 10) ? 0 : 1;
-        if (nova && !confirm('Deixar esta playlist PÚBLICA?\nEla aparece no seu perfil e qualquer pessoa pode ouvir.')) { return; }
+        if (nova && !confirm('Deixar esta playlist PÚBLICA?\nEla aparece no seu perfil e em Playlists da Comunidade, com o seu nome, e qualquer pessoa pode ouvir.')) { return; }
         var pub = window.cvPublic || {};
         $b.prop('disabled', true);
         $.post(pub.ajaxUrl, { action: 'cv_playlist_visibilidade', nonce: (pub.nonces || {}).playlist, playlist_id: $b.data('id'), publica: nova }, function (r) {
@@ -446,7 +447,7 @@ jQuery(function ($) {
             if (r && r.success) {
                 var p = parseInt(r.data.publica, 10);
                 $b.data('publica', p).attr('data-publica', p).toggleClass('is-publica', !!p)
-                  .text(p ? '🌐 Pública' : '🔒 Privada').attr('title', 'Clique para tornar ' + (p ? 'privada' : 'pública'));
+                  .text(p ? '🌐 Pública · mudar' : '🔒 Privada · mudar').attr('title', 'Clique para tornar ' + (p ? 'privada' : 'pública'));
             } else {
                 alert((r && r.data && r.data.message) || 'Não foi possível mudar.');
             }

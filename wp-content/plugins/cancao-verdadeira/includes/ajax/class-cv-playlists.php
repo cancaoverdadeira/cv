@@ -7,6 +7,11 @@
 // Todas as ações requerem usuário logado e nonce AJAX válido.
 // v2.52.0: cv_playlist_visibilidade — o dono deixa a playlist 🔒 privada ou
 // 🌐 pública (pública aparece no perfil público e qualquer pessoa pode tocar).
+// v2.67.0 (14/10/2026): página "Playlists da Comunidade" (/playlists-da-comunidade/,
+// modelo templates/page-playlists-comunidade.php do tema) com as públicas de todos
+// (get_public_playlists). A página é criada uma vez só (opção cv_comunidade_pagina);
+// se for para a lixeira, não é recriada. Mexeu numa playlist → limpa o cache dela.
+// v2.67.1: cada playlist pública traz também os nomes das 3 primeiras músicas (musicas).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -21,6 +26,117 @@ class CV_Playlists {
         add_action( 'wp_ajax_cv_playlist_reorder',      array( __CLASS__, 'reorder' ) );
         add_action( 'wp_ajax_cv_playlist_list',         array( __CLASS__, 'list_playlists' ) );
         add_action( 'wp_ajax_cv_playlist_visibilidade', array( __CLASS__, 'visibilidade' ) );
+        add_action( 'wp_loaded',                        array( __CLASS__, 'criar_pagina_comunidade' ) );
+    }
+
+    const SLUG_COMUNIDADE     = 'playlists-da-comunidade';
+    const TEMPLATE_COMUNIDADE = 'templates/page-playlists-comunidade.php';
+    const VERSAO_COMUNIDADE   = '1';
+
+    /** Cria a página "Playlists da Comunidade" uma única vez (não recria se foi apagada). */
+    public static function criar_pagina_comunidade() {
+        if ( get_option( 'cv_comunidade_pagina' ) === self::VERSAO_COMUNIDADE ) { return; }
+        $existe = get_posts( array(
+            'post_type'   => 'page',
+            'name'        => self::SLUG_COMUNIDADE,
+            'post_status' => array( 'publish', 'draft', 'private', 'trash', 'pending', 'future' ),
+            'numberposts' => 1,
+            'fields'      => 'ids',
+        ) );
+        if ( empty( $existe ) ) {
+            $id = wp_insert_post( array(
+                'post_type'    => 'page',
+                'post_title'   => 'Playlists da Comunidade',
+                'post_name'    => self::SLUG_COMUNIDADE,
+                'post_status'  => 'publish',
+                'post_content' => '',
+            ) );
+            if ( $id && ! is_wp_error( $id ) ) { update_post_meta( $id, '_wp_page_template', self::TEMPLATE_COMUNIDADE ); }
+        }
+        update_option( 'cv_comunidade_pagina', self::VERSAO_COMUNIDADE, false );
+    }
+
+    public static function url_comunidade() {
+        $p = get_page_by_path( self::SLUG_COMUNIDADE );
+        return $p ? get_permalink( $p->ID ) : home_url( '/' . self::SLUG_COMUNIDADE . '/' );
+    }
+
+    /** Uma playlist mudou: a página da comunidade sai do cache do WP Rocket. */
+    private static function limpar_cache_comunidade() {
+        if ( ! class_exists( 'CV_Litespeed' ) ) { return; }
+        $p = get_page_by_path( self::SLUG_COMUNIDADE );
+        if ( $p ) { CV_Litespeed::limpar_post( $p->ID ); }
+    }
+
+    /**
+     * Playlists públicas de todos, mais novas primeiro. Só entram as que têm
+     * pelo menos 1 música publicada e cujo dono ainda existe.
+     * Cada uma traz: id, name, user_id, count, autor, perfil, capa e musicas
+     * (nomes das 3 primeiras músicas publicadas, na ordem da playlist).
+     */
+    public static function get_public_playlists( $por_pagina = 24, $pagina = 1 ) {
+        global $wpdb;
+        $por_pagina = max( 1, (int) $por_pagina );
+        $offset     = max( 0, ( (int) $pagina - 1 ) * $por_pagina );
+
+        $lista = $wpdb->get_results( $wpdb->prepare(
+            "SELECT pl.id, pl.name, pl.user_id, COUNT(pi.music_id) AS count
+             FROM {$wpdb->prefix}cv_playlists pl
+             INNER JOIN {$wpdb->users} u ON u.ID = pl.user_id
+             INNER JOIN {$wpdb->prefix}cv_playlist_items pi ON pi.playlist_id = pl.id
+             INNER JOIN {$wpdb->posts} p ON p.ID = pi.music_id AND p.post_status = 'publish'
+             WHERE pl.is_public = 1
+             GROUP BY pl.id, pl.name, pl.user_id, pl.created_at
+             ORDER BY pl.created_at DESC, pl.id DESC
+             LIMIT %d OFFSET %d",
+            $por_pagina, $offset
+        ) );
+
+        foreach ( $lista as $pl ) {
+            $pl->count  = (int) $pl->count;
+            $dono       = get_userdata( $pl->user_id );
+            $pl->autor  = $dono ? $dono->display_name : '';
+            $pl->perfil = function_exists( 'um_user_profile_url' ) ? um_user_profile_url( $pl->user_id ) : '';
+            $pl->capa   = self::capa( $pl->id );
+            $pl->musicas = $wpdb->get_col( $wpdb->prepare(
+                "SELECT p.post_title FROM {$wpdb->prefix}cv_playlist_items pi
+                 INNER JOIN {$wpdb->posts} p ON p.ID = pi.music_id AND p.post_status = 'publish'
+                 WHERE pi.playlist_id = %d ORDER BY pi.sort_order ASC LIMIT 3",
+                $pl->id
+            ) );
+        }
+        return $lista;
+    }
+
+    /** Total de playlists que aparecem na comunidade (para a paginação). */
+    public static function count_public_playlists() {
+        global $wpdb;
+        return (int) $wpdb->get_var(
+            "SELECT COUNT(DISTINCT pl.id)
+             FROM {$wpdb->prefix}cv_playlists pl
+             INNER JOIN {$wpdb->users} u ON u.ID = pl.user_id
+             INNER JOIN {$wpdb->prefix}cv_playlist_items pi ON pi.playlist_id = pl.id
+             INNER JOIN {$wpdb->posts} p ON p.ID = pi.music_id AND p.post_status = 'publish'
+             WHERE pl.is_public = 1"
+        );
+    }
+
+    /** Capa da playlist: a imagem da 1ª música publicada (ou a do YouTube). */
+    private static function capa( $playlist_id ) {
+        global $wpdb;
+        $music_id = (int) $wpdb->get_var( $wpdb->prepare(
+            "SELECT pi.music_id FROM {$wpdb->prefix}cv_playlist_items pi
+             INNER JOIN {$wpdb->posts} p ON p.ID = pi.music_id AND p.post_status = 'publish'
+             WHERE pi.playlist_id = %d ORDER BY pi.sort_order ASC LIMIT 1",
+            $playlist_id
+        ) );
+        if ( ! $music_id ) { return ''; }
+        $capa = get_the_post_thumbnail_url( $music_id, 'cv-cover' );
+        if ( ! $capa && class_exists( 'CV_Fields' ) ) {
+            $yt = CV_Fields::youtube_id( (string) get_post_meta( $music_id, CV_Fields::YOUTUBE_URL, true ) );
+            if ( $yt ) { $capa = "https://img.youtube.com/vi/{$yt}/mqdefault.jpg"; }
+        }
+        return $capa ? $capa : '';
     }
 
     private static function require_login() {
@@ -96,6 +212,7 @@ class CV_Playlists {
 
         $wpdb->delete( $wpdb->prefix . 'cv_playlist_items', array( 'playlist_id' => $playlist_id ), array( '%d' ) );
         $wpdb->delete( $wpdb->prefix . 'cv_playlists',      array( 'id' => $playlist_id ),          array( '%d' ) );
+        self::limpar_cache_comunidade();
 
         wp_send_json_success();
     }
@@ -121,6 +238,7 @@ class CV_Playlists {
             array( '%s' ),
             array( '%d' )
         );
+        self::limpar_cache_comunidade();
 
         wp_send_json_success( array( 'name' => $name ) );
     }
@@ -168,6 +286,7 @@ class CV_Playlists {
             ),
             array( '%d', '%d', '%d', '%s' )
         );
+        self::limpar_cache_comunidade();
 
         wp_send_json_success();
     }
@@ -191,6 +310,7 @@ class CV_Playlists {
             array( 'playlist_id' => $playlist_id, 'music_id' => $music_id ),
             array( '%d', '%d' )
         );
+        self::limpar_cache_comunidade();
 
         wp_send_json_success();
     }
@@ -273,10 +393,11 @@ class CV_Playlists {
         }
         global $wpdb;
         $wpdb->update( $wpdb->prefix . 'cv_playlists', array( 'is_public' => $publica ), array( 'id' => $id ), array( '%d' ), array( '%d' ) );
+        self::limpar_cache_comunidade();
         wp_send_json_success( array(
             'publica' => $publica,
             'message' => $publica
-                ? '🌐 Playlist pública: aparece no seu perfil e qualquer pessoa pode ouvir.'
+                ? '🌐 Playlist pública: aparece no seu perfil e em Playlists da Comunidade.'
                 : '🔒 Playlist privada: só você vê e ouve.',
         ) );
     }

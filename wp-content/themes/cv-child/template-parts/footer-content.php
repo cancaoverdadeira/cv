@@ -23,9 +23,9 @@ $redes_sociais = class_exists('CV_Social') ? CV_Social::get_all() : array();
 <section class="cv-newsletter-section" aria-label="Newsletter">
     <div style="max-width:540px;margin:0 auto">
         <div style="font-size:32px;margin-bottom:12px">🎵</div>
-        <h2 class="cv-newsletter-title">Novas músicas toda semana</h2>
+        <h2 class="cv-newsletter-title">Receba as novidades no seu e-mail</h2>
         <p class="cv-newsletter-subtitle">
-            Receba em primeira mão as letras que tocam o coração
+            Músicas novas e letras que tocam o coração, direto na sua caixa de entrada
         </p>
         <div class="cv-newsletter-form" id="cv-nl-form">
             <input type="email"

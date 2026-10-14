@@ -20,6 +20,8 @@
   11) v15.21.0: contraste AA (texto claro #735442; laranja #FFC24D sobre o
       marrom) e o tamanho da letra ajustável (A− / A+).
   14) v15.22.0: "💌 Ofereça esta música" (cartão, janela e faixa de dedicatória).
+  32) v15.41.0: página "Playlists da Comunidade" (cartão compacto na v15.42.0).
+  31) v15.40.0: topo da página inicial um pouco mais baixo no computador.
   30) v15.39.0: perfil do ouvinte — Cidade, Estado, "Como conheci" (letra maior).
   27) v15.37.0: tela Entrar com letra maior e botão "Mostrar" nas senhas.
   26) v15.36.0: Minha Área no celular (números em 2 colunas).
@@ -460,6 +462,7 @@ body legend { color: var(--cv-text); }
 }
 .cv-pl-visib.is-publica { border-color: var(--cv-accent); color: var(--cv-gold); background: #FFF3D6; }
 .cv-pl-visib:hover { border-color: var(--cv-gold); }
+.cv-pl-visib { text-decoration: underline; text-underline-offset: 2px; } /* v15.41.0: parece clicável */
 
 /* ── 11. Contraste nível AA (v15.21.0) ──────────────────────────
    Medido em 26/09/2026 (mínimo 4,5 para texto comum):
@@ -953,3 +956,54 @@ div.uimob800.um-account .um-account-side li a.current { background: #F2A51A !imp
 .um .um-profile-body .um-field-label label,
 .um .um-profile-body .um-field-label { font-size: 17px !important; }
 .um .um-profile-body .um-field { padding-top: 14px !important; }
+
+/* ── 31. Topo da página inicial no computador (v15.40.0) ──────────
+   Sem os botões do topo (tirados na v15.40.0), sobrava espaço: o topo
+   fica um pouco mais baixo e a "Seleção" sobe ~50 px. O celular (seção
+   22) não muda. */
+@media (min-width: 769px) {
+    .cv-hero--home { padding-top: 40px; padding-bottom: 32px; }
+    .cv-hero--home .cv-hero-subtitle { margin-bottom: 8px; }
+}
+
+/* ── 32. Playlists da Comunidade (v15.41.0; compacto na v15.42.0) ──
+   Página /playlists-da-comunidade/ (templates/page-playlists-comunidade.php).
+   Cartão em fila, como "Suas playlists": capa 64 px, nome, "N músicas ·
+   por Fulana", ▶ redondo à direita e, embaixo, até 3 músicas. No celular,
+   1 por linha (bem mais baixos que os cartões grandes da v15.41.0). */
+.cv-comunidade-grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; align-items: start; }
+.cv-comunidade-card {
+    display: grid; grid-template-columns: 64px 1fr auto; column-gap: 12px; align-items: center;
+    padding: 12px 14px; background: #FFF6E8; border: 1px solid #7B3A22;
+    border-radius: var(--cv-radius, 12px);
+}
+.cv-comunidade-capa {
+    width: 64px; height: 64px; border-radius: var(--cv-radius-sm, 8px); overflow: hidden;
+    background: var(--cv-bg-elevated, #F3E6D3); display: flex; align-items: center; justify-content: center;
+}
+.cv-comunidade-capa img { width: 100%; height: 100%; object-fit: cover; }
+.cv-comunidade-capa span { font-size: 28px; }
+.cv-comunidade-corpo { min-width: 0; }
+.cv-comunidade-nome {
+    font-family: inherit; font-size: 18px; font-weight: 700; line-height: 1.25; margin: 0 0 2px;
+    color: var(--cv-text, #3B2418); overflow: hidden;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; /* até 2 linhas */
+}
+.cv-comunidade-info { font-size: 15px; color: #735442; }
+.cv-comunidade-info a { color: #7B3A22; font-weight: 700; }
+.cv-comunidade-play {
+    width: 46px; height: 46px; border-radius: 50%; border: 0; cursor: pointer;
+    background: #F2A51A; color: #3B2418; font-size: 18px; line-height: 1;
+    display: flex; align-items: center; justify-content: center; padding: 0 0 0 3px;
+}
+.cv-comunidade-play:hover { background: #FFC24D; }
+.cv-comunidade-musicas {
+    grid-column: 1 / -1; list-style: none; margin: 10px 0 0; padding: 8px 0 0;
+    border-top: 1px solid #EADBC6; font-size: 15px; color: #3B2418;
+}
+.cv-comunidade-musicas li { padding: 2px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cv-comunidade-musicas .cv-comunidade-mais { color: #735442; font-style: italic; }
+.cv-comunidade-paginas { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 28px; font-size: 16px; flex-wrap: wrap; }
+@media (max-width: 480px) {
+    .cv-comunidade-grade { grid-template-columns: 1fr; gap: 10px; }
+}
