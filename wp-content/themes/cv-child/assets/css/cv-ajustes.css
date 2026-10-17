@@ -1059,3 +1059,25 @@ div.uimob800.um-account .um-account-side li a.current { background: #F2A51A !imp
         height: calc(100dvh - 46px - var(--cv-topbar-h));
     }
 }
+
+/* v15.51.0 (17/10/2026) — página da música: o fundo do topo é a capa, e pedaços do texto da capa
+   (nome da música, logo) apareciam cortados atrás do título, principalmente no celular.
+   Agora o fundo é uma cópia desfocada da capa (::before, um pouco maior que o topo para não
+   deixar borda), por baixo do degradê claro que já existia. Fica só a "cor" da capa. */
+.cv-musica-hero { overflow: hidden; }
+.cv-musica-hero::before {
+    content: "";
+    position: absolute;
+    inset: -40px;
+    background-image: inherit;
+    background-size: cover;
+    background-position: center;
+    filter: blur(22px) saturate(1.15);
+}
+
+/* v15.51.0 — cartões com o selo "Lançamento": selo + ❤ + "+" não cabiam numa linha e o
+   cv-public.css do plugin (flex-wrap: wrap) jogava o "+" sozinho para baixo, deixando o cartão
+   mais alto que os outros. Agora ficam sempre numa linha só, com espaços menores. */
+.cv-card-acoes { flex-wrap: nowrap; gap: 6px; }
+.cv-card-acoes .cv-badge-lancamento { min-width: 0; overflow: hidden; text-overflow: ellipsis; padding: 2px 7px; font-size: 10.5px; }
+.cv-card-acoes .cv-btn-favorite, .cv-card-acoes .cv-btn-add-playlist { flex-shrink: 0; }
