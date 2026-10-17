@@ -50,7 +50,7 @@ class CV_Musica_Favorita {
                     $musicas[] = array( 'id' => (int) $m->ID, 'titulo' => $m->post_title );
                 }
                 if ( $musicas ) {
-                    $grupos[] = array( 'id' => (string) $s->id, 'nome' => trim( $s->icone . ' ' . $s->nome ), 'musicas' => $musicas );
+                    $grupos[] = array( 'id' => (string) $s->id, 'nome' => trim( CV_Icones::sentimento_texto( $s->icone ) . ' ' . $s->nome ), 'musicas' => $musicas );
                 }
             }
         }

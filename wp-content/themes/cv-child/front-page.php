@@ -24,6 +24,9 @@
 // "Ver Ranking" e o bloco "#1 agora" do topo (tudo isso já está no menu lateral e no player do
 // rodapé); a "Seleção da Canção Verdadeira" sobe, principalmente no celular, e mostra no máximo 3 músicas,
 // com o título "Seleção Top Três da Canção Verdadeira".
+// v15.44.0: Favoritas aparecem mesmo no modo lançamento (antes ficavam todas "Em breve").
+// v15.45.0: Novas, Favoritas, Mais tocadas e Melhor avaliadas com 1 linha de 4 cartões só;
+// o "Ver todas →" de cada uma leva à sua página (templates/page-lista-musicas.php).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -33,16 +36,16 @@ $top_musicas    = class_exists('CV_Ranking') ? CV_Ranking::get_top(10)    : arra
 // editorial (músicas ⭐ Destaque), com título que deixa isso explícito.
 $modo_selecao   = class_exists('CV_Launch') && ! CV_Launch::ranking_ready();
 if ( $modo_selecao ) { $top_musicas = CV_Launch::selection(3); }
-$recentes       = class_exists('CV_Ranking') ? CV_Ranking::get_recent(8)  : array();
+$recentes       = class_exists('CV_Ranking') ? CV_Ranking::get_recent(4)  : array();
 $destaques      = class_exists('CV_Ranking') ? CV_Ranking::get_best(5)    : array();
-// Mais Favoritadas: no modo lançamento os números ainda são baixos, então a
-// seção mostra "Em breve" até o ranking dos ouvintes se formar.
-$favoritas      = ( class_exists('CV_Ranking') && method_exists('CV_Ranking', 'get_most_favorited') && ! $modo_selecao )
-                  ? CV_Ranking::get_most_favorited(8) : array();
+// v15.44.0 (16/10/2026, pedido do Eduardo): Favoritas liberadas também no modo lançamento;
+// mostra as músicas que já têm favorito e completa a linha com "Em breve".
+$favoritas      = ( class_exists('CV_Ranking') && method_exists('CV_Ranking', 'get_most_favorited') )
+                  ? CV_Ranking::get_most_favorited(4) : array();
 // v15.20.0: "🔥 Mais tocadas" e "⭐ Melhor avaliadas" — só entram músicas
 // com pelo menos 1 play / 1 avaliação de verdade; sem dados, "Em breve".
-$mais_tocadas   = ( class_exists('CV_Ranking') && method_exists('CV_Ranking', 'get_most_played') ) ? CV_Ranking::get_most_played(8) : array();
-$melhor_notas   = ( class_exists('CV_Ranking') && method_exists('CV_Ranking', 'get_best_rated') )  ? CV_Ranking::get_best_rated(8)  : array();
+$mais_tocadas   = ( class_exists('CV_Ranking') && method_exists('CV_Ranking', 'get_most_played') ) ? CV_Ranking::get_most_played(4) : array();
+$melhor_notas   = ( class_exists('CV_Ranking') && method_exists('CV_Ranking', 'get_best_rated') )  ? CV_Ranking::get_best_rated(4)  : array();
 // Últimos 3 posts do Blog (capa = imagem destacada).
 $blog_term      = get_term_by('slug', 'blog', 'category');
 $blog_posts     = $blog_term ? get_posts(array(
@@ -221,7 +224,7 @@ get_header();
         <section class="cv-section" aria-label="Novas músicas">
             <div class="cv-section-header">
                 <h2 class="cv-section-title">🎵 <span>Novas</span></h2>
-                <a href="<?php echo esc_url(home_url('/musicas/')); ?>"
+                <a href="<?php echo esc_url( cv_url_lista( 'novas' ) ); ?>"
                    class="cv-section-link">Ver todas →</a>
             </div>
 
@@ -241,6 +244,7 @@ get_header();
         <section class="cv-section" aria-label="Favoritas">
             <div class="cv-section-header">
                 <h2 class="cv-section-title">❤️ <span>Favoritas</span></h2>
+                <a href="<?php echo esc_url( cv_url_lista( 'favoritas' ) ); ?>" class="cv-section-link">Ver todas →</a>
             </div>
             <div class="cv-grid cv-grid-col-4 cv-grid-linha4">
                 <?php foreach ( $favoritas as $m ) :
@@ -254,14 +258,14 @@ get_header();
         <?php
         // v15.20.0: duas seções no mesmo formato de "Favoritas"
         $secoes_extra = array(
-            array( 'rotulo' => 'Mais tocadas',    'icone' => '🔥', 'titulo' => 'Mais <span>Tocadas</span>',    'lista' => $mais_tocadas ),
-            array( 'rotulo' => 'Melhor avaliadas', 'icone' => '⭐', 'titulo' => 'Melhor <span>Avaliadas</span>', 'lista' => $melhor_notas ),
+            array( 'rotulo' => 'Mais tocadas',    'slug' => 'mais-tocadas',     'icone' => '🔥', 'titulo' => 'Mais <span>Tocadas</span>',    'lista' => $mais_tocadas ),
+            array( 'rotulo' => 'Melhor avaliadas', 'slug' => 'melhor-avaliadas', 'icone' => '⭐', 'titulo' => 'Melhor <span>Avaliadas</span>', 'lista' => $melhor_notas ),
         );
         foreach ( $secoes_extra as $sx ) : ?>
         <section class="cv-section" aria-label="<?php echo esc_attr( $sx['rotulo'] ); ?>">
             <div class="cv-section-header">
                 <h2 class="cv-section-title"><?php echo esc_html( $sx['icone'] ); ?> <?php echo wp_kses( $sx['titulo'], array( 'span' => array() ) ); ?></h2>
-                <a href="<?php echo esc_url( home_url( '/ranking/' ) ); ?>" class="cv-section-link">Ver ranking →</a>
+                <a href="<?php echo esc_url( cv_url_lista( $sx['slug'] ) ); ?>" class="cv-section-link">Ver todas →</a>
             </div>
             <div class="cv-grid cv-grid-col-4 cv-grid-linha4">
                 <?php foreach ( $sx['lista'] as $m ) :

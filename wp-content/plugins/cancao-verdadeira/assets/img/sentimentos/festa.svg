@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cv-text,#3B2418)" role="img"><title>Festa</title>
+<path d="M5 43l9-24 15 15z"/>
+<path d="M10 31l7 7M12 25l11 11"/>
+<path d="M24 14c0-4 2-7 6-8M30 20c3-3 7-4 11-2M34 28c3 0 6 1 8 4" style="stroke:var(--cv-accent,#F2A51A)"/>
+<circle cx="22" cy="6" r="2.2" style="fill:var(--cv-accent,#F2A51A)" stroke="none"/><circle cx="40" cy="10" r="2.2" style="fill:var(--cv-accent,#F2A51A)" stroke="none"/><circle cx="43" cy="24" r="2.2" style="fill:var(--cv-accent,#F2A51A)" stroke="none"/><circle cx="33" cy="14" r="2.2" style="fill:var(--cv-accent,#F2A51A)" stroke="none"/>
+</svg>

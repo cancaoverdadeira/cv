@@ -1007,3 +1007,55 @@ div.uimob800.um-account .um-account-side li a.current { background: #F2A51A !imp
 @media (max-width: 480px) {
     .cv-comunidade-grade { grid-template-columns: 1fr; gap: 10px; }
 }
+
+/* v15.43.0 — ícones desenhados dos sentimentos alinhados ao texto */
+.cv-icone-sent { vertical-align: -0.2em; flex-shrink: 0; }
+
+/* v15.46.0 — botões "▶ Tocar" e "🎬 Clipe" sempre dentro do cartão (antes o "Ver clipe" passava ~15 px da borda) */
+.cv-card-botoes { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; }
+.cv-card-botoes .cv-btn { min-width: 0; padding: 6px 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* v15.47.0 (16/10/2026, pedido do Eduardo) — no celular o logo já aparece na barra do topo;
+   o logo grande do banner (home e páginas internas) saía repetido logo abaixo. Some só no celular. */
+@media (max-width: 768px) {
+    .cv-hero--marca .cv-hero-marca { display: none; }
+}
+
+/* v15.48.0 (17/10/2026, relato do Eduardo) — no celular o "✨ Criar Conta Grátis" (último item do
+   menu lateral) ficava escondido: o menu usava 100vh (no Android inclui a barra de endereço) e o
+   player do rodapé (z-index 500) cobre o fim do menu. Agora o menu usa a altura visível (dvh) e
+   termina com folga acima do player. */
+@media (max-width: 768px) {
+    .cv-sidebar {
+        height: 100vh; height: 100dvh;
+        padding-bottom: calc(var(--cv-player-h) + 24px + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+/* v15.49.0 (17/10/2026, relato do Eduardo) — no celular, ao rolar o menu lateral até o
+   "Criar Conta Grátis", o conteúdo do menu passava por baixo da barra do topo e o ☰ sumia
+   no meio dele. Agora o menu começa ABAIXO da barra do topo (que fica sempre limpa, com o ☰
+   à vista), o logo grande do menu sai (já está na barra) e, com o menu aberto, o ☰ vira ✕. */
+@media (max-width: 768px) {
+    .cv-sidebar {
+        top: var(--cv-topbar-h);
+        height: calc(100vh - var(--cv-topbar-h));
+        height: calc(100dvh - var(--cv-topbar-h));
+    }
+    .cv-sidebar .cv-sidebar-logo { display: none; }
+    .cv-hamburger { min-width: 40px; min-height: 40px; }
+    .cv-hamburger[aria-expanded="true"] { font-size: 0; }
+    .cv-hamburger[aria-expanded="true"]::before { content: "✕"; font-size: 22px; }
+}
+
+/* v15.50.0 (17/10/2026, relato do Eduardo) — logado no celular, o "↩ Sair" (último item do menu)
+   sumia: com a barra preta do WordPress (admin bar, 46 px) a regra antiga do cv-layout.css
+   (.admin-bar .cv-sidebar, top 46px e 100vh) vencia a da v15.49.0. Agora o menu começa abaixo
+   da barra do WordPress + barra do topo e usa só a altura visível. */
+@media (max-width: 782px) {
+    .admin-bar .cv-sidebar {
+        top: calc(46px + var(--cv-topbar-h));
+        height: calc(100vh - 46px - var(--cv-topbar-h));
+        height: calc(100dvh - 46px - var(--cv-topbar-h));
+    }
+}

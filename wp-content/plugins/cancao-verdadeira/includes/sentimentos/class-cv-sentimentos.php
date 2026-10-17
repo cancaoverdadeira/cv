@@ -7,6 +7,8 @@
 // Regras  : sentimentos são OPCIONAIS no cadastro de música
 // Autor   : Canção Verdadeira | Gerado: 2026-06-26
 // v2.41.0 : a página de cadastro virou a aba "Gerenciar" de admin.php?page=cv-sentimentos
+// v2.68.0 : ícones desenhados (CV_Icones::sentimento) no lugar dos emojis; a tela
+//           Gerenciar tem uma lista para escolher o ícone; migrar_icones() troca os emojis antigos
 // Depende : tabelas cv_sentimentos + cv_musica_sentimentos (DB_VERSION 8)
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -14,14 +16,14 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class CV_Sentimentos {
 
     const DEFAULTS = array(
-        array( 'nome' => 'Sofrência',  'slug' => 'sofrencia',  'icone' => '💔', 'cor' => '#e74c3c', 'ordem' => 1 ),
-        array( 'nome' => 'Festa',      'slug' => 'festa',      'icone' => '🎉', 'cor' => '#B8700C', 'ordem' => 2 ),
-        array( 'nome' => 'Romance',    'slug' => 'romance',    'icone' => '❤️',  'cor' => '#e91e63', 'ordem' => 3 ),
-        array( 'nome' => 'Saudade',    'slug' => 'saudade',    'icone' => '🌧️',  'cor' => '#3498db', 'ordem' => 4 ),
-        array( 'nome' => 'Motivação',  'slug' => 'motivacao',  'icone' => '💪', 'cor' => '#27ae60', 'ordem' => 5 ),
-        array( 'nome' => 'Churrasco',  'slug' => 'churrasco',  'icone' => '🔥', 'cor' => '#e67e22', 'ordem' => 6 ),
-        array( 'nome' => 'Religioso',  'slug' => 'religioso',  'icone' => '🙏', 'cor' => '#9b59b6', 'ordem' => 7 ),
-        array( 'nome' => 'Dança',      'slug' => 'danca',      'icone' => '💃', 'cor' => '#1DB954', 'ordem' => 8 ),
+        array( 'nome' => 'Sofrência',  'slug' => 'sofrencia',  'icone' => 'sofrencia', 'cor' => '#e74c3c', 'ordem' => 1 ),
+        array( 'nome' => 'Festa',      'slug' => 'festa',      'icone' => 'festa', 'cor' => '#B8700C', 'ordem' => 2 ),
+        array( 'nome' => 'Romance',    'slug' => 'romance',    'icone' => 'romance', 'cor' => '#e91e63', 'ordem' => 3 ),
+        array( 'nome' => 'Saudade',    'slug' => 'saudade',    'icone' => 'saudade', 'cor' => '#3498db', 'ordem' => 4 ),
+        array( 'nome' => 'Motivação',  'slug' => 'motivacao',  'icone' => 'motivacao', 'cor' => '#27ae60', 'ordem' => 5 ),
+        array( 'nome' => 'Churrasco',  'slug' => 'churrasco',  'icone' => 'churrasco', 'cor' => '#e67e22', 'ordem' => 6 ),
+        array( 'nome' => 'Religioso',  'slug' => 'religioso',  'icone' => 'religioso', 'cor' => '#9b59b6', 'ordem' => 7 ),
+        array( 'nome' => 'Dança',      'slug' => 'danca',      'icone' => 'danca', 'cor' => '#1DB954', 'ordem' => 8 ),
     );
 
     public static function init() {
@@ -52,6 +54,23 @@ class CV_Sentimentos {
                 'cor'   => $s['cor'],
                 'ordem' => $s['ordem'],
             ), array( '%s','%s','%s','%s','%d' ) );
+        }
+    }
+
+    /**
+     * v2.68.0: troca os emojis dos sentimentos pelos ícones desenhados (uma vez só,
+     * chamada por cv_maybe_upgrade_db). Emoji sem desenho equivalente fica como está.
+     */
+    public static function migrar_icones() {
+        global $wpdb;
+        $table = $wpdb->prefix . 'cv_sentimentos';
+        $mapa  = array(
+            '💔' => 'sofrencia', '🎉' => 'festa', '❤️' => 'romance', '❤' => 'romance',
+            '🌧️' => 'saudade', '🌧' => 'saudade', '💪' => 'motivacao', '🔥' => 'churrasco',
+            '🙏' => 'religioso', '💃' => 'danca',
+        );
+        foreach ( $mapa as $emoji => $chave ) {
+            $wpdb->update( $table, array( 'icone' => $chave ), array( 'icone' => $emoji ), array( '%s' ), array( '%s' ) );
         }
     }
 
@@ -122,11 +141,11 @@ class CV_Sentimentos {
         foreach ( $todos as $s ) {
             $checked = in_array( (int)$s->id, $atuais_id, true ) ? 'checked' : '';
             $sid     = (int) $s->id;
-            $icone   = esc_html( $s->icone );
+            $icone   = CV_Icones::sentimento( $s->icone, 18 );
             $nome    = esc_html( $s->nome );
             echo '<label style="display:flex;align-items:center;gap:8px;cursor:pointer">';
             echo '<input type="checkbox" name="cv_sentimentos[]" value="' . $sid . '" ' . $checked . '>';
-            echo '<span style="font-size:16px">' . $icone . '</span>';
+            echo '<span style="font-size:16px;display:inline-flex">' . $icone . '</span>';
             echo '<span style="color:#3B2418">' . $nome . '</span>';
             echo '</label>';
         }
@@ -173,7 +192,7 @@ class CV_Sentimentos {
             $edit_url   = esc_url( admin_url( 'admin.php?page=cv-sentimentos&aba=gerenciar&action=edit&id=' . (int)$s->id ) );
             $delete_url = esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=cv_delete_sentimento&id=' . (int)$s->id ), 'cv_delete_sentimento_' . (int)$s->id ) );
             echo '<tr>';
-            echo '<td style="font-size:20px;text-align:center">' . esc_html( $s->icone ) . '</td>';
+            echo '<td style="font-size:20px;text-align:center">' . CV_Icones::sentimento( $s->icone, 28 ) . '</td>';
             echo '<td><strong>' . esc_html( $s->nome ) . '</strong><br><small style="color:#6B4C3B">' . esc_html( $musicas_txt ) . '</small></td>';
             echo '<td><code>' . esc_html( $s->slug ) . '</code></td>';
             echo '<td><span style="display:inline-block;width:24px;height:24px;border-radius:50%;background:' . $cor_safe . '"></span></td>';
@@ -196,7 +215,7 @@ class CV_Sentimentos {
         $cancel_url  = esc_url( admin_url('admin.php?page=cv-sentimentos&aba=gerenciar') );
         $ed_id       = $editing ? (int) $editing->id : 0;
         $ed_nome     = $editing ? esc_attr( $editing->nome )     : '';
-        $ed_icone    = $editing ? esc_attr( $editing->icone )    : '🎵';
+        $ed_icone    = $editing ? (string) $editing->icone       : 'superacao';
         $ed_cor      = $editing ? esc_attr( $editing->cor )      : '#1DB954';
         $ed_ordem    = $editing ? (int) $editing->ordem          : 0;
         $ed_desc     = $editing ? esc_textarea( $editing->descricao ) : '';
@@ -214,7 +233,24 @@ class CV_Sentimentos {
         }
         echo '<table class="form-table" style="color:#3B2418">';
         echo '<tr><th>Nome *</th><td><input type="text" name="nome" class="regular-text" required value="' . $ed_nome . '"></td></tr>';
-        echo '<tr><th>Ícone (emoji)</th><td><input type="text" name="icone" maxlength="10" style="width:60px;font-size:20px;text-align:center" value="' . $ed_icone . '"></td></tr>';
+        // v2.68.0: escolhe um ícone desenhado; um emoji antigo aparece como opção até ser trocado
+        echo '<tr><th>Ícone</th><td><select name="icone" id="cv-sent-icone">';
+        if ( ! CV_Icones::sentimento_existe( $ed_icone ) ) {
+            echo '<option value="' . esc_attr( $ed_icone ) . '" selected>' . esc_html( $ed_icone ) . ' (emoji atual)</option>';
+        }
+        foreach ( CV_Icones::sentimentos_lista() as $chave => $rotulo ) {
+            echo '<option value="' . esc_attr( $chave ) . '"' . selected( $ed_icone, $chave, false ) . '>' . esc_html( $rotulo ) . '</option>';
+        }
+        echo '</select>';
+        echo '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;max-width:420px">';
+        foreach ( CV_Icones::sentimentos_lista() as $chave => $rotulo ) {
+            $ativo = $ed_icone === $chave ? '#F2A51A' : '#EADBC6';
+            echo '<button type="button" class="cv-sent-icone-opcao" data-chave="' . esc_attr( $chave ) . '" title="' . esc_attr( $rotulo ) . '" '
+                . 'onclick="document.getElementById(\'cv-sent-icone\').value=this.dataset.chave;document.querySelectorAll(\'.cv-sent-icone-opcao\').forEach(function(b){b.style.borderColor=\'#EADBC6\'});this.style.borderColor=\'#F2A51A\'" '
+                . 'style="background:#fff;border:2px solid ' . $ativo . ';border-radius:8px;padding:4px;cursor:pointer;line-height:0">'
+                . CV_Icones::sentimento( $chave, 32 ) . '</button>';
+        }
+        echo '</div></td></tr>';
         echo '<tr><th>Cor</th><td><input type="color" name="cor" value="' . $ed_cor . '"></td></tr>';
         echo '<tr><th>Ordem</th><td><input type="number" name="ordem" min="0" style="width:70px" value="' . $ed_ordem . '"></td></tr>';
         echo '<tr><th>Descrição</th><td><textarea name="descricao" rows="3" class="regular-text">' . $ed_desc . '</textarea></td></tr>';
@@ -241,7 +277,7 @@ class CV_Sentimentos {
         $data = array(
             'nome'      => $nome,
             'slug'      => sanitize_title( $nome ),
-            'icone'     => sanitize_text_field( wp_unslash( isset($_POST['icone']) ? $_POST['icone'] : '🎵' ) ),
+            'icone'     => mb_substr( sanitize_text_field( wp_unslash( isset($_POST['icone']) ? $_POST['icone'] : 'superacao' ) ), 0, 10 ),
             'cor'       => sanitize_hex_color( isset($_POST['cor']) ? $_POST['cor'] : '#1DB954' ) ?: '#1DB954',
             'ordem'     => absint( isset($_POST['ordem']) ? $_POST['ordem'] : 0 ),
             'descricao' => sanitize_textarea_field( wp_unslash( isset($_POST['descricao']) ? $_POST['descricao'] : '' ) ),
@@ -314,7 +350,7 @@ class CV_Sentimentos {
         get_header();
         echo '<div class="cv-sentimento-page" style="max-width:1200px;margin:40px auto;padding:0 20px">';
         echo '<div class="cv-sent-header" style="display:flex;align-items:center;gap:16px;margin-bottom:32px">';
-        echo '<span style="font-size:56px">' . esc_html($sent->icone) . '</span>';
+        echo '<span style="font-size:56px;display:inline-flex">' . CV_Icones::sentimento( $sent->icone, 64 ) . '</span>';
         echo '<div>';
         echo '<h1 style="margin:0;color:#3B2418">' . esc_html($sent->nome) . '</h1>';
         echo '<p style="margin:4px 0 0;color:#6B4C3B">' . count($musicas) . ' músicas neste sentimento</p>';
@@ -349,7 +385,7 @@ class CV_Sentimentos {
             $cor  = esc_attr( $s->cor );
             $html .= '<a href="' . $url . '" class="cv-sent-badge" title="' . esc_attr($s->nome) . '" ';
             $html .= 'style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:11px;text-decoration:none;background:' . $cor . '22;border:1px solid ' . $cor . ';color:#3B2418">';
-            $html .= esc_html($s->icone) . ' ' . esc_html($s->nome);
+            $html .= CV_Icones::sentimento( $s->icone, 16 ) . ' ' . esc_html($s->nome);
             $html .= '</a>';
         }
         $html .= '</div>';
@@ -367,7 +403,7 @@ class CV_Sentimentos {
             $cor = esc_attr( $s->cor );
             $html .= '<a href="' . $url . '" class="cv-sent-btn" ';
             $html .= 'style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:24px;text-decoration:none;background:' . $cor . '22;border:1px solid ' . $cor . ';color:#3B2418;font-size:13px">';
-            $html .= esc_html($s->icone) . ' ' . esc_html($s->nome);
+            $html .= CV_Icones::sentimento( $s->icone, 16 ) . ' ' . esc_html($s->nome);
             $html .= '</a>';
         }
         $html .= '</div>';

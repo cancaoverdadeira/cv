@@ -48,7 +48,7 @@ $ordens = array(
                 <option value="">Todos</option>
                 <?php foreach ( $sentimentos as $s ) : ?>
                 <option value="<?php echo esc_attr( $s->slug ); ?>" <?php selected( $sentimento, $s->slug ); ?>>
-                    <?php echo esc_html( trim( $s->icone . ' ' . $s->nome ) ); ?>
+                    <?php echo esc_html( trim( CV_Icones::sentimento_texto( $s->icone ) . ' ' . $s->nome ) ); ?>
                 </option>
                 <?php endforeach; ?>
             </select>

@@ -8,6 +8,12 @@
 // oficiais de cada marca. Usado por CV_Social (links do site) e pelos botões
 // de compartilhar (CV_MVP). Antes eram emojis (📸 ▶ 💬 ✈).
 // Uso: CV_Icones::svg( 'whatsapp', 20 )  ou  CV_Icones::svg( 'youtube', 18, '#fff' )
+// v2.68.0 (15/10/2026): ícones dos SENTIMENTOS (desenhos próprios, cores do site) em
+// assets/img/sentimentos/<chave>.svg. A coluna "icone" guarda a chave (ex.: 'saudade');
+// se guardar um emoji antigo, ele continua aparecendo.
+// Uso: CV_Icones::sentimento( $s->icone, 20 )  — HTML pronto (desenho ou emoji)
+//      CV_Icones::sentimento_texto( $s->icone ) — só para texto puro (<option>, gráfico):
+//      devolve o emoji, ou '' quando é desenho
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -44,5 +50,42 @@ class CV_Icones {
         return '<svg class="cv-icone cv-icone-' . esc_attr( $rede ) . '" width="' . (int) $tamanho . '" height="' . (int) $tamanho
             . '" viewBox="0 0 24 24" fill="' . esc_attr( $cor ) . '" aria-hidden="true" focusable="false">'
             . '<path d="' . esc_attr( $i['d'] ) . '"/></svg>';
+    }
+
+    // ── Sentimentos ───────────────────────────────────────────────
+
+    private static $cache_sent = array();
+
+    /** Chave => nome, na ordem em que aparece na lista da tela Gerenciar. */
+    public static function sentimentos_lista() {
+        return array(
+            'sofrencia' => 'Sofrência',  'festa'     => 'Festa',     'romance'   => 'Romance',
+            'saudade'   => 'Saudade',    'motivacao' => 'Motivação', 'churrasco' => 'Churrasco',
+            'religioso' => 'Religioso',  'danca'     => 'Dança',     'superacao' => 'Superação',
+            'luta'      => 'Luta pela vida', 'recomeco' => 'Recomeço', 'esperanca' => 'Esperança',
+            'familia'   => 'Família',    'perdao'    => 'Perdão',    'vitoria'   => 'Vitória',
+            'renascer'  => 'Renascimento', 'coragem' => 'Coragem',   'gratidao'  => 'Gratidão',
+        );
+    }
+
+    public static function sentimento_existe( $chave ) {
+        return is_string( $chave ) && isset( self::sentimentos_lista()[ $chave ] );
+    }
+
+    public static function sentimento( $valor, $tamanho = 20 ) {
+        $valor = (string) $valor;
+        if ( ! self::sentimento_existe( $valor ) ) { return esc_html( $valor ); }
+        if ( ! isset( self::$cache_sent[ $valor ] ) ) {
+            $svg = (string) @file_get_contents( CV_PLUGIN_DIR . 'assets/img/sentimentos/' . $valor . '.svg' );
+            $svg = preg_replace( '#<title>.*?</title>#s', '', trim( $svg ) );
+            $svg = str_replace( ' role="img"', ' class="cv-icone cv-icone-sent cv-icone-' . $valor . '" aria-hidden="true" focusable="false"', $svg );
+            self::$cache_sent[ $valor ] = $svg;
+        }
+        $t = (int) $tamanho;
+        return str_replace( 'width="48" height="48"', 'width="' . $t . '" height="' . $t . '"', self::$cache_sent[ $valor ] );
+    }
+
+    public static function sentimento_texto( $valor ) {
+        return self::sentimento_existe( $valor ) ? '' : (string) $valor;
     }
 }

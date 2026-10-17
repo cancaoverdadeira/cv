@@ -9,7 +9,8 @@
 //   $show_rank  — bool: exibir posição no ranking (padrão: false)
 // v15.4.0: removida a etiqueta de gênero (o site é todo sertanejo).
 // v15.20.0: dois botões claros abaixo do título — "▶ Tocar" (player do
-// rodapé) e "🎬 Ver clipe" (página da música, com o vídeo e a letra).
+// rodapé) e "🎬 Clipe" (página da música, com o vídeo e a letra).
+// v15.46.0: "🎬 Ver clipe" virou "🎬 Clipe" para caber ao lado do "▶ Tocar" (antes passava da borda).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -125,7 +126,7 @@ $yt_id = cv_youtube_id( $youtube_url );
             <?php endif; ?>
             <a class="cv-btn cv-btn-secondary" href="<?php echo esc_url( $url ); ?>"
                aria-label="<?php echo esc_attr( ( $yt_id ? 'Ver o clipe de ' : 'Ver a música ' ) . $titulo ); ?>"
-               <?php echo ( $yt_id || $audio_url ) ? '' : 'style="grid-column:1 / -1"'; ?>><?php echo $yt_id ? '🎬 Ver clipe' : '📄 Ver música'; ?></a>
+               <?php echo ( $yt_id || $audio_url ) ? '' : 'style="grid-column:1 / -1"'; ?>><?php echo $yt_id ? '🎬 Clipe' : '📄 Ver música'; ?></a>
         </div>
 
         <!-- Ações e estatísticas -->

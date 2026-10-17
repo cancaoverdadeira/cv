@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cv-text,#3B2418)" role="img"><title>Perdão</title>
+<path d="M5 25l9 2c4 5 13 7 19 3 4-3 6-6 6-10a5 5 0 0 0-10 0c-4 2-10 2-15 1z"/>
+<path d="M17 25c0-9 4-15 12-18-1 5-1 9 0 13"/>
+<path d="M39 18l4 1.5-4 1.5"/>
+<circle cx="34.5" cy="19" r="0.6" fill="currentColor"/>
+<path d="M42 22c-1 6-4 10-9 13" style="stroke:var(--cv-accent,#F2A51A)"/>
+<path d="M40 28c2 0 3.5 1 4 3-2 .5-3.5-.5-4-3zM36 32c1 2 1 4-1 5.5-1-2-1-3.5 1-5.5z" style="fill:var(--cv-accent,#F2A51A)" stroke-width="1.5"/>
+</svg>

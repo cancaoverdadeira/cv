@@ -38,7 +38,7 @@
     function initCharts() {
         if (typeof Chart === 'undefined' || statsData.length === 0) return;
 
-        var labels = statsData.map(function(s){ return s.icone + ' ' + s.nome; });
+        var labels = statsData.map(function(s){ return (s.icone_txt ? s.icone_txt + ' ' : '') + s.nome; });
         var counts = statsData.map(function(s){ return s.count; });
         var plays  = statsData.map(function(s){ return s.plays; });
         var cores  = statsData.map(function(s){ return s.cor; });
@@ -144,7 +144,6 @@
     window.cvSentAbrirDetalhe = function(card) {
         var id    = card.dataset.id;
         var nome  = card.dataset.nome;
-        var icone = card.dataset.icone;
         var cor   = card.dataset.cor;
 
         // Marcar ativo
@@ -152,7 +151,9 @@
         card.classList.add('active');
 
         var panel = document.getElementById('cv-sent-detail-panel');
-        document.getElementById('cv-det-emoji').textContent = icone;
+        // v2.68.0: copia o ícone do próprio card (pode ser desenho SVG, não só emoji)
+        var iconeCard = card.querySelector('.cv-sent-emoji');
+        document.getElementById('cv-det-emoji').innerHTML = iconeCard ? iconeCard.innerHTML : '';
         document.getElementById('cv-det-nome').textContent  = nome;
         document.getElementById('cv-det-sub').textContent   = 'Carregando músicas...';
         document.getElementById('cv-det-musicas').innerHTML = '<div class="cv-sent-loading">⏳ Carregando músicas...</div>';

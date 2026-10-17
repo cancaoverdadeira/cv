@@ -190,7 +190,7 @@ class CV_Page_Musicas {
 
         $sent = array();
         if ( class_exists( 'CV_Sentimentos' ) ) {
-            foreach ( (array) CV_Sentimentos::get_for_musica( $id ) as $s ) { $sent[] = $s->icone . ' ' . $s->nome; }
+            foreach ( (array) CV_Sentimentos::get_for_musica( $id ) as $s ) { $sent[] = trim( CV_Icones::sentimento_texto( $s->icone ) . ' ' . $s->nome ); }
         }
         $cont = self::contagens();
 

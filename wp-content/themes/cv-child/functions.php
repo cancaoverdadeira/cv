@@ -13,7 +13,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_CHILD_VERSION', '15.42.0' );
+define( 'CV_CHILD_VERSION', '15.50.0' );
 define( 'CV_CHILD_DIR',     get_stylesheet_directory() );
 define( 'CV_CHILD_URL',     get_stylesheet_directory_uri() );
 
@@ -314,3 +314,48 @@ if ( ! function_exists( 'cv_completar_grade' ) ) {
         return $resto ? $por_linha - $resto : 0;
     }
 }
+
+/**
+ * v15.45.0 (16/10/2026, pedido do Eduardo): a home mostra só 1 linha de 4 cartões
+ * em Novas, Favoritas, Mais tocadas e Melhor avaliadas; o "Ver todas →" de cada
+ * seção leva a uma página própria (templates/page-lista-musicas.php).
+ * Lista: slug => título, destaque, ícone, subtítulo e método do CV_Ranking.
+ */
+function cv_listas_musicas() {
+    return array(
+        'novas'            => array( 'titulo' => 'Músicas',  'destaque' => 'Novas',     'icone' => '🎵', 'metodo' => 'get_recent',         'sub' => 'Os lançamentos mais recentes da Canção Verdadeira.' ),
+        'favoritas'        => array( 'titulo' => 'Músicas',  'destaque' => 'Favoritas', 'icone' => '❤️', 'metodo' => 'get_most_favorited', 'sub' => 'As músicas que os ouvintes mais guardaram no coração.' ),
+        'mais-tocadas'     => array( 'titulo' => 'Mais',     'destaque' => 'Tocadas',   'icone' => '🔥', 'metodo' => 'get_most_played',    'sub' => 'As músicas mais ouvidas no site.' ),
+        'melhor-avaliadas' => array( 'titulo' => 'Melhor',   'destaque' => 'Avaliadas', 'icone' => '⭐', 'metodo' => 'get_best_rated',     'sub' => 'As músicas com as melhores notas dos ouvintes.' ),
+    );
+}
+
+/** Endereço da página de uma lista (cai em Todas as Músicas se a página não existir). */
+function cv_url_lista( $slug ) {
+    $p = get_page_by_path( $slug );
+    return $p ? get_permalink( $p ) : home_url( '/musicas/' );
+}
+
+/** Cria as 4 páginas uma única vez (não recria se o Eduardo apagar alguma). */
+add_action( 'admin_init', function () {
+    if ( get_option( 'cv_paginas_listas' ) === '1' ) { return; }
+    foreach ( cv_listas_musicas() as $slug => $l ) {
+        $existe = get_posts( array(
+            'post_type'   => 'page',
+            'name'        => $slug,
+            'post_status' => array( 'publish', 'draft', 'private', 'trash', 'pending', 'future' ),
+            'numberposts' => 1,
+            'fields'      => 'ids',
+        ) );
+        if ( $existe ) { continue; }
+        $id = wp_insert_post( array(
+            'post_type'    => 'page',
+            'post_title'   => $l['titulo'] . ' ' . $l['destaque'],
+            'post_name'    => $slug,
+            'post_status'  => 'publish',
+            'post_content' => '',
+        ) );
+        if ( $id && ! is_wp_error( $id ) ) { update_post_meta( $id, '_wp_page_template', 'templates/page-lista-musicas.php' ); }
+    }
+    update_option( 'cv_paginas_listas', '1', false );
+} );

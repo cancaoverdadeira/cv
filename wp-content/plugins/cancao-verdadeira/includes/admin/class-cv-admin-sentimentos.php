@@ -113,6 +113,7 @@ class CV_Admin_Sentimentos {
                 'id'     => $sid,
                 'nome'   => $s->nome,
                 'icone'  => $s->icone,
+                'icone_txt' => CV_Icones::sentimento_texto( $s->icone ), // v2.68.0: rótulo do gráfico (desenho não vira texto)
                 'cor'    => $s->cor,
                 'slug'   => $s->slug,
                 'count'  => $count,
@@ -260,7 +261,7 @@ class CV_Admin_Sentimentos {
                 <div class="cv-sent-card-glow" style="background:<?php echo $cor; ?>"></div>
 
                 <div class="cv-sent-card-top">
-                    <div class="cv-sent-emoji"><?php echo esc_html($s['icone']); ?></div>
+                    <div class="cv-sent-emoji"><?php echo CV_Icones::sentimento( $s['icone'], 36 ); ?></div>
                     <div class="cv-sent-card-info">
                         <div class="cv-sent-card-nome"><?php echo esc_html($s['nome']); ?></div>
                         <div class="cv-sent-card-count"><?php echo $s['count']; ?> música<?php echo $s['count'] !== 1 ? 's' : ''; ?></div>
@@ -342,7 +343,7 @@ class CV_Admin_Sentimentos {
             ?>
             <div class="cv-sent-ranking-row">
                 <div class="cv-sent-rank-pos"><?php echo $i+1; ?>.</div>
-                <div class="cv-sent-rank-emoji"><?php echo esc_html($s['icone']); ?></div>
+                <div class="cv-sent-rank-emoji"><?php echo CV_Icones::sentimento( $s['icone'], 24 ); ?></div>
                 <div class="cv-sent-rank-nome"><?php echo esc_html($s['nome']); ?></div>
                 <div class="cv-sent-rank-bar-wrap">
                     <div class="cv-sent-rank-bar"

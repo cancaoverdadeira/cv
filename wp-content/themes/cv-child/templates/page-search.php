@@ -82,7 +82,7 @@ get_header();
                         Músicas de <span><?php echo esc_html( $sent_obj ? $sent_obj->nome : $sentimento ); ?></span>
                     <?php endif; ?>
                     <?php if ( $sent_obj && '' !== $termo ) : ?>
-                        <small>em <?php echo esc_html( trim( $sent_obj->icone . ' ' . $sent_obj->nome ) ); ?></small>
+                        <small>em <?php echo CV_Icones::sentimento( $sent_obj->icone, 16 ); ?> <?php echo esc_html( $sent_obj->nome ); ?></small>
                     <?php endif; ?>
                 </h2>
                 <span class="cv-busca-total"><?php echo number_format_i18n( $total ); ?> música<?php echo 1 === $total ? '' : 's'; ?></span>
@@ -141,7 +141,7 @@ get_header();
                 <?php foreach ( $sentimentos as $s ) : ?>
                 <a href="<?php echo esc_url( add_query_arg( 'sentimento', $s->slug, CV_Search::url() ) ); ?>"
                    class="cv-busca-sentimento" style="--sent-cor:<?php echo esc_attr( $s->cor ?: '#C9A27E' ); ?>">
-                    <span><?php echo esc_html( $s->icone ); ?></span> <?php echo esc_html( $s->nome ); ?>
+                    <span><?php echo CV_Icones::sentimento( $s->icone, 20 ); ?></span> <?php echo esc_html( $s->nome ); ?>
                 </a>
                 <?php endforeach; ?>
             </div>

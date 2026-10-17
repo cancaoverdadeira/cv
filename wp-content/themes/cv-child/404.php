@@ -78,7 +78,7 @@ get_header();
                 <?php foreach ( $sentimentos as $s ) : ?>
                 <a href="<?php echo esc_url( add_query_arg( 'sentimento', $s->slug, CV_Search::url() ) ); ?>"
                    class="cv-busca-sentimento" style="--sent-cor:<?php echo esc_attr( $s->cor ?: '#C9A27E' ); ?>">
-                    <span><?php echo esc_html( $s->icone ); ?></span> <?php echo esc_html( $s->nome ); ?>
+                    <span><?php echo CV_Icones::sentimento( $s->icone, 20 ); ?></span> <?php echo esc_html( $s->nome ); ?>
                 </a>
                 <?php endforeach; ?>
             </div>

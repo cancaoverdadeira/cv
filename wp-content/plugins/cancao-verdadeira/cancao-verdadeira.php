@@ -9,7 +9,7 @@
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.67.1
+ * Version:     2.68.0
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -121,12 +121,14 @@
 // v2.67.0 (14/10/2026) — página "Playlists da Comunidade" (/playlists-da-comunidade/): as playlists 🌐 públicas
 // de todos, com capa, dono e ▶ Tocar (CV_Playlists::get_public_playlists). Criada uma vez só, sozinha.
 // v2.67.1 (14/10/2026) — cada playlist pública traz os nomes das 3 primeiras músicas (cartão compacto do tema).
+// v2.68.0 (15/10/2026) — sentimentos com ícones desenhados nas cores do site (assets/img/sentimentos,
+// CV_Icones::sentimento) no lugar dos emojis; escolha do ícone na aba Gerenciar; DB 13 troca os emojis.
 
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.67.1' );
-define( 'CV_DB_VERSION',     '12' );      // v2.50.0: cv_envios (v2.49.0: colunas novas em cv_parcerias)
+define( 'CV_VERSION',        '2.68.0' );
+define( 'CV_DB_VERSION',     '13' );      // v2.68.0: emojis dos sentimentos → ícones desenhados (v2.50.0: cv_envios)
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
 define( 'CV_PLUGIN_FILE',    __FILE__ );
@@ -380,6 +382,7 @@ add_action( 'plugins_loaded', 'cv_maybe_upgrade_db', 5 );
 function cv_maybe_upgrade_db() {
     if ( get_option( 'cv_db_version' ) !== CV_DB_VERSION ) {
         cv_create_tables();
+        if ( class_exists( 'CV_Sentimentos' ) ) { CV_Sentimentos::migrar_icones(); } // v2.68.0
         update_option( 'cv_db_version', CV_DB_VERSION );
     }
 }

@@ -11,7 +11,8 @@
    includes/public/class-cv-mvp.php). Fila, shuffle, repeat, volume e
    registro de plays preservados do motor anterior.
    v15.14.0: na página inicial a fila do ranking é embaralhada a cada visita
-   (antes começava sempre pela 1ª colocada). */
+   (antes começava sempre pela 1ª colocada).
+   v15.50.0: no celular, a música da página inicial começa no primeiro toque na tela. */
 
 (function($) {
     'use strict';
@@ -366,6 +367,22 @@
             API.togglePlay.call(null);
             if (!YT_PLAYER && !AUDIO_EL) { go(IDX); }
         });
+
+        // v15.50.0 (17/10/2026, pedido do Eduardo): no celular o navegador bloqueia o som
+        // automático ao abrir a página. Na página inicial, a música carregada começa no
+        // PRIMEIRO TOQUE em qualquer lugar da tela (rolar não conta: o navegador só libera
+        // o som num toque). Toques no player ou em botões que já tocam música ficam de fora,
+        // para não tocar e pausar no mesmo toque. Só uma vez por visita.
+        if (IS_HOME && window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
+            var tocarNoPrimeiroToque = function(e) {
+                document.removeEventListener('pointerup', tocarNoPrimeiroToque, true);
+                if (PLAYING || !QUEUE.length) { return; }
+                if ($(e.target).closest('.cv-player, #cv-queue-panel, #cv-hero-play-btn, .cv-card-play-overlay, .cv-card-play-icon, .cv-card-tocar, .cv-ranking-item[data-music-id], .cv-pl-tocar').length) { return; }
+                API.togglePlay.call(null);
+                if (!YT_PLAYER && !AUDIO_EL) { go(IDX); }
+            };
+            document.addEventListener('pointerup', tocarNoPrimeiroToque, true);
+        }
 
         $(document).on('click', '#cv-btn-next', function() { next(); });
         $(document).on('click', '#cv-btn-prev', function() { prev(); });
