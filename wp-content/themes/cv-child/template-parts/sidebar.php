@@ -15,6 +15,8 @@
 // v15.31.0: botão "✨ Novidades" (selo NOVO) abaixo da Loja; abre uma janela.
 // v15.31.2: saiu o botão "🔍 Buscar" das ações rápidas (repetido com o do Menu).
 // v15.36.2: selo da Loja passou de "Novo" para "Em breve" (pedido do Eduardo, 04/10).
+// v15.54.0/v15.55.0 (item 2 do Eduardo): saiu o botão 🔔 repetido da área do usuário; fica o
+// link "Notificações" do Menu (com o número de não lidas) e o sino do topo no celular.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -137,21 +139,6 @@ if ( $is_logged ) {
                 </div>
                 <span class="cv-user-name"><?php echo esc_html($user->display_name); ?></span>
             </div>
-
-            <!-- Sino de notificações -->
-            <button class="cv-btn-sidebar cv-btn-sidebar-secondary"
-                    id="cv-sidebar-bell"
-                    data-cv-bell
-                    style="position:relative;justify-content:space-between;margin-bottom:6px"
-                    aria-label="Notificações">
-                <span><span style="margin-right:8px">🔔</span> Notificações</span>
-                <span class="cv-notif-badge"
-                      data-cv-notif-badge
-                      id="cv-sidebar-badge"
-                      style="<?php echo $notif_unread > 0 ? '' : 'display:none'; ?>">
-                    <?php echo $notif_unread ?: ''; ?>
-                </span>
-            </button>
 
             <!-- Links do usuário -->
             <a href="<?php echo esc_url( cv_dashboard_url() ); ?>"

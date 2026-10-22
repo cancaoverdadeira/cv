@@ -76,7 +76,11 @@ get_header();
                 <?php else : ?>
 
                 <div style="display:flex;flex-direction:column;gap:8px">
-                    <?php foreach (array_reverse($notifications) as $i => $n) :
+                    <?php
+                    // v15.54.0 (item 3 do Eduardo): mais recentes primeiro, pela data.
+                    // (O plugin já guarda a mais nova no início; o array_reverse invertia.)
+                    usort($notifications, function($a, $b) { return (int)($b['time'] ?? 0) - (int)($a['time'] ?? 0); });
+                    foreach ($notifications as $i => $n) :
                         $is_read  = ! empty($n['read']);
                         $notif_id = $n['id'] ?? $i;
                         $icon     = $n['icon']    ?? '🎵';

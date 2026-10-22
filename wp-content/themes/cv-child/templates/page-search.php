@@ -9,7 +9,7 @@
 // título peso 10, letra peso 3 e ficha técnica peso 2), mostra cada música
 // com o trecho da letra em destaque, filtra por sentimento e lista também os
 // posts do blog que citam o termo. A busca nativa (/?s=) redireciona para cá.
-// Sem termo: sugestões de sentimentos e as músicas mais recentes.
+// Sem termo: sugestões de sentimentos (v15.53.0: sem a lista de músicas).
 // v15.20.0: o topo virou o banner da marca, com a busca dentro dele.
 // v15.28.0: "Chegando Agora" em linhas de 4 cartões, completando com "Em breve".
 // v15.29.0: "Chegando Agora" virou "Novas".
@@ -131,9 +131,9 @@ get_header();
 
             <?php else : ?>
 
-            <?php // Estado inicial: atalhos por sentimento + músicas recentes
+            <?php // Estado inicial: só os atalhos por sentimento. v15.53.0 (item 6 do Eduardo):
+            // sem a lista de músicas, para a busca ser o foco da página.
             $sentimentos = class_exists( 'CV_Sentimentos' ) ? CV_Sentimentos::get_all() : array();
-            $recentes    = class_exists( 'CV_Ranking' ) ? CV_Ranking::get_recent( 8 ) : array();
             ?>
             <?php if ( $sentimentos ) : ?>
             <div class="cv-busca-cabecalho"><h2>Buscar por <span>sentimento</span></h2></div>
@@ -146,15 +146,6 @@ get_header();
                 <?php endforeach; ?>
             </div>
             <?php endif; ?>
-
-            <div class="cv-busca-cabecalho"><h2>🎵 <span>Novas</span></h2></div>
-            <?php // v15.28.0: linhas de 4, completando com "Em breve" ?>
-            <div class="cv-grid cv-grid-col-4 cv-grid-linha4">
-                <?php foreach ( $recentes as $m ) {
-                    get_template_part( 'template-parts/card-musica', null, array( 'music_id' => $m->music_id, 'show_rank' => false ) );
-                } ?>
-                <?php $falta = cv_completar_grade( count( $recentes ), 4 ); if ( $falta ) { get_template_part( 'template-parts/card-em-breve', null, array( 'quantidade' => $falta, 'icone' => '🎵', 'texto' => 'Em breve', 'sem_grade' => true ) ); } ?>
-            </div>
 
             <?php endif; ?>
         </div>

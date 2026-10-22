@@ -31,7 +31,9 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 // Dados do plugin
-$top_musicas    = class_exists('CV_Ranking') ? CV_Ranking::get_top(10)    : array();
+// v15.53.0 (20/10/2026, pedido do Eduardo): a página inicial mostra só o Top 3, também
+// com o ranking real, para sobrar espaço para "Novas". O Top 10 fica em /ranking/.
+$top_musicas    = class_exists('CV_Ranking') ? CV_Ranking::get_top(3)     : array();
 // Modo lançamento: sem audiência real suficiente, o Top 10 vira a seleção
 // editorial (músicas ⭐ Destaque), com título que deixa isso explícito.
 $modo_selecao   = class_exists('CV_Launch') && ! CV_Launch::ranking_ready();
@@ -46,18 +48,18 @@ $favoritas      = ( class_exists('CV_Ranking') && method_exists('CV_Ranking', 'g
 // com pelo menos 1 play / 1 avaliação de verdade; sem dados, "Em breve".
 $mais_tocadas   = ( class_exists('CV_Ranking') && method_exists('CV_Ranking', 'get_most_played') ) ? CV_Ranking::get_most_played(4) : array();
 $melhor_notas   = ( class_exists('CV_Ranking') && method_exists('CV_Ranking', 'get_best_rated') )  ? CV_Ranking::get_best_rated(4)  : array();
-// Últimos 3 posts do Blog (capa = imagem destacada).
+// Últimos 4 posts do Blog (capa = imagem destacada). v15.52.0: 4, como as outras seções.
 $blog_term      = get_term_by('slug', 'blog', 'category');
 $blog_posts     = $blog_term ? get_posts(array(
     'post_type'      => 'post',
     'post_status'    => 'publish',
-    'posts_per_page' => 3,
+    'posts_per_page' => 4,
     'cat'            => $blog_term->term_id,
 )) : array();
 
 // v15.27.0: cv_completar_grade() fica em functions.php (usada também nas páginas internas)
 $cv_linha_musicas = 4;
-$cv_linha_blog    = 3;
+$cv_linha_blog    = 4;
 
 // Configurações do hero
 $banner_url     = get_option('cv_banner_url', '');
@@ -131,7 +133,7 @@ get_header();
                 <?php if ( $modo_selecao ) : ?>
                 <h2 class="cv-section-title">⭐ Seleção Top Três da <span>Canção Verdadeira</span></h2>
                 <?php else : ?>
-                <h2 class="cv-section-title">🏆 Top <span>10</span></h2>
+                <h2 class="cv-section-title">🏆 Top <span>3</span></h2>
                 <a href="<?php echo esc_url(home_url('/ranking/')); ?>"
                    class="cv-section-link">Ranking completo →</a>
                 <?php endif; ?>
@@ -278,7 +280,7 @@ get_header();
         <?php endforeach; ?>
 
         <!-- ══════════════════════════════════════════════════════
-             BLOG (3 posts mais recentes, completando com "Em breve")
+             BLOG (4 posts mais recentes, completando com "Em breve")
         ══════════════════════════════════════════════════════ -->
         <section class="cv-section" aria-label="Blog">
             <div class="cv-section-header">
@@ -289,12 +291,12 @@ get_header();
                 <?php endif; ?>
             </div>
             <?php if ( empty($blog_posts) ) :
-                get_template_part('template-parts/card-em-breve', null, array('quantidade' => 3, 'icone' => '📝', 'texto' => 'Em breve', 'formato' => 'post'));
+                get_template_part('template-parts/card-em-breve', null, array('quantidade' => 4, 'icone' => '📝', 'texto' => 'Em breve', 'formato' => 'post'));
             else : ?>
             <div class="cv-blog-grid cv-blog-grid-home">
                 <?php foreach ( $blog_posts as $bp ) : ?>
                 <article class="cv-blog-card">
-                    <a href="<?php echo esc_url(get_permalink($bp)); ?>" class="cv-blog-card-img" tabindex="-1" aria-hidden="true">
+                    <a href="<?php echo esc_url(get_permalink($bp)); ?>" class="cv-blog-card-img"<?php echo cv_blog_capa_attr( $bp ); ?> tabindex="-1" aria-hidden="true">
                         <?php if ( has_post_thumbnail($bp) ) : ?>
                             <?php echo get_the_post_thumbnail($bp, 'medium_large', array('loading' => 'lazy')); ?>
                         <?php else : ?>

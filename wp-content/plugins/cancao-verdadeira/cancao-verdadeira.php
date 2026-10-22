@@ -9,7 +9,7 @@
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.69.0
+ * Version:     2.70.0
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -123,13 +123,16 @@
 // v2.67.1 (14/10/2026) — cada playlist pública traz os nomes das 3 primeiras músicas (cartão compacto do tema).
 // v2.69.0 (17/10/2026) — páginas de conta/sistema e a "Página exemplo" fora do sitemap e com
 //   noindex (includes/seo/class-cv-seo-privadas.php).
+// v2.69.1 (18/10/2026) — campo Ano salvo como 0 travava o botão Publicar sem aviso; agora fica vazio.
+// v2.70.0 (20/10/2026) — favoritar voltava sozinho ("adicionada" e logo "removida"): o cv-public.js e o
+//   cv-theme.js do tema tratavam o mesmo clique e mandavam 2 pedidos. Com o tema ativo, só o tema age.
 // v2.68.0 (15/10/2026) — sentimentos com ícones desenhados nas cores do site (assets/img/sentimentos,
 // CV_Icones::sentimento) no lugar dos emojis; escolha do ícone na aba Gerenciar; DB 13 troca os emojis.
 
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.69.0' );
+define( 'CV_VERSION',        '2.70.0' );
 define( 'CV_DB_VERSION',     '13' );      // v2.68.0: emojis dos sentimentos → ícones desenhados (v2.50.0: cv_envios)
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );

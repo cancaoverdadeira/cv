@@ -261,6 +261,9 @@ class CV_Metaboxes {
         $artista    = get_post_meta( $post->ID, CV_Fields::ARTISTA,    true );
         $album      = get_post_meta( $post->ID, CV_Fields::ALBUM,      true );
         $ano        = get_post_meta( $post->ID, CV_Fields::ANO,        true );
+        // v2.69.1: ano "0" (campo salvo vazio) travava o botão Publicar — o navegador
+        // recusava o formulário (mínimo 1900) sem mostrar aviso, com a caixa fechada.
+        if ( (int) $ano < 1900 ) { $ano = ''; }
         $descricao  = get_post_meta( $post->ID, CV_Fields::DESCRICAO,  true );
         if ( empty($descricao) && ! empty($post->post_excerpt) ) { $descricao = $post->post_excerpt; }
         ?>
@@ -572,6 +575,7 @@ class CV_Metaboxes {
                 case 'textarea': $val = sanitize_textarea_field(wp_unslash($_POST[$cfg['field']])); break;
                 default:         $val = sanitize_text_field(wp_unslash($_POST[$cfg['field']]));
             }
+            if ( '_cv_ano' === $meta_key && $val < 1900 ) { delete_post_meta($post_id, $meta_key); continue; }
             update_post_meta($post_id, $meta_key, $val);
         }
 

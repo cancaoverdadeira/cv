@@ -4,11 +4,11 @@
 // Página de erro 404 no layout da home: menu lateral, barra do topo, hero com
 // a marca (mesmo estilo .cv-hero--marca da home), o "4♪4" animado e a busca
 // avançada (template-parts/busca-avancada.php → CV_Search/Relevanssi).
-// Abaixo: atalhos por sentimento e "Que tal ouvir…" (Top/Seleção ou as mais
-// recentes; cards "Em breve" enquanto não há músicas publicadas).
+// Abaixo: atalhos por sentimento.
 // O WordPress já devolve o status HTTP 404; o Rank Math marca como noindex.
 // Gerado em: 2026-09-23 (tema v15.5.0)
 // v15.28.0: "Que tal ouvir…" em linhas de 4 cartões, completando com "Em breve".
+// v15.56.0: saíram a lista "Que tal ouvir…" e os cartões "Em breve" (página mais limpa).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -19,17 +19,6 @@ $caminho  = (string) wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash
 $sugestao = trim( preg_replace( '/[-_\/]+/', ' ', basename( untrailingslashit( $caminho ) ) ) );
 $sugestao = mb_substr( sanitize_text_field( urldecode( $sugestao ) ), 0, 60 );
 
-// Músicas para sugerir: seleção/top, senão as mais recentes
-$sugeridas = array();
-$titulo_sugeridas = 'Que tal <span>ouvir</span>…';
-if ( class_exists( 'CV_Launch' ) && ! CV_Launch::ranking_ready() ) {
-    $sugeridas = CV_Launch::selection( 5 );
-} elseif ( class_exists( 'CV_Ranking' ) ) {
-    $sugeridas = CV_Ranking::get_top( 5 );
-}
-if ( empty( $sugeridas ) && class_exists( 'CV_Ranking' ) ) {
-    $sugeridas = CV_Ranking::get_recent( 5 );
-}
 $sentimentos = class_exists( 'CV_Sentimentos' ) ? CV_Sentimentos::get_all() : array();
 
 get_header();
@@ -84,20 +73,6 @@ get_header();
             </div>
         </section>
         <?php endif; ?>
-
-        <section class="cv-section" aria-label="Sugestões de músicas">
-            <div class="cv-section-header">
-                <h2 class="cv-section-title"><?php echo wp_kses( $titulo_sugeridas, array( 'span' => array() ) ); ?></h2>
-                <a href="<?php echo esc_url( home_url( '/musicas/' ) ); ?>" class="cv-section-link">Ver todas →</a>
-            </div>
-            <?php // v15.28.0: linhas de 4, completando com "Em breve" ?>
-            <div class="cv-grid cv-grid-col-4 cv-grid-linha4">
-                <?php foreach ( $sugeridas as $m ) {
-                    get_template_part( 'template-parts/card-musica', null, array( 'music_id' => $m->music_id, 'show_rank' => false ) );
-                } ?>
-                <?php $falta = cv_completar_grade( count( $sugeridas ), 4 ); if ( $falta ) { get_template_part( 'template-parts/card-em-breve', null, array( 'quantidade' => $falta, 'icone' => '🎵', 'texto' => 'Em breve', 'sem_grade' => true ) ); } ?>
-            </div>
-        </section>
 
         <?php get_template_part( 'template-parts/footer-content' ); ?>
         <?php get_template_part( 'template-parts/player' ); ?>

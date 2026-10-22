@@ -88,8 +88,11 @@
     /**
      * Delega o clique no botão de favorito.
      * HTML esperado: <button class="cv-btn-favorite" data-music-id="123">❤</button>
+     * v2.69.1: com o tema cv-child ativo, quem cuida do clique é o cv-theme.js.
+     * Os dois juntos mandavam 2 pedidos (adiciona e logo remove).
      */
     $(document).on( 'click', '.cv-btn-favorite', function (e) {
+        if ( window.CV_Theme ) { return; }
         e.preventDefault();
 
         if ( ! cvPublic.isLoggedIn ) {
@@ -114,7 +117,7 @@
             },
             success: function (res) {
                 if ( res.success ) {
-                    var isFav = res.data.favorited;
+                    var isFav = res.data.action === 'added';
 
                     // Atualiza visual do botão
                     $btn.toggleClass( 'cv-favorited', isFav );

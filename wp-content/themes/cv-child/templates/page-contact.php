@@ -12,6 +12,8 @@
 // v15.38.0: resposta automática para quem escreveu ("sua mensagem chegou"),
 // no máximo 3 por IP a cada 10 min (evita usar o formulário para mandar
 // e-mails a terceiros).
+// v15.54.0 (20/10/2026, item 9 do Eduardo): saíram os botões das redes do topo;
+// as redes ficam no rodapé e o WhatsApp no quadro "Prefere resposta mais rápida?".
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -86,27 +88,9 @@ get_header();
                        margin:0 0 8px">
                 📬 Fale <span style="color:var(--cv-gold)">Conosco</span>
             </h1>
-            <p style="color:var(--cv-text-muted);margin:0 0 36px;font-size:15px">
+            <p style="color:var(--cv-text-muted);margin:0 0 28px;font-size:15px">
                 Tem uma música autoral, uma sugestão ou quer saber mais? Entre em contato!
             </p>
-
-            <!-- Links rápidos -->
-            <?php if (!empty($redes)) : ?>
-            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px">
-                <?php foreach ($redes as $key => $r) : ?>
-                <a href="<?php echo esc_url($r['url']); ?>"
-                   target="_blank" rel="noopener"
-                   style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;
-                          background:rgba(123,58,34,0.06);border:1px solid var(--cv-border);
-                          border-radius:var(--cv-radius-full);color:var(--cv-text);
-                          font-size:13px;font-weight:600;text-decoration:none;transition:all .2s"
-                   onmouseover="this.style.background='rgba(123,58,34,0.12)'"
-                   onmouseout="this.style.background='rgba(123,58,34,0.06)'">
-                    <?php echo isset($r['icon_cor']) ? $r['icon_cor'] : $r['icon']; ?> <?php echo esc_html($r['label']); ?>
-                </a>
-                <?php endforeach; ?>
-            </div>
-            <?php endif; ?>
 
             <!-- Feedback de envio -->
             <?php if ($msg_enviada) : ?>

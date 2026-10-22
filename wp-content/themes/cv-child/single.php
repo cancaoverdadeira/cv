@@ -81,7 +81,7 @@ get_header();
             <div class="cv-blog-grid">
                 <?php foreach ( $relacionados as $rel ) : ?>
                 <article class="cv-blog-card">
-                    <a href="<?php echo esc_url( get_permalink( $rel ) ); ?>" class="cv-blog-card-img" tabindex="-1" aria-hidden="true">
+                    <a href="<?php echo esc_url( get_permalink( $rel ) ); ?>" class="cv-blog-card-img"<?php echo cv_blog_capa_attr( $rel ); ?> tabindex="-1" aria-hidden="true">
                         <?php if ( has_post_thumbnail( $rel ) ) : ?>
                             <?php echo get_the_post_thumbnail( $rel, 'medium_large', array( 'loading' => 'lazy' ) ); ?>
                         <?php else : ?>

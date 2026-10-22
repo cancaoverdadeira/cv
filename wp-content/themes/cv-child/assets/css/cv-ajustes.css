@@ -139,6 +139,8 @@
 .cv-card-breve-linha.is-curta { width: 60%; }
 @media (min-width: 769px) {
     .cv-blog-grid-home, .cv-em-breve-grid.cv-blog-grid { grid-template-columns: repeat(3, 1fr); }
+    /* v15.52.0: na página inicial o Blog tem 4 por linha, como as outras seções */
+    .cv-blog-grid.cv-blog-grid-home, .home .cv-em-breve-grid.cv-blog-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
 }
 
 /* ── 4. Busca avançada (página de busca e 404) ───────────────── */
@@ -232,6 +234,13 @@
         gap: 32px;
         padding-left: 56px;
     }
+}
+/* v15.57.0: o topo da 404 sobe (sem o espaço vazio em cima e com menos
+   espaço embaixo), mantendo o tamanho de tudo, para os botões de
+   sentimento ficarem mais visíveis. */
+.cv-hero--404.cv-hero--marca { padding-top: 8px; padding-bottom: 24px; }
+@media (max-width: 768px) {
+    .cv-hero--404.cv-hero--marca { padding-top: 8px; padding-bottom: 20px; }
 }
 
 @media (max-width: 768px) {
@@ -965,6 +974,19 @@ div.uimob800.um-account .um-account-side li a.current { background: #F2A51A !imp
     .cv-hero--home { padding-top: 40px; padding-bottom: 32px; }
     .cv-hero--home .cv-hero-subtitle { margin-bottom: 8px; }
 }
+/* v15.52.0 (20/10/2026, item 1 do Eduardo) — marca e título mais para cima e
+   topo mais baixo, para aparecer o começo da seção "Novas" sem rolar
+   (tela 1366×768). Logo um pouco menor; espaços de cima e de baixo menores. */
+@media (min-width: 769px) {
+    .cv-hero--home.cv-hero--marca { padding-top: 14px; padding-bottom: 14px; grid-template-columns: max-content minmax(200px, 250px); }
+    .cv-hero--home .cv-hero-tag { margin-bottom: 8px; }
+    .cv-hero--home.cv-hero--marca .cv-hero-title { margin-bottom: 4px; }
+    .cv-hero--home.cv-hero--marca .cv-hero-subtitle { margin-bottom: 0; }
+    /* "Seleção Top Três" logo abaixo: linhas de 74 para ~58 px */
+    .home .cv-hero--home + .cv-section { padding-top: 20px; }
+    .home .cv-ranking-top3 { padding-top: 5px; padding-bottom: 5px; }
+    .home .cv-ranking-top3 .cv-ranking-capa { width: 44px; height: 44px; }
+}
 
 /* ── 32. Playlists da Comunidade (v15.41.0; compacto na v15.42.0) ──
    Página /playlists-da-comunidade/ (templates/page-playlists-comunidade.php).
@@ -1081,3 +1103,15 @@ div.uimob800.um-account .um-account-side li a.current { background: #F2A51A !imp
 .cv-card-acoes { flex-wrap: nowrap; gap: 6px; }
 .cv-card-acoes .cv-badge-lancamento { min-width: 0; overflow: hidden; text-overflow: ellipsis; padding: 2px 7px; font-size: 10.5px; }
 .cv-card-acoes .cv-btn-favorite, .cv-card-acoes .cv-btn-add-playlist { flex-shrink: 0; }
+
+/* ── 33. Capa do cartão do blog fora do 16:9 (v15.52.0, item 13) ──
+   cv_blog_capa_attr() (functions.php) marca data-inteira quando a imagem não é
+   16:9 (ex.: quadrada). Ela aparece inteira; a mesma imagem, desfocada,
+   preenche as laterais. Capas do YouTube (16:9) continuam como antes. */
+.cv-blog-card-img[data-inteira] { position: relative; }
+.cv-blog-card-img[data-inteira]::before {
+    content: ""; position: absolute; inset: -24px;
+    background: var(--cv-capa-fundo) center / cover no-repeat;
+    filter: blur(18px) brightness(.9);
+}
+.cv-blog-card-img[data-inteira] img { position: relative; object-fit: contain; }

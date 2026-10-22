@@ -13,7 +13,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_CHILD_VERSION', '15.51.0' );
+define( 'CV_CHILD_VERSION', '15.57.0' );
 define( 'CV_CHILD_DIR',     get_stylesheet_directory() );
 define( 'CV_CHILD_URL',     get_stylesheet_directory_uri() );
 
@@ -359,3 +359,22 @@ add_action( 'admin_init', function () {
     }
     update_option( 'cv_paginas_listas', '1', false );
 } );
+
+/**
+ * v15.52.0 (20/10/2026, item 13 do Eduardo) — capa do cartão do blog fora do 16:9
+ * (ex.: imagem quadrada de "A Culpa é do Silêncio") era cortada em cima e embaixo.
+ * Devolve atributos extras para o <a class="cv-blog-card-img">: com a imagem longe
+ * do 16:9, ela aparece inteira e a própria imagem, desfocada, preenche as laterais
+ * (CSS em cv-ajustes.css, seção 33). Imagem 16:9 (capa do YouTube) não muda.
+ */
+function cv_blog_capa_attr( $post ) {
+    $thumb = get_post_thumbnail_id( $post );
+    if ( ! $thumb ) { return ''; }
+    $meta = wp_get_attachment_metadata( $thumb );
+    if ( empty( $meta['width'] ) || empty( $meta['height'] ) ) { return ''; }
+    $proporcao = $meta['width'] / $meta['height'];
+    if ( abs( $proporcao - 16 / 9 ) < 0.15 ) { return ''; }
+    $url = wp_get_attachment_image_url( $thumb, 'medium' );
+    if ( ! $url ) { return ''; }
+    return ' data-inteira="1" style="--cv-capa-fundo:url(\'' . esc_url( $url ) . '\')"';
+}

@@ -40,7 +40,7 @@ get_header();
             <div class="cv-blog-grid">
                 <?php while ( have_posts() ) : the_post(); ?>
                 <article class="cv-blog-card">
-                    <a href="<?php the_permalink(); ?>" class="cv-blog-card-img" tabindex="-1" aria-hidden="true">
+                    <a href="<?php the_permalink(); ?>" class="cv-blog-card-img"<?php echo cv_blog_capa_attr( get_post() ); ?> tabindex="-1" aria-hidden="true">
                         <?php if ( has_post_thumbnail() ) : ?>
                             <?php the_post_thumbnail( 'medium_large', array( 'loading' => 'lazy' ) ); ?>
                         <?php else : ?>
