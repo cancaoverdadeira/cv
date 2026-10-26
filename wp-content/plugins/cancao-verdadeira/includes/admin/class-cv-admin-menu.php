@@ -7,6 +7,8 @@
 //           pelo modo lançamento, CV_Launch).
 // v2.26.0 : removida a página "Gêneros" (cv-generos) — o site é todo sertanejo.
 // v2.55.0 : tela "💬 Depoimentos" (cv-depoimentos, CV_Depoimentos::render).
+// v2.71.0 : menu "🎵 Painel do Ajudante" (cv-ajudante) para CV Gerente/Master: músicas,
+//           importar do YouTube, posts do blog e cadastros a aprovar.
 // Segurança: Operadores nunca veem o menu do WP — apenas este painel.
 // Autor   : Canção Verdadeira | Gerado: 2026-06-26
 
@@ -22,6 +24,12 @@ class CV_Admin_Menu {
     }
 
     public static function register() {
+        // v2.71.0: Gerente/Master (não-administradores) ganham um painel próprio e enxuto.
+        if ( ! current_user_can( 'manage_options' ) && current_user_can( 'cv_import_youtube' ) ) {
+            self::register_ajudante();
+            return;
+        }
+
         add_menu_page(
             'Cancao Verdadeira', 'Cancao Verdadeira', 'manage_options',
             'cancao-verdadeira', array( 'CV_Page_Dashboard', 'render' ),
@@ -99,6 +107,52 @@ class CV_Admin_Menu {
         // esconde contadores baixos e mostra uma seleção editorial rotulada.
     }
 
+    // ── v2.71.0: painel do ajudante (CV Gerente / CV Master) ─────
+    private static function register_ajudante() {
+        add_menu_page(
+            'Painel do Ajudante', '🎵 Canção Verdadeira', 'cv_import_youtube',
+            'cv-ajudante', array( __CLASS__, 'render_ajudante' ),
+            'dashicons-format-audio', 3
+        );
+        add_submenu_page( 'cv-ajudante', 'Painel do Ajudante', 'Início',
+            'cv_import_youtube', 'cv-ajudante', array( __CLASS__, 'render_ajudante' ) );
+        add_submenu_page( 'cv-ajudante', 'Músicas', '🎵 Músicas',
+            'edit_posts', 'edit.php?post_type=musica' );
+        add_submenu_page( 'cv-ajudante', 'Nova Música', '➕ Nova música',
+            'edit_posts', 'post-new.php?post_type=musica' );
+        add_submenu_page( 'cv-ajudante', 'Importar YouTube', '▶ Importar do YouTube',
+            'cv_import_youtube', 'cv-youtube-import', array( 'CV_Page_Youtube_Import', 'render' ) );
+    }
+
+    public static function ajudante_links() {
+        return array(
+            array( '🎵', 'Músicas',                       'edit.php?post_type=musica',     'Ver, editar e preencher os dados das músicas' ),
+            array( '▶',  'Importar do YouTube',           'admin.php?page=cv-youtube-import', 'Trazer vídeos novos do canal como rascunho' ),
+            array( '➕', 'Nova música',                    'post-new.php?post_type=musica', 'Cadastrar uma música à mão' ),
+            array( '📰', 'Posts do blog',                  'edit.php',                      'Ver e editar os posts' ),
+            array( '✏️', 'Novo post',                     'post-new.php',                  'Escrever um post novo' ),
+            array( '👥', 'Cadastros aguardando aprovação', 'users.php?um_user_status=awaiting_admin_review', 'Aprovar ouvintes novos' ),
+            array( '📧', 'Aguardando confirmar e-mail',    'users.php?um_user_status=awaiting_email_confirmation', 'Aprovar quem não confirmou o e-mail' ),
+            array( '💬', 'Depoimentos',                    'edit-comments.php?comment_type=cv_depoimento', 'Aprovar depoimentos dos ouvintes' ),
+        );
+    }
+
+    public static function render_ajudante() {
+        if ( ! current_user_can( 'cv_import_youtube' ) ) { return; }
+        $nome = wp_get_current_user()->display_name;
+        echo '<div class="wrap cv-ajudante">';
+        echo '<h1>🎵 Olá, ' . esc_html( $nome ) . '!</h1>';
+        echo '<p style="font-size:15px;color:#735442">O que vamos fazer hoje?</p>';
+        echo '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;max-width:900px;margin-top:18px">';
+        foreach ( self::ajudante_links() as $l ) {
+            echo '<a href="' . esc_url( admin_url( $l[2] ) ) . '" style="display:block;background:#F8F0E4;border:1px solid #F3E6D3;border-radius:12px;padding:16px 18px;text-decoration:none;color:#3B2418">'
+               . '<span style="font-size:22px">' . esc_html( $l[0] ) . '</span> '
+               . '<strong style="font-size:15px">' . esc_html( $l[1] ) . '</strong>'
+               . '<span style="display:block;font-size:12px;color:#735442;margin-top:6px">' . esc_html( $l[3] ) . '</span></a>';
+        }
+        echo '</div></div>';
+    }
+
     // ── Remove metaboxes de plugins terceiros na tela de música ──
     public static function remove_third_party_metaboxes() {
         // ── WordPress nativo — campos desnecessários ──────────────
@@ -167,6 +221,7 @@ class CV_Admin_Menu {
         #wp-toolbar { display:none !important; }
         #wpadminbar { display:none !important; }
         #adminmenu .update-plugins { display:none !important; }
+        #adminmenu #toplevel_page_cv-ajudante .wp-submenu li { display:list-item !important; }
         </style>';
     }
 }

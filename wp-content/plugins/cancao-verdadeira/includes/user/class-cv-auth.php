@@ -40,6 +40,50 @@ class CV_Auth {
 
         // ── Nonce de auth nos dados localizados do JS ─────────────
         add_filter( 'cv_public_js_data', array( __CLASS__, 'add_auth_nonces' ) );
+
+        // ── Login do UM: e-mail sem cadastro → oferece "Criar conta" ──
+        add_action( 'um_submit_form_errors_hook_login', array( __CLASS__, 'um_login_sem_cadastro' ), 11, 1 );
+        add_action( 'um_before_login_fields', array( __CLASS__, 'um_login_sem_cadastro_css' ), 5 );
+    }
+
+    // v2.73.0 (24/10/2026): o menu passou a mostrar só "Entrar". Quem ainda
+    // não tem conta digitava o e-mail e o UM respondia "Senha incorreta" —
+    // a pessoa nunca descobria que precisava se cadastrar. Agora, se não
+    // existe conta com esse e-mail/usuário, o aviso diz isso e traz o link.
+    // v2.73.2: o aviso vermelho ocupava a largura toda; agora tem o tamanho
+    // do texto, com o botão centralizado embaixo (só quando o aviso aparece).
+    public static function um_login_sem_cadastro_css() {
+        echo '<style>.um .um-form .um-field-error:has(.cv-btn-criar-conta){width:fit-content;max-width:100%;text-align:center;padding:12px 20px}'
+            // v2.73.3: o UM força ".um-field-error a{color:#fff !important}" — o texto do botão sumia no fundo branco.
+            . '.um .um-form .um-field-error a.cv-btn-criar-conta{background:#fff !important;color:#3B2418 !important;text-decoration:none !important}</style>';
+    }
+
+    public static function um_login_sem_cadastro( $dados ) {
+        if ( ! function_exists( 'UM' ) || ! is_array( $dados ) ) {
+            return;
+        }
+        $campo = '';
+        foreach ( array( 'username', 'user_email', 'user_login' ) as $c ) {
+            if ( isset( $dados[ $c ] ) && '' !== trim( (string) $dados[ $c ] ) ) {
+                $campo = $c;
+                break;
+            }
+        }
+        if ( ! $campo ) {
+            return;
+        }
+        $valor  = trim( (string) $dados[ $campo ] );
+        $existe = is_email( $valor ) ? get_user_by( 'email', $valor ) : get_user_by( 'login', $valor );
+        if ( $existe ) {
+            return;
+        }
+        unset( UM()->form()->errors['user_password'] );
+        UM()->form()->add_error(
+            $campo,
+            // Botão claro em linha própria: dentro do aviso vermelho o link sublinhado sumia.
+            'Não encontramos uma conta com este e-mail.<br>'
+            . '<a href="' . esc_url( cv_register_url() ) . '" class="cv-btn-criar-conta" style="display:inline-block;margin-top:10px;padding:8px 18px;border-radius:50px;background:#fff;color:#3B2418;font-weight:700;text-decoration:none;box-shadow:0 1px 3px rgba(0,0,0,.25)">✨ Criar conta grátis</a>'
+        );
     }
 
     // Com o UM ativo, a edição de dados fica só na página "Minha conta" dele;

@@ -252,8 +252,9 @@ class CV_Security {
     /**
      * Retorna o IP real do visitante com suporte a Cloudflare e proxies.
      * Valida o IP antes de retornar para evitar falsificação.
+     * v2.73.6: pública, para a newsletter usar o mesmo IP.
      */
-    private static function get_ip() {
+    public static function get_ip() {
         $keys = array(
             'HTTP_CF_CONNECTING_IP', // Cloudflare (mais confiável quando está na frente)
             'HTTP_X_FORWARDED_FOR',

@@ -4,16 +4,19 @@
 // Extraído de class-cv-admin-pages.php em 2026-09-12 (refatoração:
 // cada página do admin passou a viver em seu próprio arquivo/classe).
 // v2.39.0 (24/09/2026): avisa quando o vídeo pertence a uma música na lixeira.
+// v2.71.0: CV Gerente/Master usam a tela, mas só o Administrador vê e troca a chave da API.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class CV_Page_Youtube_Import {
 
     public static function render() {
+        if ( ! current_user_can( 'manage_options' ) && ! current_user_can( 'cv_import_youtube' ) ) { return; }
         wp_enqueue_media();
+        $pode_chave = current_user_can( 'manage_options' );
 
         $yt_key = get_option( 'cv_youtube_api_key', '' );
-        if ( isset( $_POST['cv_save_yt_key'] ) && check_admin_referer( 'cv_yt_key_save' ) ) {
+        if ( $pode_chave && isset( $_POST['cv_save_yt_key'] ) && check_admin_referer( 'cv_yt_key_save' ) ) {
             $yt_key = sanitize_text_field( $_POST['cv_youtube_api_key'] );
             update_option( 'cv_youtube_api_key', $yt_key );
             $yt_saved = true;
@@ -115,7 +118,8 @@ class CV_Page_Youtube_Import {
             <!-- Sidebar -->
             <div class="cv-yt-side">
 
-                <!-- API Key -->
+                <!-- API Key (v2.71.0: só para o Administrador) -->
+                <?php if ( $pode_chave ) : ?>
                 <div class="cv-yt-card">
                     <div class="cv-yt-card-hdr">
                         <span class="cv-yt-card-hdr-icon">🔑</span>
@@ -144,6 +148,7 @@ class CV_Page_Youtube_Import {
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
 
                 <?php if ($api_ok): ?>
                 <!-- Busca por canal -->

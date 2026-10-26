@@ -188,12 +188,12 @@ class CV_Apoio {
             <p class="cv-janela-intro">A Canção Verdadeira é feita com carinho e sem patrocínio. Com qualquer valor, por PIX, você ajuda a gravar novas músicas e a manter o site no ar. Muito obrigado!</p>
             <?php if ( $pix_ok ) : ?>
             <div class="cv-doacao-valores" role="group" aria-label="Escolha um valor">
-                <?php foreach ( array( 10, 20, 50, 100 ) as $v ) : ?>
+                <?php foreach ( array( 5, 10, 15, 20 ) as $v ) : ?>
                 <button type="button" class="cv-doacao-valor" data-valor="<?php echo (int) $v; ?>">R$ <?php echo (int) $v; ?></button>
                 <?php endforeach; ?>
             </div>
             <div class="cv-doacao-outro">
-                <label>Outro valor (R$)<input type="text" inputmode="decimal" id="cv-doacao-valor" placeholder="Ex.: 15,00"></label>
+                <label>Outro valor (R$)<input type="text" inputmode="decimal" id="cv-doacao-valor" placeholder="Ex.: 25,00"></label>
                 <button type="button" class="cv-btn cv-btn-primary" id="cv-doacao-gerar">Gerar PIX</button>
             </div>
             <p class="cv-doacao-livre"><button type="button" class="cv-link-botao" id="cv-doacao-sem-valor">Prefiro digitar o valor no meu banco</button></p>

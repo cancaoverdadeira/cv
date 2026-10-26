@@ -3,6 +3,9 @@
 // Página "Playlists": gestão de playlists e suas músicas.
 // Extraído de class-cv-admin-pages.php em 2026-09-12 (refatoração:
 // cada página do admin passou a viver em seu próprio arquivo/classe).
+// v2.72.0: aviso "⚠ nome repetido" nas playlists do mesmo usuário com nomes iguais
+// (sem acento/maiúscula); excluir/renomear funcionam em playlists de qualquer usuário
+// e mostram a mensagem do servidor quando dá erro.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -20,6 +23,13 @@ class CV_Page_Playlists {
              ORDER BY p.created_at DESC
              LIMIT 200"
         );
+
+        // v2.72.0: conta quantas playlists cada usuário tem com o mesmo nome
+        $repetidos = array();
+        foreach ( $playlists as $pl ) {
+            $pl->chave_nome = $pl->user_id . '|' . CV_Playlists::nome_comparavel( $pl->name );
+            $repetidos[ $pl->chave_nome ] = ( $repetidos[ $pl->chave_nome ] ?? 0 ) + 1;
+        }
 
         // Busca musicas para o modal de adicao
         $musicas = get_posts( array(
@@ -158,6 +168,10 @@ class CV_Page_Playlists {
                             <td style="color:#8A6A55;font-size:12px"><?php echo $i + 1; ?></td>
                             <td>
                                 <strong style="color:var(--cv-text)"><?php echo esc_html( $pl->name ); ?></strong>
+                                <?php if ( $repetidos[ $pl->chave_nome ] > 1 ) : ?>
+                                    <span title="Este usuário tem outra playlist com o mesmo nome"
+                                          style="margin-left:6px;font-size:11px;font-weight:700;color:#B5651D;background:rgba(242,165,26,.18);border-radius:6px;padding:2px 6px">⚠ nome repetido</span>
+                                <?php endif; ?>
                                 <?php if ( $pl->description ) : ?>
                                     <br><span style="font-size:11px;color:#8A6A55"><?php echo esc_html( mb_substr( $pl->description, 0, 60 ) ); ?></span>
                                 <?php endif; ?>
@@ -332,7 +346,7 @@ class CV_Page_Playlists {
                         showMsg('✅ Renomeada com sucesso!', true);
                         setTimeout(function(){ location.reload(); }, 1000);
                     } else {
-                        showMsg('Erro ao renomear.', false);
+                        showMsg((res.data && res.data.message) || 'Erro ao renomear.', false);
                     }
                 });
             });
@@ -351,7 +365,7 @@ class CV_Page_Playlists {
                         $('#cv-pl-row-' + id).fadeOut(300, function(){ $(this).remove(); });
                         showMsg('✅ Playlist excluída.', true);
                     } else {
-                        showMsg('Erro ao excluir.', false);
+                        showMsg((res.data && res.data.message) || 'Erro ao excluir.', false);
                     }
                 });
             });

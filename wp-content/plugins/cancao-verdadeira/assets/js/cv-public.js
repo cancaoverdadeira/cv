@@ -428,14 +428,14 @@
                 if ( res.success ) {
                     $form.find('input, select').val('');
                     if ( $msg.length ) {
-                        $msg.text( res.data.message ).addClass('cv-msg-success').show();
+                        $msg.text( res.data.message ).removeClass('cv-msg-error').addClass('cv-msg-success').show();
                     } else {
                         showToast( res.data.message, 'success' );
                     }
                 } else {
                     var errMsg = res.data.message || cvPublic.i18n.newsletterError;
                     if ( $msg.length ) {
-                        $msg.text( errMsg ).addClass('cv-msg-error').show();
+                        $msg.text( errMsg ).removeClass('cv-msg-success').addClass('cv-msg-error').show();
                     } else {
                         showToast( errMsg, 'error' );
                     }

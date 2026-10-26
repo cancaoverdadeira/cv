@@ -12,6 +12,11 @@
 // (get_public_playlists). A página é criada uma vez só (opção cv_comunidade_pagina);
 // se for para a lixeira, não é recriada. Mexeu numa playlist → limpa o cache dela.
 // v2.67.1: cada playlist pública traz também os nomes das 3 primeiras músicas (musicas).
+// v2.71.1 (24/10/2026): o mesmo usuário não cria nem renomeia para um nome que já usa
+// ("Família" e "familia" contam como iguais: sem acento e sem maiúscula). Antes a Elen
+// ficou com duas "Família" e, no modal, colocava as músicas sempre na mesma.
+// v2.72.0 (24/10/2026): o Administrador (manage_options) exclui, renomeia e mexe nas
+// músicas da playlist de qualquer usuário (antes só nas dele: "Erro ao excluir").
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -139,6 +144,32 @@ class CV_Playlists {
         return $capa ? $capa : '';
     }
 
+    /** Normaliza o nome para comparar: sem acento, minúsculo e com espaços simples. */
+    public static function nome_comparavel( $nome ) {
+        $nome = remove_accents( trim( preg_replace( '/\s+/u', ' ', (string) $nome ) ) );
+        return function_exists( 'mb_strtolower' ) ? mb_strtolower( $nome, 'UTF-8' ) : strtolower( $nome );
+    }
+
+    /** v2.71.1: id da playlist do usuário com esse nome (ignorando $ignorar_id), ou 0. */
+    public static function playlist_com_nome( $user_id, $nome, $ignorar_id = 0 ) {
+        global $wpdb;
+        $alvo = self::nome_comparavel( $nome );
+        $rows = $wpdb->get_results( $wpdb->prepare(
+            "SELECT id, name FROM {$wpdb->prefix}cv_playlists WHERE user_id = %d",
+            $user_id
+        ) );
+        foreach ( $rows as $r ) {
+            if ( (int) $r->id !== (int) $ignorar_id && self::nome_comparavel( $r->name ) === $alvo ) {
+                return (int) $r->id;
+            }
+        }
+        return 0;
+    }
+
+    private static function msg_nome_repetido( $nome ) {
+        return 'Você já tem uma playlist chamada "' . $nome . '". Use essa ou escolha outro nome.';
+    }
+
     private static function require_login() {
         if ( ! is_user_logged_in() ) {
             wp_send_json_error( array( 'message' => 'Login necessário.', 'require_login' => true ) );
@@ -158,6 +189,9 @@ class CV_Playlists {
 
         if ( empty( $name ) ) {
             wp_send_json_error( array( 'message' => 'Nome da playlist é obrigatório.' ) );
+        }
+        if ( self::playlist_com_nome( $user_id, $name ) ) {
+            wp_send_json_error( array( 'message' => self::msg_nome_repetido( $name ) ) );
         }
 
         global $wpdb;
@@ -224,9 +258,16 @@ class CV_Playlists {
         $playlist_id = absint( $_POST['playlist_id'] ?? 0 );
         $name        = sanitize_text_field( $_POST['name'] ?? '' );
         $user_id     = get_current_user_id();
+        $dono        = self::dono( $playlist_id );
 
         if ( ! self::owns_playlist( $playlist_id, $user_id ) ) {
             wp_send_json_error( array( 'message' => 'Sem permissão.' ) );
+        }
+        if ( '' === $name ) {
+            wp_send_json_error( array( 'message' => 'Nome da playlist é obrigatório.' ) );
+        }
+        if ( self::playlist_com_nome( $dono, $name, $playlist_id ) ) {
+            wp_send_json_error( array( 'message' => self::msg_nome_repetido( $name ) ) );
         }
 
         global $wpdb;
@@ -402,8 +443,25 @@ class CV_Playlists {
         ) );
     }
 
+    /** Id do dono da playlist (0 se não existe). */
+    private static function dono( $playlist_id ) {
+        global $wpdb;
+        return (int) $wpdb->get_var( $wpdb->prepare(
+            "SELECT user_id FROM {$wpdb->prefix}cv_playlists WHERE id = %d",
+            $playlist_id
+        ) );
+    }
+
+    /** Dono da playlist ou, desde a v2.72.0, o Administrador (qualquer playlist existente). */
     private static function owns_playlist( $playlist_id, $user_id ) {
         global $wpdb;
+
+        if ( current_user_can( 'manage_options' ) ) {
+            return (bool) $wpdb->get_var( $wpdb->prepare(
+                "SELECT id FROM {$wpdb->prefix}cv_playlists WHERE id = %d",
+                $playlist_id
+            ) );
+        }
 
         return (bool) $wpdb->get_var( $wpdb->prepare(
             "SELECT id FROM {$wpdb->prefix}cv_playlists WHERE id = %d AND user_id = %d",

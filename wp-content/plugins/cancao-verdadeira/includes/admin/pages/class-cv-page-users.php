@@ -123,6 +123,13 @@ class CV_Page_Users {
         .cv-usr-name-cell { display:flex;align-items:center;gap:8px; }
         .cv-usr-role { font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(29,185,84,.1);color:#137B38; }
         .cv-usr-role.admin { background:rgba(242,165,26,0.13);color:#7B3A22; }
+        /* v2.73.4: uma cor por papel, para bater o olho e saber quem é quem */
+        .cv-usr-role.role-administrator { background:#F2A51A;color:#3B2418; }
+        .cv-usr-role.role-cv_master     { background:#DCE9FB;color:#1A4F9C; }
+        .cv-usr-role.role-cv_gerente    { background:#FBE0DE;color:#B0261C; }
+        .cv-usr-role.role-cv_editor     { background:#EDE3F7;color:#6A3D9A; }
+        .cv-usr-role.role-subscriber    { background:#EFEBE7;color:#6B5A4E; }
+        .cv-usr-role + .cv-usr-role { margin-left:4px; }
         .cv-usr-engage { display:flex;align-items:center;gap:4px;font-size:12px;color:#8A6A55; }
         .cv-usr-engage strong { color:#3B2418; }
         .cv-usr-empty { text-align:center;padding:48px;color:#8A6A55; }
@@ -255,7 +262,9 @@ class CV_Page_Users {
                     </td>
                     <td style="font-size:12px;color:#8A6A55"><?php echo esc_html($user->user_email);?></td>
                     <td style="text-align:center">
-                        <span class="cv-usr-role <?php echo $is_admin?'admin':'';?>"><?php echo esc_html($role);?></span>
+                        <?php foreach ( ( $user->roles ?: array( 'subscriber' ) ) as $papel ) : ?>
+                        <span class="cv-usr-role role-<?php echo esc_attr( $papel );?>"><?php echo esc_html( $papel );?></span>
+                        <?php endforeach; ?>
                     </td>
                     <td style="text-align:center">
                         <div class="cv-usr-engage">

@@ -37,6 +37,11 @@ class CV_Advanced {
         // Permissões: aplica capabilities nas páginas admin
         add_action( 'admin_menu', array( __CLASS__, 'adjust_menu_caps' ), 20 );
 
+        // v2.71.0: Gerente/Master não mexem em contas protegidas (Administrador, Master, Gerente)
+        add_filter( 'map_meta_cap',                  array( __CLASS__, 'blindar_contas' ), 10, 4 );
+        add_filter( 'users_list_table_query_args',   array( __CLASS__, 'esconder_contas_protegidas' ) );
+        add_action( 'load-users.php',                array( __CLASS__, 'filtrar_acao_em_massa' ), 1 );
+
         // Logs: intercepta ações relevantes
         add_action( 'save_post_musica',          array( __CLASS__, 'log_music_save' ),    10, 2 );
         add_action( 'before_delete_post',        array( __CLASS__, 'log_music_delete' ),  10, 1 );

@@ -5,6 +5,8 @@
 // Endpoint AJAX que retorna as playlists do usuario para popular o
 // modal "Adicionar a Playlist" nos cards e na pagina individual.
 // Tambem processa a adicao direta via modal sem recarregar a pagina.
+// v2.71.1: "Criar e adicionar" com um nome que o usuario ja usa (sem acento/maiuscula)
+// nao cria outra playlist: a musica vai para a que ja existe.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -62,6 +64,9 @@ class CV_Playlist_Modal {
         global $wpdb;
 
         // Cria nova playlist se solicitado
+        if ( $new_name && ! $playlist_id ) {
+            $playlist_id = CV_Playlists::playlist_com_nome( $user_id, $new_name );
+        }
         if ( $new_name && ! $playlist_id ) {
             $wpdb->insert(
                 $wpdb->prefix . 'cv_playlists',

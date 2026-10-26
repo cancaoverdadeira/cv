@@ -8,6 +8,9 @@
 // Grupo do MailerLite: opção cv_mailerlite_group_id.
 // v2.26.0: removidos os grupos por gênero musical (o site é todo sertanejo).
 // Rate limiting básico por IP para evitar spam.
+// v2.73.6: e-mail já inscrito recebe "Este e-mail já está inscrito" (antes dizia
+//   "Inscrição realizada" e parecia duplicado); o limite usa o IP real do visitante
+//   (atrás do Cloudflare o REMOTE_ADDR é do Cloudflare) e subiu para 5 em 10 minutos.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -35,7 +38,11 @@ class CV_Newsletter {
 
         // v2.40.0: a cópia local é gravada SEMPRE (antes, só quando o MailerLite
         // falhava — e a tela de assinantes do painel ficava vazia).
-        self::save_local( $email, $name );
+        if ( ! self::save_local( $email, $name ) ) {
+            wp_send_json_success( array(
+                'message' => 'Este e-mail já está inscrito. Obrigado por acompanhar a Canção Verdadeira! 🎵',
+            ) );
+        }
 
         // Envia também para o MailerLite, quando configurado. O e-mail de
         // confirmação (dupla confirmação) é enviado pelo MailerLite, se essa
@@ -94,38 +101,42 @@ class CV_Newsletter {
         return true;
     }
 
+    /** Grava a cópia local. Devolve false se o e-mail já estava inscrito. */
     private static function save_local( $email, $name ) {
         global $wpdb;
 
         $exists = $wpdb->get_var( $wpdb->prepare(
-            "SELECT id FROM {$wpdb->prefix}cv_subscribers WHERE email = %s",
+            "SELECT id FROM {$wpdb->prefix}cv_subscribers WHERE LOWER(email) = LOWER(%s)",
             $email
         ) );
 
-        if ( ! $exists ) {
-            $wpdb->insert(
-                $wpdb->prefix . 'cv_subscribers',
-                array(
-                    'email'         => $email,
-                    'name'          => $name,
-                    'subscribed_at' => current_time( 'mysql' ),
-                ),
-                array( '%s', '%s', '%s' )
-            );
+        if ( $exists ) {
+            return false;
         }
+
+        $wpdb->insert(
+            $wpdb->prefix . 'cv_subscribers',
+            array(
+                'email'         => $email,
+                'name'          => $name,
+                'subscribed_at' => current_time( 'mysql' ),
+            ),
+            array( '%s', '%s', '%s' )
+        );
+        return true;
     }
 
     private static function is_rate_limited() {
-        $ip  = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+        $ip  = CV_Security::get_ip();
         $key = 'cv_nl_rl_' . md5( $ip );
 
         $count = (int) get_transient( $key );
 
-        if ( $count >= 3 ) {
+        if ( $count >= 5 ) {
             return true;
         }
 
-        set_transient( $key, $count + 1, 5 * MINUTE_IN_SECONDS );
+        set_transient( $key, $count + 1, 10 * MINUTE_IN_SECONDS );
 
         return false;
     }

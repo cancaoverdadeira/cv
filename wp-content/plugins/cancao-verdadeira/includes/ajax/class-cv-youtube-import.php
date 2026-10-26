@@ -10,6 +10,7 @@
 // status (publicada, rascunho, pendente, agendada, privada e lixeira).
 // Antes so via as publicadas e duplicava as musicas em rascunho.
 // v2.42.0: criar_musica() e titulo_do_youtube() publicos (tela Gerenciar musicas).
+// v2.71.0: CV Gerente/Master tambem importam (permissao cv_import_youtube).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -26,7 +27,7 @@ class CV_Youtube_Import {
     public static function import_video() {
         check_ajax_referer( 'cv_admin_nonce', 'nonce' );
 
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( ! current_user_can( 'manage_options' ) && ! current_user_can( 'cv_import_youtube' ) ) {
             wp_send_json_error( array( 'message' => 'Sem permissao.' ) );
         }
 

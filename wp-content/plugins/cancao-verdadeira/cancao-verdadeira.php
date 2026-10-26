@@ -9,7 +9,7 @@
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.70.0
+ * Version:     2.73.6
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -126,13 +126,26 @@
 // v2.69.1 (18/10/2026) — campo Ano salvo como 0 travava o botão Publicar sem aviso; agora fica vazio.
 // v2.70.0 (20/10/2026) — favoritar voltava sozinho ("adicionada" e logo "removida"): o cv-public.js e o
 //   cv-theme.js do tema tratavam o mesmo clique e mandavam 2 pedidos. Com o tema ativo, só o tema age.
+// v2.71.0 (23/10/2026) — CV Gerente/Master como ajudantes: editam todas as músicas e posts, importam do
+//   YouTube e aprovam cadastros, sem mexer em plugins, configurações nem em contas de Administrador/Master/Gerente.
+// v2.71.1 (24/10/2026) — playlists: o mesmo usuário não cria nem renomeia para um nome repetido
+//   ("Família" = "familia"); no modal, "Criar e adicionar" com nome repetido usa a playlist existente.
+// v2.72.0 (24/10/2026) — admin de Playlists: Administrador exclui/renomeia/edita playlist de qualquer
+//   usuário (antes "Erro ao excluir") e a tabela marca "⚠ nome repetido".
+// v2.73.0 (24/10/2026) — login: e-mail sem cadastro mostra "Não encontramos uma conta… Criar conta grátis" (antes dizia "Senha incorreta").
+// v2.73.1 (24/10/2026) — esse "Criar conta grátis" virou botão branco em linha própria (sumia no aviso vermelho).
+// v2.73.2 (24/10/2026) — o aviso vermelho fica do tamanho do texto e o botão, centralizado.
+// v2.73.3 (24/10/2026) — texto do botão "Criar conta grátis" estava branco no fundo branco (regra do UM); agora marrom escuro.
+// v2.73.4 (24/10/2026) — Painel CV › Usuários: cada papel com sua cor (administrador laranja, master azul, gerente vermelho, editor roxo, assinante cinza).
+// v2.73.5 (24/10/2026) — PIX: botões de doação agora R$ 5, 10, 15 e 20 (R$ 50 assustava quem queria ajudar).
+// v2.73.6 (26/10/2026) — newsletter: e-mail já inscrito avisa "Este e-mail já está inscrito"; limite de tentativas pelo IP real (Cloudflare), 5 em 10 min.
 // v2.68.0 (15/10/2026) — sentimentos com ícones desenhados nas cores do site (assets/img/sentimentos,
 // CV_Icones::sentimento) no lugar dos emojis; escolha do ícone na aba Gerenciar; DB 13 troca os emojis.
 
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.70.0' );
+define( 'CV_VERSION',        '2.73.6' );
 define( 'CV_DB_VERSION',     '13' );      // v2.68.0: emojis dos sentimentos → ícones desenhados (v2.50.0: cv_envios)
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
@@ -843,10 +856,10 @@ add_action( 'cv_cron_favoritos_digest', array( 'CV_Email', 'trigger_favoritos_di
 // ── Roles customizados: garante criação mesmo em updates ─────────
 add_action( 'init', 'cv_maybe_register_roles', 1 );
 function cv_maybe_register_roles() {
-    if ( ! get_role( 'cv_editor' ) || ! get_role( 'cv_gerente' ) || ! get_role( 'cv_master' ) ) {
-        if ( class_exists( 'CV_Advanced' ) ) {
-            CV_Advanced::register_roles();
-        }
+    // v2.71.0: sync_roles() cria os papéis que faltam e acrescenta as permissões novas
+    // aos já existentes (uma vez por versão das permissões, opção cv_roles_version).
+    if ( class_exists( 'CV_Advanced' ) ) {
+        CV_Advanced::sync_roles();
     }
 }
 

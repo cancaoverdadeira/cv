@@ -167,10 +167,8 @@ if ( $is_logged ) {
                class="cv-btn-sidebar cv-btn-sidebar-primary">
                 <span>🔐</span> Entrar
             </a>
-            <a href="<?php echo esc_url( cv_register_url() ); ?>"
-               class="cv-btn-sidebar cv-btn-sidebar-secondary" style="margin-top:6px">
-                <span>✨</span> Criar Conta Grátis
-            </a>
+            <?php /* v15.58.0: só "Entrar". Quem não tem conta vê o convite
+                     para se cadastrar na própria tela de login. */ ?>
 
         <?php endif; ?>
     </div>
