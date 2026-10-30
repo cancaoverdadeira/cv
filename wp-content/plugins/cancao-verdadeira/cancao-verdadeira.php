@@ -9,7 +9,7 @@
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.73.8
+ * Version:     2.73.9
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -141,13 +141,14 @@
 // v2.73.6 (26/10/2026) — newsletter: e-mail já inscrito avisa "Este e-mail já está inscrito"; limite de tentativas pelo IP real (Cloudflare), 5 em 10 min.
 // v2.73.7 (26/10/2026) — /cv/v1/status mostra a última vez que o Crontab do servidor rodou (cron_servidor), para ligar o DISABLE_WP_CRON com segurança.
 // v2.73.8 (27/10/2026) — Grupo padrão do MailerLite escolhido pelo NOME em Configurações (lista dos grupos); a tela E-mails mostra "Newsletter (11 assinantes)" em vez do número; colar o endereço da página do grupo também funciona (só o número é guardado). Página "Política de Privacidade" (LGPD) criada e publicada uma vez (CV_Privacidade).
+// v2.73.9 (30/10/2026) — Endereço /ads.txt para o Google AdSense (CV_Ads_Txt), sem precisar de FTP: responde com a linha da conta pub-3556110817945784.
 // v2.68.0 (15/10/2026) — sentimentos com ícones desenhados nas cores do site (assets/img/sentimentos,
 // CV_Icones::sentimento) no lugar dos emojis; escolha do ícone na aba Gerenciar; DB 13 troca os emojis.
 
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.73.8' );
+define( 'CV_VERSION',        '2.73.9' );
 define( 'CV_DB_VERSION',     '13' );      // v2.68.0: emojis dos sentimentos → ícones desenhados (v2.50.0: cv_envios)
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
@@ -197,6 +198,7 @@ $cv_includes = array(
     // SEO e compatibilidade
     'includes/seo/class-cv-schema.php',
     'includes/seo/class-cv-seo-privadas.php',   // v2.69.0: páginas de conta fora do Google
+    'includes/seo/class-cv-ads-txt.php',        // v2.73.9: /ads.txt do Google AdSense
     'includes/compat/class-cv-litespeed.php',
     // Painel administrativo
     'includes/admin/class-cv-admin.php',
