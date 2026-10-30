@@ -12,7 +12,7 @@ class CV_Page_Settings {
         // Salvar
         if ( isset( $_POST['cv_save_settings'] ) && check_admin_referer( 'cv_settings_save' ) ) {
             update_option( 'cv_mailerlite_api_key',   sanitize_text_field( isset($_POST['cv_mailerlite_api_key'])   ? $_POST['cv_mailerlite_api_key']   : '' ) );
-            update_option( 'cv_mailerlite_group_id',  sanitize_text_field( isset($_POST['cv_mailerlite_group_id'])  ? $_POST['cv_mailerlite_group_id']  : '' ) );
+            update_option( 'cv_mailerlite_group_id',  CV_Email::limpar_group_id( isset($_POST['cv_mailerlite_group_id'])  ? $_POST['cv_mailerlite_group_id']  : '' ) );
             update_option( 'cv_whatsapp_number',      sanitize_text_field( isset($_POST['cv_whatsapp_number'])      ? $_POST['cv_whatsapp_number']      : '' ) );
             update_option( 'cv_whatsapp_message',     sanitize_textarea_field( isset($_POST['cv_whatsapp_message']) ? $_POST['cv_whatsapp_message']     : '' ) );
             update_option( 'cv_whatsapp_tooltip',     sanitize_text_field( isset($_POST['cv_whatsapp_tooltip'])     ? $_POST['cv_whatsapp_tooltip']     : '' ) );
@@ -135,11 +135,32 @@ class CV_Page_Settings {
                             <div class="cv-set-hint">Encontre em: MailerLite → Integrações → API</div>
                         </div>
                         <div class="cv-set-field">
-                            <label>Group ID (lista padrão)</label>
+                            <label>Grupo padrão (lista padrão)</label>
+                            <?php // v2.73.8: escolha pelo nome; o número só aparece se o grupo não estiver na lista.
+                            $ml_grupos = CV_Email::grupos_cache();
+                            if ( ! empty( $ml_grupos ) ) :
+                                $na_lista = false; ?>
+                            <select name="cv_mailerlite_group_id" class="cv-set-input">
+                                <option value="">— Nenhum —</option>
+                                <?php foreach ( $ml_grupos as $g ) :
+                                    if ( (string) $g['id'] === (string) $group_id ) $na_lista = true; ?>
+                                <option value="<?php echo esc_attr( $g['id'] ); ?>" <?php selected( $group_id, $g['id'] ); ?>>
+                                    <?php echo esc_html( CV_Email::nome_do_grupo( $g['id'] ) ); ?>
+                                </option>
+                                <?php endforeach; ?>
+                                <?php if ( $group_id && ! $na_lista ) : ?>
+                                <option value="<?php echo esc_attr( $group_id ); ?>" selected>ID <?php echo esc_html( $group_id ); ?></option>
+                                <?php endif; ?>
+                            </select>
+                            <div class="cv-set-hint">Novos assinantes entram neste grupo. Grupo novo no MailerLite? Clique em
+                                <a href="<?php echo esc_url( admin_url( 'admin.php?page=cv-email' ) ); ?>">E-mails → Buscar grupos do MailerLite</a>.</div>
+                            <?php else : ?>
                             <input type="text" name="cv_mailerlite_group_id" class="cv-set-input"
                                    value="<?php echo esc_attr($group_id); ?>"
-                                   placeholder="ID numérico do grupo" />
-                            <div class="cv-set-hint">Novos assinantes serão adicionados neste grupo.</div>
+                                   placeholder="Número do grupo ou endereço da página do grupo" />
+                            <div class="cv-set-hint">Novos assinantes serão adicionados neste grupo. Para escolher pelo nome, clique em
+                                <a href="<?php echo esc_url( admin_url( 'admin.php?page=cv-email' ) ); ?>">E-mails → Buscar grupos do MailerLite</a>.</div>
+                            <?php endif; ?>
                         </div>
                         <?php if ($api_ok) : ?>
                         <div style="background:rgba(29,185,84,.06);border:1px solid rgba(29,185,84,.2);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--green)">

@@ -439,6 +439,12 @@ body legend { color: var(--cv-text); }
 }
 .cv-btn-sidebar-loja:hover,
 .cv-btn-sidebar-loja.is-ativo { background: #FFFFFF; color: #5E2A17; box-shadow: 0 0 0 3px rgba(242,165,26,.35); }
+/* v15.60.0: "💛 Apoie" no lugar da Loja, com o mesmo visual (é um <button>, abre a janela do PIX) */
+.cv-btn-sidebar-apoie {
+    width: 100%; cursor: pointer; font: inherit; text-align: left;
+    background: #FBF6EE; color: #7B3A22; border: 2px solid var(--cv-accent); font-weight: 700;
+}
+.cv-btn-sidebar-apoie:hover { background: #FFFFFF; color: #5E2A17; box-shadow: 0 0 0 3px rgba(242,165,26,.35); }
 .cv-selo-novo {
     margin-left: auto;
     background: #C0392B;
@@ -1124,3 +1130,21 @@ div.uimob800.um-account .um-account-side li a.current { background: #F2A51A !imp
 .cv-envio-card .cv-link-botao:hover, .cv-envio-card .cv-link-botao:focus { color: #C0392B; }
 .cv-janela-fechar:hover, .cv-janela-fechar:focus { color: #7B3A22; background: #FFF3D6; border-color: #F2A51A; }
 .cv-letra-tamanho button:hover, .cv-letra-tamanho button:focus { color: #7B3A22; background: #FFF3D6; border-color: #F2A51A; }
+
+/* ── 34. Newsletter no menu lateral (v15.61.0, 27/10/2026) ──
+   Botão "📩 Receba novidades" (abre a janela do template-parts/newsletter-janela.php)
+   e o formulário único da newsletter (template-parts/newsletter-form.php),
+   usado no rodapé e na janela: nome + e-mail + botão + aviso da privacidade. */
+.cv-btn-sidebar-newsletter {
+    width: 100%; cursor: pointer; font: inherit; text-align: left;
+    background: #FBF6EE; color: #7B3A22; border: 2px solid var(--cv-accent); font-weight: 700;
+}
+.cv-btn-sidebar-newsletter:hover, .cv-btn-sidebar-newsletter:focus { background: #FFFFFF; color: #5E2A17; box-shadow: 0 0 0 3px rgba(242,165,26,.35); }
+.cv-nl-msg { margin-top: 12px; font-size: 14px; text-align: center; }
+.cv-nl-aviso { font-size: 12px; color: var(--cv-text-dim); margin: 12px 0 0; text-align: center; }
+.cv-nl-aviso a { color: inherit; text-decoration: underline; }
+.cv-janela-newsletter { width: min(480px, calc(100vw - 32px)); }
+.cv-janela-newsletter .cv-nl-campos { flex-direction: column; flex-wrap: nowrap; max-width: none; gap: 12px; }
+.cv-janela-newsletter .cv-nl-campos .cv-input { font-size: 17px; padding: 14px 16px; min-width: 0; width: 100%; box-sizing: border-box; }
+.cv-janela-newsletter .cv-nl-enviar { font-size: 17px; padding: 14px; justify-content: center; width: 100%; }
+.cv-janela-newsletter .cv-nl-aviso { font-size: 13px; color: #6B4C3B; }

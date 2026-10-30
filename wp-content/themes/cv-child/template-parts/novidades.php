@@ -10,6 +10,8 @@
 // #cantar-junto, #cifra, #historia, #oferecer, #depoimentos). Cifra e história
 // só entram se alguma música publicada tiver esses campos. Impressa uma vez
 // por página em template-parts/footer-content.php. Sem música publicada, nada.
+// v15.61.0 (27/10/2026): virou "✨ Dicas do site" (o nome "Novidades" se confundia
+// com o botão novo "📩 Receba novidades" da newsletter).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -45,7 +47,7 @@ $itens = array(
 ?>
 <dialog id="cv-janela-novidades" class="cv-janela cv-janela-novidades" aria-labelledby="cv-novidades-titulo">
     <button type="button" class="cv-janela-fechar" aria-label="Fechar">✕</button>
-    <h2 id="cv-novidades-titulo">✨ Novidades para você</h2>
+    <h2 id="cv-novidades-titulo">✨ Dicas do site</h2>
     <p class="cv-janela-intro">Preparamos estas funções para deixar a música ainda mais perto de você. Toque em uma para ver como funciona:</p>
     <ul class="cv-novidades-lista">
         <?php foreach ( $itens as $it ) : if ( ! $it['id'] ) { continue; } ?>

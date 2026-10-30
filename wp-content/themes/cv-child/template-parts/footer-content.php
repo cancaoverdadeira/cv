@@ -8,6 +8,9 @@
 // v15.16.0 (25/09/2026): 4ª coluna "Apoie" (Seja nosso parceiro / Seja nosso
 // colaborador) e as duas janelas, desenhadas pelo plugin (CV_Apoio).
 // v15.17.0: link "🛍️ Loja" na coluna Explorar.
+// v15.61.0: formulário com o NOME (template-parts/newsletter-form.php), um só script
+// para o rodapé e a janela "📩 Receba novidades"; link da Política de Privacidade
+// no fim; o link da Loja saiu (loja escondida desde 26/10).
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -27,24 +30,7 @@ $redes_sociais = class_exists('CV_Social') ? CV_Social::get_all() : array();
         <p class="cv-newsletter-subtitle">
             Músicas novas e letras que tocam o coração, direto na sua caixa de entrada
         </p>
-        <div class="cv-newsletter-form" id="cv-nl-form">
-            <input type="email"
-                   class="cv-input"
-                   id="cv-nl-email"
-                   placeholder="Seu melhor e-mail"
-                   autocomplete="email"
-                   style="flex:1;min-width:200px" />
-            <button type="button"
-                    class="cv-btn cv-btn-primary"
-                    id="cv-nl-submit">
-                Inscrever-se
-            </button>
-        </div>
-        <div id="cv-nl-msg"
-             style="display:none;margin-top:12px;font-size:13px;text-align:center"></div>
-        <p style="font-size:11px;color:var(--cv-text-dim);margin-top:12px">
-            Sem spam. Cancele quando quiser.
-        </p>
+        <?php get_template_part( 'template-parts/newsletter-form' ); // v15.61.0: com o nome ("Olá, Maria!") e o link da privacidade ?>
     </div>
 </section>
 
@@ -97,7 +83,6 @@ $redes_sociais = class_exists('CV_Social') ? CV_Social::get_all() : array();
                 <li><a href="<?php echo esc_url(home_url('/musicas/')); ?>">Todas as Músicas</a></li>
                 <li><a href="<?php echo esc_url(home_url('/ranking/')); ?>">Ranking</a></li>
                 <li><a href="<?php echo esc_url(home_url('/buscar-musicas/')); ?>">Buscar</a></li>
-                <li><a href="<?php echo esc_url(home_url('/loja/')); ?>">🛍️ Loja</a></li>
             </ul>
         </div>
 
@@ -142,6 +127,9 @@ $redes_sociais = class_exists('CV_Social') ? CV_Social::get_all() : array();
         </span>
         <span style="color:var(--cv-text-dim)">
             Letras autorais sertanejas 🤠
+            <?php if ( get_privacy_policy_url() ) : ?>
+            · <a href="<?php echo esc_url( get_privacy_policy_url() ); ?>" style="color:inherit">Política de Privacidade</a>
+            <?php endif; ?>
         </span>
     </div>
 
@@ -149,13 +137,16 @@ $redes_sociais = class_exists('CV_Social') ? CV_Social::get_all() : array();
 
 <?php if ( class_exists( 'CV_Apoio' ) ) { echo CV_Apoio::janelas(); } // janelas "Apoie" (abrem pelo rodapé) ?>
 <?php if ( class_exists( 'CV_Apoio' ) ) { get_template_part( 'template-parts/novidades' ); } // v15.31.0: janela "✨ Novidades" (abre pelo menu lateral) ?>
+<?php if ( class_exists( 'CV_Apoio' ) ) { get_template_part( 'template-parts/newsletter-janela' ); } // v15.61.0: janela "📩 Receba novidades" (abre pelo menu lateral) ?>
 
-<!-- Newsletter JS (inline para garantir execução) -->
+<!-- Newsletter JS (inline para garantir execução). v15.61.0: vale para todo .cv-nl-box (rodapé e janela) -->
 <script>
 jQuery(function($){
-    $('#cv-nl-submit').on('click', function(){
-        var email = $('#cv-nl-email').val().trim();
-        var $msg  = $('#cv-nl-msg');
+    $(document).on('click', '.cv-nl-enviar', function(){
+        var $box  = $(this).closest('.cv-nl-box');
+        var nome  = $.trim($box.find('.cv-nl-nome').val());
+        var email = $.trim($box.find('.cv-nl-email').val());
+        var $msg  = $box.find('.cv-nl-msg');
         var $btn  = $(this);
 
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -169,12 +160,12 @@ jQuery(function($){
             action: 'cv_subscribe',
             nonce:  cvPublic.nonces.newsletter,
             email:  email,
-            name:   '',
+            name:   nome,
         }, function(res){
             if (res.success) {
                 $msg.css({'color':'var(--cv-success)'})
                     .text('✓ ' + (res.data.message || 'Inscrição realizada!')).show();
-                $('#cv-nl-email').val('');
+                $box.find('.cv-nl-email').val('');
             } else {
                 $msg.css({'color':'var(--cv-error)'})
                     .text(res.data.message || 'Erro ao inscrever.').show();
@@ -186,9 +177,9 @@ jQuery(function($){
         });
     });
 
-    // Enter no campo de e-mail
-    $('#cv-nl-email').on('keypress', function(e){
-        if (e.which === 13) { $('#cv-nl-submit').trigger('click'); }
+    // Enter nos campos
+    $(document).on('keypress', '.cv-nl-nome, .cv-nl-email', function(e){
+        if (e.which === 13) { $(this).closest('.cv-nl-box').find('.cv-nl-enviar').trigger('click'); }
     });
 });
 </script>

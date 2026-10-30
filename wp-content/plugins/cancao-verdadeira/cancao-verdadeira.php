@@ -9,7 +9,7 @@
  * Plugin Name: Cancao Verdadeira
  * Plugin URI:  https://cancaoverdadeira.com.br
  * Description: Plataforma de letras musicais sertanejas - player, ranking dinâmico, trending ao vivo, recomendação automática, conquistas e shortcodes para Elementor.
- * Version:     2.73.6
+ * Version:     2.73.8
  * Author:      Cancao Verdadeira
  * Text Domain: cancao-verdadeira
  * Requires at least: 6.0
@@ -139,13 +139,15 @@
 // v2.73.4 (24/10/2026) — Painel CV › Usuários: cada papel com sua cor (administrador laranja, master azul, gerente vermelho, editor roxo, assinante cinza).
 // v2.73.5 (24/10/2026) — PIX: botões de doação agora R$ 5, 10, 15 e 20 (R$ 50 assustava quem queria ajudar).
 // v2.73.6 (26/10/2026) — newsletter: e-mail já inscrito avisa "Este e-mail já está inscrito"; limite de tentativas pelo IP real (Cloudflare), 5 em 10 min.
+// v2.73.7 (26/10/2026) — /cv/v1/status mostra a última vez que o Crontab do servidor rodou (cron_servidor), para ligar o DISABLE_WP_CRON com segurança.
+// v2.73.8 (27/10/2026) — Grupo padrão do MailerLite escolhido pelo NOME em Configurações (lista dos grupos); a tela E-mails mostra "Newsletter (11 assinantes)" em vez do número; colar o endereço da página do grupo também funciona (só o número é guardado). Página "Política de Privacidade" (LGPD) criada e publicada uma vez (CV_Privacidade).
 // v2.68.0 (15/10/2026) — sentimentos com ícones desenhados nas cores do site (assets/img/sentimentos,
 // CV_Icones::sentimento) no lugar dos emojis; escolha do ícone na aba Gerenciar; DB 13 troca os emojis.
 
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CV_VERSION',        '2.73.6' );
+define( 'CV_VERSION',        '2.73.8' );
 define( 'CV_DB_VERSION',     '13' );      // v2.68.0: emojis dos sentimentos → ícones desenhados (v2.50.0: cv_envios)
 define( 'CV_PLUGIN_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'CV_PLUGIN_URL',     plugin_dir_url( __FILE__ ) );
@@ -224,6 +226,7 @@ $cv_includes = array(
     'includes/public/class-cv-mvp.php',
     'includes/public/class-cv-extras.php',
     'includes/public/class-cv-depoimentos.php', // v2.55.0: depoimentos dos ouvintes (aprovados no painel)
+    'includes/public/class-cv-privacidade.php', // v2.73.8: página Política de Privacidade (LGPD), criada uma vez
     // Social e e-mails
     'includes/admin/class-cv-social.php',
     'includes/admin/class-cv-email.php',
@@ -936,5 +939,30 @@ function cv_rest_status() {
         'version'    => CV_VERSION,
         'db_version' => CV_DB_VERSION,
         'time'       => current_time( 'mysql' ),
+        // v2.73.7: para conferir de fora se o Crontab da Hostnet está rodando
+        'cron_servidor'     => cv_cron_servidor_ultimo(),
+        'cron_wp_desligado' => defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON,
     );
+}
+
+// ── Carimbo do Crontab do servidor (v2.73.7) ─────────────────────
+// O WordPress também roda o wp-cron.php sozinho, chamando a si mesmo
+// (agente "WordPress/…"). Qualquer outra chamada — pelo PHP de linha de
+// comando ou por curl/wget — é o Crontab da Hostnet: guarda a hora, para
+// saber se é seguro ligar o DISABLE_WP_CRON.
+add_action( 'init', 'cv_cron_servidor_carimbo', 1 );
+
+function cv_cron_servidor_carimbo() {
+    if ( ! wp_doing_cron() ) {
+        return;
+    }
+    $agente = isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : '';
+    if ( 'cli' === PHP_SAPI || 0 !== strpos( $agente, 'WordPress/' ) ) {
+        update_option( 'cv_cron_servidor_ultimo', time(), false );
+    }
+}
+
+function cv_cron_servidor_ultimo() {
+    $t = (int) get_option( 'cv_cron_servidor_ultimo', 0 );
+    return $t ? wp_date( 'Y-m-d H:i:s', $t ) : 'nunca';
 }

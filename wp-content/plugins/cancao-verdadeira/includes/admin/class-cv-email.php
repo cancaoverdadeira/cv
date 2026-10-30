@@ -10,6 +10,7 @@
 // v2.44.0: "nova música" e "sorteio" viraram CAMPANHAS do MailerLite (antes o
 // e-mail do admin entrava no grupo para acionar a automação, o que só funcionava
 // na 1ª vez). Modo rascunho (padrão; obrigatório no site local) ou envio na hora.
+// v2.73.8: grupos_cache(), nome_do_grupo() e limpar_group_id(): grupo mostrado pelo nome.
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -73,11 +74,34 @@ class CV_Email {
 
     // ── PÁGINA ADMIN ──────────────────────────────────────────────
 
+    // ── Grupos do MailerLite (v2.73.8) ───────────────────────────
+    // Lista guardada pelo botão "Buscar grupos do MailerLite".
+    public static function grupos_cache() {
+        $grupos = json_decode( get_option( 'cv_mailerlite_groups_cache', '[]' ), true );
+        return is_array( $grupos ) ? $grupos : array();
+    }
+
+    // "Newsletter (11 assinantes)" a partir do ID; sem o grupo na lista, mostra o ID.
+    public static function nome_do_grupo( $id ) {
+        if ( ! $id ) return '';
+        foreach ( self::grupos_cache() as $g ) {
+            if ( (string) $g['id'] === (string) $id ) {
+                return $g['name'] . ' (' . ( $g['total'] ?? '?' ) . ' assinantes)';
+            }
+        }
+        return 'ID ' . $id;
+    }
+
+    // Aceita o ID ou o endereço da página do grupo (…/groups/2024…) e devolve só o número.
+    public static function limpar_group_id( $valor ) {
+        return preg_match( '/(\d{6,})/', (string) $valor, $m ) ? $m[1] : '';
+    }
+
     public static function page_email() {
         $api_key     = get_option( 'cv_mailerlite_api_key', '' );
         $group_padrao= get_option( 'cv_mailerlite_group_id', '' );
-        $grupos_json = get_option( 'cv_mailerlite_groups_cache', '[]' );
-        $grupos      = json_decode( $grupos_json, true ) ?: array();
+        $grupos      = self::grupos_cache();
+        $nome_padrao = self::nome_do_grupo( $group_padrao );
         ?>
         <div id="cv-admin-page" class="cv-admin-wrap">
 
@@ -110,7 +134,7 @@ class CV_Email {
                 <p style="color:#8A6A55;font-size:13px;margin-bottom:16px">
                     Para cada tipo de e-mail você pode usar um grupo diferente do MailerLite (ex: "Assinantes Gerais", "Usuários Registrados").
                     Se deixar em branco, usa o grupo padrão configurado em Configurações.
-                    <strong style="color:#7B3A22"> Grupo padrão atual: <?php echo $group_padrao ?: 'não configurado'; ?></strong>
+                    <strong style="color:#7B3A22"> Grupo padrão atual: <?php echo esc_html( $nome_padrao ?: 'não configurado' ); ?></strong>
                 </p>
 
                 <?php if ( $api_key ) : ?>
@@ -139,7 +163,7 @@ class CV_Email {
                                     class="cv-input cv-email-group-select"
                                     data-key="<?php echo esc_attr($cfg['option']); ?>"
                                     style="width:100%">
-                                <option value="">— Usar grupo padrão —</option>
+                                <option value="">— Usar grupo padrão<?php echo $group_padrao ? ': ' . esc_html( $nome_padrao ) : ''; ?> —</option>
                                 <?php foreach ( $grupos as $g ) : ?>
                                 <option value="<?php echo esc_attr($g['id']); ?>"
                                         <?php selected( $grupo_val, $g['id'] ); ?>>

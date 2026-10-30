@@ -59,7 +59,7 @@ if ( $is_logged ) {
 
         <!-- Novidades (v15.31.0): abre a janela "✨ Novidades para você" -->
         <button type="button" class="cv-topbar-btn cv-apoio-abrir" data-janela="cv-janela-novidades"
-                aria-label="Novidades" title="Novidades"
+                aria-label="Dicas do site" title="Dicas do site"
                 style="background:none;border:none;color:var(--cv-text-muted);font-size:18px;cursor:pointer;padding:6px">
             ✨
         </button>
